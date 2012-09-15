@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11E53" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="ActionTaken" representedClassName="ActionTaken" syncable="YES">
+        <attribute name="positive" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="logEntry" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="LogEntry" inverseName="action" inverseEntity="LogEntry" syncable="YES"/>
+    </entity>
+    <entity name="Advice" representedClassName="Advice" syncable="YES">
+        <attribute name="baseInstall" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="orderNumberInSet" attributeType="Integer 16" minValueString="0" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="containedWithinSetOfAdvice" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="SetOfAdvice" inverseName="containsAdvice" inverseEntity="SetOfAdvice" syncable="YES"/>
+        <relationship name="logEntry" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LogEntry" inverseName="advice" inverseEntity="LogEntry" syncable="YES"/>
+        <relationship name="reference" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AdviceReference" inverseName="advice" inverseEntity="AdviceReference" syncable="YES"/>
+    </entity>
+    <entity name="AdviceReference" representedClassName="AdviceReference" syncable="YES">
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="advice" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Advice" inverseName="reference" inverseEntity="Advice" syncable="YES"/>
+        <relationship name="setOfAdvice" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SetOfAdvice" inverseName="reference" inverseEntity="SetOfAdvice" syncable="YES"/>
+    </entity>
+    <entity name="Day" representedClassName="Day" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="bestOfDay" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ActionTaken" syncable="YES"/>
+        <relationship name="meditation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Meditation" syncable="YES"/>
+        <relationship name="specialFocus" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LogEntry" syncable="YES"/>
+        <relationship name="theSix" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SetOfLogEntries" syncable="YES"/>
+        <relationship name="worstOfDay" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ActionTaken" syncable="YES"/>
+    </entity>
+    <entity name="FollowingAdviceForSpecialFocus" representedClassName="FollowingAdviceForSpecialFocus" syncable="YES">
+        <relationship name="setsOfAdviceCurrentlyFollowed" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="FollowingAdviceSet" syncable="YES"/>
+        <relationship name="setsOfAdviceForSpecialFocus" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="SetOfAdvice" syncable="YES"/>
+    </entity>
+    <entity name="FollowingAdviceSet" representedClassName="FollowingAdviceSet" syncable="YES">
+        <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="setOfAdvice" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SetOfAdvice" syncable="YES"/>
+    </entity>
+    <entity name="LogEntry" representedClassName="LogEntry" syncable="YES">
+        <attribute name="timeFirstUpdated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="timeLastUpdated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="timeScheduled" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="action" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ActionTaken" inverseName="logEntry" inverseEntity="ActionTaken" syncable="YES"/>
+        <relationship name="advice" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Advice" inverseName="logEntry" inverseEntity="Advice" syncable="YES"/>
+        <relationship name="setOfLogEntries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SetOfLogEntries" inverseName="logEntry" inverseEntity="SetOfLogEntries" syncable="YES"/>
+        <relationship name="toDo" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ToDo" inverseName="logEntry" inverseEntity="ToDo" syncable="YES"/>
+    </entity>
+    <entity name="Meditation" representedClassName="Meditation" syncable="YES">
+        <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="advice" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Advice" syncable="YES"/>
+    </entity>
+    <entity name="SetOfAdvice" representedClassName="SetOfAdvice" syncable="YES">
+        <attribute name="baseInstall" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="overview" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="subtitle" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="containsAdvice" optional="YES" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="Advice" inverseName="containedWithinSetOfAdvice" inverseEntity="Advice" syncable="YES"/>
+        <relationship name="practicedWithinTradition" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SpiritualTradition" inverseName="adheresToSetOfAdvice" inverseEntity="SpiritualTradition" syncable="YES"/>
+        <relationship name="reference" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AdviceReference" inverseName="setOfAdvice" inverseEntity="AdviceReference" syncable="YES"/>
+    </entity>
+    <entity name="SetOfLogEntries" representedClassName="SetOfLogEntries" syncable="YES">
+        <relationship name="logEntry" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LogEntry" inverseName="setOfLogEntries" inverseEntity="LogEntry" syncable="YES"/>
+    </entity>
+    <entity name="SpiritualTradition" representedClassName="SpiritualTradtion" syncable="YES">
+        <attribute name="baseInstall" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="adheresToSetOfAdvice" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SetOfAdvice" inverseName="practicedWithinTradition" inverseEntity="SetOfAdvice" syncable="YES"/>
+    </entity>
+    <entity name="ToDo" representedClassName="ToDo" syncable="YES">
+        <attribute name="due" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="text" attributeType="String" syncable="YES"/>
+        <relationship name="logEntry" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="LogEntry" inverseName="toDo" inverseEntity="LogEntry" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="ActionTaken" positionX="-603" positionY="180" width="128" height="90"/>
+        <element name="Advice" positionX="-308" positionY="-504" width="173" height="135"/>
+        <element name="AdviceReference" positionX="142" positionY="-51" width="128" height="105"/>
+        <element name="Day" positionX="-774" positionY="-243" width="128" height="135"/>
+        <element name="FollowingAdviceForSpecialFocus" positionX="331" positionY="-297" width="200" height="75"/>
+        <element name="FollowingAdviceSet" positionX="88" positionY="-495" width="128" height="75"/>
+        <element name="LogEntry" positionX="-540" positionY="-9" width="128" height="135"/>
+        <element name="Meditation" positionX="-585" positionY="-243" width="128" height="75"/>
+        <element name="SetOfAdvice" positionX="-585" positionY="-504" width="162" height="150"/>
+        <element name="SetOfLogEntries" positionX="-776" positionY="51" width="128" height="60"/>
+        <element name="SpiritualTradition" positionX="-783" positionY="-459" width="128" height="90"/>
+        <element name="ToDo" positionX="-443" positionY="180" width="128" height="90"/>
+    </elements>
+</model>
