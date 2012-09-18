@@ -233,22 +233,27 @@
 			
 			CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
 			
-			CGFloat labelHeight			= MIN(labelSize.height, 44.0f);
-			
-			if (self.debug)
-				NSLog(@"The height of the guideline label is %g", labelHeight);
+			CGFloat labelHeight			= MIN(labelSize.height, 32.0f) + 10.0;
 			
 			theSixEntryCell.guidelineLabel.text	= labelText;
+
+			if (self.debug)
+				NSLog(@"The height of the guideline text and the label is %g and %g", labelHeight, CGRectGetHeight(theSixEntryCell.guidelineLabel.bounds));
+			
+			
 			if (sixOfDayEntry.timeLastUpdated) {
 				theSixEntryCell.timeLabel.text	= [NSString stringWithFormat:@"Updated %@", sixOfDayEntry.timeLastUpdated.time];
 				theSixEntryCell.timeLabel.font	= [UIFont italicSystemFontOfSize:13.0];
 			} else {
 				theSixEntryCell.timeLabel.text	= sixOfDayEntry.timeScheduled.time;
 			}
-				
-//			theSixEntryCell.guidelineLabel.frame	= CGRectMake(CELL_CONTENT_VERTICAL_MARGIN, CELL_CONTENT_VERTICAL_MARGIN, CELL_CONTENT_WIDTH, labelHeight);
+
+			theSixEntryCell.guidelineLabel.frame	= CGRectMake(6.0f, 8.0f, CELL_CONTENT_WIDTH, labelHeight);
 			[theSixEntryCell.guidelineLabel setBackgroundColor:[UIColor greenColor]];
+
 			return theSixEntryCell;
+			
+			//			[theSixEntryCell layoutSubviews];
 			
 			break;
 		}
@@ -323,15 +328,16 @@
 		// Get data for the cell
 		LESixOfDay *sixOfDayEntry	= [self.theSixSorted objectAtIndex:[indexPath row]];
 		
+		// Configure the cell...
 		NSString *labelText			= sixOfDayEntry.advice.name;
 		
 		CGSize constraint			= CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
-
-		CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
-
-		CGFloat labelHeight			= MIN(labelSize.height, 44.0f);
 		
-		CGFloat rowHeight			= labelHeight + 3.0 + 21.0 + (CELL_CONTENT_VERTICAL_MARGIN * 2);
+		CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+		
+		CGFloat labelHeight			= MIN(labelSize.height, 32.0f);
+		
+		CGFloat rowHeight			= labelHeight + 3.0 + 21.0 + 20.;
 
 		if (self.debug)
 			NSLog(@"The height of the lable and row [%i, %i] is %g and %g", indexPath.section, indexPath.row, labelHeight, rowHeight);

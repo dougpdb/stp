@@ -18,10 +18,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.guidelineLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.guidelineLabel					= [[UILabel alloc] initWithFrame:CGRectZero];
+		self.guidelineLabel.numberOfLines	= 0;
         [self.contentView addSubview: self.guidelineLabel];
 		
-        self.timeLabel		= [[UILabel alloc] initWithFrame:CGRectZero];
+        self.timeLabel						= [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview: self.timeLabel];    }
     return self;
 }
@@ -53,8 +54,8 @@
     // Put the detail text label immediately to the right
 	// w/10 pixel gap between them
     newFrame			= self.timeLabel.frame;
-    newFrame.origin.x	= CGRectGetMaxX (self.contentView.bounds) + 8.;
-    newFrame.origin.y	= self.guidelineLabel.frame.origin.y + 5.;
+    newFrame.origin.x	= CGRectGetMinX (self.contentView.bounds) + 8.;
+    newFrame.origin.y	= CGRectGetMaxY (self.guidelineLabel.bounds) + 3.;
     [self.timeLabel setFrame: newFrame];
 }
 
