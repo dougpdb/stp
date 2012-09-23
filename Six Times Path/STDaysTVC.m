@@ -181,8 +181,6 @@
 	if ([self.mostRecentlyAddedDate.date compare:now.date] == NSOrderedSame) {
 		[self showSimpleAlert:@"Log Entries have been already created for today."];
 		return;
-	} else {
-		[self showSimpleAlert:@"Log Entries will be created for today."];
 	}
 	
 	Day *newDay					= [NSEntityDescription insertNewObjectForEntityForName:@"Day"

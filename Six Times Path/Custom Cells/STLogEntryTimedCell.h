@@ -13,6 +13,6 @@
 @property (nonatomic, retain) IBOutlet UILabel *guidelineLabel;
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 
--(void)layoutSubviews;
+//-(void)layoutSubviews;
 
 @end

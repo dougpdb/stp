@@ -15,6 +15,9 @@
 #import "LEBestOfDay.h"
 #import "LEWorstOfDay.h"
 #import "STLogEntryTimedCell.h"
+#import "STLogEntryAddCell.h"
+#import "STLogEntrySpecialFocusCell.h"
+#import "STLogEntryBestOrWorstOfDayCell.h"
 
 #define SIX_SECTION_NUMBER				0
 #define SPECIAL_FOCUS_SECTION_NUMBER	1
@@ -22,7 +25,7 @@
 #define WORST_SECTION_NUMBER			3
 
 #define CELL_CONTENT_WIDTH				283.0f
-#define CELL_CONTENT_VERTICAL_MARGIN	6.0f
+#define CELL_CONTENT_VERTICAL_MARGIN	4.0f
 #define CELL_CONTENT_LEFT_MARGIN		8.0f
 #define FONT_SIZE						15.0f
 
@@ -123,11 +126,11 @@
 			break;
 			
 		case 2:			// Best of Day
-			return [self.bestOfDaySorted count];
+			return [self.bestOfDaySorted count] + 1;
 			break;
 			
 		case 3:			// Worst of Day
-			return [self.worstOfDaySorted count];
+			return [self.worstOfDaySorted count] + 1;
 			
 		default:
 			break;
@@ -189,28 +192,27 @@
 
 #pragma mark - Table view data source
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString *section1CellIdentifier	= @"theSixCell";
-	static NSString *section2CellIdentifier	= @"specialFocusCell";
-	static NSString *section3CellIdentifier	= @"bestOfDayCell";
-	static NSString *section4CellIdentifier	= @"worstOfDayCell";
+	static NSString *sixEntryCellIdentifier		= @"theSixCell";
+	static NSString *specialFocusCellIdentifier	= @"specialFocusCell";
+	static NSString *bestOrWorstCellIdentifier	= @"bestOrWorstOfDayCell";
+	static NSString *addCellIdentifier			= @"addCell";
 	
-	STLogEntryTimedCell *theSixEntryCell	= (STLogEntryTimedCell *)[tableView dequeueReusableCellWithIdentifier:section1CellIdentifier];
-	UITableViewCell *specialFocusCell	= [tableView dequeueReusableCellWithIdentifier:section2CellIdentifier];
-	UITableViewCell *bestOfDayCell		= [tableView dequeueReusableCellWithIdentifier:section3CellIdentifier];
-	UITableViewCell *worstOfDayCell		= [tableView dequeueReusableCellWithIdentifier:section4CellIdentifier];
+	STLogEntryTimedCell *theSixEntryCell					= (STLogEntryTimedCell *)[tableView dequeueReusableCellWithIdentifier:sixEntryCellIdentifier];
+	STLogEntrySpecialFocusCell *specialFocusCell			= (STLogEntrySpecialFocusCell *)[tableView dequeueReusableCellWithIdentifier:specialFocusCellIdentifier];
+	STLogEntryBestOrWorstOfDayCell *bestOrWorstOfDayCell	= (STLogEntryBestOrWorstOfDayCell *)[tableView dequeueReusableCellWithIdentifier:bestOrWorstCellIdentifier];
+	STLogEntryAddCell *addCell								= (STLogEntryAddCell *)[tableView dequeueReusableCellWithIdentifier:addCellIdentifier];
+	
 
 	if (self.debug)
 		NSLog(@"Index path [Section, Row]: %d, %d", indexPath.section, indexPath.row);
 	
     switch (indexPath.section) {
-		case 0:
+		case SIX_SECTION_NUMBER:
 		{
 			// Init the cell...
 			if (theSixEntryCell == nil) {
-				//				theSixEntryCell = [[UITableViewCell alloc] initWithStyle:UITableViewCell reuseIdentifier:section1CellIdentifier];
 				NSArray *topLevelObjects	= [[NSBundle mainBundle]
 											   loadNibNamed:@"Log Entry - Timed"
 											   owner:self
@@ -233,7 +235,9 @@
 			
 			CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
 			
-			CGFloat labelHeight			= MIN(labelSize.height, 32.0f) + 10.0;
+			// Effectively, the MIN() will make sure that the height of the label will either 1 or 2 lines.
+			// We add 10 to the height to give it some padding within the cell, to make sure that the tails of g and y are not clipped.
+			CGFloat labelHeight			= MIN(labelSize.height, 37.0f);
 			
 			theSixEntryCell.guidelineLabel.text	= labelText;
 
@@ -248,20 +252,22 @@
 				theSixEntryCell.timeLabel.text	= sixOfDayEntry.timeScheduled.time;
 			}
 
-			theSixEntryCell.guidelineLabel.frame	= CGRectMake(6.0f, 8.0f, CELL_CONTENT_WIDTH, labelHeight);
-			[theSixEntryCell.guidelineLabel setBackgroundColor:[UIColor greenColor]];
+			theSixEntryCell.guidelineLabel.frame	= CGRectMake(CELL_CONTENT_LEFT_MARGIN, CELL_CONTENT_VERTICAL_MARGIN, CELL_CONTENT_WIDTH, labelHeight);
+			theSixEntryCell.timeLabel.frame			= CGRectMake(CELL_CONTENT_LEFT_MARGIN, CELL_CONTENT_VERTICAL_MARGIN + labelHeight - 2, CELL_CONTENT_WIDTH, CGRectGetHeight(theSixEntryCell.timeLabel.frame));
+			
+			//	Highlighting used only to see relative positioning of UI Label within the cell 
+//			[theSixEntryCell layoutSubviews];
 
 			return theSixEntryCell;
 			
-			//			[theSixEntryCell layoutSubviews];
 			
 			break;
 		}
-		case 1:
+		case SPECIAL_FOCUS_SECTION_NUMBER:
 		{
 			// Init the cell...
 			if (specialFocusCell == nil) {
-				specialFocusCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:section2CellIdentifier];
+				specialFocusCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:specialFocusCellIdentifier];
 			}
 
 			// Get data for the cell
@@ -274,38 +280,89 @@
 			
 			break;
 		}
-		case 2:
+		case BEST_SECTION_NUMBER:
 		{
-			// Init the cell...
-			if (bestOfDayCell == nil) {
-				bestOfDayCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:section3CellIdentifier];
+			
+			// For Best of Day Entries that have already been made...
+			if (indexPath.row < [self.bestOfDaySorted count]) {
+				// Init the cell...
+				if (bestOrWorstOfDayCell == nil) {
+					NSArray *topLevelObjectsBest= [[NSBundle mainBundle]
+												   loadNibNamed:@"LogEntryBestOrWorstOfDayCell"
+												   owner:self
+												   options:nil];
+					for (id currentObject in topLevelObjectsBest) {
+						if ([currentObject isKindOfClass:[UITableViewCell class]]) {
+							bestOrWorstOfDayCell		= (STLogEntryBestOrWorstOfDayCell *)currentObject;
+							break;
+						}
+					}
+				}
+				
+				// Get data for the cell
+//				LEBestOfDay *bestOfDayEntry		= [self.bestOfDaySorted objectAtIndex:indexPath.row];
+				return bestOrWorstOfDayCell;
+			} else {
+				// Init the cell...
+				if (addCell == nil) {
+					NSArray *topLevelObjectsAdd	= [[NSBundle mainBundle]
+												   loadNibNamed:@"LogEntryAddCell"
+												   owner:self
+												   options:nil];
+					for (id currentObject in topLevelObjectsAdd) {
+						if ([currentObject isKindOfClass:[UITableViewCell class]]) {
+							addCell				= (STLogEntryAddCell *)currentObject;
+							break;
+						}
+					}
+				}
+				addCell.addLabel.text	= @"Add a Best of Day.";
+				return addCell;
 			}
-
-			// Get data for the cell
-			LEBestOfDay *bestOfDayEntry		= [self.bestOfDaySorted objectAtIndex:[indexPath row]];
-			
-			// Configure the cell...
-			bestOfDayCell.textLabel.text	= bestOfDayEntry.action.description;
-			
-			return bestOfDayCell;
-			
 			break;
 		}
-		case 3:
+		case WORST_SECTION_NUMBER:
 		{
-			// Init the cell...
-			if (worstOfDayCell == nil) {
-				worstOfDayCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:section3CellIdentifier];
+			// For Best of Day Entries that have already been made...
+			if (indexPath.row < [self.bestOfDaySorted count]) {
+				// Init the cell...
+				if (bestOrWorstOfDayCell == nil) {
+					NSArray *topLevelObjectsBest= [[NSBundle mainBundle]
+												   loadNibNamed:@"LogEntryBestOrWorstOfDayCell"
+												   owner:self
+												   options:nil];
+					for (id currentObject in topLevelObjectsBest) {
+						if ([currentObject isKindOfClass:[UITableViewCell class]]) {
+							bestOrWorstOfDayCell		= (STLogEntryBestOrWorstOfDayCell *)currentObject;
+							break;
+						}
+					}
+				}
+				
+				// Get data for the cell
+				LEWorstOfDay *worstOfDayEntry	= [self.worstOfDaySorted objectAtIndex:indexPath.row];
+
+				// Configure the cell...
+				bestOrWorstOfDayCell.textLabel.text	= worstOfDayEntry.action.description;
+
+				return bestOrWorstOfDayCell;
+			} else {
+				// Init the cell...
+				if (addCell == nil) {
+					NSArray *topLevelObjectsAdd	= [[NSBundle mainBundle]
+												   loadNibNamed:@"LogEntryAddCell"
+												   owner:self
+												   options:nil];
+					for (id currentObject in topLevelObjectsAdd) {
+						if ([currentObject isKindOfClass:[UITableViewCell class]]) {
+							addCell				= (STLogEntryAddCell *)currentObject;
+							break;
+						}
+					}
+				}
+				addCell.addLabel.text	= @"Add a Worst of Day.";
+				return addCell;
 			}
-			
-			// Get data for the cell
-			LEWorstOfDay *worstOfDayEntry	= [self.worstOfDaySorted objectAtIndex:[indexPath row]];
-			
-			// Configure the cell...
-			worstOfDayCell.textLabel.text	= worstOfDayEntry.action.description;
-			
-			return worstOfDayCell;
-			
 			break;
 		}
 		default:
@@ -334,10 +391,13 @@
 		CGSize constraint			= CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
 		
 		CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+
+		// Effectively, the MIN() will make sure that the height of the label will either 1 or 2 lines.
+		// We add 10 to the height to give it some padding within the cell, to make sure that the tails of g and y are not clipped.
+		CGFloat labelHeight			= MIN(labelSize.height, 37.0f);
+		CGFloat timeLabelHeight		= 21.0;
 		
-		CGFloat labelHeight			= MIN(labelSize.height, 32.0f);
-		
-		CGFloat rowHeight			= labelHeight + 3.0 + 21.0 + 20.;
+		CGFloat rowHeight			= CELL_CONTENT_VERTICAL_MARGIN + labelHeight + timeLabelHeight + CELL_CONTENT_VERTICAL_MARGIN - 2.;
 
 		if (self.debug)
 			NSLog(@"The height of the lable and row [%i, %i] is %g and %g", indexPath.section, indexPath.row, labelHeight, rowHeight);
