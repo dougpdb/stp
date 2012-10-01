@@ -6,13 +6,22 @@
 //  Copyright (c) 2012 6000 American Family Dr. All rights reserved.
 //
 
-#import "STAdviceEntryTVC.h"
+#import "STLogEntrySixOfDayTVC.h"
 
-@interface STAdviceEntryTVC ()
+
+@interface STLogEntrySixOfDayTVC ()
 
 @end
 
-@implementation STAdviceEntryTVC
+@implementation STLogEntrySixOfDayTVC
+
+@synthesize fetchedResultsController	= _fetchedResultsController;
+@synthesize managedObjectContext		= _managedObjectContext;
+
+@synthesize leSixOfDay		= _leSixOfDay;
+
+
+ 
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -32,6 +41,12 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+		// Six of Day setup
+		// Show: the guideline being evaluated,
+		// time - scheduled, originally created, lastUpdated
+		// 
+		
 }
 
 - (void)viewDidUnload

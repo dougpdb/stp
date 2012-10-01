@@ -32,6 +32,8 @@
 
 @interface STDayTVC ()
 
+
+
 @end
 
 @implementation STDayTVC
@@ -443,6 +445,46 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    //Check the dictionary to see what cell was clicked
+    NSDictionary *dict = [self.tableDataSource objectAtIndex:indexPath.row];
+    NSString *myString = [dict objectForKey:@"Title"];
+    NSDictionary *dictionary = [self.tableDataSource objectAtIndex:indexPath.row];
+	
+    NSArray *children = [dictionary objectForKey:@"Children"];
+	
+    //If there is no children, go to the detailed view
+    if([children count] == 0)
+    {
+        [self performSegueWithIdentifier:@"segue1" sender:myString];
+		
+    }
+    else{
+        //Prepare to tableview.
+        DrillDownViewController *rvController = [[DrillDownViewController alloc] initWithNibName:nil bundle:[NSBundle mainBundle]];
+		
+        //Increment the Current View
+        rvController.CurrentLevel += 1;
+		
+        //Set the title;
+        rvController.CurrentTitle = [dictionary objectForKey:@"Title"];
+		
+        //Push the new table view on the stack
+        [self.navigationController pushViewController:rvController animated:YES];
+		
+        rvController.tableDataSource = children;
+		
+    }
+}
+
+
+#pragma mark - UI Interactions
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	if([[segue identifier] isEqualToString:@"logEntrySegue"])
+	{
+		[[segue destinationViewController] setItemName:(NSString*)sender];
+	}
 }
 
 @end
