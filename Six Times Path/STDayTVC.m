@@ -18,6 +18,11 @@
 #import "STLogEntryAddCell.h"
 #import "STLogEntrySpecialFocusCell.h"
 #import "STLogEntryBestOrWorstOfDayCell.h"
+#import "STLogEntrySixOfDayTVC.h"
+#import "STLogEntrySpecialFocusTVC.h"
+#import "STLogEntryBestOfDayTVC.h"
+#import "STLogEntryWorstOfDayTVC.h"
+
 
 #define SIX_SECTION_NUMBER				0
 #define SPECIAL_FOCUS_SECTION_NUMBER	1
@@ -445,35 +450,28 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
-    //Check the dictionary to see what cell was clicked
-    NSDictionary *dict = [self.tableDataSource objectAtIndex:indexPath.row];
-    NSString *myString = [dict objectForKey:@"Title"];
-    NSDictionary *dictionary = [self.tableDataSource objectAtIndex:indexPath.row];
 	
-    NSArray *children = [dictionary objectForKey:@"Children"];
-	
-    //If there is no children, go to the detailed view
-    if([children count] == 0)
-    {
-        [self performSegueWithIdentifier:@"segue1" sender:myString];
-		
-    }
-    else{
-        //Prepare to tableview.
-        DrillDownViewController *rvController = [[DrillDownViewController alloc] initWithNibName:nil bundle:[NSBundle mainBundle]];
-		
-        //Increment the Current View
-        rvController.CurrentLevel += 1;
-		
-        //Set the title;
-        rvController.CurrentTitle = [dictionary objectForKey:@"Title"];
-		
-        //Push the new table view on the stack
-        [self.navigationController pushViewController:rvController animated:YES];
-		
-        rvController.tableDataSource = children;
-		
-    }
+	// Trigger the apporpriate segue
+	switch (indexPath.section) {
+		case 0:
+			[self performSegueWithIdentifier:@"logEntrySixOfDaySegue" sender:self];
+			break;
+			
+		case 1:
+			[self performSegueWithIdentifier:@"logEntrySpecialFocusSegue" sender:self];
+			break;
+			
+		case 2:
+			[self performSegueWithIdentifier:@"logEntryBestOfDaySegue" sender:self];
+			break;
+			
+		case 3:
+			[self performSegueWithIdentifier:@"logEntryWorstOfDaySegue" sender:self];
+			break;
+
+		default:
+			break;
+	}
 }
 
 
@@ -481,9 +479,20 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	if([[segue identifier] isEqualToString:@"logEntrySegue"])
-	{
-		[[segue destinationViewController] setItemName:(NSString*)sender];
+	if ([[segue identifier] isEqualToString:@"logEntrySixOfDaySegue"]) {
+		STLogEntrySixOfDayTVC *leSixOfDayTVC	= segue.destinationViewController;
+
+	} else if ([[segue identifier] isEqualToString:@"logEntrySpecialFocusSegue"]) {
+		STLogEntrySpecialFocusCell *leSpecialFocusTVC	= segue.destinationViewController;
+		
+	
+	} else if ([[segue identifier] isEqualToString:@"logEntryBestOfDaySegue"]) {
+		STLogEntryBestOfDayTVC *leBestOfDayTVC			= segue.destinationViewController;
+		
+
+	} else if ([[segue identifier] isEqualToString:@"logEntryWorstOfDaySegue"]) {
+		STLogEntryWorstOfDayTVC *leWorstOfDayTVC		= segue.destinationViewController;
+
 	}
 }
 

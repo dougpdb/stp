@@ -305,14 +305,14 @@
                         <segue destination="gTE-bC-Kqu" kind="push" identifier="logEntrySixOfDaySegue" id="fFY-In-gk9"/>
                         <segue destination="Xfa-wT-sUv" kind="push" identifier="logEntrySpecialFocusSegue" id="Ikj-Jx-xwV"/>
                         <segue destination="HR6-Wr-FAR" kind="push" identifier="logEntryBestOfDaySegue" id="gta-fM-FkQ"/>
-                        <segue destination="iOJ-3h-Krw" kind="push" id="1Fg-y3-04S"/>
+                        <segue destination="iOJ-3h-Krw" kind="push" identifier="logEntryWorstOfDaySegue" id="1Fg-y3-04S"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UV7-sx-uHu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1584" y="1985"/>
         </scene>
-        <!--Log Entry Six Of DayTVC-->
+        <!--Log Entry Six Of DayTVC - Six of Day-->
         <scene sceneID="KXS-v6-6xl">
             <objects>
                 <tableViewController id="gTE-bC-Kqu" customClass="STLogEntrySixOfDayTVC" sceneMemberID="viewController">
@@ -336,7 +336,7 @@
                             <outlet property="delegate" destination="gTE-bC-Kqu" id="APy-f0-A39"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="jMm-uO-JCj"/>
+                    <navigationItem key="navigationItem" title="Six of Day" id="jMm-uO-JCj"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MYS-dQ-KEF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -366,7 +366,7 @@
                             <outlet property="delegate" destination="Xfa-wT-sUv" id="Ton-aV-ieS"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Png-Op-Umc"/>
+                    <navigationItem key="navigationItem" title="Special Focus" id="Png-Op-Umc"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PGl-fN-qH6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -396,7 +396,7 @@
                             <outlet property="delegate" destination="iOJ-3h-Krw" id="UI9-3W-dgL"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="KLf-sU-qXX"/>
+                    <navigationItem key="navigationItem" title="Worst of Day" id="KLf-sU-qXX"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Og-KS-vcE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -426,7 +426,7 @@
                             <outlet property="delegate" destination="HR6-Wr-FAR" id="kMQ-1r-EwL"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="jRS-GW-c8Q"/>
+                    <navigationItem key="navigationItem" title="Best of Day" id="jRS-GW-c8Q"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aCR-TF-Lua" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -856,58 +856,6 @@
     <resources>
         <image name="first" width="16" height="16"/>
     </resources>
-    <classes>
-        <class className="CoreDataTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
-        </class>
-        <class className="STAddTraditionTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STAddTraditionTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="save:"/>
-                <relationship kind="outlet" name="traditionNameTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="STDayTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STDayTVC.h"/>
-        </class>
-        <class className="STDaysTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STDaysTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="addDay:"/>
-            </relationships>
-        </class>
-        <class className="STFollowingAdviceTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STFollowingAdviceTVC.h"/>
-        </class>
-        <class className="STLogEntryBestOfDayTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STLogEntryBestOfDayTVC.h"/>
-        </class>
-        <class className="STLogEntrySixOfDayTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STLogEntrySixOfDayTVC.h"/>
-        </class>
-        <class className="STLogEntrySpecialFocusTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STLogEntrySpecialFocusTVC.h"/>
-        </class>
-        <class className="STLogEntryWorstOfDayTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STLogEntryWorstOfDayTVC.h"/>
-        </class>
-        <class className="STSetOfAdviceDetailTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STSetOfAdviceDetailTVC.h"/>
-        </class>
-        <class className="STSetOfAdviceTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STSetOfAdviceTVC.h"/>
-        </class>
-        <class className="STTraditionDetailTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STTraditionDetailTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="save:"/>
-                <relationship kind="outlet" name="traditionNameTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="STTraditionsFollowedTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STTraditionsFollowedTVC.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
