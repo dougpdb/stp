@@ -7,9 +7,13 @@
 //
 
 #import "STLogEntrySixOfDayTVC.h"
+#import "LESixOfDay+ST.h"
+#import "Advice.h"
 
 
 @interface STLogEntrySixOfDayTVC ()
+
+-(void)updateTime;
 
 @end
 
@@ -18,7 +22,7 @@
 @synthesize fetchedResultsController	= _fetchedResultsController;
 @synthesize managedObjectContext		= _managedObjectContext;
 
-@synthesize leSixOfDay		= _leSixOfDay;
+@synthesize leSixOfDay					= _leSixOfDay;
 
 
  
@@ -35,6 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	[self.leSixOfDay logValuesOfLogEntry];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -63,26 +68,31 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//#warning Potentially incomplete method implementation.
+//    // Return the number of sections.
+//    return 2;
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//#warning Incomplete method implementation.
+//    // Return the number of rows in the section.
+//    return 1;
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"logEntryAdvice";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
+	
+	if (indexPath.section == 0 && indexPath.row == 0) {
+		cell.textLabel.text = self.leSixOfDay.advice.description;
+		NSLog(@"in first section and the first row");
+	}
     
     return cell;
 }

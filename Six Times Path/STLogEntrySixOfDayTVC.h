@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CoreDataTableViewController.h"
 
-@class LESixOfDay, LESpecialFocus, LEBestOfDay, LEWorstOfDay;
+@class LESixOfDay;
 
 @interface STLogEntrySixOfDayTVC : CoreDataTableViewController
 

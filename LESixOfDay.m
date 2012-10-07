@@ -8,10 +8,11 @@
 
 #import "LESixOfDay.h"
 #import "Day.h"
-
+#import "NSDate+ST.h"
 
 @implementation LESixOfDay
 
 @dynamic dayOfSix;
+
 
 @end

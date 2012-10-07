@@ -479,8 +479,17 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+	// Get the index path of the currently selected row
+	NSIndexPath *indexPath	= [self.tableView indexPathForSelectedRow];
+	
 	if ([[segue identifier] isEqualToString:@"logEntrySixOfDaySegue"]) {
+		// Get the destination view controller and...
 		STLogEntrySixOfDayTVC *leSixOfDayTVC	= segue.destinationViewController;
+		
+		// ...pass along the managed object context we're working with.
+		leSixOfDayTVC.managedObjectContext		= self.managedObjectContext;
+		// Also pass along the selected guideline from the Six of Day section of the table
+		leSixOfDayTVC.leSixOfDay				= [self.theSixSorted objectAtIndex:[indexPath row]];
 
 	} else if ([[segue identifier] isEqualToString:@"logEntrySpecialFocusSegue"]) {
 		STLogEntrySpecialFocusCell *leSpecialFocusTVC	= segue.destinationViewController;

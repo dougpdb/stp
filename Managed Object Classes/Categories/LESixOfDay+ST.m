@@ -10,6 +10,7 @@
 #import "NSDate+ST.h"
 #import "Day.h"
 #import "Advice.h"
+#import "ToDo.h"
 
 @implementation LESixOfDay (ST)
 
@@ -44,5 +45,11 @@
 -(void)logValuesOfLogEntry
 {
 	NSLog(@"\n\tDay at timeScheduled: orderNumberForType) Advice:\n\t%@ at %@: %@) %@", self.dayOfSix.date.date, self.timeScheduled.time, self.orderNumberForType, self.advice.name);
+	
+	NSLog(@"LogEntry.timeFirstUpdated: %@", self.timeFirstUpdated.time);
+	NSLog(@"LogEntry.timeLastUpdated: %@", self.timeLastUpdated.time);
+	NSLog(@"LogEntry.action: %@", self.action.description);
+	NSLog(@"LogEntry.toDo: %@", self.toDo.description);
+
 }
 @end
