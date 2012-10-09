@@ -10,6 +10,17 @@
 #import "LESixOfDay+ST.h"
 #import "Advice.h"
 
+#define OVERVIEW_SECTION_NUMBER	0
+#define BEST_SECTION_NUMBER		1
+#define WORST_SECTION_NUMBER	2
+#define TO_DO_SECTION_NUMBER	3
+
+#define CELL_CONTENT_WIDTH				283.0f
+#define CELL_CONTENT_VERTICAL_MARGIN	4.0f
+#define CELL_CONTENT_LEFT_MARGIN		8.0f
+#define FONT_SIZE						15.0f
+
+
 
 @interface STLogEntrySixOfDayTVC ()
 
@@ -68,29 +79,37 @@
 
 #pragma mark - Table view data source
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//#warning Potentially incomplete method implementation.
-//    // Return the number of sections.
-//    return 2;
-//}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+#warning Potentially incomplete method implementation.
+    // Return the number of sections.
+    return 1;
+}
 //
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//#warning Incomplete method implementation.
-//    // Return the number of rows in the section.
-//    return 1;
-//}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+#warning Incomplete method implementation.
+    // Return the number of rows in the section.
+    return 1;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"logEntryAdvice";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *overviewCellIdentifier		= @"logEntryAdvice";
+	static NSString *bestOrWorstCellIdentifier	= @"bestOrWorstCell";
+	static NSString *toDoCellIdentifier			= @"toDoCell";
+	static NSString *ratingCellIdentifier		= @"ratingFocusCell";
+	
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+
     // Configure the cell...
 	
 	if (indexPath.section == 0 && indexPath.row == 0) {
-		cell.textLabel.text = self.leSixOfDay.advice.description;
+		cell.textLabel.text = self.leSixOfDay.advice.name;
 		NSLog(@"in first section and the first row");
 	}
     
