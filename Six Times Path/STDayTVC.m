@@ -240,7 +240,7 @@
 			
 			CGSize constraint			= CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
 			
-			CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+			CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE+1] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];  // Adding +1 to the FONT_SIZE helps to ensure that the last word of a single line entry doesn't get clipped. It is used for sizing puposes only.
 			
 			// Effectively, the MIN() will make sure that the height of the label will either 1 or 2 lines.
 			// We add 10 to the height to give it some padding within the cell, to make sure that the tails of g and y are not clipped.
@@ -397,7 +397,7 @@
 		
 		CGSize constraint			= CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
 		
-		CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+		CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE+1] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
 
 		// Effectively, the MIN() will make sure that the height of the label will either 1 or 2 lines.
 		// We add 10 to the height to give it some padding within the cell, to make sure that the tails of g and y are not clipped.
