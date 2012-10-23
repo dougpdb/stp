@@ -8,8 +8,9 @@
 
 #import "STLogEntryBestWorstOrToDoTextEntryCell.h"
 
-@implementation STLogEntryBestWorstOrToDoTextEntryCell
 
+@implementation STLogEntryBestWorstOrToDoTextEntryCell
+@synthesize textInput	= _textInput;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

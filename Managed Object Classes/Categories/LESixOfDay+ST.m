@@ -11,6 +11,7 @@
 #import "Day.h"
 #import "Advice.h"
 #import "ToDo.h"
+#import "ActionTaken.h"
 
 @implementation LESixOfDay (ST)
 
@@ -41,6 +42,28 @@
 	return oneOfSixLogEntries;
 }
 
+
+#pragma mark - Actions Taken
+
+-(NSSet *)getPositiveActionsTaken
+{
+	return [self.action objectsPassingTest:^(id obj,BOOL *stop){
+        ActionTaken *action	= (ActionTaken *)obj;
+		return [action.isPositive boolValue];
+    }];
+}
+
+-(NSSet *)getNegativeActionsTaken
+{
+	return [self.action objectsPassingTest:^(id obj,BOOL *stop){
+        ActionTaken *action	= (ActionTaken *)obj;
+		BOOL isNegative		= ([action.isPositive boolValue] == NO);
+		return isNegative;
+    }];
+}
+
+
+#pragma mark - Logging in Console
 
 -(void)logValuesOfLogEntry
 {

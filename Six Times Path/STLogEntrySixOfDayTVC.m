@@ -8,10 +8,12 @@
 
 #import "STLogEntrySixOfDayTVC.h"
 #import "LESixOfDay+ST.h"
+#import "Day+ST.h"
 #import "Advice.h"
 #import "NSDate+ST.h"
 
 #import "STLogEntryTimedCell.h"
+#import "STLogEntryBestWorstOrToDoTextEntryCell.h"
 
 #define OVERVIEW_SECTION_NUMBER	0
 #define BEST_SECTION_NUMBER		1
@@ -37,6 +39,8 @@
 @synthesize managedObjectContext		= _managedObjectContext;
 
 @synthesize leSixOfDay					= _leSixOfDay;
+
+@synthesize showHints					= _showHints;
 
 
  
@@ -80,13 +84,13 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table view configure
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 1;
+    return 3;
 }
 //
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -96,6 +100,54 @@
     return 1;
 }
 
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	switch (section) {
+		case OVERVIEW_SECTION_NUMBER:
+			return @"";
+			break;
+		case BEST_SECTION_NUMBER:
+			return @"+";
+			break;
+		case WORST_SECTION_NUMBER:
+			return @"-";
+			break;
+		case TO_DO_SECTION_NUMBER:
+			return @"To Do";
+			break;
+			
+		default:
+			break;
+	}
+	return @"";
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	if (self.showHints) {
+		switch (section) {
+			case OVERVIEW_SECTION_NUMBER:
+				return @"";
+				break;
+			case BEST_SECTION_NUMBER:
+				return @"A recent, specific, positive action that fulfilled this guideline (as closely as possible).";
+				break;
+			case WORST_SECTION_NUMBER:
+				return @"A recent, specific, negative action that did not fulfill this guideline.";
+				break;
+			case TO_DO_SECTION_NUMBER:
+				return @"";
+				break;
+				
+			default:
+				return @"";
+				break;
+		}
+	}
+}
+
+#pragma mark - Table view data source
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *overviewCellIdentifier		= @"logEntryAdvice";
@@ -103,7 +155,10 @@
 	static NSString *toDoCellIdentifier			= @"toDoCell";
 	static NSString *ratingCellIdentifier		= @"ratingFocusCell";
 	
-	STLogEntryTimedCell *overviewCell			= (STLogEntryTimedCell *)[tableView dequeueReusableCellWithIdentifier:overviewCellIdentifier];
+	STLogEntryTimedCell *overviewCell							= (STLogEntryTimedCell *)[tableView dequeueReusableCellWithIdentifier:overviewCellIdentifier];
+	STLogEntryBestWorstOrToDoTextEntryCell *bestWorstOrToDoCell	= (STLogEntryBestWorstOrToDoTextEntryCell *)[tableView dequeueReusableCellWithIdentifier:bestOrWorstCellIdentifier];
+	
+
 
 	switch (indexPath.section) {
 		case OVERVIEW_SECTION_NUMBER:
@@ -166,6 +221,36 @@
 			
 			break;
 		}
+		case BEST_SECTION_NUMBER:
+		{
+			// Init the cell...
+			if (bestWorstOrToDoCell == nil) {
+				NSArray *topLevelObjectsBest= [[NSBundle mainBundle]
+											   loadNibNamed:@"STLogEntryBestWorstOrToDoTextEntryCell"
+											   owner:self
+											   options:nil];
+				for (id currentObject in topLevelObjectsBest) {
+					if ([currentObject isKindOfClass:[UITableViewCell class]]) {
+						bestWorstOrToDoCell		= (STLogEntryBestWorstOrToDoTextEntryCell *)currentObject;
+						break;
+					}
+				}
+			}
+			
+			//
+			bestWorstOrToDoCell.textInput.delegate	= self;
+            bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
+
+			// set placeholder text
+			bestWorstOrToDoCell.textInput.text		= self.leSixOfDay.dayOfSix;
+			// set updated status
+			
+			return bestWorstOrToDoCell;
+		}
+		case WORST_SECTION_NUMBER:
+		{
+			
+		}
 /*
 		case SPECIAL_FOCUS_SECTION_NUMBER:
 		{
@@ -182,47 +267,6 @@
 			
 			return specialFocusCell;
 			
-			break;
-		}
-		case BEST_SECTION_NUMBER:
-		{
-			
-			// For Best of Day Entries that have already been made...
-			if (indexPath.row < [self.bestOfDaySorted count]) {
-				// Init the cell...
-				if (bestOrWorstOfDayCell == nil) {
-					NSArray *topLevelObjectsBest= [[NSBundle mainBundle]
-												   loadNibNamed:@"LogEntryBestOrWorstOfDayCell"
-												   owner:self
-												   options:nil];
-					for (id currentObject in topLevelObjectsBest) {
-						if ([currentObject isKindOfClass:[UITableViewCell class]]) {
-							bestOrWorstOfDayCell		= (STLogEntryBestOrWorstOfDayCell *)currentObject;
-							break;
-						}
-					}
-				}
-				
-				// Get data for the cell
-				//				LEBestOfDay *bestOfDayEntry		= [self.bestOfDaySorted objectAtIndex:indexPath.row];
-				return bestOrWorstOfDayCell;
-			} else {
-				// Init the cell...
-				if (addCell == nil) {
-					NSArray *topLevelObjectsAdd	= [[NSBundle mainBundle]
-												   loadNibNamed:@"LogEntryAddCell"
-												   owner:self
-												   options:nil];
-					for (id currentObject in topLevelObjectsAdd) {
-						if ([currentObject isKindOfClass:[UITableViewCell class]]) {
-							addCell				= (STLogEntryAddCell *)currentObject;
-							break;
-						}
-					}
-				}
-				addCell.addLabel.text	= @"Add a Best of Day.";
-				return addCell;
-			}
 			break;
 		}
 		case WORST_SECTION_NUMBER:
@@ -290,6 +334,8 @@
 //    return cell;
 }
 
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (indexPath.section == 0) {
@@ -314,7 +360,7 @@
 			NSLog(@"The height of the lable and row [%i, %i] is %g and %g", indexPath.section, indexPath.row, labelHeight, rowHeight);
 		return rowHeight;
 	} else {
-		return 40.0;
+		return 90.0;
 	}
 }
 
@@ -369,6 +415,33 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+
+
+#pragma mark - Text View
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+	
+}
+
+//- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+//	
+//    if([text isEqualToString:@"\n"]) {
+//        [textView resignFirstResponder];
+//        return NO;
+//    }
+//	
+//    return YES;
+//}
+
+- (BOOL)textView:(UITextView *)txtView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if( [text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound ) {
+        return YES;
+    }
+	
+    [txtView resignFirstResponder];
+    return NO;
 }
 
 @end

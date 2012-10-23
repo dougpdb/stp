@@ -11,14 +11,14 @@
 
 @class LESixOfDay;
 
-@interface STLogEntrySixOfDayTVC : CoreDataTableViewController
+@interface STLogEntrySixOfDayTVC : CoreDataTableViewController <UITextViewDelegate>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 
-@property (strong, atomic) LESixOfDay *leSixOfDay;
+@property (nonatomic) LESixOfDay *leSixOfDay;
 
-
+@property BOOL *showHints;
 
 @end

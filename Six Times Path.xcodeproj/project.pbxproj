@@ -51,6 +51,7 @@
 		91221537160C7EFE00BEEEE6 /* LogEntryBestOrWorstOfDayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91221536160C7EFE00BEEEE6 /* LogEntryBestOrWorstOfDayCell.xib */; };
 		91221539160C7F1800BEEEE6 /* LogEntrySpecialFocusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91221538160C7F1800BEEEE6 /* LogEntrySpecialFocusCell.xib */; };
 		9122153B160C7F3400BEEEE6 /* LogEntryAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9122153A160C7F3400BEEEE6 /* LogEntryAddCell.xib */; };
+		91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 91573F091629E6E300914D3E /* UITextView+Placeholder.m */; };
 		915E3FE315CFD37A0036C6FE /* prog journal.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 915E3FE215CFD37A0036C6FE /* prog journal.rtf */; };
 		916322E715D1262A00AA94D6 /* STDaysTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 916322E615D1262A00AA94D6 /* STDaysTVC.m */; };
 		916322EA15D126AB00AA94D6 /* STDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 916322E915D126AB00AA94D6 /* STDayTVC.m */; };
@@ -152,6 +153,8 @@
 		91221536160C7EFE00BEEEE6 /* LogEntryBestOrWorstOfDayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogEntryBestOrWorstOfDayCell.xib; path = "Custom Cells/LogEntryBestOrWorstOfDayCell.xib"; sourceTree = "<group>"; };
 		91221538160C7F1800BEEEE6 /* LogEntrySpecialFocusCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogEntrySpecialFocusCell.xib; path = "Custom Cells/LogEntrySpecialFocusCell.xib"; sourceTree = "<group>"; };
 		9122153A160C7F3400BEEEE6 /* LogEntryAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogEntryAddCell.xib; path = "Custom Cells/LogEntryAddCell.xib"; sourceTree = "<group>"; };
+		91573F081629E6E300914D3E /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
+		91573F091629E6E300914D3E /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		915E3FE215CFD37A0036C6FE /* prog journal.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "prog journal.rtf"; sourceTree = SOURCE_ROOT; };
 		916322E515D1262A00AA94D6 /* STDaysTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STDaysTVC.h; sourceTree = "<group>"; };
 		916322E615D1262A00AA94D6 /* STDaysTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STDaysTVC.m; sourceTree = "<group>"; };
@@ -247,8 +250,8 @@
 			isa = PBXGroup;
 			children = (
 				1EAEC6DA15C007CD00DF538B /* Data Classes */,
-				1E1C5C52159DBA0700EE0DEE /* Haggerty CDTVC */,
 				1EA5067A1594895B0075BC91 /* Managed Object Classes */,
+				1E1C5C52159DBA0700EE0DEE /* Haggerty CDTVC */,
 				1E5523381591E2FA009114B7 /* Six Times Path */,
 				1E5523311591E2F9009114B7 /* Frameworks */,
 				1E55232F1591E2F9009114B7 /* Products */,
@@ -277,6 +280,8 @@
 		1E5523381591E2FA009114B7 /* Six Times Path */ = {
 			isa = PBXGroup;
 			children = (
+				91573F081629E6E300914D3E /* UITextView+Placeholder.h */,
+				91573F091629E6E300914D3E /* UITextView+Placeholder.m */,
 				1E5523441591E2FA009114B7 /* MainStoryboard_iPhone.storyboard */,
 				1E5523471591E2FA009114B7 /* MainStoryboard_iPad.storyboard */,
 				1E5523411591E2FA009114B7 /* STAppDelegate.h */,
@@ -597,6 +602,7 @@
 				91E9D0601619A9F100C0D021 /* STLogEntryBestOfDayTVC.m in Sources */,
 				91E9D0631619AD4A00C0D021 /* STLogEntryWorstOfDayTVC.m in Sources */,
 				91E94AE816258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m in Sources */,
+				91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,10 +8,19 @@
 
 #import "LESixOfDay.h"
 
+
+
 @interface LESixOfDay (ST)
+
 
 +(id)logEntryWithAdvice:(Advice *)advice withOrderNumber:(NSInteger)orderNumberForType onDay:(Day *)day inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
+-(NSSet *)getPositiveActionsTaken;
+-(NSSet *)getNegativeActionsTaken;
+
+
+// For logging in the XCode console
 -(void)logValuesOfLogEntry;
+
 
 @end

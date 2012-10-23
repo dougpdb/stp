@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface STLogEntryBestWorstOrToDoTextEntryCell : UITableViewCell
+@interface STLogEntryBestWorstOrToDoTextEntryCell : UITableViewCell <UITextViewDelegate>
+
+@property (nonatomic, retain) IBOutlet UITextView *textInput;
 
 @end
