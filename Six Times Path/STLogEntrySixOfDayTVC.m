@@ -10,6 +10,7 @@
 #import "LESixOfDay+ST.h"
 #import "Day+ST.h"
 #import "Advice.h"
+#import "ActionTaken.h"
 #import "NSDate+ST.h"
 
 #import "STLogEntryTimedCell.h"
@@ -57,6 +58,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	self.showHints = YES;
 	[self.leSixOfDay logValuesOfLogEntry];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -241,14 +243,46 @@
 			bestWorstOrToDoCell.textInput.delegate	= self;
             bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
 
+			NSLog(@"In Best Section");
 			// set placeholder text
-			bestWorstOrToDoCell.textInput.text		= self.leSixOfDay.dayOfSix;
+			NSSet *setOfPositiveActionsTaken		= self.leSixOfDay.getPositiveActionsTaken;
+			if (self.debug)
+				NSLog(@"The number of positive actions taken for this log entry is %i", [setOfPositiveActionsTaken count]);
+			ActionTaken *aPositiveActionTaken		= [setOfPositiveActionsTaken anyObject];
+			bestWorstOrToDoCell.textInput.text		= (aPositiveActionTaken) ? aPositiveActionTaken.description : @"No positive action has been added yet.";
 			// set updated status
 			
 			return bestWorstOrToDoCell;
 		}
 		case WORST_SECTION_NUMBER:
 		{
+			// Init the cell...
+			if (bestWorstOrToDoCell == nil) {
+				NSArray *topLevelObjectsBest= [[NSBundle mainBundle]
+											   loadNibNamed:@"STLogEntryBestWorstOrToDoTextEntryCell"
+											   owner:self
+											   options:nil];
+				for (id currentObject in topLevelObjectsBest) {
+					if ([currentObject isKindOfClass:[UITableViewCell class]]) {
+						bestWorstOrToDoCell		= (STLogEntryBestWorstOrToDoTextEntryCell *)currentObject;
+						break;
+					}
+				}
+			}
+			
+			//
+			bestWorstOrToDoCell.textInput.delegate		= self;
+            bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
+			
+			// set placeholder text
+			NSSet *setOfNegativeActionsTaken		= self.leSixOfDay.getPositiveActionsTaken;
+			if (self.debug)
+				NSLog(@"The number of positive actions taken for this log entry is %i", [setOfNegativeActionsTaken count]);
+			ActionTaken *aNegativeActionTaken		= [setOfNegativeActionsTaken anyObject];
+			bestWorstOrToDoCell.textInput.text		= (aNegativeActionTaken) ? aNegativeActionTaken.description : @"No negative action has been added yet.";
+			// set updated status
+			
+			return bestWorstOrToDoCell;
 			
 		}
 /*
