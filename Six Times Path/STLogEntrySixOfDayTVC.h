@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CoreDataTableViewController.h"
 
-@class LESixOfDay;
+@class LESixOfDay, ActionTaken;
 
 @interface STLogEntrySixOfDayTVC : CoreDataTableViewController <UITextViewDelegate>
 
@@ -18,7 +18,11 @@
 
 
 @property (nonatomic) LESixOfDay *leSixOfDay;
+@property (nonatomic) ActionTaken *aPositiveActionTaken;
+@property (nonatomic) ActionTaken *aNegativeActionTaken;
 
 @property BOOL *showHints;
+
+- (IBAction)saveEntry:(id)sender;
 
 @end

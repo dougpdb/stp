@@ -10,7 +10,7 @@
 #import "LESixOfDay+ST.h"
 #import "Day+ST.h"
 #import "Advice.h"
-#import "ActionTaken.h"
+#import "ActionTaken+ST.h"
 #import "NSDate+ST.h"
 
 #import "STLogEntryTimedCell.h"
@@ -30,6 +30,11 @@
 
 @interface STLogEntrySixOfDayTVC ()
 
+@property (nonatomic, strong) NSString *mostRecentlySavedPositiveActionTakenDescription;
+@property (nonatomic, strong) NSString *mostRecentlySavedNegativeActionTakenDescription;
+@property (nonatomic, strong) NSString *updatedPositiveActionTakenDescription;
+@property (nonatomic, strong) NSString *updatedNegativeActionTakenDescription;
+
 -(void)updateTime;
 
 @end
@@ -40,8 +45,15 @@
 @synthesize managedObjectContext		= _managedObjectContext;
 
 @synthesize leSixOfDay					= _leSixOfDay;
+@synthesize aPositiveActionTaken		= _aPositiveActionTaken;
+@synthesize aNegativeActionTaken		= _aNegativeActionTaken;
 
 @synthesize showHints					= _showHints;
+
+@synthesize mostRecentlySavedPositiveActionTakenDescription	= _mostRecentlySavedPositiveActionTakenDescription;
+@synthesize mostRecentlySavedNegativeActionTakenDescription	= _mostRecentlySavedNegativeActionTakenDescription;
+@synthesize updatedPositiveActionTakenDescription			= _updatedPositiveActionTakenDescription;
+@synthesize updatedNegativeActionTakenDescription			= _updatedNegativeActionTakenDescription;
 
 
  
@@ -58,7 +70,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.showHints = YES;
+	self.showHints	= YES;
+	self.debug		= YES;
+	
+	// There should only be one postive and one negative action associated with the log entry type SixOfDay
+	// Therefore, get the set of actions (there should only be one in the set at most) for each type of action
+	// and assign the ActionTaken objects from that set and assign to the properties aPostiveActionTaken and aNegativeActionTaken
+	NSSet *setOfPositiveActionsTaken	= self.leSixOfDay.getPositiveActionsTaken;
+	if (self.debug)
+		NSLog(@"The number of positive actions taken for this log entry is %i", [setOfPositiveActionsTaken count]);
+	self.aPositiveActionTaken			= [setOfPositiveActionsTaken anyObject];
+	self.mostRecentlySavedPositiveActionTakenDescription	= (self.aPositiveActionTaken) ? self.aPositiveActionTaken.text : @"No positive action has been added yet.";
+	self.updatedPositiveActionTakenDescription				= self.mostRecentlySavedPositiveActionTakenDescription;
+
+	NSSet *setOfNegativeActionsTaken	= self.leSixOfDay.getNegativeActionsTaken;
+	if (self.debug)
+		NSLog(@"The number of positive actions taken for this log entry is %i", [setOfNegativeActionsTaken count]);
+	self.aNegativeActionTaken			= [setOfNegativeActionsTaken anyObject];
+	self.mostRecentlySavedNegativeActionTakenDescription	= (self.aNegativeActionTaken) ? self.aNegativeActionTaken.text : @"No negative action has been added yet.";
+	self.updatedNegativeActionTakenDescription				= self.mostRecentlySavedNegativeActionTakenDescription;
+	
 	[self.leSixOfDay logValuesOfLogEntry];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -240,16 +271,14 @@
 			}
 			
 			//
-			bestWorstOrToDoCell.textInput.delegate	= self;
+			bestWorstOrToDoCell.textInput.delegate		= self;
             bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
-
-			NSLog(@"In Best Section");
-			// set placeholder text
-			NSSet *setOfPositiveActionsTaken		= self.leSixOfDay.getPositiveActionsTaken;
+			bestWorstOrToDoCell.textInput.tag			= 10 + BEST_SECTION_NUMBER;
 			if (self.debug)
-				NSLog(@"The number of positive actions taken for this log entry is %i", [setOfPositiveActionsTaken count]);
-			ActionTaken *aPositiveActionTaken		= [setOfPositiveActionsTaken anyObject];
-			bestWorstOrToDoCell.textInput.text		= (aPositiveActionTaken) ? aPositiveActionTaken.description : @"No positive action has been added yet.";
+				NSLog(@"The tag number for the textInput is %i.", bestWorstOrToDoCell.textInput.tag);
+
+			// set placeholder text
+			bestWorstOrToDoCell.textInput.text		= self.updatedPositiveActionTakenDescription;
 			// set updated status
 			
 			return bestWorstOrToDoCell;
@@ -273,13 +302,12 @@
 			//
 			bestWorstOrToDoCell.textInput.delegate		= self;
             bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
+			bestWorstOrToDoCell.textInput.tag			= 10 + WORST_SECTION_NUMBER;
+			if (self.debug)
+				NSLog(@"The tag number for the textInput is %i.", bestWorstOrToDoCell.textInput.tag);
 			
 			// set placeholder text
-			NSSet *setOfNegativeActionsTaken		= self.leSixOfDay.getPositiveActionsTaken;
-			if (self.debug)
-				NSLog(@"The number of positive actions taken for this log entry is %i", [setOfNegativeActionsTaken count]);
-			ActionTaken *aNegativeActionTaken		= [setOfNegativeActionsTaken anyObject];
-			bestWorstOrToDoCell.textInput.text		= (aNegativeActionTaken) ? aNegativeActionTaken.description : @"No negative action has been added yet.";
+			bestWorstOrToDoCell.textInput.text		= self.updatedNegativeActionTakenDescription;
 			// set updated status
 			
 			return bestWorstOrToDoCell;
@@ -474,8 +502,56 @@
         return YES;
     }
 	
+	// update variables
+	switch (txtView.tag) {
+		case 10+BEST_SECTION_NUMBER:
+			self.updatedPositiveActionTakenDescription	= txtView.text;
+			break;
+		case 10+WORST_SECTION_NUMBER:
+			self.updatedNegativeActionTakenDescription	= txtView.text;
+			break;
+			
+		default:
+			break;
+	}
+	
     [txtView resignFirstResponder];
     return NO;
 }
 
+- (IBAction)saveEntry:(id)sender {
+	NSLog(@"updatedPositive is [%@].", self.updatedPositiveActionTakenDescription);
+	NSLog(@"updatedNegative is [%@].", self.updatedNegativeActionTakenDescription);
+	
+	// update existing Positive and Negative actions, or add them as necessary
+	if (self.aPositiveActionTaken) {
+		[self.aPositiveActionTaken updateText:self.updatedPositiveActionTakenDescription
+									andRating:1];
+	} else {
+		ActionTaken *aPositiveActionTaken	= [ActionTaken actionTakenWithText:self.updatedPositiveActionTakenDescription
+																   isPositive:YES
+																   withRating:1
+																  forLogEntry:self.leSixOfDay
+													   inManagedObjectContext:self.managedObjectContext];
+		self.leSixOfDay.timeFirstUpdated	= [NSDate date];
+	}
+	
+	if (self.aNegativeActionTaken) {
+		[self.aNegativeActionTaken updateText:self.updatedNegativeActionTakenDescription
+									andRating:1];
+	} else {
+		ActionTaken *aNegativeActionTaken	= [ActionTaken actionTakenWithText:self.updatedNegativeActionTakenDescription
+																  isPositive:NO
+																  withRating:1
+																 forLogEntry:self.leSixOfDay
+													  inManagedObjectContext:self.managedObjectContext];
+		// there isn't a need to set timeFirstUpdated, as it has already been set for the positive
+	}
+	
+	// set updated time
+	self.leSixOfDay.timeLastUpdated	= [NSDate date];
+	
+	// save to store!
+	
+}
 @end

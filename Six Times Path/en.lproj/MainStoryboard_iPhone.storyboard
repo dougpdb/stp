@@ -487,7 +487,13 @@
                             <outlet property="delegate" destination="gTE-bC-Kqu" id="APy-f0-A39"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Six of Day" id="jMm-uO-JCj"/>
+                    <navigationItem key="navigationItem" title="Six of Day" id="jMm-uO-JCj">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="d4C-r4-P7M">
+                            <connections>
+                                <action selector="saveEntry:" destination="gTE-bC-Kqu" id="j4r-uD-22s"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MYS-dQ-KEF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
