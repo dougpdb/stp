@@ -523,6 +523,11 @@
 	NSLog(@"updatedPositive is [%@].", self.updatedPositiveActionTakenDescription);
 	NSLog(@"updatedNegative is [%@].", self.updatedNegativeActionTakenDescription);
 	
+	// another thing to add
+	// Make sure the latest text is grabbed from the text views, using logic of above function
+	
+	
+	
 	// update existing Positive and Negative actions, or add them as necessary
 	if (self.aPositiveActionTaken) {
 		[self.aPositiveActionTaken updateText:self.updatedPositiveActionTakenDescription
@@ -552,6 +557,15 @@
 	self.leSixOfDay.timeLastUpdated	= [NSDate date];
 	
 	// save to store!
+	NSError *error;
+	if ([self.managedObjectContext hasChanges] && ![self.managedObjectContext save:&error]) {
+		/*
+		 Replace this implementation with code to handle the error appropriately.
+		 
+		 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+		 */
+		NSLog(@"Error occured when attempting to save. Error and userInfo: %@, %@", error, [error userInfo]);
+	}
 	
 }
 @end
