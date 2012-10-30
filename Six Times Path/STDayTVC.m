@@ -109,9 +109,15 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+	// this is to make sure that any Core Data changes on other screens will be reflected
+	// in this view as necessary (such as timeUpdated)
+	[self.tableView reloadData];
+}
+
+
 #pragma mark - Table View Structure
-
-
  
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

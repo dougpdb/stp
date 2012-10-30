@@ -21,6 +21,8 @@
 #define WORST_SECTION_NUMBER	2
 #define TO_DO_SECTION_NUMBER	3
 
+#define TAG_PREFIX_UITEXTVIEW	100
+
 #define CELL_CONTENT_WIDTH				283.0f
 #define CELL_CONTENT_VERTICAL_MARGIN	4.0f
 #define CELL_CONTENT_LEFT_MARGIN		8.0f
@@ -80,14 +82,14 @@
 	if (self.debug)
 		NSLog(@"The number of positive actions taken for this log entry is %i", [setOfPositiveActionsTaken count]);
 	self.aPositiveActionTaken			= [setOfPositiveActionsTaken anyObject];
-	self.mostRecentlySavedPositiveActionTakenDescription	= (self.aPositiveActionTaken) ? self.aPositiveActionTaken.text : @"No positive action has been added yet.";
+	self.mostRecentlySavedPositiveActionTakenDescription	= (self.aPositiveActionTaken) ? self.aPositiveActionTaken.text : @"";
 	self.updatedPositiveActionTakenDescription				= self.mostRecentlySavedPositiveActionTakenDescription;
 
 	NSSet *setOfNegativeActionsTaken	= self.leSixOfDay.getNegativeActionsTaken;
 	if (self.debug)
 		NSLog(@"The number of positive actions taken for this log entry is %i", [setOfNegativeActionsTaken count]);
 	self.aNegativeActionTaken			= [setOfNegativeActionsTaken anyObject];
-	self.mostRecentlySavedNegativeActionTakenDescription	= (self.aNegativeActionTaken) ? self.aNegativeActionTaken.text : @"No negative action has been added yet.";
+	self.mostRecentlySavedNegativeActionTakenDescription	= (self.aNegativeActionTaken) ? self.aNegativeActionTaken.text : @"";
 	self.updatedNegativeActionTakenDescription				= self.mostRecentlySavedNegativeActionTakenDescription;
 	
 	[self.leSixOfDay logValuesOfLogEntry];
@@ -273,7 +275,7 @@
 			//
 			bestWorstOrToDoCell.textInput.delegate		= self;
             bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
-			bestWorstOrToDoCell.textInput.tag			= 10 + BEST_SECTION_NUMBER;
+			bestWorstOrToDoCell.textInput.tag			= TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER;
 			if (self.debug)
 				NSLog(@"The tag number for the textInput is %i.", bestWorstOrToDoCell.textInput.tag);
 
@@ -302,7 +304,7 @@
 			//
 			bestWorstOrToDoCell.textInput.delegate		= self;
             bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
-			bestWorstOrToDoCell.textInput.tag			= 10 + WORST_SECTION_NUMBER;
+			bestWorstOrToDoCell.textInput.tag			= TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER;
 			if (self.debug)
 				NSLog(@"The tag number for the textInput is %i.", bestWorstOrToDoCell.textInput.tag);
 			
@@ -482,53 +484,34 @@
 
 
 #pragma mark - Text View
--(void)textViewDidBeginEditing:(UITextView *)textView
-{
-	
-}
-
-//- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-//	
-//    if([text isEqualToString:@"\n"]) {
-//        [textView resignFirstResponder];
-//        return NO;
-//    }
-//	
-//    return YES;
-//}
 
 - (BOOL)textView:(UITextView *)txtView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if( [text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound ) {
         return YES;
     }
 	
-	// update variables
-	switch (txtView.tag) {
-		case 10+BEST_SECTION_NUMBER:
-			self.updatedPositiveActionTakenDescription	= txtView.text;
-			break;
-		case 10+WORST_SECTION_NUMBER:
-			self.updatedNegativeActionTakenDescription	= txtView.text;
-			break;
-			
-		default:
-			break;
-	}
-	
     [txtView resignFirstResponder];
     return NO;
 }
 
+-(void)textViewDidChange:(UITextView *)textView
+{
+	// update variables
+	switch (textView.tag) {
+		case TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER:
+			self.updatedPositiveActionTakenDescription	= textView.text;
+			break;
+		case TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER:
+			self.updatedNegativeActionTakenDescription	= textView.text;
+			break;
+		default:
+			break;
+	}
+}
+
+#pragma mark - Save
+
 - (IBAction)saveEntry:(id)sender {
-	NSLog(@"updatedPositive is [%@].", self.updatedPositiveActionTakenDescription);
-	NSLog(@"updatedNegative is [%@].", self.updatedNegativeActionTakenDescription);
-	
-	// another thing to add
-	// Make sure the latest text is grabbed from the text views, using logic of above function
-	
-	
-	
-	// update existing Positive and Negative actions, or add them as necessary
 	if (self.aPositiveActionTaken) {
 		[self.aPositiveActionTaken updateText:self.updatedPositiveActionTakenDescription
 									andRating:1];
