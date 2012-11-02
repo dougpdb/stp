@@ -177,11 +177,12 @@
 	// Today
 	NSDate *now					= [NSDate date];
     	
-	// Only allow one Day for each unique date (time agnostic)
-	if ([self.mostRecentlyAddedDate.date compare:now.date] == NSOrderedSame) {
-		[self showSimpleAlert:@"Log Entries have been already created for today."];
-		return;
-	}
+//temp disable
+//	// Only allow one Day for each unique date (time agnostic)
+//	if ([self.mostRecentlyAddedDate.date compare:now.date] == NSOrderedSame) {
+//		[self showSimpleAlert:@"Log Entries have been already created for today."];
+//		return;
+//	}
 	
 	Day *newDay					= [NSEntityDescription insertNewObjectForEntityForName:@"Day"
                                                 inManagedObjectContext:self.managedObjectContext];

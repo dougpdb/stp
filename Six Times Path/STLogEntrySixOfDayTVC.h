@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CoreDataTableViewController.h"
 
-@class LESixOfDay, ActionTaken;
+@class LESixOfDay, ActionTaken, ToDo;
 
 @interface STLogEntrySixOfDayTVC : CoreDataTableViewController <UITextViewDelegate>
 

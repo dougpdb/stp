@@ -58,6 +58,7 @@
 		916322ED15D1270100AA94D6 /* STLogEntrySixOfDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 916322EC15D1270100AA94D6 /* STLogEntrySixOfDayTVC.m */; };
 		917460CF15C7E4F9007199DB /* SetOfAdvice.m in Sources */ = {isa = PBXBuildFile; fileRef = 917460CE15C7E4F9007199DB /* SetOfAdvice.m */; };
 		91AD7C4F15E111B60066B118 /* LESixOfDay+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91AD7C4E15E111B60066B118 /* LESixOfDay+ST.m */; };
+		91AE375C1643D778005103DC /* ToDo+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91AE375B1643D778005103DC /* ToDo+ST.m */; };
 		91BC62E715D82B1B004EC71C /* Day+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BC62E615D82B1B004EC71C /* Day+ST.m */; };
 		91BC62EB15D86EC1004EC71C /* NSUserDefaults+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BC62EA15D86EC1004EC71C /* NSUserDefaults+ST.m */; };
 		91D77D24163D5074009ADA66 /* ActionTaken+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77D23163D5074009ADA66 /* ActionTaken+ST.m */; };
@@ -167,6 +168,8 @@
 		917460CE15C7E4F9007199DB /* SetOfAdvice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetOfAdvice.m; path = "Managed Object Classes/SetOfAdvice.m"; sourceTree = "<group>"; };
 		91AD7C4D15E111B60066B118 /* LESixOfDay+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LESixOfDay+ST.h"; path = "Managed Object Classes/Categories/LESixOfDay+ST.h"; sourceTree = "<group>"; };
 		91AD7C4E15E111B60066B118 /* LESixOfDay+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LESixOfDay+ST.m"; path = "Managed Object Classes/Categories/LESixOfDay+ST.m"; sourceTree = "<group>"; };
+		91AE375A1643D778005103DC /* ToDo+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ToDo+ST.h"; path = "Categories/ToDo+ST.h"; sourceTree = "<group>"; };
+		91AE375B1643D778005103DC /* ToDo+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ToDo+ST.m"; path = "Categories/ToDo+ST.m"; sourceTree = "<group>"; };
 		91BC62E515D82B1B004EC71C /* Day+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Day+ST.h"; path = "Data Classes/Day+ST.h"; sourceTree = "<group>"; };
 		91BC62E615D82B1B004EC71C /* Day+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Day+ST.m"; path = "Data Classes/Day+ST.m"; sourceTree = "<group>"; };
 		91BC62E915D86EC1004EC71C /* NSUserDefaults+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+ST.h"; sourceTree = "<group>"; };
@@ -443,6 +446,8 @@
 				91D77D23163D5074009ADA66 /* ActionTaken+ST.m */,
 				91AD7C4D15E111B60066B118 /* LESixOfDay+ST.h */,
 				91AD7C4E15E111B60066B118 /* LESixOfDay+ST.m */,
+				91AE375A1643D778005103DC /* ToDo+ST.h */,
+				91AE375B1643D778005103DC /* ToDo+ST.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -609,6 +614,7 @@
 				91E94AE816258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m in Sources */,
 				91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */,
 				91D77D24163D5074009ADA66 /* ActionTaken+ST.m in Sources */,
+				91AE375C1643D778005103DC /* ToDo+ST.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

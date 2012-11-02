@@ -11,6 +11,7 @@
 #import "Day+ST.h"
 #import "Advice.h"
 #import "ActionTaken+ST.h"
+#import "ToDo+ST.h"
 #import "NSDate+ST.h"
 
 #import "STLogEntryTimedCell.h"
@@ -36,6 +37,7 @@
 @property (nonatomic, strong) NSString *mostRecentlySavedNegativeActionTakenDescription;
 @property (nonatomic, strong) NSString *updatedPositiveActionTakenDescription;
 @property (nonatomic, strong) NSString *updatedNegativeActionTakenDescription;
+@property (nonatomic, strong) NSString *updatedToDoText;
 
 -(void)updateTime;
 
@@ -56,6 +58,7 @@
 @synthesize mostRecentlySavedNegativeActionTakenDescription	= _mostRecentlySavedNegativeActionTakenDescription;
 @synthesize updatedPositiveActionTakenDescription			= _updatedPositiveActionTakenDescription;
 @synthesize updatedNegativeActionTakenDescription			= _updatedNegativeActionTakenDescription;
+@synthesize updatedToDoText									= _updatedToDoText;
 
 
  
@@ -92,6 +95,8 @@
 	self.mostRecentlySavedNegativeActionTakenDescription	= (self.aNegativeActionTaken) ? self.aNegativeActionTaken.text : @"";
 	self.updatedNegativeActionTakenDescription				= self.mostRecentlySavedNegativeActionTakenDescription;
 	
+	
+	// for the Console
 	[self.leSixOfDay logValuesOfLogEntry];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -193,30 +198,29 @@
 	STLogEntryTimedCell *overviewCell							= (STLogEntryTimedCell *)[tableView dequeueReusableCellWithIdentifier:overviewCellIdentifier];
 	STLogEntryBestWorstOrToDoTextEntryCell *bestWorstOrToDoCell	= (STLogEntryBestWorstOrToDoTextEntryCell *)[tableView dequeueReusableCellWithIdentifier:bestOrWorstCellIdentifier];
 	
+	// Init the cells...
+	if (overviewCell == nil) {
+		NSArray *topLevelObjects	= [[NSBundle mainBundle]
+									   loadNibNamed:@"Log Entry - Timed"
+									   owner:self
+									   options:nil];
+		for (id currentObject in topLevelObjects) {
+			if ([currentObject isKindOfClass:[UITableViewCell class]]) {
+				overviewCell		= (STLogEntryTimedCell *)currentObject;
+				break;
+			}
+		}
+	
+		// Modify the cell's formatting
+		// Possibly move into the subclass as a method?
+		overviewCell.accessoryType	= UITableViewCellAccessoryDetailDisclosureButton;
+
+	}
 
 
 	switch (indexPath.section) {
 		case OVERVIEW_SECTION_NUMBER:
 		{
-			// Init the cell...
-			if (overviewCell == nil) {
-				NSArray *topLevelObjects	= [[NSBundle mainBundle]
-											   loadNibNamed:@"Log Entry - Timed"
-											   owner:self
-											   options:nil];
-				for (id currentObject in topLevelObjects) {
-					if ([currentObject isKindOfClass:[UITableViewCell class]]) {
-						overviewCell		= (STLogEntryTimedCell *)currentObject;
-						break;
-					}
-				}
-			
-				// Modify the cell's formatting
-				// Possibly move into the subclass as a method?
-				overviewCell.accessoryType	= UITableViewCellAccessoryDetailDisclosureButton;
-
-			}
-			
 			// Get data for the cell
 			LESixOfDay *sixOfDayEntry	= self.leSixOfDay;
 			
@@ -225,7 +229,9 @@
 			
 			CGSize constraint			= CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
 			
-			CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE+3] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+			CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE+3]
+									   constrainedToSize:constraint
+										   lineBreakMode:UILineBreakModeWordWrap];
 			
 			// Effectively, the MIN() will make sure that the height of the label will either 1 or 2 lines.
 			// We add 10 to the height to give it some padding within the cell, to make sure that the tails of g and y are not clipped.
@@ -245,8 +251,14 @@
 				overviewCell.timeLabel.text	= sixOfDayEntry.timeScheduled.time;
 			}
 			
-			overviewCell.guidelineLabel.frame	= CGRectMake(CELL_CONTENT_LEFT_MARGIN, CELL_CONTENT_VERTICAL_MARGIN, CELL_CONTENT_WIDTH, labelHeight);
-			overviewCell.timeLabel.frame		= CGRectMake(CELL_CONTENT_LEFT_MARGIN, CELL_CONTENT_VERTICAL_MARGIN + labelHeight - 2, CELL_CONTENT_WIDTH, CGRectGetHeight(overviewCell.timeLabel.frame));
+			overviewCell.guidelineLabel.frame	= CGRectMake(CELL_CONTENT_LEFT_MARGIN,
+															 CELL_CONTENT_VERTICAL_MARGIN,
+															 CELL_CONTENT_WIDTH,
+															 labelHeight);
+			overviewCell.timeLabel.frame		= CGRectMake(CELL_CONTENT_LEFT_MARGIN,
+															 CELL_CONTENT_VERTICAL_MARGIN + labelHeight - 2,
+															 CELL_CONTENT_WIDTH,
+															 CGRectGetHeight(overviewCell.timeLabel.frame));
 			
 			//	Highlighting used only to see relative positioning of UI Label within the cell
 			//			[theSixEntryCell layoutSubviews];
@@ -257,22 +269,7 @@
 			break;
 		}
 		case BEST_SECTION_NUMBER:
-		{
-			// Init the cell...
-			if (bestWorstOrToDoCell == nil) {
-				NSArray *topLevelObjectsBest= [[NSBundle mainBundle]
-											   loadNibNamed:@"STLogEntryBestWorstOrToDoTextEntryCell"
-											   owner:self
-											   options:nil];
-				for (id currentObject in topLevelObjectsBest) {
-					if ([currentObject isKindOfClass:[UITableViewCell class]]) {
-						bestWorstOrToDoCell		= (STLogEntryBestWorstOrToDoTextEntryCell *)currentObject;
-						break;
-					}
-				}
-			}
-			
-			//
+		{			
 			bestWorstOrToDoCell.textInput.delegate		= self;
             bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
 			bestWorstOrToDoCell.textInput.tag			= TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER;
@@ -287,21 +284,6 @@
 		}
 		case WORST_SECTION_NUMBER:
 		{
-			// Init the cell...
-			if (bestWorstOrToDoCell == nil) {
-				NSArray *topLevelObjectsBest= [[NSBundle mainBundle]
-											   loadNibNamed:@"STLogEntryBestWorstOrToDoTextEntryCell"
-											   owner:self
-											   options:nil];
-				for (id currentObject in topLevelObjectsBest) {
-					if ([currentObject isKindOfClass:[UITableViewCell class]]) {
-						bestWorstOrToDoCell		= (STLogEntryBestWorstOrToDoTextEntryCell *)currentObject;
-						break;
-					}
-				}
-			}
-			
-			//
 			bestWorstOrToDoCell.textInput.delegate		= self;
             bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
 			bestWorstOrToDoCell.textInput.tag			= TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER;
@@ -315,87 +297,25 @@
 			return bestWorstOrToDoCell;
 			
 		}
-/*
-		case SPECIAL_FOCUS_SECTION_NUMBER:
+		case TO_DO_SECTION_NUMBER:
 		{
-			// Init the cell...
-			if (specialFocusCell == nil) {
-				specialFocusCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:specialFocusCellIdentifier];
-			}
+			bestWorstOrToDoCell.textInput.delegate		= self;
+            bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
+			bestWorstOrToDoCell.textInput.tag			= TAG_PREFIX_UITEXTVIEW + TO_DO_SECTION_NUMBER;
+			if (self.debug)
+				NSLog(@"The tag number for the textInput is %i.", bestWorstOrToDoCell.textInput.tag);
 			
-			// Get data for the cell
-			LESpecialFocus *specialFocus	= self.specialFocus;
+			// set placeholder text
+			bestWorstOrToDoCell.textInput.text		= self.leSixOfDay.toDo.text;
+			// set updated status
 			
-			// Configure the cell...
-			theSixEntryCell.textLabel.text	= specialFocus.advice.name;
+			return bestWorstOrToDoCell;
 			
-			return specialFocusCell;
-			
-			break;
 		}
-		case WORST_SECTION_NUMBER:
-		{
-			// For Best of Day Entries that have already been made...
-			if (indexPath.row < [self.bestOfDaySorted count]) {
-				// Init the cell...
-				if (bestOrWorstOfDayCell == nil) {
-					NSArray *topLevelObjectsBest= [[NSBundle mainBundle]
-												   loadNibNamed:@"LogEntryBestOrWorstOfDayCell"
-												   owner:self
-												   options:nil];
-					for (id currentObject in topLevelObjectsBest) {
-						if ([currentObject isKindOfClass:[UITableViewCell class]]) {
-							bestOrWorstOfDayCell		= (STLogEntryBestOrWorstOfDayCell *)currentObject;
-							break;
-						}
-					}
-				}
-				
-				// Get data for the cell
-				LEWorstOfDay *worstOfDayEntry	= [self.worstOfDaySorted objectAtIndex:indexPath.row];
-				
-				// Configure the cell...
-				bestOrWorstOfDayCell.textLabel.text	= worstOfDayEntry.action.description;
-				
-				return bestOrWorstOfDayCell;
-			} else {
-				// Init the cell...
-				if (addCell == nil) {
-					NSArray *topLevelObjectsAdd	= [[NSBundle mainBundle]
-												   loadNibNamed:@"LogEntryAddCell"
-												   owner:self
-												   options:nil];
-					for (id currentObject in topLevelObjectsAdd) {
-						if ([currentObject isKindOfClass:[UITableViewCell class]]) {
-							addCell				= (STLogEntryAddCell *)currentObject;
-							break;
-						}
-					}
-				}
-				addCell.addLabel.text	= @"Add a Worst of Day.";
-				return addCell;
-			}
-			break;
-		}
-*/
+
 		default:
 			break;
 	}
-
-//	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    
-//    if (cell == nil) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//    }
-//
-//    // Configure the cell...
-//	
-//	if (indexPath.section == 0 && indexPath.row == 0) {
-//		cell.textLabel.text = self.leSixOfDay.advice.name;
-//		NSLog(@"in first section and the first row");
-//	}
-//    
-//    return cell;
 }
 
 
@@ -504,6 +424,9 @@
 		case TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER:
 			self.updatedNegativeActionTakenDescription	= textView.text;
 			break;
+		case TAG_PREFIX_UITEXTVIEW + TO_DO_SECTION_NUMBER:
+			self.updatedToDoText						= textView.text;
+			break;
 		default:
 			break;
 	}
@@ -534,6 +457,13 @@
 																 forLogEntry:self.leSixOfDay
 													  inManagedObjectContext:self.managedObjectContext];
 		// there isn't a need to set timeFirstUpdated, as it has already been set for the positive
+	}
+	
+	if (self.leSixOfDay.toDo) {
+		ToDo *aToDo							= [ToDo toDoWithText:self.updatedToDoText
+							withDueDateAndTime:[NSDate dateWithTimeIntervalSinceNow:3600]
+								   forLogEntry:self.leSixOfDay
+						inManagedObjectContext:self.managedObjectContext];
 	}
 	
 	// set updated time
