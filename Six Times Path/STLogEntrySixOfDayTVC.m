@@ -460,6 +460,9 @@
 	}
 	
 	if (self.leSixOfDay.toDo) {
+		[self.leSixOfDay.toDo updateText:self.updatedToDoText
+					   andDueDateAndTime:[NSDate dateWithTimeIntervalSinceNow:3600]];
+	} else {
 		ToDo *aToDo							= [ToDo toDoWithText:self.updatedToDoText
 							withDueDateAndTime:[NSDate dateWithTimeIntervalSinceNow:3600]
 								   forLogEntry:self.leSixOfDay
