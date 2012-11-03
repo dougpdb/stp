@@ -95,6 +95,8 @@
 	self.mostRecentlySavedNegativeActionTakenDescription	= (self.aNegativeActionTaken) ? self.aNegativeActionTaken.text : @"";
 	self.updatedNegativeActionTakenDescription				= self.mostRecentlySavedNegativeActionTakenDescription;
 	
+	// get the updated to
+	self.updatedToDoText									= (self.leSixOfDay.toDo) ? self.leSixOfDay.toDo.text : @"";
 	
 	// for the Console
 	[self.leSixOfDay logValuesOfLogEntry];
@@ -130,9 +132,9 @@
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 3;
+    return 4;
 }
-//
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
@@ -215,6 +217,18 @@
 		// Possibly move into the subclass as a method?
 		overviewCell.accessoryType	= UITableViewCellAccessoryDetailDisclosureButton;
 
+	}
+	if (bestWorstOrToDoCell == nil) {
+		NSArray *topLevelObjectsBest= [[NSBundle mainBundle]
+									   loadNibNamed:@"STLogEntryBestWorstOrToDoTextEntryCell"
+									   owner:self
+									   options:nil];
+		for (id currentObject in topLevelObjectsBest) {
+			if ([currentObject isKindOfClass:[UITableViewCell class]]) {
+				bestWorstOrToDoCell		= (STLogEntryBestWorstOrToDoTextEntryCell *)currentObject;
+				break;
+			}
+		}
 	}
 
 
@@ -306,7 +320,7 @@
 				NSLog(@"The tag number for the textInput is %i.", bestWorstOrToDoCell.textInput.tag);
 			
 			// set placeholder text
-			bestWorstOrToDoCell.textInput.text		= self.leSixOfDay.toDo.text;
+			bestWorstOrToDoCell.textInput.text		= self.updatedToDoText;
 			// set updated status
 			
 			return bestWorstOrToDoCell;
@@ -426,6 +440,7 @@
 			break;
 		case TAG_PREFIX_UITEXTVIEW + TO_DO_SECTION_NUMBER:
 			self.updatedToDoText						= textView.text;
+			NSLog(@"updatedToDoText, textView.text: [%@], [%@]", self.updatedToDoText, textView.text);
 			break;
 		default:
 			break;
@@ -464,10 +479,10 @@
 					   andDueDateAndTime:[NSDate dateWithTimeIntervalSinceNow:3600]];
 	} else {
 		ToDo *aToDo							= [ToDo toDoWithText:self.updatedToDoText
-							withDueDateAndTime:[NSDate dateWithTimeIntervalSinceNow:3600]
-								   forLogEntry:self.leSixOfDay
-						inManagedObjectContext:self.managedObjectContext];
-	}
+											withDueDateAndTime:[NSDate dateWithTimeIntervalSinceNow:3600]
+												   forLogEntry:self.leSixOfDay
+										inManagedObjectContext:self.managedObjectContext];
+					}
 	
 	// set updated time
 	self.leSixOfDay.timeLastUpdated	= [NSDate date];

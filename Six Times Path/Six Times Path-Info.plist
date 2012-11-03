@@ -18,7 +18,7 @@
 				<string>default72.png</string>
 				<string>default2x.png</string>
 				<string>default.png</string>
-				<string>Default@2x.png</string>
+				<string>appIcon@2x.png</string>
 			</array>
 		</dict>
 	</dict>
@@ -46,6 +46,16 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarTintParameters</key>
+	<dict>
+		<key>UINavigationBar</key>
+		<dict>
+			<key>Style</key>
+			<string>UIBarStyleBlack</string>
+			<key>Translucent</key>
+			<true/>
+		</dict>
+	</dict>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

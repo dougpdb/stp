@@ -15,6 +15,7 @@
 {
 	ToDo *aToDo		= [NSEntityDescription insertNewObjectForEntityForName:@"ToDo"
 												 inManagedObjectContext:managedObjectContext];
+	aToDo.text		= text;
 	aToDo.due		= date;
 	
 	// set relationships and reciprical relationships between core data objects
