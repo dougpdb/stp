@@ -82,6 +82,7 @@
 		91EE794415C2A3B900D43A96 /* LESixOfDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE794315C2A3B900D43A96 /* LESixOfDay.m */; };
 		91EE794A15C2A3B900D43A96 /* Advice.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE794915C2A3B900D43A96 /* Advice.m */; };
 		91EE794D15C2A3BA00D43A96 /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE794C15C2A3BA00D43A96 /* Day.m */; };
+		91F1B889164DED8C00F9B56B /* STSettingsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91F1B888164DED8C00F9B56B /* STSettingsTVC.m */; };
 		91FF4B0315C6984E008A92E0 /* SpiritualTradtion.m in Sources */ = {isa = PBXBuildFile; fileRef = 91FF4B0215C6984E008A92E0 /* SpiritualTradtion.m */; };
 		91FF4B0715C69DCA008A92E0 /* STFollowingAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91FF4B0615C69DCA008A92E0 /* STFollowingAdviceTVC.m */; };
 /* End PBXBuildFile section */
@@ -214,6 +215,8 @@
 		91EE794915C2A3B900D43A96 /* Advice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Advice.m; sourceTree = "<group>"; };
 		91EE794B15C2A3BA00D43A96 /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Day.h; sourceTree = "<group>"; };
 		91EE794C15C2A3BA00D43A96 /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Day.m; sourceTree = "<group>"; };
+		91F1B887164DED8C00F9B56B /* STSettingsTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSettingsTVC.h; sourceTree = SOURCE_ROOT; };
+		91F1B888164DED8C00F9B56B /* STSettingsTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSettingsTVC.m; sourceTree = SOURCE_ROOT; };
 		91FF4B0115C6984E008A92E0 /* SpiritualTradtion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpiritualTradtion.h; path = "Managed Object Classes/SpiritualTradtion.h"; sourceTree = "<group>"; };
 		91FF4B0215C6984E008A92E0 /* SpiritualTradtion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpiritualTradtion.m; path = "Managed Object Classes/SpiritualTradtion.m"; sourceTree = "<group>"; };
 		91FF4B0515C69DCA008A92E0 /* STFollowingAdviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFollowingAdviceTVC.h; sourceTree = "<group>"; };
@@ -291,6 +294,8 @@
 		1E5523381591E2FA009114B7 /* Six Times Path */ = {
 			isa = PBXGroup;
 			children = (
+				91F1B887164DED8C00F9B56B /* STSettingsTVC.h */,
+				91F1B888164DED8C00F9B56B /* STSettingsTVC.m */,
 				91573F081629E6E300914D3E /* UITextView+Placeholder.h */,
 				91573F091629E6E300914D3E /* UITextView+Placeholder.m */,
 				1E5523441591E2FA009114B7 /* MainStoryboard_iPhone.storyboard */,
@@ -364,8 +369,8 @@
 		1EA5067A1594895B0075BC91 /* Managed Object Classes */ = {
 			isa = PBXGroup;
 			children = (
-				91AD7C4B15E1114A0066B118 /* Categories */,
 				1E55235D1591E3A4009114B7 /* Model.xcdatamodeld */,
+				91AD7C4B15E1114A0066B118 /* Categories */,
 				917460CD15C7E4F9007199DB /* SetOfAdvice.h */,
 				917460CE15C7E4F9007199DB /* SetOfAdvice.m */,
 				91EE794B15C2A3BA00D43A96 /* Day.h */,
@@ -403,8 +408,6 @@
 			children = (
 				91BC62E915D86EC1004EC71C /* NSUserDefaults+ST.h */,
 				91BC62EA15D86EC1004EC71C /* NSUserDefaults+ST.m */,
-				91BC62E515D82B1B004EC71C /* Day+ST.h */,
-				91BC62E615D82B1B004EC71C /* Day+ST.m */,
 				1EAEC6F315C00A9200DF538B /* ActionRecord.h */,
 				1EAEC6F415C00A9200DF538B /* ActionRecord.m */,
 				1EAEC6F515C00A9200DF538B /* SetOfSpiritualAdvice.h */,
@@ -451,6 +454,8 @@
 			children = (
 				91D77D23163D5074009ADA66 /* ActionTaken+ST.h */,
 				91D77D22163D5074009ADA66 /* ActionTaken+ST.m */,
+				91BC62E515D82B1B004EC71C /* Day+ST.h */,
+				91BC62E615D82B1B004EC71C /* Day+ST.m */,
 				91AD7C4D15E111B60066B118 /* LESixOfDay+ST.h */,
 				91AD7C4E15E111B60066B118 /* LESixOfDay+ST.m */,
 				91AE375A1643D778005103DC /* ToDo+ST.h */,
@@ -625,6 +630,7 @@
 				91D77D24163D5074009ADA66 /* ActionTaken+ST.h in Sources */,
 				91AE375C1643D778005103DC /* ToDo+ST.m in Sources */,
 				911BC007164498E800586524 /* ActionTaken+ST.m in Sources */,
+				91F1B889164DED8C00F9B56B /* STSettingsTVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

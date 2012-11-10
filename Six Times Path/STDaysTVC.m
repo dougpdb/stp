@@ -12,6 +12,7 @@
 #import "NSDate+ST.h"
 #import "Advice.h"
 #import "LESixOfDay+ST.h"
+#import "STSettingsTVC.h"
 
 
 @interface STDaysTVC ()
@@ -48,7 +49,7 @@
 {
     [super viewWillAppear:animated];
     
-    self.debug  = NO; // turn on debugging
+    self.debug  = YES; // turn on debugging
 	
 	if (self.debug)
 		NSLog(@"In viewWillAppear in STDaysTVC.m and debugging is on.");
@@ -338,7 +339,12 @@
         NSLog(@"Passing selected role (%@} to STSetOfAdviceTVC.", self.selectedDay.date.date);
         dayTVC.selectedDay			= self.selectedDay;
         
-    }else {
+    } else if ([segue.identifier isEqualToString:@"settingsSegue"]) {
+		if (self.debug)
+			NSLog(@"Segue triggered: settingsSegue");
+		STSettingsTVC *settingsTVC			= segue.destinationViewController;
+		settingsTVC.managedObjectContext	= self.managedObjectContext;
+	} else  {
         NSLog(@"Unidentified segue attempted!");
     }
 }

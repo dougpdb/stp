@@ -65,6 +65,7 @@
 {
     [super viewWillAppear:animated];
     [self setupFetchedResultsController];
+	NSLog(@"Setup complete");
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
