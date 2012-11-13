@@ -2,7 +2,7 @@
 //  SetOfAdvice.m
 //  Six Times Path
 //
-//  Created by Doug on 7/31/12.
+//  Created by Doug on 11/10/12.
 //  Copyright (c) 2012 6000 American Family Dr. All rights reserved.
 //
 
@@ -16,9 +16,9 @@
 
 @dynamic isBaseInstall;
 @dynamic name;
+@dynamic orderNumberInFollowedSets;
 @dynamic overview;
 @dynamic subtitle;
-@dynamic orderNumberInFollowedSets;
 @dynamic containsAdvice;
 @dynamic practicedWithinTradition;
 @dynamic reference;

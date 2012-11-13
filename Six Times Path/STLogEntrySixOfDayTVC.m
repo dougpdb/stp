@@ -182,11 +182,13 @@
 				break;
 				
 			default:
-				return @"";
 				break;
 		}
 	}
+	return @"";
 }
+
+
 
 #pragma mark - Table view data source
 
@@ -287,8 +289,6 @@
 			bestWorstOrToDoCell.textInput.delegate		= self;
             bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
 			bestWorstOrToDoCell.textInput.tag			= TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER;
-			if (self.debug)
-				NSLog(@"The tag number for the textInput is %i.", bestWorstOrToDoCell.textInput.tag);
 
 			// set placeholder text
 			bestWorstOrToDoCell.textInput.text		= self.updatedPositiveActionTakenDescription;
@@ -301,8 +301,6 @@
 			bestWorstOrToDoCell.textInput.delegate		= self;
             bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
 			bestWorstOrToDoCell.textInput.tag			= TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER;
-			if (self.debug)
-				NSLog(@"The tag number for the textInput is %i.", bestWorstOrToDoCell.textInput.tag);
 			
 			// set placeholder text
 			bestWorstOrToDoCell.textInput.text		= self.updatedNegativeActionTakenDescription;

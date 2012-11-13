@@ -288,16 +288,24 @@
 
 #pragma mark - Notification
 - (void)addNotification:(LESixOfDay *)sixOfDayLogEntry {
+	NSDictionary *userInfo	= @{
+		@"logEntryTimeScheduled"	: sixOfDayLogEntry.timeScheduled.timeAndDate,
+		@"logEntryAdviceText"		: sixOfDayLogEntry.advice.name
+	};
+	
+	NSLog(@"userInfo dictionary, %@", userInfo);
+	
     UILocalNotification *localNotification = [[UILocalNotification alloc] init]; //Create the localNotification object
     
-	[localNotification setFireDate:sixOfDayLogEntry.timeScheduled]; //Set the date when the alert will be launched using the date adding the time the user selected on the timer
-    [localNotification setAlertAction:@"OK"]; //The button's text that launches the application and is shown in the alert
-	[localNotification setAlertBody:sixOfDayLogEntry.advice.name]; //Set the message in the notification from the textField's text
-    [localNotification setHasAction: YES]; //Set that pushing the button will launch the application
-    [localNotification setApplicationIconBadgeNumber:[[UIApplication sharedApplication] applicationIconBadgeNumber]+1]; //Set the Application Icon Badge Number of the application's icon to the current Application Icon Badge Number plus 1
+	localNotification.fireDate						= sixOfDayLogEntry.timeScheduled; //Set the date when the alert will be launched using the date adding the time the user selected on the timer
+    localNotification.alertAction					= @"OK";							//The button's text that launches the application and is shown in the alert
+	localNotification.alertBody						= sixOfDayLogEntry.advice.name;		//Set the message in the notification from the textField's text
+    localNotification.hasAction						= YES;								//Set that pushing the button will launch the application
+    localNotification.applicationIconBadgeNumber	= [[UIApplication sharedApplication] applicationIconBadgeNumber]+1; //Set the Application Icon Badge Number of the application's icon to the current Application Icon Badge Number plus 1
+	localNotification.soundName						= UILocalNotificationDefaultSoundName;
+	localNotification.userInfo						= userInfo;
 	
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification]; //Schedule the notification with the system
-	
 	//    [alertNotification setHidden:NO]; //Set the alertNotification to be shown showing the user that the application has registered the local notification
 }
 

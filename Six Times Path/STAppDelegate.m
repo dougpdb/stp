@@ -69,7 +69,7 @@
     NSLog(@"The name of a set of advice has been set: %@", setOfAdvice.name);
     
     // set up relationships
-    [setOfAdvice addPracticedWithinTraditionObject:tradition];
+    setOfAdvice.practicedWithinTradition	= tradition;
     [tradition addAdheresToSetOfAdviceObject:setOfAdvice];
 
     for (NSString *adviceName in arrayOfGuidelineNames) {
@@ -188,14 +188,19 @@
     SetOfAdvice *tenCommandments                = [self insertSetOfAdviceWithAdviceName:@"The 10 Commandments" andArrayOfGuidelineNames:adviceTenCommandmentsPositive intoTradition:christianTradition];
     SetOfAdvice *beatitudes                     = [self insertSetOfAdviceWithAdviceName:@"The Beatitudes" andArrayOfGuidelineNames:adviceBeatitudes intoTradition:christianTradition];
     
-    beatitudes.orderNumberInFollowedSets        = [NSNumber numberWithInt:2];
+	//    tenCommandments.orderNumberInFollowedSets	=
+	beatitudes.orderNumberInFollowedSets        = [NSNumber numberWithInt:2];
     
     
     // Set up Civic guidelines
-    SpiritualTradtion *civicTradition           = [self insertSpiritualTraditionWithName:@"Civic/Secular"];
+    SpiritualTradtion *civicTradition           = [self insertSpiritualTraditionWithName:@"Civic"];
     SetOfAdvice *boyScoutOathAndLaw             = [self insertSetOfAdviceWithAdviceName:@"Boy Scout Oath and Law" andArrayOfGuidelineNames:adviceBoyScoutOath intoTradition:civicTradition];
     SetOfAdvice *girlScoutOathAndPromise        = [self insertSetOfAdviceWithAdviceName:@"Girl Scout Oath and Promise" andArrayOfGuidelineNames:adviceGirlScoutOath intoTradition:civicTradition];
-    NSLog(@"Importing completed for Traditions!");
+
+//    boyScoutOathAndLaw.orderNumberInFollowedSets		= [NSNumber numberWithInt:0];
+//	girlScoutOathAndPromise.orderNumberInFollowedSets	= [NSNumber numberWithInt:0];
+	
+	NSLog(@"Importing completed for Traditions!");
 }
 
 #pragma mark - Core Data
@@ -239,21 +244,32 @@
         NSLog(@"!!!!! ~~> There's nothing in the database so defaults will be inserted");
         [self importDefaultCoreData];
     }
+	
+	
+	// Process Local Notifications
+	if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
+		UILocalNotification *incomingNotification	= [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+		incomingNotification.hasAction				= NO;									// I want to see if this will hide a notification that is in the notification pull down.
+		
+		[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];				// This should remove all badge numbers. Alternately, I can set this to #--
+		[[UIApplication sharedApplication] cancelLocalNotification:incomingNotification];	// Not sure if I need to cancel ... maybe this should only be done before the notification fires
+	}
+
 
     
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-        UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-        splitViewController.delegate = (id)navigationController.topViewController;
+        UISplitViewController *splitViewController		= (UISplitViewController *)self.window.rootViewController;
+        UINavigationController *navigationController	= [splitViewController.viewControllers lastObject];
+        splitViewController.delegate					= (id)navigationController.topViewController;
         
-        UINavigationController *masterNavigationController = [splitViewController.viewControllers objectAtIndex:0];
-        STFollowingAdviceTVC *controller = (STFollowingAdviceTVC *)masterNavigationController.topViewController;
-        controller.managedObjectContext = self.managedObjectContext;
+        UINavigationController *masterNavigationController	= [splitViewController.viewControllers objectAtIndex:0];
+        STFollowingAdviceTVC *controller					= (STFollowingAdviceTVC *)masterNavigationController.topViewController;
+        controller.managedObjectContext						= self.managedObjectContext;
     } else {
-        UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-        STFollowingAdviceTVC *controller = (STFollowingAdviceTVC *)navigationController.topViewController;
-        controller.managedObjectContext = self.managedObjectContext;
+        UINavigationController *navigationController		= (UINavigationController *)self.window.rootViewController;
+        STFollowingAdviceTVC *controller					= (STFollowingAdviceTVC *)navigationController.topViewController;
+        controller.managedObjectContext						= self.managedObjectContext;
     }
     return YES;
 }
@@ -385,5 +401,9 @@
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
+
+#pragma mark - Application State Changes
+
+
 
 @end

@@ -30,8 +30,8 @@
 	
 	// Get the waking hour and minutes for the day.
 	// TEMP
-	NSInteger wakingHour	= 6;
-	NSInteger wakingMinute	= 0;
+	NSInteger wakingHour	= 5;
+	NSInteger wakingMinute	= 45;
 	
 	// The scheduled time for each log entry is at regular intervals of 2 hours. The first log entry should come at 2 hours after waking, the 2nd 2 hours after that, and so on.
 	NSInteger hourInterval	= 2;

@@ -17,6 +17,8 @@
 
 //-(id)firstGuidelineOrderNumber;
 -(NSArray *)getTheSixSorted;
+-(NSArray *)getTheSixThatHaveUserEntriesSorted;
+-(NSArray *)getTheSixWithoutUserEntriesSorted;
 -(NSArray *)getBestOfDaySorted;
 -(NSArray *)getWorstOfDaySorted;
 

@@ -73,6 +73,20 @@
 	return [self sortByOrderNumberForType:unsortedArray];
 }
 
+-(NSArray *)getTheSixThatHaveUserEntriesSorted
+{
+	NSArray *unsortedArray	= [self.theSix allObjects];
+	NSPredicate *predicate	= [NSPredicate predicateWithFormat:@"SELF.timeFirstUpdated != nil"];	// the item has been updated at least once, thus it has a user entry
+	return [self sortByOrderNumberForType:[unsortedArray filteredArrayUsingPredicate:predicate]];
+}
+
+-(NSArray *)getTheSixWithoutUserEntriesSorted
+{
+	NSArray *unsortedArray	= [self.theSix allObjects];
+	NSPredicate *predicate	= [NSPredicate predicateWithFormat:@"SELF.timeFirstUpdated = nil"];		// the item has not been updated
+	return [self sortByOrderNumberForType:[unsortedArray filteredArrayUsingPredicate:predicate]];
+}
+
 -(NSArray *)getBestOfDaySorted
 {
     NSArray *unsortedArray	= [self.bestOfDay allObjects];

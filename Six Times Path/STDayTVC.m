@@ -81,8 +81,6 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
 	self.theSixSorted		= [self.selectedDay getTheSixSorted];
-	if (self.debug)
-		NSLog(@"The six have been sorted and set.");
 	self.specialFocus		= [self.selectedDay specialFocus];
 	if (self.debug)
 		NSLog(@"Special focus has been set.");

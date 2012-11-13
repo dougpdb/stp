@@ -59,7 +59,6 @@
 		916322E715D1262A00AA94D6 /* STDaysTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 916322E615D1262A00AA94D6 /* STDaysTVC.m */; };
 		916322EA15D126AB00AA94D6 /* STDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 916322E915D126AB00AA94D6 /* STDayTVC.m */; };
 		916322ED15D1270100AA94D6 /* STLogEntrySixOfDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 916322EC15D1270100AA94D6 /* STLogEntrySixOfDayTVC.m */; };
-		917460CF15C7E4F9007199DB /* SetOfAdvice.m in Sources */ = {isa = PBXBuildFile; fileRef = 917460CE15C7E4F9007199DB /* SetOfAdvice.m */; };
 		91AD7C4F15E111B60066B118 /* LESixOfDay+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91AD7C4E15E111B60066B118 /* LESixOfDay+ST.m */; };
 		91AE375C1643D778005103DC /* ToDo+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91AE375B1643D778005103DC /* ToDo+ST.m */; };
 		91BC62E715D82B1B004EC71C /* Day+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BC62E615D82B1B004EC71C /* Day+ST.m */; };
@@ -83,6 +82,7 @@
 		91EE794A15C2A3B900D43A96 /* Advice.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE794915C2A3B900D43A96 /* Advice.m */; };
 		91EE794D15C2A3BA00D43A96 /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE794C15C2A3BA00D43A96 /* Day.m */; };
 		91F1B889164DED8C00F9B56B /* STSettingsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91F1B888164DED8C00F9B56B /* STSettingsTVC.m */; };
+		91F1B891164EA55F00F9B56B /* SetOfAdvice.m in Sources */ = {isa = PBXBuildFile; fileRef = 91F1B890164EA55F00F9B56B /* SetOfAdvice.m */; };
 		91FF4B0315C6984E008A92E0 /* SpiritualTradtion.m in Sources */ = {isa = PBXBuildFile; fileRef = 91FF4B0215C6984E008A92E0 /* SpiritualTradtion.m */; };
 		91FF4B0715C69DCA008A92E0 /* STFollowingAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91FF4B0615C69DCA008A92E0 /* STFollowingAdviceTVC.m */; };
 /* End PBXBuildFile section */
@@ -170,8 +170,6 @@
 		916322E915D126AB00AA94D6 /* STDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STDayTVC.m; sourceTree = "<group>"; };
 		916322EB15D1270100AA94D6 /* STLogEntrySixOfDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogEntrySixOfDayTVC.h; sourceTree = "<group>"; };
 		916322EC15D1270100AA94D6 /* STLogEntrySixOfDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLogEntrySixOfDayTVC.m; sourceTree = "<group>"; };
-		917460CD15C7E4F9007199DB /* SetOfAdvice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetOfAdvice.h; path = "Managed Object Classes/SetOfAdvice.h"; sourceTree = "<group>"; };
-		917460CE15C7E4F9007199DB /* SetOfAdvice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetOfAdvice.m; path = "Managed Object Classes/SetOfAdvice.m"; sourceTree = "<group>"; };
 		91AD7C4D15E111B60066B118 /* LESixOfDay+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LESixOfDay+ST.h"; path = "Managed Object Classes/Categories/LESixOfDay+ST.h"; sourceTree = "<group>"; };
 		91AD7C4E15E111B60066B118 /* LESixOfDay+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LESixOfDay+ST.m"; path = "Managed Object Classes/Categories/LESixOfDay+ST.m"; sourceTree = "<group>"; };
 		91AE375A1643D778005103DC /* ToDo+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ToDo+ST.h"; path = "Categories/ToDo+ST.h"; sourceTree = "<group>"; };
@@ -217,6 +215,9 @@
 		91EE794C15C2A3BA00D43A96 /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Day.m; sourceTree = "<group>"; };
 		91F1B887164DED8C00F9B56B /* STSettingsTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSettingsTVC.h; sourceTree = SOURCE_ROOT; };
 		91F1B888164DED8C00F9B56B /* STSettingsTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSettingsTVC.m; sourceTree = SOURCE_ROOT; };
+		91F1B88B164E9DEC00F9B56B /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
+		91F1B88F164EA55F00F9B56B /* SetOfAdvice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetOfAdvice.h; path = "Managed Object Classes/SetOfAdvice.h"; sourceTree = "<group>"; };
+		91F1B890164EA55F00F9B56B /* SetOfAdvice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetOfAdvice.m; path = "Managed Object Classes/SetOfAdvice.m"; sourceTree = "<group>"; };
 		91FF4B0115C6984E008A92E0 /* SpiritualTradtion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpiritualTradtion.h; path = "Managed Object Classes/SpiritualTradtion.h"; sourceTree = "<group>"; };
 		91FF4B0215C6984E008A92E0 /* SpiritualTradtion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpiritualTradtion.m; path = "Managed Object Classes/SpiritualTradtion.m"; sourceTree = "<group>"; };
 		91FF4B0515C69DCA008A92E0 /* STFollowingAdviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFollowingAdviceTVC.h; sourceTree = "<group>"; };
@@ -371,8 +372,6 @@
 			children = (
 				1E55235D1591E3A4009114B7 /* Model.xcdatamodeld */,
 				91AD7C4B15E1114A0066B118 /* Categories */,
-				917460CD15C7E4F9007199DB /* SetOfAdvice.h */,
-				917460CE15C7E4F9007199DB /* SetOfAdvice.m */,
 				91EE794B15C2A3BA00D43A96 /* Day.h */,
 				91EE794C15C2A3BA00D43A96 /* Day.m */,
 				91EE794815C2A3B900D43A96 /* Advice.h */,
@@ -397,6 +396,8 @@
 				91EE792515C2A3B300D43A96 /* LEWorstOfDay.m */,
 				91EE792D15C2A3B600D43A96 /* LESpecialFocus.h */,
 				91EE792E15C2A3B600D43A96 /* LESpecialFocus.m */,
+				91F1B88F164EA55F00F9B56B /* SetOfAdvice.h */,
+				91F1B890164EA55F00F9B56B /* SetOfAdvice.m */,
 				91FF4B0115C6984E008A92E0 /* SpiritualTradtion.h */,
 				91FF4B0215C6984E008A92E0 /* SpiritualTradtion.m */,
 			);
@@ -610,7 +611,6 @@
 				91EE794D15C2A3BA00D43A96 /* Day.m in Sources */,
 				91FF4B0315C6984E008A92E0 /* SpiritualTradtion.m in Sources */,
 				91FF4B0715C69DCA008A92E0 /* STFollowingAdviceTVC.m in Sources */,
-				917460CF15C7E4F9007199DB /* SetOfAdvice.m in Sources */,
 				916322E715D1262A00AA94D6 /* STDaysTVC.m in Sources */,
 				916322EA15D126AB00AA94D6 /* STDayTVC.m in Sources */,
 				916322ED15D1270100AA94D6 /* STLogEntrySixOfDayTVC.m in Sources */,
@@ -631,6 +631,7 @@
 				91AE375C1643D778005103DC /* ToDo+ST.m in Sources */,
 				911BC007164498E800586524 /* ActionTaken+ST.m in Sources */,
 				91F1B889164DED8C00F9B56B /* STSettingsTVC.m in Sources */,
+				91F1B891164EA55F00F9B56B /* SetOfAdvice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -764,9 +765,10 @@
 			children = (
 				1EAB9F7415AC37A6001A6540 /* Model 2.xcdatamodel */,
 				1EAEC6D915BFFB9900DF538B /* Model 3.xcdatamodel */,
+				91F1B88B164E9DEC00F9B56B /* Model 4.xcdatamodel */,
 				1E55235E1591E3A4009114B7 /* Model.xcdatamodel */,
 			);
-			currentVersion = 1EAEC6D915BFFB9900DF538B /* Model 3.xcdatamodel */;
+			currentVersion = 91F1B88B164E9DEC00F9B56B /* Model 4.xcdatamodel */;
 			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
