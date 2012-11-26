@@ -132,7 +132,7 @@
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 4;
+    return 3;		// 3 for Name of Guideline and Best and Worst, 4 for To Do
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -496,5 +496,15 @@
 		NSLog(@"Error occured when attempting to save. Error and userInfo: %@, %@", error, [error userInfo]);
 	}
 	
+}
+
+#pragma mark - Using a Storyboard
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	// Get the index path of the currently selected row
+	//	NSIndexPath *indexPath	= [self.tableView indexPathForSelectedRow];
+	
+	NSLog(@"Segue identifier: %@", [segue identifier]);
 }
 @end
