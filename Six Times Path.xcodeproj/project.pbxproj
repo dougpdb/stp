@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1E1C5C59159DBBBB00EE0DEE /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C5C58159DBBBB00EE0DEE /* CoreDataTableViewController.m */; };
 		1E5523331591E2F9009114B7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E5523321591E2F9009114B7 /* UIKit.framework */; };
 		1E5523351591E2F9009114B7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E5523341591E2F9009114B7 /* Foundation.framework */; };
 		1E5523371591E2F9009114B7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E5523361591E2F9009114B7 /* CoreGraphics.framework */; };
@@ -16,36 +15,14 @@
 		1E5523431591E2FA009114B7 /* STAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5523421591E2FA009114B7 /* STAppDelegate.m */; };
 		1E5523461591E2FA009114B7 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E5523441591E2FA009114B7 /* MainStoryboard_iPhone.storyboard */; };
 		1E5523491591E2FA009114B7 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E5523471591E2FA009114B7 /* MainStoryboard_iPad.storyboard */; };
-		1E55234C1591E2FA009114B7 /* STFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E55234B1591E2FA009114B7 /* STFirstViewController.m */; };
-		1E55234E1591E2FA009114B7 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E55234D1591E2FA009114B7 /* first.png */; };
-		1E5523501591E2FA009114B7 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E55234F1591E2FA009114B7 /* first@2x.png */; };
-		1E5523531591E2FA009114B7 /* STSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5523521591E2FA009114B7 /* STSecondViewController.m */; };
-		1E5523551591E2FA009114B7 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E5523541591E2FA009114B7 /* second.png */; };
-		1E5523571591E2FA009114B7 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E5523561591E2FA009114B7 /* second@2x.png */; };
 		1E55235F1591E3A4009114B7 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1E55235D1591E3A4009114B7 /* Model.xcdatamodeld */; };
-		1E6A38D415B579BA005741FF /* STSetOfAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6A38D315B579BA005741FF /* STSetOfAdviceTVC.m */; };
 		1E6B11B0159C62980045AA42 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E6B11AF159C62980045AA42 /* CoreData.framework */; };
-		1E6B11B5159C6B610045AA42 /* STTraditionsFollowedTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6B11B4159C6B610045AA42 /* STTraditionsFollowedTVC.m */; };
-		1E6B11BE159C6C8F0045AA42 /* STAddTraditionTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6B11BD159C6C8F0045AA42 /* STAddTraditionTVC.m */; };
-		1E77921D15B9671900EC3EAF /* STSetOfAdviceDetailTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E77921C15B9671900EC3EAF /* STSetOfAdviceDetailTVC.m */; };
-		1EAA7EBA15BEAB160052F489 /* Default144.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EB915BEAB160052F489 /* Default144.png */; };
-		1EAA7EBD15BEAC320052F489 /* Default72.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EBC15BEAC320052F489 /* Default72.png */; };
+		1EAA7EBD15BEAC320052F489 /* Default144.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EBC15BEAC320052F489 /* Default144.png */; };
 		1EAA7EBF15BEAC3C0052F489 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EBE15BEAC3C0052F489 /* Default@2x.png */; };
 		1EAA7EC115BEAC790052F489 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EC015BEAC790052F489 /* Default.png */; };
 		1EAA7EC315BEB07A0052F489 /* Launch2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EC215BEB07A0052F489 /* Launch2x.png */; };
-		1EADC96915A7CB9000085BD8 /* STTraditionDetailTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EADC96815A7CB9000085BD8 /* STTraditionDetailTVC.m */; };
-		1EAEC70315C00A9300DF538B /* ActionRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAEC6F415C00A9200DF538B /* ActionRecord.m */; };
-		1EAEC70415C00A9300DF538B /* SetOfSpiritualAdvice.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAEC6F615C00A9300DF538B /* SetOfSpiritualAdvice.m */; };
-		1EAEC70515C00A9300DF538B /* SetOfSpiritualAdviceRecords.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAEC6F815C00A9300DF538B /* SetOfSpiritualAdviceRecords.m */; };
-		1EAEC70615C00A9300DF538B /* SpiritualAdvice.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAEC6FA15C00A9300DF538B /* SpiritualAdvice.m */; };
-		1EAEC70715C00A9300DF538B /* SpiritualAdviceRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAEC6FC15C00A9300DF538B /* SpiritualAdviceRecord.m */; };
-		1EAEC70815C00A9300DF538B /* STAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAEC6FE15C00A9300DF538B /* STAction.m */; };
-		1EAEC70915C00A9300DF538B /* STAdvice.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAEC70015C00A9300DF538B /* STAdvice.m */; };
-		1EAEC70A15C00A9300DF538B /* TimeAndDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAEC70215C00A9300DF538B /* TimeAndDate.m */; };
 		911251DC15FADEC2005E22FC /* Log Entry - Timed.xib in Resources */ = {isa = PBXBuildFile; fileRef = 911251DB15FADEC2005E22FC /* Log Entry - Timed.xib */; };
 		911251E015FAE9F7005E22FC /* STLogEntryTimedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 911251DF15FAE9F7005E22FC /* STLogEntryTimedCell.m */; };
-		911A6CE715D3CB7400C61BEB /* NSDate+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 911A6CE615D3CB7400C61BEB /* NSDate+ST.m */; };
-		911BC007164498E800586524 /* ActionTaken+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77D22163D5074009ADA66 /* ActionTaken+ST.m */; };
 		911BC009164499F900586524 /* appIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 911BC008164499F900586524 /* appIcon@2x.png */; };
 		911BC00B16449A6C00586524 /* appIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 911BC00A16449A6C00586524 /* appIcon@2x.png */; };
 		9122152F160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9122152E160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m */; };
@@ -54,42 +31,44 @@
 		91221537160C7EFE00BEEEE6 /* LogEntryBestOrWorstOfDayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91221536160C7EFE00BEEEE6 /* LogEntryBestOrWorstOfDayCell.xib */; };
 		91221539160C7F1800BEEEE6 /* LogEntrySpecialFocusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91221538160C7F1800BEEEE6 /* LogEntrySpecialFocusCell.xib */; };
 		9122153B160C7F3400BEEEE6 /* LogEntryAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9122153A160C7F3400BEEEE6 /* LogEntryAddCell.xib */; };
+		9137F168166A4AF900C789D2 /* LEBestOfDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F161166A4AF900C789D2 /* LEBestOfDay.m */; };
+		9137F169166A4AF900C789D2 /* LESixOfDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F163166A4AF900C789D2 /* LESixOfDay.m */; };
+		9137F16A166A4AF900C789D2 /* LESpecialFocus.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F165166A4AF900C789D2 /* LESpecialFocus.m */; };
+		9137F16B166A4AF900C789D2 /* LEWorstOfDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F167166A4AF900C789D2 /* LEWorstOfDay.m */; };
+		9137F172166A4B1C00C789D2 /* Meditation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F16D166A4B1C00C789D2 /* Meditation.m */; };
+		9137F173166A4B1C00C789D2 /* SetOfAdvice.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F16F166A4B1C00C789D2 /* SetOfAdvice.m */; };
+		9137F174166A4B1C00C789D2 /* SpiritualTradtion.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F171166A4B1C00C789D2 /* SpiritualTradtion.m */; };
+		9137F17B166A4B3B00C789D2 /* ActionTaken+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F176166A4B3B00C789D2 /* ActionTaken+ST.m */; };
+		9137F17C166A4B3B00C789D2 /* LESixOfDay+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F178166A4B3B00C789D2 /* LESixOfDay+ST.m */; };
+		9137F17D166A4B3B00C789D2 /* ToDo+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F17A166A4B3B00C789D2 /* ToDo+ST.m */; };
+		9137F180166A4B8E00C789D2 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F17F166A4B8E00C789D2 /* CoreDataTableViewController.m */; };
+		9137F187166A4BAD00C789D2 /* STAddTraditionTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F182166A4BAD00C789D2 /* STAddTraditionTVC.m */; };
+		9137F188166A4BAD00C789D2 /* STTraditionDetailTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F184166A4BAD00C789D2 /* STTraditionDetailTVC.m */; };
+		9137F189166A4BAD00C789D2 /* STTraditionsFollowedTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F186166A4BAD00C789D2 /* STTraditionsFollowedTVC.m */; };
+		9137F18C166A4BE000C789D2 /* STFollowingAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F18B166A4BE000C789D2 /* STFollowingAdviceTVC.m */; };
+		9137F191166A4BFA00C789D2 /* STSetOfAdviceDetailTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F18E166A4BFA00C789D2 /* STSetOfAdviceDetailTVC.m */; };
+		9137F192166A4BFA00C789D2 /* STSetOfAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F190166A4BFA00C789D2 /* STSetOfAdviceTVC.m */; };
+		9137F19F166A4C1400C789D2 /* STDaysTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F194166A4C1400C789D2 /* STDaysTVC.m */; };
+		9137F1A0166A4C1400C789D2 /* STDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F196166A4C1400C789D2 /* STDayTVC.m */; };
+		9137F1A1166A4C1400C789D2 /* STLogEntryBestOfDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F198166A4C1400C789D2 /* STLogEntryBestOfDayTVC.m */; };
+		9137F1A2166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F19A166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m */; };
+		9137F1A3166A4C1400C789D2 /* STLogEntrySpecialFocusTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F19C166A4C1400C789D2 /* STLogEntrySpecialFocusTVC.m */; };
+		9137F1A4166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F19E166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.m */; };
+		9137F1A7166A4C7C00C789D2 /* NSDate+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F1A6166A4C7C00C789D2 /* NSDate+ST.m */; };
+		9137F1AA166A4C9000C789D2 /* Day+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F1A9166A4C9000C789D2 /* Day+ST.m */; };
 		91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 91573F091629E6E300914D3E /* UITextView+Placeholder.m */; };
 		915E3FE315CFD37A0036C6FE /* prog journal.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 915E3FE215CFD37A0036C6FE /* prog journal.rtf */; };
-		916322E715D1262A00AA94D6 /* STDaysTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 916322E615D1262A00AA94D6 /* STDaysTVC.m */; };
-		916322EA15D126AB00AA94D6 /* STDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 916322E915D126AB00AA94D6 /* STDayTVC.m */; };
-		916322ED15D1270100AA94D6 /* STLogEntrySixOfDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 916322EC15D1270100AA94D6 /* STLogEntrySixOfDayTVC.m */; };
-		91AD7C4F15E111B60066B118 /* LESixOfDay+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91AD7C4E15E111B60066B118 /* LESixOfDay+ST.m */; };
-		91AE375C1643D778005103DC /* ToDo+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91AE375B1643D778005103DC /* ToDo+ST.m */; };
-		91BC62E715D82B1B004EC71C /* Day+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BC62E615D82B1B004EC71C /* Day+ST.m */; };
-		91BC62EB15D86EC1004EC71C /* NSUserDefaults+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BC62EA15D86EC1004EC71C /* NSUserDefaults+ST.m */; };
-		91D77D24163D5074009ADA66 /* ActionTaken+ST.h in Sources */ = {isa = PBXBuildFile; fileRef = 91D77D23163D5074009ADA66 /* ActionTaken+ST.h */; };
 		91E94AE416258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */; };
 		91E94AE816258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E94AE716258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m */; };
-		91E9D05D1619A96A00C0D021 /* STLogEntrySpecialFocusTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E9D05C1619A96A00C0D021 /* STLogEntrySpecialFocusTVC.m */; };
-		91E9D0601619A9F100C0D021 /* STLogEntryBestOfDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E9D05F1619A9F100C0D021 /* STLogEntryBestOfDayTVC.m */; };
-		91E9D0631619AD4A00C0D021 /* STLogEntryWorstOfDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E9D0621619AD4A00C0D021 /* STLogEntryWorstOfDayTVC.m */; };
-		91EE792615C2A3B300D43A96 /* LEWorstOfDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE792515C2A3B300D43A96 /* LEWorstOfDay.m */; };
-		91EE792915C2A3B600D43A96 /* LEBestOfDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE792815C2A3B600D43A96 /* LEBestOfDay.m */; };
-		91EE792C15C2A3B600D43A96 /* Meditation.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE792B15C2A3B600D43A96 /* Meditation.m */; };
-		91EE792F15C2A3B600D43A96 /* LESpecialFocus.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE792E15C2A3B600D43A96 /* LESpecialFocus.m */; };
 		91EE793515C2A3B700D43A96 /* AdviceReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793415C2A3B700D43A96 /* AdviceReference.m */; };
-		91EE793815C2A3B800D43A96 /* ToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793715C2A3B800D43A96 /* ToDo.m */; };
 		91EE793B15C2A3B800D43A96 /* Insight.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793A15C2A3B800D43A96 /* Insight.m */; };
 		91EE793E15C2A3B800D43A96 /* LogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793D15C2A3B800D43A96 /* LogEntry.m */; };
 		91EE794115C2A3B900D43A96 /* ActionTaken.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE794015C2A3B900D43A96 /* ActionTaken.m */; };
-		91EE794415C2A3B900D43A96 /* LESixOfDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE794315C2A3B900D43A96 /* LESixOfDay.m */; };
 		91EE794A15C2A3B900D43A96 /* Advice.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE794915C2A3B900D43A96 /* Advice.m */; };
 		91EE794D15C2A3BA00D43A96 /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE794C15C2A3BA00D43A96 /* Day.m */; };
-		91F1B889164DED8C00F9B56B /* STSettingsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91F1B888164DED8C00F9B56B /* STSettingsTVC.m */; };
-		91F1B891164EA55F00F9B56B /* SetOfAdvice.m in Sources */ = {isa = PBXBuildFile; fileRef = 91F1B890164EA55F00F9B56B /* SetOfAdvice.m */; };
-		91FF4B0315C6984E008A92E0 /* SpiritualTradtion.m in Sources */ = {isa = PBXBuildFile; fileRef = 91FF4B0215C6984E008A92E0 /* SpiritualTradtion.m */; };
-		91FF4B0715C69DCA008A92E0 /* STFollowingAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91FF4B0615C69DCA008A92E0 /* STFollowingAdviceTVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1E1C5C57159DBBBB00EE0DEE /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
-		1E1C5C58159DBBBB00EE0DEE /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
 		1E55232E1591E2F9009114B7 /* Six Times Path.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Six Times Path.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E5523321591E2F9009114B7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1E5523341591E2F9009114B7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -102,56 +81,19 @@
 		1E5523421591E2FA009114B7 /* STAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = STAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1E5523451591E2FA009114B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		1E5523481591E2FA009114B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		1E55234A1591E2FA009114B7 /* STFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STFirstViewController.h; sourceTree = "<group>"; };
-		1E55234B1591E2FA009114B7 /* STFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STFirstViewController.m; sourceTree = "<group>"; };
-		1E55234D1591E2FA009114B7 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
-		1E55234F1591E2FA009114B7 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
-		1E5523511591E2FA009114B7 /* STSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STSecondViewController.h; sourceTree = "<group>"; };
-		1E5523521591E2FA009114B7 /* STSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STSecondViewController.m; sourceTree = "<group>"; };
-		1E5523541591E2FA009114B7 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
-		1E5523561591E2FA009114B7 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		1E55235E1591E3A4009114B7 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		1E6A38D215B579BA005741FF /* STSetOfAdviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSetOfAdviceTVC.h; sourceTree = "<group>"; };
-		1E6A38D315B579BA005741FF /* STSetOfAdviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSetOfAdviceTVC.m; sourceTree = "<group>"; };
 		1E6B11AF159C62980045AA42 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		1E6B11B3159C6B610045AA42 /* STTraditionsFollowedTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTraditionsFollowedTVC.h; sourceTree = "<group>"; };
-		1E6B11B4159C6B610045AA42 /* STTraditionsFollowedTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTraditionsFollowedTVC.m; sourceTree = "<group>"; };
-		1E6B11BC159C6C8F0045AA42 /* STAddTraditionTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAddTraditionTVC.h; sourceTree = "<group>"; };
-		1E6B11BD159C6C8F0045AA42 /* STAddTraditionTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAddTraditionTVC.m; sourceTree = "<group>"; };
-		1E77921B15B9671900EC3EAF /* STSetOfAdviceDetailTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSetOfAdviceDetailTVC.h; sourceTree = "<group>"; };
-		1E77921C15B9671900EC3EAF /* STSetOfAdviceDetailTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSetOfAdviceDetailTVC.m; sourceTree = "<group>"; };
-		1EAA7EB915BEAB160052F489 /* Default144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default144.png; path = ../Default144.png; sourceTree = "<group>"; };
-		1EAA7EBC15BEAC320052F489 /* Default72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default72.png; path = ../Default72.png; sourceTree = "<group>"; };
-		1EAA7EBE15BEAC3C0052F489 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
-		1EAA7EC015BEAC790052F489 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
-		1EAA7EC215BEB07A0052F489 /* Launch2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Launch2x.png; sourceTree = "<group>"; };
+		1EAA7EBC15BEAC320052F489 /* Default144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default144.png; path = Images/Default144.png; sourceTree = "<group>"; };
+		1EAA7EBE15BEAC3C0052F489 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Images/Default@2x.png"; sourceTree = "<group>"; };
+		1EAA7EC015BEAC790052F489 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Images/Default.png; sourceTree = "<group>"; };
+		1EAA7EC215BEB07A0052F489 /* Launch2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Launch2x.png; path = Images/Launch2x.png; sourceTree = "<group>"; };
 		1EAB9F7415AC37A6001A6540 /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
-		1EADC96715A7CB9000085BD8 /* STTraditionDetailTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTraditionDetailTVC.h; sourceTree = "<group>"; };
-		1EADC96815A7CB9000085BD8 /* STTraditionDetailTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTraditionDetailTVC.m; sourceTree = "<group>"; };
 		1EAEC6D915BFFB9900DF538B /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
-		1EAEC6F315C00A9200DF538B /* ActionRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionRecord.h; path = "Data Classes/ActionRecord.h"; sourceTree = "<group>"; };
-		1EAEC6F415C00A9200DF538B /* ActionRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionRecord.m; path = "Data Classes/ActionRecord.m"; sourceTree = "<group>"; };
-		1EAEC6F515C00A9200DF538B /* SetOfSpiritualAdvice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetOfSpiritualAdvice.h; path = "Data Classes/SetOfSpiritualAdvice.h"; sourceTree = "<group>"; };
-		1EAEC6F615C00A9300DF538B /* SetOfSpiritualAdvice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetOfSpiritualAdvice.m; path = "Data Classes/SetOfSpiritualAdvice.m"; sourceTree = "<group>"; };
-		1EAEC6F715C00A9300DF538B /* SetOfSpiritualAdviceRecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetOfSpiritualAdviceRecords.h; path = "Data Classes/SetOfSpiritualAdviceRecords.h"; sourceTree = "<group>"; };
-		1EAEC6F815C00A9300DF538B /* SetOfSpiritualAdviceRecords.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetOfSpiritualAdviceRecords.m; path = "Data Classes/SetOfSpiritualAdviceRecords.m"; sourceTree = "<group>"; };
-		1EAEC6F915C00A9300DF538B /* SpiritualAdvice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpiritualAdvice.h; path = "Data Classes/SpiritualAdvice.h"; sourceTree = "<group>"; };
-		1EAEC6FA15C00A9300DF538B /* SpiritualAdvice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpiritualAdvice.m; path = "Data Classes/SpiritualAdvice.m"; sourceTree = "<group>"; };
-		1EAEC6FB15C00A9300DF538B /* SpiritualAdviceRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpiritualAdviceRecord.h; path = "Data Classes/SpiritualAdviceRecord.h"; sourceTree = "<group>"; };
-		1EAEC6FC15C00A9300DF538B /* SpiritualAdviceRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpiritualAdviceRecord.m; path = "Data Classes/SpiritualAdviceRecord.m"; sourceTree = "<group>"; };
-		1EAEC6FD15C00A9300DF538B /* STAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STAction.h; path = "Data Classes/STAction.h"; sourceTree = "<group>"; };
-		1EAEC6FE15C00A9300DF538B /* STAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STAction.m; path = "Data Classes/STAction.m"; sourceTree = "<group>"; };
-		1EAEC6FF15C00A9300DF538B /* STAdvice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STAdvice.h; path = "Data Classes/STAdvice.h"; sourceTree = "<group>"; };
-		1EAEC70015C00A9300DF538B /* STAdvice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STAdvice.m; path = "Data Classes/STAdvice.m"; sourceTree = "<group>"; };
-		1EAEC70115C00A9300DF538B /* TimeAndDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeAndDate.h; path = "Data Classes/TimeAndDate.h"; sourceTree = "<group>"; };
-		1EAEC70215C00A9300DF538B /* TimeAndDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeAndDate.m; path = "Data Classes/TimeAndDate.m"; sourceTree = "<group>"; };
 		911251DB15FADEC2005E22FC /* Log Entry - Timed.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Log Entry - Timed.xib"; path = "Custom Cells/Log Entry - Timed.xib"; sourceTree = "<group>"; };
 		911251DE15FAE9F7005E22FC /* STLogEntryTimedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntryTimedCell.h; path = "Custom Cells/STLogEntryTimedCell.h"; sourceTree = "<group>"; };
 		911251DF15FAE9F7005E22FC /* STLogEntryTimedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntryTimedCell.m; path = "Custom Cells/STLogEntryTimedCell.m"; sourceTree = "<group>"; };
-		911A6CE515D3CB7400C61BEB /* NSDate+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+ST.h"; path = "Categories/NSDate+ST.h"; sourceTree = "<group>"; };
-		911A6CE615D3CB7400C61BEB /* NSDate+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+ST.m"; path = "Categories/NSDate+ST.m"; sourceTree = "<group>"; };
-		911BC008164499F900586524 /* appIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appIcon@2x.png"; sourceTree = "<group>"; };
-		911BC00A16449A6C00586524 /* appIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "appIcon@2x.png"; path = "../appIcon@2x.png"; sourceTree = "<group>"; };
+		911BC008164499F900586524 /* appIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "appIcon@2x.png"; path = "Images/appIcon@2x.png"; sourceTree = "<group>"; };
+		911BC00A16449A6C00586524 /* appIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "appIcon@2x.png"; path = "Images/appIcon@2x.png"; sourceTree = "<group>"; };
 		9122152D160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntryBestOrWorstOfDayCell.h; path = "Custom Cells/STLogEntryBestOrWorstOfDayCell.h"; sourceTree = "<group>"; };
 		9122152E160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntryBestOrWorstOfDayCell.m; path = "Custom Cells/STLogEntryBestOrWorstOfDayCell.m"; sourceTree = "<group>"; };
 		91221530160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntrySpecialFocusCell.h; path = "Custom Cells/STLogEntrySpecialFocusCell.h"; sourceTree = "<group>"; };
@@ -161,67 +103,75 @@
 		91221536160C7EFE00BEEEE6 /* LogEntryBestOrWorstOfDayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogEntryBestOrWorstOfDayCell.xib; path = "Custom Cells/LogEntryBestOrWorstOfDayCell.xib"; sourceTree = "<group>"; };
 		91221538160C7F1800BEEEE6 /* LogEntrySpecialFocusCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogEntrySpecialFocusCell.xib; path = "Custom Cells/LogEntrySpecialFocusCell.xib"; sourceTree = "<group>"; };
 		9122153A160C7F3400BEEEE6 /* LogEntryAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogEntryAddCell.xib; path = "Custom Cells/LogEntryAddCell.xib"; sourceTree = "<group>"; };
+		9137F160166A4AF900C789D2 /* LEBestOfDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEBestOfDay.h; path = "Data Classes/Managed Object Classes/LEBestOfDay.h"; sourceTree = "<group>"; };
+		9137F161166A4AF900C789D2 /* LEBestOfDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEBestOfDay.m; path = "Data Classes/Managed Object Classes/LEBestOfDay.m"; sourceTree = "<group>"; };
+		9137F162166A4AF900C789D2 /* LESixOfDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LESixOfDay.h; path = "Data Classes/Managed Object Classes/LESixOfDay.h"; sourceTree = "<group>"; };
+		9137F163166A4AF900C789D2 /* LESixOfDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LESixOfDay.m; path = "Data Classes/Managed Object Classes/LESixOfDay.m"; sourceTree = "<group>"; };
+		9137F164166A4AF900C789D2 /* LESpecialFocus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LESpecialFocus.h; path = "Data Classes/Managed Object Classes/LESpecialFocus.h"; sourceTree = "<group>"; };
+		9137F165166A4AF900C789D2 /* LESpecialFocus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LESpecialFocus.m; path = "Data Classes/Managed Object Classes/LESpecialFocus.m"; sourceTree = "<group>"; };
+		9137F166166A4AF900C789D2 /* LEWorstOfDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEWorstOfDay.h; path = "Data Classes/Managed Object Classes/LEWorstOfDay.h"; sourceTree = "<group>"; };
+		9137F167166A4AF900C789D2 /* LEWorstOfDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEWorstOfDay.m; path = "Data Classes/Managed Object Classes/LEWorstOfDay.m"; sourceTree = "<group>"; };
+		9137F16C166A4B1C00C789D2 /* Meditation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Meditation.h; path = "Data Classes/Managed Object Classes/Meditation.h"; sourceTree = "<group>"; };
+		9137F16D166A4B1C00C789D2 /* Meditation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Meditation.m; path = "Data Classes/Managed Object Classes/Meditation.m"; sourceTree = "<group>"; };
+		9137F16E166A4B1C00C789D2 /* SetOfAdvice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetOfAdvice.h; path = "Data Classes/Managed Object Classes/SetOfAdvice.h"; sourceTree = "<group>"; };
+		9137F16F166A4B1C00C789D2 /* SetOfAdvice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetOfAdvice.m; path = "Data Classes/Managed Object Classes/SetOfAdvice.m"; sourceTree = "<group>"; };
+		9137F170166A4B1C00C789D2 /* SpiritualTradtion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpiritualTradtion.h; path = "Data Classes/Managed Object Classes/SpiritualTradtion.h"; sourceTree = "<group>"; };
+		9137F171166A4B1C00C789D2 /* SpiritualTradtion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpiritualTradtion.m; path = "Data Classes/Managed Object Classes/SpiritualTradtion.m"; sourceTree = "<group>"; };
+		9137F175166A4B3B00C789D2 /* ActionTaken+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ActionTaken+ST.h"; path = "Data Classes/Managed Object Classes/Categories/ActionTaken+ST.h"; sourceTree = "<group>"; };
+		9137F176166A4B3B00C789D2 /* ActionTaken+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ActionTaken+ST.m"; path = "Data Classes/Managed Object Classes/Categories/ActionTaken+ST.m"; sourceTree = "<group>"; };
+		9137F177166A4B3B00C789D2 /* LESixOfDay+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LESixOfDay+ST.h"; path = "Data Classes/Managed Object Classes/Categories/LESixOfDay+ST.h"; sourceTree = "<group>"; };
+		9137F178166A4B3B00C789D2 /* LESixOfDay+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LESixOfDay+ST.m"; path = "Data Classes/Managed Object Classes/Categories/LESixOfDay+ST.m"; sourceTree = "<group>"; };
+		9137F179166A4B3B00C789D2 /* ToDo+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ToDo+ST.h"; path = "Data Classes/Managed Object Classes/Categories/ToDo+ST.h"; sourceTree = "<group>"; };
+		9137F17A166A4B3B00C789D2 /* ToDo+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ToDo+ST.m"; path = "Data Classes/Managed Object Classes/Categories/ToDo+ST.m"; sourceTree = "<group>"; };
+		9137F17E166A4B8E00C789D2 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataTableViewController.h; path = "Six Times Path/View Controllers/CoreDataTableViewController.h"; sourceTree = "<group>"; };
+		9137F17F166A4B8E00C789D2 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataTableViewController.m; path = "Six Times Path/View Controllers/CoreDataTableViewController.m"; sourceTree = "<group>"; };
+		9137F181166A4BAD00C789D2 /* STAddTraditionTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STAddTraditionTVC.h; path = "View Controllers/STAddTraditionTVC.h"; sourceTree = "<group>"; };
+		9137F182166A4BAD00C789D2 /* STAddTraditionTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STAddTraditionTVC.m; path = "View Controllers/STAddTraditionTVC.m"; sourceTree = "<group>"; };
+		9137F183166A4BAD00C789D2 /* STTraditionDetailTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTraditionDetailTVC.h; path = "View Controllers/STTraditionDetailTVC.h"; sourceTree = "<group>"; };
+		9137F184166A4BAD00C789D2 /* STTraditionDetailTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTraditionDetailTVC.m; path = "View Controllers/STTraditionDetailTVC.m"; sourceTree = "<group>"; };
+		9137F185166A4BAD00C789D2 /* STTraditionsFollowedTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTraditionsFollowedTVC.h; path = "View Controllers/STTraditionsFollowedTVC.h"; sourceTree = "<group>"; };
+		9137F186166A4BAD00C789D2 /* STTraditionsFollowedTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTraditionsFollowedTVC.m; path = "View Controllers/STTraditionsFollowedTVC.m"; sourceTree = "<group>"; };
+		9137F18A166A4BE000C789D2 /* STFollowingAdviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STFollowingAdviceTVC.h; path = "View Controllers/STFollowingAdviceTVC.h"; sourceTree = "<group>"; };
+		9137F18B166A4BE000C789D2 /* STFollowingAdviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STFollowingAdviceTVC.m; path = "View Controllers/STFollowingAdviceTVC.m"; sourceTree = "<group>"; };
+		9137F18D166A4BFA00C789D2 /* STSetOfAdviceDetailTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STSetOfAdviceDetailTVC.h; path = "View Controllers/STSetOfAdviceDetailTVC.h"; sourceTree = "<group>"; };
+		9137F18E166A4BFA00C789D2 /* STSetOfAdviceDetailTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STSetOfAdviceDetailTVC.m; path = "View Controllers/STSetOfAdviceDetailTVC.m"; sourceTree = "<group>"; };
+		9137F18F166A4BFA00C789D2 /* STSetOfAdviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STSetOfAdviceTVC.h; path = "View Controllers/STSetOfAdviceTVC.h"; sourceTree = "<group>"; };
+		9137F190166A4BFA00C789D2 /* STSetOfAdviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STSetOfAdviceTVC.m; path = "View Controllers/STSetOfAdviceTVC.m"; sourceTree = "<group>"; };
+		9137F193166A4C1400C789D2 /* STDaysTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STDaysTVC.h; path = "View Controllers/STDaysTVC.h"; sourceTree = "<group>"; };
+		9137F194166A4C1400C789D2 /* STDaysTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STDaysTVC.m; path = "View Controllers/STDaysTVC.m"; sourceTree = "<group>"; };
+		9137F195166A4C1400C789D2 /* STDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STDayTVC.h; path = "View Controllers/STDayTVC.h"; sourceTree = "<group>"; };
+		9137F196166A4C1400C789D2 /* STDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STDayTVC.m; path = "View Controllers/STDayTVC.m"; sourceTree = "<group>"; };
+		9137F197166A4C1400C789D2 /* STLogEntryBestOfDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntryBestOfDayTVC.h; path = "View Controllers/STLogEntryBestOfDayTVC.h"; sourceTree = "<group>"; };
+		9137F198166A4C1400C789D2 /* STLogEntryBestOfDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntryBestOfDayTVC.m; path = "View Controllers/STLogEntryBestOfDayTVC.m"; sourceTree = "<group>"; };
+		9137F199166A4C1400C789D2 /* STLogEntrySixOfDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntrySixOfDayTVC.h; path = "View Controllers/STLogEntrySixOfDayTVC.h"; sourceTree = "<group>"; };
+		9137F19A166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntrySixOfDayTVC.m; path = "View Controllers/STLogEntrySixOfDayTVC.m"; sourceTree = "<group>"; };
+		9137F19B166A4C1400C789D2 /* STLogEntrySpecialFocusTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntrySpecialFocusTVC.h; path = "View Controllers/STLogEntrySpecialFocusTVC.h"; sourceTree = "<group>"; };
+		9137F19C166A4C1400C789D2 /* STLogEntrySpecialFocusTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntrySpecialFocusTVC.m; path = "View Controllers/STLogEntrySpecialFocusTVC.m"; sourceTree = "<group>"; };
+		9137F19D166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntryWorstOfDayTVC.h; path = "View Controllers/STLogEntryWorstOfDayTVC.h"; sourceTree = "<group>"; };
+		9137F19E166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntryWorstOfDayTVC.m; path = "View Controllers/STLogEntryWorstOfDayTVC.m"; sourceTree = "<group>"; };
+		9137F1A5166A4C7C00C789D2 /* NSDate+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+ST.h"; path = "Data Classes/Categories/NSDate+ST.h"; sourceTree = SOURCE_ROOT; };
+		9137F1A6166A4C7C00C789D2 /* NSDate+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+ST.m"; path = "Data Classes/Categories/NSDate+ST.m"; sourceTree = SOURCE_ROOT; };
+		9137F1A8166A4C9000C789D2 /* Day+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Day+ST.h"; path = "Data Classes/Managed Object Classes/Categories/Day+ST.h"; sourceTree = "<group>"; };
+		9137F1A9166A4C9000C789D2 /* Day+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Day+ST.m"; path = "Data Classes/Managed Object Classes/Categories/Day+ST.m"; sourceTree = "<group>"; };
 		91573F081629E6E300914D3E /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		91573F091629E6E300914D3E /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		915E3FE215CFD37A0036C6FE /* prog journal.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "prog journal.rtf"; sourceTree = SOURCE_ROOT; };
-		916322E515D1262A00AA94D6 /* STDaysTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STDaysTVC.h; sourceTree = "<group>"; };
-		916322E615D1262A00AA94D6 /* STDaysTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STDaysTVC.m; sourceTree = "<group>"; };
-		916322E815D126AB00AA94D6 /* STDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STDayTVC.h; sourceTree = "<group>"; };
-		916322E915D126AB00AA94D6 /* STDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STDayTVC.m; sourceTree = "<group>"; };
-		916322EB15D1270100AA94D6 /* STLogEntrySixOfDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogEntrySixOfDayTVC.h; sourceTree = "<group>"; };
-		916322EC15D1270100AA94D6 /* STLogEntrySixOfDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLogEntrySixOfDayTVC.m; sourceTree = "<group>"; };
-		91AD7C4D15E111B60066B118 /* LESixOfDay+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LESixOfDay+ST.h"; path = "Managed Object Classes/Categories/LESixOfDay+ST.h"; sourceTree = "<group>"; };
-		91AD7C4E15E111B60066B118 /* LESixOfDay+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LESixOfDay+ST.m"; path = "Managed Object Classes/Categories/LESixOfDay+ST.m"; sourceTree = "<group>"; };
-		91AE375A1643D778005103DC /* ToDo+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ToDo+ST.h"; path = "Categories/ToDo+ST.h"; sourceTree = "<group>"; };
-		91AE375B1643D778005103DC /* ToDo+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ToDo+ST.m"; path = "Categories/ToDo+ST.m"; sourceTree = "<group>"; };
-		91BC62E515D82B1B004EC71C /* Day+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Day+ST.h"; path = "Data Classes/Day+ST.h"; sourceTree = "<group>"; };
-		91BC62E615D82B1B004EC71C /* Day+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Day+ST.m"; path = "Data Classes/Day+ST.m"; sourceTree = "<group>"; };
-		91BC62E915D86EC1004EC71C /* NSUserDefaults+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+ST.h"; sourceTree = "<group>"; };
-		91BC62EA15D86EC1004EC71C /* NSUserDefaults+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+ST.m"; sourceTree = "<group>"; };
-		91D77D22163D5074009ADA66 /* ActionTaken+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ActionTaken+ST.m"; path = "Managed Object Classes/Categories/ActionTaken+ST.m"; sourceTree = "<group>"; };
-		91D77D23163D5074009ADA66 /* ActionTaken+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ActionTaken+ST.h"; path = "Managed Object Classes/Categories/ActionTaken+ST.h"; sourceTree = "<group>"; };
 		91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = STLogEntryBestWorstOrToDoTextEntryCell.xib; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.xib"; sourceTree = "<group>"; };
 		91E94AE616258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntryBestWorstOrToDoTextEntryCell.h; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.h"; sourceTree = "<group>"; };
 		91E94AE716258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntryBestWorstOrToDoTextEntryCell.m; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.m"; sourceTree = "<group>"; };
-		91E9D05B1619A96A00C0D021 /* STLogEntrySpecialFocusTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogEntrySpecialFocusTVC.h; sourceTree = "<group>"; };
-		91E9D05C1619A96A00C0D021 /* STLogEntrySpecialFocusTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLogEntrySpecialFocusTVC.m; sourceTree = "<group>"; };
-		91E9D05E1619A9F100C0D021 /* STLogEntryBestOfDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogEntryBestOfDayTVC.h; sourceTree = "<group>"; };
-		91E9D05F1619A9F100C0D021 /* STLogEntryBestOfDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLogEntryBestOfDayTVC.m; sourceTree = "<group>"; };
-		91E9D0611619AD4A00C0D021 /* STLogEntryWorstOfDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogEntryWorstOfDayTVC.h; sourceTree = "<group>"; };
-		91E9D0621619AD4A00C0D021 /* STLogEntryWorstOfDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLogEntryWorstOfDayTVC.m; sourceTree = "<group>"; };
-		91EE792415C2A3B300D43A96 /* LEWorstOfDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEWorstOfDay.h; sourceTree = "<group>"; };
-		91EE792515C2A3B300D43A96 /* LEWorstOfDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEWorstOfDay.m; sourceTree = "<group>"; };
-		91EE792715C2A3B600D43A96 /* LEBestOfDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEBestOfDay.h; sourceTree = "<group>"; };
-		91EE792815C2A3B600D43A96 /* LEBestOfDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEBestOfDay.m; sourceTree = "<group>"; };
-		91EE792A15C2A3B600D43A96 /* Meditation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meditation.h; sourceTree = "<group>"; };
-		91EE792B15C2A3B600D43A96 /* Meditation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meditation.m; sourceTree = "<group>"; };
-		91EE792D15C2A3B600D43A96 /* LESpecialFocus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LESpecialFocus.h; sourceTree = "<group>"; };
-		91EE792E15C2A3B600D43A96 /* LESpecialFocus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LESpecialFocus.m; sourceTree = "<group>"; };
-		91EE793315C2A3B700D43A96 /* AdviceReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdviceReference.h; sourceTree = "<group>"; };
-		91EE793415C2A3B700D43A96 /* AdviceReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdviceReference.m; sourceTree = "<group>"; };
-		91EE793615C2A3B800D43A96 /* ToDo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDo.h; sourceTree = "<group>"; };
-		91EE793715C2A3B800D43A96 /* ToDo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDo.m; sourceTree = "<group>"; };
-		91EE793915C2A3B800D43A96 /* Insight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Insight.h; sourceTree = "<group>"; };
-		91EE793A15C2A3B800D43A96 /* Insight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Insight.m; sourceTree = "<group>"; };
-		91EE793C15C2A3B800D43A96 /* LogEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogEntry.h; sourceTree = "<group>"; };
-		91EE793D15C2A3B800D43A96 /* LogEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogEntry.m; sourceTree = "<group>"; };
-		91EE793F15C2A3B900D43A96 /* ActionTaken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionTaken.h; sourceTree = "<group>"; };
-		91EE794015C2A3B900D43A96 /* ActionTaken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionTaken.m; sourceTree = "<group>"; };
-		91EE794215C2A3B900D43A96 /* LESixOfDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LESixOfDay.h; sourceTree = "<group>"; };
-		91EE794315C2A3B900D43A96 /* LESixOfDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LESixOfDay.m; sourceTree = "<group>"; };
-		91EE794815C2A3B900D43A96 /* Advice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Advice.h; sourceTree = "<group>"; };
-		91EE794915C2A3B900D43A96 /* Advice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Advice.m; sourceTree = "<group>"; };
-		91EE794B15C2A3BA00D43A96 /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Day.h; sourceTree = "<group>"; };
-		91EE794C15C2A3BA00D43A96 /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Day.m; sourceTree = "<group>"; };
-		91F1B887164DED8C00F9B56B /* STSettingsTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSettingsTVC.h; sourceTree = SOURCE_ROOT; };
-		91F1B888164DED8C00F9B56B /* STSettingsTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSettingsTVC.m; sourceTree = SOURCE_ROOT; };
-		91F1B88B164E9DEC00F9B56B /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
-		91F1B88F164EA55F00F9B56B /* SetOfAdvice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetOfAdvice.h; path = "Managed Object Classes/SetOfAdvice.h"; sourceTree = "<group>"; };
-		91F1B890164EA55F00F9B56B /* SetOfAdvice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetOfAdvice.m; path = "Managed Object Classes/SetOfAdvice.m"; sourceTree = "<group>"; };
-		91FF4B0115C6984E008A92E0 /* SpiritualTradtion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpiritualTradtion.h; path = "Managed Object Classes/SpiritualTradtion.h"; sourceTree = "<group>"; };
-		91FF4B0215C6984E008A92E0 /* SpiritualTradtion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpiritualTradtion.m; path = "Managed Object Classes/SpiritualTradtion.m"; sourceTree = "<group>"; };
-		91FF4B0515C69DCA008A92E0 /* STFollowingAdviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFollowingAdviceTVC.h; sourceTree = "<group>"; };
-		91FF4B0615C69DCA008A92E0 /* STFollowingAdviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFollowingAdviceTVC.m; sourceTree = "<group>"; };
+		91EE793315C2A3B700D43A96 /* AdviceReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdviceReference.h; path = "Data Classes/Managed Object Classes/AdviceReference.h"; sourceTree = "<group>"; };
+		91EE793415C2A3B700D43A96 /* AdviceReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdviceReference.m; path = "Data Classes/Managed Object Classes/AdviceReference.m"; sourceTree = "<group>"; };
+		91EE793915C2A3B800D43A96 /* Insight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Insight.h; path = "Data Classes/Managed Object Classes/Insight.h"; sourceTree = "<group>"; };
+		91EE793A15C2A3B800D43A96 /* Insight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Insight.m; path = "Data Classes/Managed Object Classes/Insight.m"; sourceTree = "<group>"; };
+		91EE793C15C2A3B800D43A96 /* LogEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogEntry.h; path = "Data Classes/Managed Object Classes/LogEntry.h"; sourceTree = "<group>"; };
+		91EE793D15C2A3B800D43A96 /* LogEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogEntry.m; path = "Data Classes/Managed Object Classes/LogEntry.m"; sourceTree = "<group>"; };
+		91EE793F15C2A3B900D43A96 /* ActionTaken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionTaken.h; path = "Data Classes/Managed Object Classes/ActionTaken.h"; sourceTree = "<group>"; };
+		91EE794015C2A3B900D43A96 /* ActionTaken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionTaken.m; path = "Data Classes/Managed Object Classes/ActionTaken.m"; sourceTree = "<group>"; };
+		91EE794815C2A3B900D43A96 /* Advice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Advice.h; path = "Data Classes/Managed Object Classes/Advice.h"; sourceTree = "<group>"; };
+		91EE794915C2A3B900D43A96 /* Advice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Advice.m; path = "Data Classes/Managed Object Classes/Advice.m"; sourceTree = "<group>"; };
+		91EE794B15C2A3BA00D43A96 /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Day.h; path = "Data Classes/Managed Object Classes/Day.h"; sourceTree = "<group>"; };
+		91EE794C15C2A3BA00D43A96 /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Day.m; path = "Data Classes/Managed Object Classes/Day.m"; sourceTree = "<group>"; };
+		91F1B88B164E9DEC00F9B56B /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,12 +192,12 @@
 		1E0BEE0615AEDE6F002E19F4 /* Tradition TVCs */ = {
 			isa = PBXGroup;
 			children = (
-				1E6B11B3159C6B610045AA42 /* STTraditionsFollowedTVC.h */,
-				1E6B11B4159C6B610045AA42 /* STTraditionsFollowedTVC.m */,
-				1E6B11BC159C6C8F0045AA42 /* STAddTraditionTVC.h */,
-				1E6B11BD159C6C8F0045AA42 /* STAddTraditionTVC.m */,
-				1EADC96715A7CB9000085BD8 /* STTraditionDetailTVC.h */,
-				1EADC96815A7CB9000085BD8 /* STTraditionDetailTVC.m */,
+				9137F181166A4BAD00C789D2 /* STAddTraditionTVC.h */,
+				9137F182166A4BAD00C789D2 /* STAddTraditionTVC.m */,
+				9137F183166A4BAD00C789D2 /* STTraditionDetailTVC.h */,
+				9137F184166A4BAD00C789D2 /* STTraditionDetailTVC.m */,
+				9137F185166A4BAD00C789D2 /* STTraditionsFollowedTVC.h */,
+				9137F186166A4BAD00C789D2 /* STTraditionsFollowedTVC.m */,
 			);
 			name = "Tradition TVCs";
 			sourceTree = "<group>";
@@ -255,18 +205,16 @@
 		1E1C5C52159DBA0700EE0DEE /* Haggerty CDTVC */ = {
 			isa = PBXGroup;
 			children = (
-				1E1C5C57159DBBBB00EE0DEE /* CoreDataTableViewController.h */,
-				1E1C5C58159DBBBB00EE0DEE /* CoreDataTableViewController.m */,
+				9137F17E166A4B8E00C789D2 /* CoreDataTableViewController.h */,
+				9137F17F166A4B8E00C789D2 /* CoreDataTableViewController.m */,
 			);
 			name = "Haggerty CDTVC";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		1E5523231591E2F9009114B7 = {
 			isa = PBXGroup;
 			children = (
-				1EAEC6DA15C007CD00DF538B /* Data Classes */,
-				1EA5067A1594895B0075BC91 /* Managed Object Classes */,
-				1E1C5C52159DBA0700EE0DEE /* Haggerty CDTVC */,
 				1E5523381591E2FA009114B7 /* Six Times Path */,
 				1E5523311591E2F9009114B7 /* Frameworks */,
 				1E55232F1591E2F9009114B7 /* Products */,
@@ -295,22 +243,15 @@
 		1E5523381591E2FA009114B7 /* Six Times Path */ = {
 			isa = PBXGroup;
 			children = (
-				91F1B887164DED8C00F9B56B /* STSettingsTVC.h */,
-				91F1B888164DED8C00F9B56B /* STSettingsTVC.m */,
-				91573F081629E6E300914D3E /* UITextView+Placeholder.h */,
-				91573F091629E6E300914D3E /* UITextView+Placeholder.m */,
-				1E5523441591E2FA009114B7 /* MainStoryboard_iPhone.storyboard */,
-				1E5523471591E2FA009114B7 /* MainStoryboard_iPad.storyboard */,
 				1E5523411591E2FA009114B7 /* STAppDelegate.h */,
 				1E5523421591E2FA009114B7 /* STAppDelegate.m */,
-				1E6B11BF159C70670045AA42 /* Tab View Controllers */,
-				1E0BEE0615AEDE6F002E19F4 /* Tradition TVCs */,
-				1E6A38D015B5794B005741FF /* Advice TVCs */,
-				91FF4B0415C69D63008A92E0 /* Advice Followed TVCs */,
-				916322E315D1257800AA94D6 /* Entry TVCs */,
-				91EEA323160E8E0A004EB4A5 /* Table Cells */,
 				1E6B11B2159C6A600045AA42 /* Images */,
+				9137F15F166A45F300C789D2 /* Storyboards and Xibs with VCs */,
+				9137F15D166A456800C789D2 /* Data Classes */,
+				9137F15E166A45A800C789D2 /* View Controllers */,
 				1E5523391591E2FA009114B7 /* Supporting Files */,
+				91573F081629E6E300914D3E /* UITextView+Placeholder.h */,
+				91573F091629E6E300914D3E /* UITextView+Placeholder.m */,
 			);
 			path = "Six Times Path";
 			sourceTree = "<group>";
@@ -330,10 +271,10 @@
 		1E6A38D015B5794B005741FF /* Advice TVCs */ = {
 			isa = PBXGroup;
 			children = (
-				1E6A38D215B579BA005741FF /* STSetOfAdviceTVC.h */,
-				1E6A38D315B579BA005741FF /* STSetOfAdviceTVC.m */,
-				1E77921B15B9671900EC3EAF /* STSetOfAdviceDetailTVC.h */,
-				1E77921C15B9671900EC3EAF /* STSetOfAdviceDetailTVC.m */,
+				9137F18D166A4BFA00C789D2 /* STSetOfAdviceDetailTVC.h */,
+				9137F18E166A4BFA00C789D2 /* STSetOfAdviceDetailTVC.m */,
+				9137F18F166A4BFA00C789D2 /* STSetOfAdviceTVC.h */,
+				9137F190166A4BFA00C789D2 /* STSetOfAdviceTVC.m */,
 			);
 			name = "Advice TVCs";
 			sourceTree = "<group>";
@@ -345,26 +286,10 @@
 				1EAA7EC015BEAC790052F489 /* Default.png */,
 				1EAA7EBE15BEAC3C0052F489 /* Default@2x.png */,
 				911BC008164499F900586524 /* appIcon@2x.png */,
-				1EAA7EBC15BEAC320052F489 /* Default72.png */,
-				1EAA7EB915BEAB160052F489 /* Default144.png */,
+				1EAA7EBC15BEAC320052F489 /* Default144.png */,
 				1EAA7EC215BEB07A0052F489 /* Launch2x.png */,
-				1E55234D1591E2FA009114B7 /* first.png */,
-				1E55234F1591E2FA009114B7 /* first@2x.png */,
-				1E5523541591E2FA009114B7 /* second.png */,
-				1E5523561591E2FA009114B7 /* second@2x.png */,
 			);
 			name = Images;
-			sourceTree = "<group>";
-		};
-		1E6B11BF159C70670045AA42 /* Tab View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				1E55234A1591E2FA009114B7 /* STFirstViewController.h */,
-				1E55234B1591E2FA009114B7 /* STFirstViewController.m */,
-				1E5523511591E2FA009114B7 /* STSecondViewController.h */,
-				1E5523521591E2FA009114B7 /* STSecondViewController.m */,
-			);
-			name = "Tab View Controllers";
 			sourceTree = "<group>";
 		};
 		1EA5067A1594895B0075BC91 /* Managed Object Classes */ = {
@@ -372,80 +297,84 @@
 			children = (
 				1E55235D1591E3A4009114B7 /* Model.xcdatamodeld */,
 				91AD7C4B15E1114A0066B118 /* Categories */,
-				91EE794B15C2A3BA00D43A96 /* Day.h */,
-				91EE794C15C2A3BA00D43A96 /* Day.m */,
+				91EE793F15C2A3B900D43A96 /* ActionTaken.h */,
+				91EE794015C2A3B900D43A96 /* ActionTaken.m */,
 				91EE794815C2A3B900D43A96 /* Advice.h */,
 				91EE794915C2A3B900D43A96 /* Advice.m */,
 				91EE793315C2A3B700D43A96 /* AdviceReference.h */,
 				91EE793415C2A3B700D43A96 /* AdviceReference.m */,
-				91EE793F15C2A3B900D43A96 /* ActionTaken.h */,
-				91EE794015C2A3B900D43A96 /* ActionTaken.m */,
+				91EE794B15C2A3BA00D43A96 /* Day.h */,
+				91EE794C15C2A3BA00D43A96 /* Day.m */,
 				91EE793915C2A3B800D43A96 /* Insight.h */,
 				91EE793A15C2A3B800D43A96 /* Insight.m */,
-				91EE793615C2A3B800D43A96 /* ToDo.h */,
-				91EE793715C2A3B800D43A96 /* ToDo.m */,
-				91EE792A15C2A3B600D43A96 /* Meditation.h */,
-				91EE792B15C2A3B600D43A96 /* Meditation.m */,
 				91EE793C15C2A3B800D43A96 /* LogEntry.h */,
 				91EE793D15C2A3B800D43A96 /* LogEntry.m */,
-				91EE794215C2A3B900D43A96 /* LESixOfDay.h */,
-				91EE794315C2A3B900D43A96 /* LESixOfDay.m */,
-				91EE792715C2A3B600D43A96 /* LEBestOfDay.h */,
-				91EE792815C2A3B600D43A96 /* LEBestOfDay.m */,
-				91EE792415C2A3B300D43A96 /* LEWorstOfDay.h */,
-				91EE792515C2A3B300D43A96 /* LEWorstOfDay.m */,
-				91EE792D15C2A3B600D43A96 /* LESpecialFocus.h */,
-				91EE792E15C2A3B600D43A96 /* LESpecialFocus.m */,
-				91F1B88F164EA55F00F9B56B /* SetOfAdvice.h */,
-				91F1B890164EA55F00F9B56B /* SetOfAdvice.m */,
-				91FF4B0115C6984E008A92E0 /* SpiritualTradtion.h */,
-				91FF4B0215C6984E008A92E0 /* SpiritualTradtion.m */,
+				9137F160166A4AF900C789D2 /* LEBestOfDay.h */,
+				9137F161166A4AF900C789D2 /* LEBestOfDay.m */,
+				9137F16C166A4B1C00C789D2 /* Meditation.h */,
+				9137F16D166A4B1C00C789D2 /* Meditation.m */,
+				9137F16E166A4B1C00C789D2 /* SetOfAdvice.h */,
+				9137F16F166A4B1C00C789D2 /* SetOfAdvice.m */,
+				9137F170166A4B1C00C789D2 /* SpiritualTradtion.h */,
+				9137F171166A4B1C00C789D2 /* SpiritualTradtion.m */,
+				9137F162166A4AF900C789D2 /* LESixOfDay.h */,
+				9137F163166A4AF900C789D2 /* LESixOfDay.m */,
+				9137F164166A4AF900C789D2 /* LESpecialFocus.h */,
+				9137F165166A4AF900C789D2 /* LESpecialFocus.m */,
+				9137F166166A4AF900C789D2 /* LEWorstOfDay.h */,
+				9137F167166A4AF900C789D2 /* LEWorstOfDay.m */,
 			);
 			name = "Managed Object Classes";
+			path = ..;
 			sourceTree = "<group>";
 		};
-		1EAEC6DA15C007CD00DF538B /* Data Classes */ = {
+		9137F15D166A456800C789D2 /* Data Classes */ = {
 			isa = PBXGroup;
 			children = (
-				91BC62E915D86EC1004EC71C /* NSUserDefaults+ST.h */,
-				91BC62EA15D86EC1004EC71C /* NSUserDefaults+ST.m */,
-				1EAEC6F315C00A9200DF538B /* ActionRecord.h */,
-				1EAEC6F415C00A9200DF538B /* ActionRecord.m */,
-				1EAEC6F515C00A9200DF538B /* SetOfSpiritualAdvice.h */,
-				1EAEC6F615C00A9300DF538B /* SetOfSpiritualAdvice.m */,
-				1EAEC6F715C00A9300DF538B /* SetOfSpiritualAdviceRecords.h */,
-				1EAEC6F815C00A9300DF538B /* SetOfSpiritualAdviceRecords.m */,
-				1EAEC6F915C00A9300DF538B /* SpiritualAdvice.h */,
-				1EAEC6FA15C00A9300DF538B /* SpiritualAdvice.m */,
-				1EAEC6FB15C00A9300DF538B /* SpiritualAdviceRecord.h */,
-				1EAEC6FC15C00A9300DF538B /* SpiritualAdviceRecord.m */,
-				1EAEC6FD15C00A9300DF538B /* STAction.h */,
-				1EAEC6FE15C00A9300DF538B /* STAction.m */,
-				1EAEC6FF15C00A9300DF538B /* STAdvice.h */,
-				1EAEC70015C00A9300DF538B /* STAdvice.m */,
-				1EAEC70115C00A9300DF538B /* TimeAndDate.h */,
-				1EAEC70215C00A9300DF538B /* TimeAndDate.m */,
-				911A6CE515D3CB7400C61BEB /* NSDate+ST.h */,
-				911A6CE615D3CB7400C61BEB /* NSDate+ST.m */,
+				9137F1A5166A4C7C00C789D2 /* NSDate+ST.h */,
+				9137F1A6166A4C7C00C789D2 /* NSDate+ST.m */,
+				1EA5067A1594895B0075BC91 /* Managed Object Classes */,
 			);
 			name = "Data Classes";
+			sourceTree = "<group>";
+		};
+		9137F15E166A45A800C789D2 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1E1C5C52159DBA0700EE0DEE /* Haggerty CDTVC */,
+				1E0BEE0615AEDE6F002E19F4 /* Tradition TVCs */,
+				1E6A38D015B5794B005741FF /* Advice TVCs */,
+				91FF4B0415C69D63008A92E0 /* Advice Followed TVCs */,
+				916322E315D1257800AA94D6 /* Entry TVCs */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		9137F15F166A45F300C789D2 /* Storyboards and Xibs with VCs */ = {
+			isa = PBXGroup;
+			children = (
+				1E5523441591E2FA009114B7 /* MainStoryboard_iPhone.storyboard */,
+				1E5523471591E2FA009114B7 /* MainStoryboard_iPad.storyboard */,
+				91EEA323160E8E0A004EB4A5 /* Table Cells */,
+			);
+			name = "Storyboards and Xibs with VCs";
 			sourceTree = "<group>";
 		};
 		916322E315D1257800AA94D6 /* Entry TVCs */ = {
 			isa = PBXGroup;
 			children = (
-				916322E515D1262A00AA94D6 /* STDaysTVC.h */,
-				916322E615D1262A00AA94D6 /* STDaysTVC.m */,
-				916322E815D126AB00AA94D6 /* STDayTVC.h */,
-				916322E915D126AB00AA94D6 /* STDayTVC.m */,
-				916322EB15D1270100AA94D6 /* STLogEntrySixOfDayTVC.h */,
-				916322EC15D1270100AA94D6 /* STLogEntrySixOfDayTVC.m */,
-				91E9D05B1619A96A00C0D021 /* STLogEntrySpecialFocusTVC.h */,
-				91E9D05C1619A96A00C0D021 /* STLogEntrySpecialFocusTVC.m */,
-				91E9D05E1619A9F100C0D021 /* STLogEntryBestOfDayTVC.h */,
-				91E9D05F1619A9F100C0D021 /* STLogEntryBestOfDayTVC.m */,
-				91E9D0611619AD4A00C0D021 /* STLogEntryWorstOfDayTVC.h */,
-				91E9D0621619AD4A00C0D021 /* STLogEntryWorstOfDayTVC.m */,
+				9137F193166A4C1400C789D2 /* STDaysTVC.h */,
+				9137F194166A4C1400C789D2 /* STDaysTVC.m */,
+				9137F195166A4C1400C789D2 /* STDayTVC.h */,
+				9137F196166A4C1400C789D2 /* STDayTVC.m */,
+				9137F197166A4C1400C789D2 /* STLogEntryBestOfDayTVC.h */,
+				9137F198166A4C1400C789D2 /* STLogEntryBestOfDayTVC.m */,
+				9137F199166A4C1400C789D2 /* STLogEntrySixOfDayTVC.h */,
+				9137F19A166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m */,
+				9137F19B166A4C1400C789D2 /* STLogEntrySpecialFocusTVC.h */,
+				9137F19C166A4C1400C789D2 /* STLogEntrySpecialFocusTVC.m */,
+				9137F19D166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.h */,
+				9137F19E166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.m */,
 			);
 			name = "Entry TVCs";
 			sourceTree = "<group>";
@@ -453,14 +382,14 @@
 		91AD7C4B15E1114A0066B118 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				91D77D23163D5074009ADA66 /* ActionTaken+ST.h */,
-				91D77D22163D5074009ADA66 /* ActionTaken+ST.m */,
-				91BC62E515D82B1B004EC71C /* Day+ST.h */,
-				91BC62E615D82B1B004EC71C /* Day+ST.m */,
-				91AD7C4D15E111B60066B118 /* LESixOfDay+ST.h */,
-				91AD7C4E15E111B60066B118 /* LESixOfDay+ST.m */,
-				91AE375A1643D778005103DC /* ToDo+ST.h */,
-				91AE375B1643D778005103DC /* ToDo+ST.m */,
+				9137F175166A4B3B00C789D2 /* ActionTaken+ST.h */,
+				9137F176166A4B3B00C789D2 /* ActionTaken+ST.m */,
+				9137F1A8166A4C9000C789D2 /* Day+ST.h */,
+				9137F1A9166A4C9000C789D2 /* Day+ST.m */,
+				9137F177166A4B3B00C789D2 /* LESixOfDay+ST.h */,
+				9137F178166A4B3B00C789D2 /* LESixOfDay+ST.m */,
+				9137F179166A4B3B00C789D2 /* ToDo+ST.h */,
+				9137F17A166A4B3B00C789D2 /* ToDo+ST.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -490,8 +419,8 @@
 		91FF4B0415C69D63008A92E0 /* Advice Followed TVCs */ = {
 			isa = PBXGroup;
 			children = (
-				91FF4B0515C69DCA008A92E0 /* STFollowingAdviceTVC.h */,
-				91FF4B0615C69DCA008A92E0 /* STFollowingAdviceTVC.m */,
+				9137F18A166A4BE000C789D2 /* STFollowingAdviceTVC.h */,
+				9137F18B166A4BE000C789D2 /* STFollowingAdviceTVC.m */,
 			);
 			name = "Advice Followed TVCs";
 			sourceTree = "<group>";
@@ -551,12 +480,7 @@
 				1E55233D1591E2FA009114B7 /* InfoPlist.strings in Resources */,
 				1E5523461591E2FA009114B7 /* MainStoryboard_iPhone.storyboard in Resources */,
 				1E5523491591E2FA009114B7 /* MainStoryboard_iPad.storyboard in Resources */,
-				1E55234E1591E2FA009114B7 /* first.png in Resources */,
-				1E5523501591E2FA009114B7 /* first@2x.png in Resources */,
-				1E5523551591E2FA009114B7 /* second.png in Resources */,
-				1E5523571591E2FA009114B7 /* second@2x.png in Resources */,
-				1EAA7EBA15BEAB160052F489 /* Default144.png in Resources */,
-				1EAA7EBD15BEAC320052F489 /* Default72.png in Resources */,
+				1EAA7EBD15BEAC320052F489 /* Default144.png in Resources */,
 				1EAA7EBF15BEAC3C0052F489 /* Default@2x.png in Resources */,
 				1EAA7EC115BEAC790052F489 /* Default.png in Resources */,
 				1EAA7EC315BEB07A0052F489 /* Launch2x.png in Resources */,
@@ -580,58 +504,44 @@
 			files = (
 				1E55233F1591E2FA009114B7 /* main.m in Sources */,
 				1E5523431591E2FA009114B7 /* STAppDelegate.m in Sources */,
-				1E55234C1591E2FA009114B7 /* STFirstViewController.m in Sources */,
-				1E5523531591E2FA009114B7 /* STSecondViewController.m in Sources */,
 				1E55235F1591E3A4009114B7 /* Model.xcdatamodeld in Sources */,
-				1E6B11B5159C6B610045AA42 /* STTraditionsFollowedTVC.m in Sources */,
-				1E6B11BE159C6C8F0045AA42 /* STAddTraditionTVC.m in Sources */,
-				1E1C5C59159DBBBB00EE0DEE /* CoreDataTableViewController.m in Sources */,
-				1EADC96915A7CB9000085BD8 /* STTraditionDetailTVC.m in Sources */,
-				1E6A38D415B579BA005741FF /* STSetOfAdviceTVC.m in Sources */,
-				1E77921D15B9671900EC3EAF /* STSetOfAdviceDetailTVC.m in Sources */,
-				1EAEC70315C00A9300DF538B /* ActionRecord.m in Sources */,
-				1EAEC70415C00A9300DF538B /* SetOfSpiritualAdvice.m in Sources */,
-				1EAEC70515C00A9300DF538B /* SetOfSpiritualAdviceRecords.m in Sources */,
-				1EAEC70615C00A9300DF538B /* SpiritualAdvice.m in Sources */,
-				1EAEC70715C00A9300DF538B /* SpiritualAdviceRecord.m in Sources */,
-				1EAEC70815C00A9300DF538B /* STAction.m in Sources */,
-				1EAEC70915C00A9300DF538B /* STAdvice.m in Sources */,
-				1EAEC70A15C00A9300DF538B /* TimeAndDate.m in Sources */,
-				91EE792615C2A3B300D43A96 /* LEWorstOfDay.m in Sources */,
-				91EE792915C2A3B600D43A96 /* LEBestOfDay.m in Sources */,
-				91EE792C15C2A3B600D43A96 /* Meditation.m in Sources */,
-				91EE792F15C2A3B600D43A96 /* LESpecialFocus.m in Sources */,
 				91EE793515C2A3B700D43A96 /* AdviceReference.m in Sources */,
-				91EE793815C2A3B800D43A96 /* ToDo.m in Sources */,
 				91EE793B15C2A3B800D43A96 /* Insight.m in Sources */,
 				91EE793E15C2A3B800D43A96 /* LogEntry.m in Sources */,
 				91EE794115C2A3B900D43A96 /* ActionTaken.m in Sources */,
-				91EE794415C2A3B900D43A96 /* LESixOfDay.m in Sources */,
 				91EE794A15C2A3B900D43A96 /* Advice.m in Sources */,
 				91EE794D15C2A3BA00D43A96 /* Day.m in Sources */,
-				91FF4B0315C6984E008A92E0 /* SpiritualTradtion.m in Sources */,
-				91FF4B0715C69DCA008A92E0 /* STFollowingAdviceTVC.m in Sources */,
-				916322E715D1262A00AA94D6 /* STDaysTVC.m in Sources */,
-				916322EA15D126AB00AA94D6 /* STDayTVC.m in Sources */,
-				916322ED15D1270100AA94D6 /* STLogEntrySixOfDayTVC.m in Sources */,
-				911A6CE715D3CB7400C61BEB /* NSDate+ST.m in Sources */,
-				91BC62E715D82B1B004EC71C /* Day+ST.m in Sources */,
-				91BC62EB15D86EC1004EC71C /* NSUserDefaults+ST.m in Sources */,
-				91AD7C4F15E111B60066B118 /* LESixOfDay+ST.m in Sources */,
 				911251E015FAE9F7005E22FC /* STLogEntryTimedCell.m in Sources */,
 				9122152F160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m in Sources */,
 				91221532160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.m in Sources */,
 				91221535160C7E5900BEEEE6 /* STLogEntryAddCell.m in Sources */,
-				91E9D05D1619A96A00C0D021 /* STLogEntrySpecialFocusTVC.m in Sources */,
-				91E9D0601619A9F100C0D021 /* STLogEntryBestOfDayTVC.m in Sources */,
-				91E9D0631619AD4A00C0D021 /* STLogEntryWorstOfDayTVC.m in Sources */,
 				91E94AE816258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m in Sources */,
 				91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */,
-				91D77D24163D5074009ADA66 /* ActionTaken+ST.h in Sources */,
-				91AE375C1643D778005103DC /* ToDo+ST.m in Sources */,
-				911BC007164498E800586524 /* ActionTaken+ST.m in Sources */,
-				91F1B889164DED8C00F9B56B /* STSettingsTVC.m in Sources */,
-				91F1B891164EA55F00F9B56B /* SetOfAdvice.m in Sources */,
+				9137F168166A4AF900C789D2 /* LEBestOfDay.m in Sources */,
+				9137F169166A4AF900C789D2 /* LESixOfDay.m in Sources */,
+				9137F16A166A4AF900C789D2 /* LESpecialFocus.m in Sources */,
+				9137F16B166A4AF900C789D2 /* LEWorstOfDay.m in Sources */,
+				9137F172166A4B1C00C789D2 /* Meditation.m in Sources */,
+				9137F173166A4B1C00C789D2 /* SetOfAdvice.m in Sources */,
+				9137F174166A4B1C00C789D2 /* SpiritualTradtion.m in Sources */,
+				9137F17B166A4B3B00C789D2 /* ActionTaken+ST.m in Sources */,
+				9137F17C166A4B3B00C789D2 /* LESixOfDay+ST.m in Sources */,
+				9137F17D166A4B3B00C789D2 /* ToDo+ST.m in Sources */,
+				9137F180166A4B8E00C789D2 /* CoreDataTableViewController.m in Sources */,
+				9137F187166A4BAD00C789D2 /* STAddTraditionTVC.m in Sources */,
+				9137F188166A4BAD00C789D2 /* STTraditionDetailTVC.m in Sources */,
+				9137F189166A4BAD00C789D2 /* STTraditionsFollowedTVC.m in Sources */,
+				9137F18C166A4BE000C789D2 /* STFollowingAdviceTVC.m in Sources */,
+				9137F191166A4BFA00C789D2 /* STSetOfAdviceDetailTVC.m in Sources */,
+				9137F192166A4BFA00C789D2 /* STSetOfAdviceTVC.m in Sources */,
+				9137F19F166A4C1400C789D2 /* STDaysTVC.m in Sources */,
+				9137F1A0166A4C1400C789D2 /* STDayTVC.m in Sources */,
+				9137F1A1166A4C1400C789D2 /* STLogEntryBestOfDayTVC.m in Sources */,
+				9137F1A2166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m in Sources */,
+				9137F1A3166A4C1400C789D2 /* STLogEntrySpecialFocusTVC.m in Sources */,
+				9137F1A4166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.m in Sources */,
+				9137F1A7166A4C7C00C789D2 /* NSDate+ST.m in Sources */,
+				9137F1AA166A4C9000C789D2 /* Day+ST.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

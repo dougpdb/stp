@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="9aj-WX-4QK">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
@@ -1147,6 +1146,61 @@
     <resources>
         <image name="first" width="16" height="16"/>
     </resources>
+    <classes>
+        <class className="CoreDataTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
+        </class>
+        <class className="STAddTraditionTVC" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STAddTraditionTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="save:"/>
+                <relationship kind="outlet" name="traditionNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="STDayTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STDayTVC.h"/>
+        </class>
+        <class className="STDaysTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STDaysTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="addDay:"/>
+            </relationships>
+        </class>
+        <class className="STFollowingAdviceTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STFollowingAdviceTVC.h"/>
+        </class>
+        <class className="STLogEntryBestOfDayTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STLogEntryBestOfDayTVC.h"/>
+        </class>
+        <class className="STLogEntrySixOfDayTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STLogEntrySixOfDayTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="saveEntry:"/>
+            </relationships>
+        </class>
+        <class className="STLogEntrySpecialFocusTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STLogEntrySpecialFocusTVC.h"/>
+        </class>
+        <class className="STLogEntryWorstOfDayTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STLogEntryWorstOfDayTVC.h"/>
+        </class>
+        <class className="STSetOfAdviceDetailTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STSetOfAdviceDetailTVC.h"/>
+        </class>
+        <class className="STSetOfAdviceTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STSetOfAdviceTVC.h"/>
+        </class>
+        <class className="STTraditionDetailTVC" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STTraditionDetailTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="save:"/>
+                <relationship kind="outlet" name="traditionNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="STTraditionsFollowedTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STTraditionsFollowedTVC.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

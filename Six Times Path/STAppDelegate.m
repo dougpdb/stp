@@ -11,6 +11,7 @@
 #import "STFollowingAdviceTVC.h"
 #import "SpiritualTradtion.h"
 #import "SetOfAdvice.h"
+#import "STDaysTVC.h"
 
 #import "Advice.h"
 
@@ -203,6 +204,8 @@
 	NSLog(@"Importing completed for Traditions!");
 }
 
+
+
 #pragma mark - Core Data
 
 - (void)setupFetchedResultsController
@@ -247,15 +250,29 @@
 	
 	
 	// Process Local Notifications
-	if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
-		UILocalNotification *incomingNotification	= [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-		incomingNotification.hasAction				= NO;									// I want to see if this will hide a notification that is in the notification pull down.
+	Class cls = NSClassFromString(@"UILocalNotification");
+    if (cls) {
+        UILocalNotification *notification = [launchOptions objectForKey:
+											 UIApplicationLaunchOptionsLocalNotificationKey];
 		
-		[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];				// This should remove all badge numbers. Alternately, I can set this to #--
-		[[UIApplication sharedApplication] cancelLocalNotification:incomingNotification];	// Not sure if I need to cancel ... maybe this should only be done before the notification fires
-	}
+        if (notification) {
+			// some code here
+        }
+    }
+	
+    application.applicationIconBadgeNumber = 0;
+	
+//	if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
+//		UILocalNotification *incomingNotification	= [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+//		incomingNotification.hasAction				= NO;									// I want to see if this will hide a notification that is in the notification pull down.
+//		
+//		[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];				// This should remove all badge numbers. Alternately, I can set this to #--
+//		[[UIApplication sharedApplication] cancelLocalNotification:incomingNotification];	// Not sure if I need to cancel ... maybe this should only be done before the notification fires
+//	}
 
 
+	// Timer to check for day
+	
     
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {

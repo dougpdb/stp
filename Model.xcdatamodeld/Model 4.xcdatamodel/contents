@@ -85,8 +85,6 @@
         <attribute name="text" attributeType="String" syncable="YES"/>
         <relationship name="logEntry" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="LogEntry" inverseName="toDo" inverseEntity="LogEntry" syncable="YES"/>
     </entity>
-    <fetchRequest name="FetchRequest" entity="SetOfAdvice" predicateString="orderNumberInFollowedSets > 0"/>
-    <fetchRequest name="FetchRequest1" entity="Day" predicateString="date == CAST(366809773.747109, &quot;NSDate&quot;)"/>
     <elements>
         <element name="ActionTaken" positionX="1078" positionY="-72" width="128" height="105"/>
         <element name="Advice" positionX="396" positionY="-153" width="128" height="180"/>
