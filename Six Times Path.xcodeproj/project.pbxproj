@@ -24,7 +24,8 @@
 		911251DC15FADEC2005E22FC /* Log Entry - Timed.xib in Resources */ = {isa = PBXBuildFile; fileRef = 911251DB15FADEC2005E22FC /* Log Entry - Timed.xib */; };
 		911251E015FAE9F7005E22FC /* STLogEntryTimedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 911251DF15FAE9F7005E22FC /* STLogEntryTimedCell.m */; };
 		911BC009164499F900586524 /* appIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 911BC008164499F900586524 /* appIcon@2x.png */; };
-		911BC00B16449A6C00586524 /* appIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 911BC00A16449A6C00586524 /* appIcon@2x.png */; };
+		911FE97F166F6BC4006BF9CD /* ToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = 911FE97E166F6BC4006BF9CD /* ToDo.m */; };
+		911FE982166F7009006BF9CD /* STTodayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 911FE981166F7009006BF9CD /* STTodayTVC.m */; };
 		9122152F160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9122152E160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m */; };
 		91221532160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91221531160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.m */; };
 		91221535160C7E5900BEEEE6 /* STLogEntryAddCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91221534160C7E5800BEEEE6 /* STLogEntryAddCell.m */; };
@@ -94,6 +95,10 @@
 		911251DF15FAE9F7005E22FC /* STLogEntryTimedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntryTimedCell.m; path = "Custom Cells/STLogEntryTimedCell.m"; sourceTree = "<group>"; };
 		911BC008164499F900586524 /* appIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "appIcon@2x.png"; path = "Images/appIcon@2x.png"; sourceTree = "<group>"; };
 		911BC00A16449A6C00586524 /* appIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "appIcon@2x.png"; path = "Images/appIcon@2x.png"; sourceTree = "<group>"; };
+		911FE97D166F6BC4006BF9CD /* ToDo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDo.h; sourceTree = "<group>"; };
+		911FE97E166F6BC4006BF9CD /* ToDo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDo.m; sourceTree = "<group>"; };
+		911FE980166F7009006BF9CD /* STTodayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTodayTVC.h; path = "View Controllers/STTodayTVC.h"; sourceTree = "<group>"; };
+		911FE981166F7009006BF9CD /* STTodayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTodayTVC.m; path = "View Controllers/STTodayTVC.m"; sourceTree = "<group>"; };
 		9122152D160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntryBestOrWorstOfDayCell.h; path = "Custom Cells/STLogEntryBestOrWorstOfDayCell.h"; sourceTree = "<group>"; };
 		9122152E160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntryBestOrWorstOfDayCell.m; path = "Custom Cells/STLogEntryBestOrWorstOfDayCell.m"; sourceTree = "<group>"; };
 		91221530160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntrySpecialFocusCell.h; path = "Custom Cells/STLogEntrySpecialFocusCell.h"; sourceTree = "<group>"; };
@@ -309,20 +314,22 @@
 				91EE793A15C2A3B800D43A96 /* Insight.m */,
 				91EE793C15C2A3B800D43A96 /* LogEntry.h */,
 				91EE793D15C2A3B800D43A96 /* LogEntry.m */,
+				9137F162166A4AF900C789D2 /* LESixOfDay.h */,
+				9137F163166A4AF900C789D2 /* LESixOfDay.m */,
 				9137F160166A4AF900C789D2 /* LEBestOfDay.h */,
 				9137F161166A4AF900C789D2 /* LEBestOfDay.m */,
+				9137F164166A4AF900C789D2 /* LESpecialFocus.h */,
+				9137F165166A4AF900C789D2 /* LESpecialFocus.m */,
+				9137F166166A4AF900C789D2 /* LEWorstOfDay.h */,
+				9137F167166A4AF900C789D2 /* LEWorstOfDay.m */,
 				9137F16C166A4B1C00C789D2 /* Meditation.h */,
 				9137F16D166A4B1C00C789D2 /* Meditation.m */,
 				9137F16E166A4B1C00C789D2 /* SetOfAdvice.h */,
 				9137F16F166A4B1C00C789D2 /* SetOfAdvice.m */,
 				9137F170166A4B1C00C789D2 /* SpiritualTradtion.h */,
 				9137F171166A4B1C00C789D2 /* SpiritualTradtion.m */,
-				9137F162166A4AF900C789D2 /* LESixOfDay.h */,
-				9137F163166A4AF900C789D2 /* LESixOfDay.m */,
-				9137F164166A4AF900C789D2 /* LESpecialFocus.h */,
-				9137F165166A4AF900C789D2 /* LESpecialFocus.m */,
-				9137F166166A4AF900C789D2 /* LEWorstOfDay.h */,
-				9137F167166A4AF900C789D2 /* LEWorstOfDay.m */,
+				911FE97D166F6BC4006BF9CD /* ToDo.h */,
+				911FE97E166F6BC4006BF9CD /* ToDo.m */,
 			);
 			name = "Managed Object Classes";
 			path = ..;
@@ -341,11 +348,13 @@
 		9137F15E166A45A800C789D2 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				916322E315D1257800AA94D6 /* Entry TVCs */,
+				91FF4B0415C69D63008A92E0 /* Advice Followed TVCs */,
 				1E1C5C52159DBA0700EE0DEE /* Haggerty CDTVC */,
 				1E0BEE0615AEDE6F002E19F4 /* Tradition TVCs */,
 				1E6A38D015B5794B005741FF /* Advice TVCs */,
-				91FF4B0415C69D63008A92E0 /* Advice Followed TVCs */,
-				916322E315D1257800AA94D6 /* Entry TVCs */,
+				911FE980166F7009006BF9CD /* STTodayTVC.h */,
+				911FE981166F7009006BF9CD /* STTodayTVC.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -452,7 +461,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ST;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "6000 American Family Dr";
 			};
 			buildConfigurationList = 1E5523281591E2F9009114B7 /* Build configuration list for PBXProject "Six Times Path" */;
@@ -491,7 +500,6 @@
 				9122153B160C7F3400BEEEE6 /* LogEntryAddCell.xib in Resources */,
 				91E94AE416258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib in Resources */,
 				911BC009164499F900586524 /* appIcon@2x.png in Resources */,
-				911BC00B16449A6C00586524 /* appIcon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,6 +550,8 @@
 				9137F1A4166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.m in Sources */,
 				9137F1A7166A4C7C00C789D2 /* NSDate+ST.m in Sources */,
 				9137F1AA166A4C9000C789D2 /* Day+ST.m in Sources */,
+				911FE97F166F6BC4006BF9CD /* ToDo.m in Sources */,
+				911FE982166F7009006BF9CD /* STTodayTVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

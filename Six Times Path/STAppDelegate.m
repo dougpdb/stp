@@ -12,6 +12,7 @@
 #import "SpiritualTradtion.h"
 #import "SetOfAdvice.h"
 #import "STDaysTVC.h"
+#import "STTodayTVC.h"
 
 #import "Advice.h"
 
@@ -281,11 +282,11 @@
         splitViewController.delegate					= (id)navigationController.topViewController;
         
         UINavigationController *masterNavigationController	= [splitViewController.viewControllers objectAtIndex:0];
-        STFollowingAdviceTVC *controller					= (STFollowingAdviceTVC *)masterNavigationController.topViewController;
+        STTodayTVC *controller					= (STTodayTVC *)masterNavigationController.topViewController;
         controller.managedObjectContext						= self.managedObjectContext;
     } else {
         UINavigationController *navigationController		= (UINavigationController *)self.window.rootViewController;
-        STFollowingAdviceTVC *controller					= (STFollowingAdviceTVC *)navigationController.topViewController;
+        STTodayTVC *controller					= (STTodayTVC *)navigationController.topViewController;
         controller.managedObjectContext						= self.managedObjectContext;
     }
     return YES;
