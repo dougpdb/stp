@@ -216,9 +216,8 @@
 				setOfAdvice.orderNumberInFollowedSets	= [NSNumber numberWithInt:[self.selectedSetsOfAdvice count] + 1];
 				break;
 			}
-		}
-		
-    }else{
+		}		
+    } else {
     	thisCell.accessoryType = UITableViewCellAccessoryNone;
 		
 		for (SetOfAdvice *setOfAdvice in self.allSetsOfAdvice) {
