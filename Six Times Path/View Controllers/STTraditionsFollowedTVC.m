@@ -207,7 +207,6 @@
 	
     UITableViewCell *thisCell = [tableView cellForRowAtIndexPath:indexPath];
 	
-	
 	NSLog(@"text of cell: %@", thisCell.textLabel.text);
     if (thisCell.accessoryType == UITableViewCellAccessoryNone) {
         thisCell.accessoryType = UITableViewCellAccessoryCheckmark;
