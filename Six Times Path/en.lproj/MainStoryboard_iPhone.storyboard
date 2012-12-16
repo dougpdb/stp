@@ -41,7 +41,6 @@
                         </prototypes>
                     </tableView>
                     <navigationItem key="navigationItem" title="Days" id="br8-zg-Pv3">
-                        <barButtonItem key="leftBarButtonItem" title="Settings" id="hra-jY-dEZ"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="asU-Wo-bkO">
                             <connections>
                                 <action selector="addDay:" destination="4mM-ob-0D7" id="XHV-ev-S3p"/>
@@ -51,7 +50,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HnC-gn-4In" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2135" y="5107"/>
+            <point key="canvasLocation" x="2135" y="5359"/>
         </scene>
         <!--TodayTVC - Day, MMM DD-->
         <scene sceneID="XN7-Rk-Nb2">
@@ -63,7 +62,7 @@
                         <color key="backgroundColor" red="1" green="0.80000001192092896" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="separatorColor" red="1" green="0.80000001192092896" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GuidelineEntryCell" rowHeight="129" id="kWt-6c-NqJ" userLabel="Guideline Entry Cell - Next or Anytime">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GuidelineNextEntryCell" rowHeight="129" id="kWt-6c-NqJ" userLabel="Guideline Entry Cell - Next or Anytime">
                                 <rect key="frame" x="0.0" y="46" width="320" height="130"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -88,21 +87,46 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SummaryOrSetupCell" textLabel="FCX-pW-Eec" detailTextLabel="Vbk-UU-j8V" rowHeight="35" style="IBUITableViewCellStyleValue1" id="ru2-ue-fC6" userLabel="Summary of Entries or Setup Cell">
-                                <rect key="frame" x="0.0" y="176" width="320" height="36"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GuidelineOtherEntryCell" rowHeight="81" id="SIp-lQ-5A5" userLabel="Guideline Entry Cell - Next or Anytime">
+                                <rect key="frame" x="0.0" y="176" width="320" height="81"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="10" y="0.0" width="280" height="80"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" text="This is another guideline to be considered and reflected upon in deeds past, positive and negative." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7M0-A9-9eO" userLabel="Guideline">
+                                            <rect key="frame" x="12" y="29" width="248" height="41"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="Other Entry - HH:MM AP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P2n-5N-2V5" userLabel="Scheduled Time">
+                                            <rect key="frame" x="12" y="10" width="248" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SummaryOrSetupCell" textLabel="DMf-OO-DHZ" detailTextLabel="dRB-LV-Jcl" rowHeight="35" style="IBUITableViewCellStyleValue1" id="utV-ZB-Vw5" userLabel="Summary of Entries or Setup Cell">
+                                <rect key="frame" x="0.0" y="257" width="320" height="36"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="10" y="0.0" width="280" height="34"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Remaining Entries" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FCX-pW-Eec">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Remaining Entries" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DMf-OO-DHZ">
                                             <rect key="frame" x="10" y="8" width="123" height="19"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vbk-UU-j8V">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dRB-LV-Jcl">
                                             <rect key="frame" x="231" y="8" width="39" height="19"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -119,8 +143,9 @@
                     <navigationItem key="navigationItem" title="Day, MMM DD" id="Bmt-xS-Od5"/>
                     <connections>
                         <segue destination="gTE-bC-Kqu" kind="push" identifier="Guideline Entry" id="Bfh-JL-a9S"/>
-                        <segue destination="vht-HB-8PU" kind="modal" identifier="Guidelines Followed" id="8uf-5x-upd"/>
+                        <segue destination="vht-HB-8PU" kind="push" identifier="Guidelines Followed" id="8uf-5x-upd"/>
                         <segue destination="4mM-ob-0D7" kind="push" identifier="Previous Days" id="WTi-xd-MTS"/>
+                        <segue destination="Hr0-89-n2c" kind="push" id="ZfR-8n-GJp"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="whS-9p-yRa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -239,12 +264,59 @@
             </objects>
             <point key="canvasLocation" x="1584" y="2607"/>
         </scene>
+        <!--Other Entries-->
+        <scene sceneID="kmo-tt-81e">
+            <objects>
+                <tableViewController id="Hr0-89-n2c" userLabel="Other Entries" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Tx7-n7-Pxr">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="separatorColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GuidelineEntryCell" rowHeight="129" id="2af-Te-WdR" userLabel="Guideline Entry Cell - Next or Anytime">
+                                <rect key="frame" x="0.0" y="46" width="320" height="131"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="10" y="1" width="280" height="128"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" text="This is a guideline to be considered and reflected upon in deeds past, positive and negative." lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fFr-b9-0zY" userLabel="Guideline">
+                                            <rect key="frame" x="12" y="29" width="248" height="89"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="HH:MM AP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eFg-Xr-Kn7" userLabel="Scheduled Time">
+                                            <rect key="frame" x="12" y="10" width="248" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Hr0-89-n2c" id="zJS-5Y-efU"/>
+                            <outlet property="delegate" destination="Hr0-89-n2c" id="JL8-s8-bf8"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Other Entries" id="1nq-u6-c73"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o3E-dq-ylV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2136" y="4351"/>
+        </scene>
         <!--Sets of Guidelines Followed-->
         <scene sceneID="Qyy-9x-ic9">
             <objects>
                 <tableViewController id="vht-HB-8PU" userLabel="Sets of Guidelines Followed" customClass="STTraditionsFollowedTVC" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3T9-ag-1nk">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -266,37 +338,37 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lMs-1x-6rK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2135" y="4483"/>
+            <point key="canvasLocation" x="2135" y="4848"/>
         </scene>
-        <!--DayTVC-->
-        <scene sceneID="jVS-it-reB">
+        <!--Table View Controller-->
+        <scene sceneID="hgx-cg-pgw">
             <objects>
-                <tableViewController id="W8Q-X0-i3D" customClass="STDayTVC" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="DVf-GC-Tul">
+                <tableViewController id="kyH-Eg-NoM" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="eqx-pM-6KO">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="separatorColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="FJz-CQ-hX1">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="mnJ-Jy-BiB">
                                 <rect key="frame" x="0.0" y="46" width="320" height="46"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="10" y="1" width="280" height="43"/>
+                                    <rect key="frame" x="10" y="1" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="W8Q-X0-i3D" id="nbd-qs-q8y"/>
-                            <outlet property="delegate" destination="W8Q-X0-i3D" id="CRe-oJ-SoK"/>
+                            <outlet property="dataSource" destination="kyH-Eg-NoM" id="geL-we-Zum"/>
+                            <outlet property="delegate" destination="kyH-Eg-NoM" id="p4g-ev-uqr"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="05Z-EC-M0Z"/>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UV7-sx-uHu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hhi-1k-jcN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1584" y="1985"/>
+            <point key="canvasLocation" x="1718" y="3459"/>
         </scene>
         <!--Log Entry for Guidelines-->
         <scene sceneID="KXS-v6-6xl">
@@ -474,45 +546,13 @@
                             <outlet property="delegate" destination="gTE-bC-Kqu" id="APy-f0-A39"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Six of Day" id="jMm-uO-JCj">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="d4C-r4-P7M">
-                            <connections>
-                                <action selector="saveEntry:" destination="gTE-bC-Kqu" id="j4r-uD-22s"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Next Entry" id="jMm-uO-JCj"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MYS-dQ-KEF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2135" y="3796"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="CoreDataTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
-        </class>
-        <class className="STDayTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STDayTVC.h"/>
-        </class>
-        <class className="STDaysTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STDaysTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="addDay:"/>
-            </relationships>
-        </class>
-        <class className="STLogEntrySixOfDayTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STLogEntrySixOfDayTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="saveEntry:"/>
-            </relationships>
-        </class>
-        <class className="STTodayTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STTodayTVC.h"/>
-        </class>
-        <class className="STTraditionsFollowedTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STTraditionsFollowedTVC.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

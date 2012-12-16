@@ -59,6 +59,7 @@
 		9137F1AA166A4C9000C789D2 /* Day+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F1A9166A4C9000C789D2 /* Day+ST.m */; };
 		91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 91573F091629E6E300914D3E /* UITextView+Placeholder.m */; };
 		915E3FE315CFD37A0036C6FE /* prog journal.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 915E3FE215CFD37A0036C6FE /* prog journal.rtf */; };
+		91DDA5B51679F98200B0AEDA /* STOtherEntriesForDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */; };
 		91E94AE416258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */; };
 		91E94AE816258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E94AE716258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m */; };
 		91EE793515C2A3B700D43A96 /* AdviceReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793415C2A3B700D43A96 /* AdviceReference.m */; };
@@ -161,6 +162,8 @@
 		91573F081629E6E300914D3E /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		91573F091629E6E300914D3E /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		915E3FE215CFD37A0036C6FE /* prog journal.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "prog journal.rtf"; sourceTree = SOURCE_ROOT; };
+		91DDA5B31679F98200B0AEDA /* STOtherEntriesForDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STOtherEntriesForDayTVC.h; path = "View Controllers/STOtherEntriesForDayTVC.h"; sourceTree = "<group>"; };
+		91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STOtherEntriesForDayTVC.m; path = "View Controllers/STOtherEntriesForDayTVC.m"; sourceTree = "<group>"; };
 		91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = STLogEntryBestWorstOrToDoTextEntryCell.xib; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.xib"; sourceTree = "<group>"; };
 		91E94AE616258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntryBestWorstOrToDoTextEntryCell.h; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.h"; sourceTree = "<group>"; };
 		91E94AE716258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntryBestWorstOrToDoTextEntryCell.m; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.m"; sourceTree = "<group>"; };
@@ -376,14 +379,11 @@
 				9137F194166A4C1400C789D2 /* STDaysTVC.m */,
 				9137F195166A4C1400C789D2 /* STDayTVC.h */,
 				9137F196166A4C1400C789D2 /* STDayTVC.m */,
-				9137F197166A4C1400C789D2 /* STLogEntryBestOfDayTVC.h */,
-				9137F198166A4C1400C789D2 /* STLogEntryBestOfDayTVC.m */,
+				91DDA5B31679F98200B0AEDA /* STOtherEntriesForDayTVC.h */,
+				91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */,
 				9137F199166A4C1400C789D2 /* STLogEntrySixOfDayTVC.h */,
 				9137F19A166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m */,
-				9137F19B166A4C1400C789D2 /* STLogEntrySpecialFocusTVC.h */,
-				9137F19C166A4C1400C789D2 /* STLogEntrySpecialFocusTVC.m */,
-				9137F19D166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.h */,
-				9137F19E166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.m */,
+				91DDA5B11679F26700B0AEDA /* FUTURE */,
 			);
 			name = "Entry TVCs";
 			sourceTree = "<group>";
@@ -401,6 +401,19 @@
 				9137F17A166A4B3B00C789D2 /* ToDo+ST.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		91DDA5B11679F26700B0AEDA /* FUTURE */ = {
+			isa = PBXGroup;
+			children = (
+				9137F197166A4C1400C789D2 /* STLogEntryBestOfDayTVC.h */,
+				9137F198166A4C1400C789D2 /* STLogEntryBestOfDayTVC.m */,
+				9137F19B166A4C1400C789D2 /* STLogEntrySpecialFocusTVC.h */,
+				9137F19C166A4C1400C789D2 /* STLogEntrySpecialFocusTVC.m */,
+				9137F19D166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.h */,
+				9137F19E166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.m */,
+			);
+			name = FUTURE;
 			sourceTree = "<group>";
 		};
 		91EEA323160E8E0A004EB4A5 /* Table Cells */ = {
@@ -552,6 +565,7 @@
 				9137F1AA166A4C9000C789D2 /* Day+ST.m in Sources */,
 				911FE97F166F6BC4006BF9CD /* ToDo.m in Sources */,
 				911FE982166F7009006BF9CD /* STTodayTVC.m in Sources */,
+				91DDA5B51679F98200B0AEDA /* STOtherEntriesForDayTVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

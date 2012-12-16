@@ -13,19 +13,29 @@
 #import "LESixOfDay+ST.h"
 #import "STLogEntrySixOfDayTVC.h"
 #import "STDaysTVC.h"
+#import "STTraditionsFollowedTVC.h"
 
-#define TODAYS_GUIDELINES	0
-#define TODAYS_SETUP		1
-#define PREVIOUS_DAYS		2
+#define TODAYS_GUIDELINES			0
+#define TODAYS_GUIDELINES_REMAINING	1
+#define TODAYS_GUIDELINES_UPDATED	2
+#define TODAYS_SETUP				3
+#define PREVIOUS_DAYS				4
 
 @interface STTodayTVC ()
 
 @property BOOL isOnlyShowingTheSixWithoutUserEntriesSorted;
-@property (strong, nonatomic) NSArray *theSixToBeShown;
+//@property (strong, nonatomic) NSArray *theSixToBeShown;
 @property (strong, nonatomic) LESixOfDay *nextEntry;
+@property (strong, nonatomic) NSArray *remainingScheduledEntries;
+@property (strong, nonatomic) NSArray *updatedEntries;
+@property BOOL showRemainingScheduledEntries;
+@property BOOL showUpdatedEntries;
 @property (strong, nonatomic) NSDate *mostRecentlyAddedDate;
 @property NSInteger orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
 @property (strong, nonatomic) NSMutableArray *followedAdvice;
+@property NSInteger *wakingHour;
+@property NSInteger *wakingMinute;
+
 
 -(void)determineAndSetTheSixToBeShown;
 -(void)addNotification:(LESixOfDay *)sixOfDayLogEntry;
@@ -41,12 +51,19 @@
 
 @synthesize today						= _today;
 
+//@synthesize theSixToBeShown				= _theSixToBeShown;
+@synthesize nextEntry					= _nextEntry;
+@synthesize remainingScheduledEntries	= _remainingScheduledEntries;
+@synthesize updatedEntries				= _updatedEntries;
+@synthesize showRemainingScheduledEntries	= _showRemainingScheduledEntries;
+@synthesize showUpdatedEntries				= _showUpdatedEntries;
+@synthesize mostRecentlyAddedDate		= _mostRecentlyAddedDate;
+@synthesize followedAdvice				= _followedAdvice;
+@synthesize wakingHour					= _wakingHour;
+@synthesize wakingMinute				= _wakingMinute;
+
 @synthesize isOnlyShowingTheSixWithoutUserEntriesSorted	= _isOnlyShowingTheSixWithoutUserEntriesSorted;
-@synthesize theSixToBeShown								= _theSixToBeShown;
-@synthesize nextEntry									= _nextEntry;
-@synthesize mostRecentlyAddedDate						= _mostRecentlyAddedDate;
 @synthesize orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay	= _orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
-@synthesize followedAdvice								= _followedAdvice;
 
 
 #pragma mark - init
@@ -73,6 +90,7 @@
 #pragma mark - Getters and Setters
 
 //	DEPRECATED?
+/*
 -(void)onlyShowTheSixWithoutUserEntries:(BOOL)onlyShowWithoutUserEntries
 {	
 	self.isOnlyShowingTheSixWithoutUserEntriesSorted	= onlyShowWithoutUserEntries;
@@ -84,6 +102,7 @@
 	
 	NSLog(@"Count of theSixToBeShown: %i", [self.theSixToBeShown count]);
 }
+ */
 
 #pragma mark - View Loading and Appearing
 
@@ -92,10 +111,6 @@
     [super viewDidLoad];
 	
 	self.debug	= YES;
-	
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-
 }
 
 - (void)viewDidUnload
@@ -112,14 +127,21 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-	// this is to make sure that any Core Data changes on other screens will be reflected
-	// in this view as necessary (such as timeUpdated)
 	[self setupAdviceFetchedResultsController];
 	[self setupDaysFetchedResultsController];
 	self.title		= self.today.date.date;
-	self.nextEntry	= [[self.today getTheSixWithoutUserEntriesSorted] objectAtIndex:0];		// need to account for an empty array
 	
-	//  [self.tableView reloadData];
+	NSArray *allRemainingEntries			= [self.today getTheSixWithoutUserEntriesSorted];
+	NSRange rangeRemainingScheduledEntries;
+	rangeRemainingScheduledEntries.location	= 1;
+	rangeRemainingScheduledEntries.length	= [allRemainingEntries count] - 1;
+	self.nextEntry							= [allRemainingEntries objectAtIndex:0];
+	self.remainingScheduledEntries			= [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];		// need to account for an empty array
+	self.showRemainingScheduledEntries		= NO;
+	
+	self.updatedEntries						= [self.today getTheSixThatHaveUserEntriesSorted];
+	self.showUpdatedEntries					= NO;
+	
 	if (self.debug) {
 		NSLog(@"There are %u entries that have been updated.", [[self.today getTheSixThatHaveUserEntriesSorted] count]);
 		NSLog(@"There are %u entries that have not yet been updated.", [[self.today getTheSixWithoutUserEntriesSorted] count]);
@@ -145,9 +167,11 @@
 	if ([self.fetchedResultsController.fetchedObjects count] == 0) {
 		if (self.debug)
 			NSLog(@"0 days have been fetched. There isn't a mostRecentlyAddedDate");
+		self.mostRecentlyAddedDate				= nil;
 	} else {
 		// Set most recent day
 		Day *mostRecentDay						= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
+		NSLog(@"the mostRecentDay is %@.", mostRecentDay.date.timeAndDate);
 		LESixOfDay *lastTheSixOfMostRecentDay	= [[mostRecentDay getTheSixSorted] lastObject];
 		self.mostRecentlyAddedDate				= mostRecentDay.date;
 		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.followedAdvice indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
@@ -158,6 +182,10 @@
 			NSLog(@"Index of that advice: %i", [self.followedAdvice indexOfObject:lastTheSixOfMostRecentDay.advice]);
 			NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
 		}
+		self.wakingHour		= 5;			// This will need to be fixed
+		self.wakingMinute	= 30;			// This will need to be fixed
+		
+		[self addDay:0];
 	}
 	if (self.debug)
 		NSLog(@"The setup for the Days fetchedResultsController is successful.");
@@ -201,29 +229,38 @@
 	if (self.debug)
 		NSLog(@"At start of addDay:");
 	
-    // Date to be added
-	// Today
 	NSDate *now					= [NSDate date];
 	
-	Day *newDay					= [NSEntityDescription insertNewObjectForEntityForName:@"Day"
-													inManagedObjectContext:self.managedObjectContext];
-	
-    newDay.date					= now;
-	self.mostRecentlyAddedDate	= newDay.date;
-	if (self.debug)
-		NSLog(@"A new Day has been created. Its date is %@. The most recently added date is %@.", newDay.date, self.mostRecentlyAddedDate);
-	
-	[self setTheSixAdvicesFor:newDay withIndexOfFirstFollowedAdvice:self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay inManagedObjectContext:self.managedObjectContext];
-    
-    [self.managedObjectContext save:nil];
-    [self performFetch];
-    [self.tableView reloadData];
-    
-    if (self.debug) {
-		NSLog(@"newDay.date = %@", [newDay.date date]);
-		NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
-    }
-	
+	if (self.mostRecentlyAddedDate) {
+		LESixOfDay *lastScheduledLogEntryOfMostRecentDate					= [[self.today getTheSixSorted] lastObject];
+		NSDate *sixHoursAfterDateOfLastScheduledLogEntryOfMostRecentDate	= [lastScheduledLogEntryOfMostRecentDate.timeScheduled dateByAddingTimeInterval:6*60*60];
+		
+		// do the compare
+		if ([now compare:sixHoursAfterDateOfLastScheduledLogEntryOfMostRecentDate] == NSOrderedDescending) {
+			NSLog(@"Now [%@] is later in time than 6 Hours After Date of Last Scheduled Loge Entry of Most Recent Date [%@].", now.timeAndDate, sixHoursAfterDateOfLastScheduledLogEntryOfMostRecentDate.timeAndDate);
+			
+			Day *newDay					= [NSEntityDescription insertNewObjectForEntityForName:@"Day"
+															inManagedObjectContext:self.managedObjectContext];
+			
+			newDay.date					= now;
+			self.mostRecentlyAddedDate	= newDay.date;
+			if (self.debug)
+				NSLog(@"A new Day has been created. Its date is %@. The most recently added date is %@.", newDay.date, self.mostRecentlyAddedDate);
+			
+			[self setTheSixAdvicesFor:newDay withIndexOfFirstFollowedAdvice:self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay inManagedObjectContext:self.managedObjectContext];
+			
+			[self.managedObjectContext save:nil];
+			[self performFetch];
+			[self.tableView reloadData];
+			
+			if (self.debug) {
+				NSLog(@"newDay.date = %@", [newDay.date date]);
+				NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
+			}
+		} else {
+			NSLog(@"Now [%@] is earlier (or exactly equal) in time than 6 Hours After Date of Last Scheduled Loge Entry of Most Recent Date [%@].", now.timeAndDate, sixHoursAfterDateOfLastScheduledLogEntryOfMostRecentDate.timeAndDate);
+		}
+	}
 }
 
 -(void)setTheSixAdvicesFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
@@ -260,7 +297,7 @@
 		NSInteger orderNumber	= followedAdviceIncrement+1;
 		
 		// Create a log entry for the Six of the Day and initiate it with advice, and order number, and the day -- add to the managedObjectContext
-		LESixOfDay *logEntry	= [LESixOfDay logEntryWithAdvice:advice withOrderNumber:orderNumber onDay:day inManagedObjectContext:managedObjectContext];
+		LESixOfDay *logEntry	= [LESixOfDay logEntryWithAdvice:advice withOrderNumber:orderNumber onDay:day withWakingHour:self.wakingHour andWakingMinute:self.wakingMinute inManagedObjectContext:managedObjectContext];
 		
 		if (self.debug)
 			[logEntry logValuesOfLogEntry];
@@ -293,16 +330,30 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return PREVIOUS_DAYS + 1;	// Index of Last Section + 1
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	switch (section) {
 		case TODAYS_GUIDELINES:
-			return 3;
+			return 1;
 			break;
 			
+		case TODAYS_GUIDELINES_REMAINING:
+			if (self.showRemainingScheduledEntries)
+				return [self.remainingScheduledEntries count] + 1;
+			else
+				return 1;
+			break;
+			
+		case TODAYS_GUIDELINES_UPDATED:
+			if (self.showUpdatedEntries)
+				return [self.updatedEntries count] + 1;
+			else
+				return 1;
+			break;
+		
 		case TODAYS_SETUP:
 			return 2;
 			break;
@@ -337,15 +388,12 @@
 	return nil;
 }
 
-//-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-//{
-//	return @"";
-//}
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == TODAYS_GUIDELINES && indexPath.row == 0)
-		return 129;
+	if (indexPath.section == TODAYS_GUIDELINES)
+		return 129;		// change for landscape orientation?
+	else if ((indexPath.section == TODAYS_GUIDELINES_REMAINING || indexPath.section == TODAYS_GUIDELINES_UPDATED) && indexPath.row > 0)
+		return 81;
 	else
 		return 35;
 }
@@ -354,11 +402,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString *guidelineEntryCellIdentifier	= @"GuidelineEntryCell";
-	static NSString *summaryOrSetupCellIdentifier	= @"SummaryOrSetupCell";
+	static NSString *guidelineNextEntryCellIdentifier	= @"GuidelineNextEntryCell";
+	static NSString *guidelineOtherEntryCellIdentifier	= @"GuidelineOtherEntryCell";
+	static NSString *summaryOrSetupCellIdentifier		= @"SummaryOrSetupCell";
 	
-    UITableViewCell *guidelineEntryCell				= [tableView dequeueReusableCellWithIdentifier:guidelineEntryCellIdentifier];
-    UITableViewCell *summaryOrSetupCell				= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+	//	UITableViewCell
 	
 	
 	if (self.debug)
@@ -367,53 +415,107 @@
     switch (indexPath.section) {
 		case TODAYS_GUIDELINES:
 		{
-			switch (indexPath.row) {
-				case 0:
-				{
-					if ([[self.today getTheSixWithoutUserEntriesSorted] count] > 0) {
-						NSString *timeEntryText	= [NSString stringWithFormat:@"Next Entry - %@", self.nextEntry.timeScheduled.time];
-						NSString *guidelineText	= self.nextEntry.advice.name;
-						
-						[[guidelineEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
-						[[guidelineEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
-					} else {
-						guidelineEntryCell.hidden	= YES;
-					}
-					return guidelineEntryCell;
-					break;
+			UITableViewCell *guidelineNextEntryCell		= [tableView dequeueReusableCellWithIdentifier:guidelineNextEntryCellIdentifier];
+			
+			if ([[self.today getTheSixWithoutUserEntriesSorted] count] > 0) {
+				NSString *timeEntryText	= [NSString stringWithFormat:@"Next Entry - %@", self.nextEntry.timeScheduled.time];
+				NSString *guidelineText	= self.nextEntry.advice.name;
+				
+				[[guidelineNextEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
+				[[guidelineNextEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
+			} else {
+				NSString *timeEntryText	= @"Excellent!";
+				NSString *guidelineText	= @"You've made entries for all 6 guidelines. Be happy over what you've done well to day, and regret the mistaken actions.";
+				
+				[[guidelineNextEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
+				[[guidelineNextEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
+				
+				//	guidelineNextEntryCell.hidden	= YES;
+			}
+			return guidelineNextEntryCell;
+			break;
+		}
+		case TODAYS_GUIDELINES_REMAINING:
+		{
+			if (self.showRemainingScheduledEntries && indexPath.row > 0) {
+				UITableViewCell *guidelineOtherEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineOtherEntryCellIdentifier];
+				
+				LESixOfDay *scheduledEntry	= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
+				NSString *timeEntryText		= [NSString stringWithFormat:@"Scheduled - %@", scheduledEntry.timeScheduled.time];
+				NSString *guidelineText		= scheduledEntry.advice.name;
+				
+				[[guidelineOtherEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
+				[[guidelineOtherEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
+				
+				return guidelineOtherEntryCell;
+			} else {
+				UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+				
+				summaryOrSetupCell.textLabel.text		= @"Remaining Guidelines";
+				summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [self.remainingScheduledEntries count]];
+				
+				if ([self.remainingScheduledEntries count] == 0) {
+					summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleNone;
+					summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryNone;
+				} else {
+					summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
+					summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
 				}
-				case 1:
-				{
-					summaryOrSetupCell.textLabel.text		= @"Remaining Guidelines";
-					summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [[self.today getTheSixWithoutUserEntriesSorted] count]];
-					return summaryOrSetupCell;
-					break;
-				}
-				case 2:
-				{
-					summaryOrSetupCell.textLabel.text		= @"Guidelines with Entries";
-					summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [[self.today getTheSixThatHaveUserEntriesSorted] count]];
-					return summaryOrSetupCell;
-				}
-				default:
-					break;
+				
+				return summaryOrSetupCell;
 			}
 			break;
+		}
+		case TODAYS_GUIDELINES_UPDATED:
+		{
+			if (self.showUpdatedEntries && indexPath.row > 0) {
+				UITableViewCell *guidelineOtherEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineOtherEntryCellIdentifier];
+				
+				LESixOfDay *updatedEntry	= [self.updatedEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
+				NSString *timeEntryText		= [NSString stringWithFormat:@"Updated - %@", updatedEntry.timeLastUpdated.time];
+				NSString *guidelineText		= updatedEntry.advice.name;
+				
+				[[guidelineOtherEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
+				[[guidelineOtherEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
+				
+				return guidelineOtherEntryCell;
+			} else {
+				UITableViewCell *summaryOrSetupCell					= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+			
+				summaryOrSetupCell.textLabel.text		= @"Guidelines with Entries";
+				summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [self.updatedEntries count]];
+				
+				if ([self.updatedEntries count] == 0) {
+					summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleNone;
+					summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryNone;
+				} else {
+					summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
+					summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
+				}
+
+				return summaryOrSetupCell;
+			}
 		}
 		case TODAYS_SETUP:
 		{
 			switch (indexPath.row) {
-				case 0:
+				case 1:
 				{
+					UITableViewCell *summaryOrSetupCell					= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+					
 					summaryOrSetupCell.textLabel.text		= @"Guidelines Being Followed";
 					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%i", [self.followedAdvice count]];
 					return summaryOrSetupCell;
 					break;
 				}
-				case 1:
+				case 0:
 				{
+					UITableViewCell *summaryOrSetupCell					= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+					
 					summaryOrSetupCell.textLabel.text		= @"Wake Up Time";
-					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", self.today.date.time];
+					LESixOfDay *firstGuidelineOfDay			= [[self.today getTheSixSorted] objectAtIndex:0];
+					NSDate *wakeUpAt						= [firstGuidelineOfDay.timeScheduled dateByAddingTimeInterval:-2*60*60];	// this will need to be fixed
+					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", wakeUpAt.time];
 					return summaryOrSetupCell;
 					break;
 				}
@@ -424,6 +526,8 @@
 		}
 		case PREVIOUS_DAYS:
 		{
+			UITableViewCell *summaryOrSetupCell					= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+			
 			summaryOrSetupCell.textLabel.text		= @"Previous Days";
 			summaryOrSetupCell.detailTextLabel.text	= @"";
 			return summaryOrSetupCell;
@@ -442,20 +546,32 @@
 {
 	switch (indexPath.section) {
 		case TODAYS_GUIDELINES:
+			[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
+			break;
+		case TODAYS_GUIDELINES_REMAINING:
 		{
-			switch (indexPath.row) {
-				case 0:
+			if ([self.remainingScheduledEntries count] > 0) {
+				if (indexPath.row > 0) {
 					[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
-					break;
-				case 1:
-					//
-					break;
-				case 2:
-					//
-					break;
-				default:
-					break;
+				} else {
+					self.showRemainingScheduledEntries	= (self.showRemainingScheduledEntries) ? NO : YES;		// toggle to other state
+					[tableView reloadSections:[NSIndexSet indexSetWithIndex:TODAYS_GUIDELINES_REMAINING] withRowAnimation:YES];
+				}
 			}
+			break;
+		}
+			
+		case TODAYS_GUIDELINES_UPDATED:
+		{
+			if ([self.updatedEntries count] > 0) {
+				if (indexPath.row > 0) {
+					[self performSegueWithIdentifier:@"Guideline Entry" sender:self];					
+				} else {
+					self.showUpdatedEntries = (self.showUpdatedEntries) ? NO : YES;
+					[tableView reloadSections:[NSIndexSet indexSetWithIndex:TODAYS_GUIDELINES_UPDATED] withRowAnimation:YES];
+				}
+			}
+			break;
 		}
 		case TODAYS_SETUP:
 		{
@@ -483,11 +599,33 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+	NSIndexPath *indexPath  = [self.tableView indexPathForSelectedRow];
+	
 	if ([[segue identifier] isEqualToString:@"Guideline Entry"]) {
+		
+		//	Get the indexPath for which entry this should go to
 		
 		STLogEntrySixOfDayTVC *leSixOfDayTVC	= segue.destinationViewController;
 		leSixOfDayTVC.managedObjectContext		= self.managedObjectContext;
-		leSixOfDayTVC.leSixOfDay				= self.nextEntry;
+		
+		switch (indexPath.section) {
+			case TODAYS_GUIDELINES:
+				leSixOfDayTVC.leSixOfDay		= self.nextEntry;
+				break;
+			case TODAYS_GUIDELINES_REMAINING:
+				leSixOfDayTVC.leSixOfDay		= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];
+				break;
+			case TODAYS_GUIDELINES_UPDATED:
+				leSixOfDayTVC.leSixOfDay		= [self.updatedEntries objectAtIndex:indexPath.row - 1];
+				
+			default:
+				break;
+		}
+		
+	} else if ([[segue identifier] isEqualToString:@"Guidelines Followed"]) {
+		
+		STTraditionsFollowedTVC *tradtionsTVC	= segue.destinationViewController;
+		tradtionsTVC.managedObjectContext		= self.managedObjectContext;
 		
 	} else if ([[segue identifier] isEqualToString:@"Previous Days"]) {
 		
@@ -496,6 +634,32 @@
 		
 	} 
 }
+
+
+#pragma mark - Notification
+
+- (void)addNotification:(LESixOfDay *)sixOfDayLogEntry {
+	NSDictionary *userInfo	= @{
+	@"logEntryTimeScheduled"	: sixOfDayLogEntry.timeScheduled.timeAndDate,
+	@"logEntryAdviceText"		: sixOfDayLogEntry.advice.name
+	};
+	
+	NSLog(@"userInfo dictionary, %@", userInfo);
+	
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init]; //Create the localNotification object
+    
+	localNotification.fireDate						= sixOfDayLogEntry.timeScheduled; //Set the date when the alert will be launched using the date adding the time the user selected on the timer
+    localNotification.alertAction					= @"OK";							//The button's text that launches the application and is shown in the alert
+	localNotification.alertBody						= sixOfDayLogEntry.advice.name;		//Set the message in the notification from the textField's text
+    localNotification.hasAction						= YES;								//Set that pushing the button will launch the application
+    localNotification.applicationIconBadgeNumber	= [[UIApplication sharedApplication] applicationIconBadgeNumber]+1; //Set the Application Icon Badge Number of the application's icon to the current Application Icon Badge Number plus 1
+	localNotification.soundName						= UILocalNotificationDefaultSoundName;
+	localNotification.userInfo						= userInfo;
+	
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification]; //Schedule the notification with the system
+																					 //    [alertNotification setHidden:NO]; //Set the alertNotification to be shown showing the user that the application has registered the local notification
+}
+
 
 
 

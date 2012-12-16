@@ -13,7 +13,6 @@
 
 @interface STDayTVC : CoreDataTableViewController
 
-// possilby add delegate ?
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
@@ -23,7 +22,6 @@
 @property (strong, nonatomic) LESpecialFocus *specialFocus;
 
 @property BOOL *isTipToBeShown;
-//@property BOOL *debug;
 
 -(void)onlyShowTheSixWithoutUserEntries:(BOOL)onlyShowWithoutUserEntries;
 
