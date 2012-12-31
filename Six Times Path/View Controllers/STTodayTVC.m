@@ -32,10 +32,18 @@
 @property BOOL showUpdatedEntries;
 @property (strong, nonatomic) NSDate *mostRecentlyAddedDate;
 @property NSInteger orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
-@property (strong, nonatomic) NSMutableArray *followedAdvice;
+@property (strong, nonatomic) NSMutableArray *allAdviceFollowedByUser;
 @property NSInteger *wakingHour;
 @property NSInteger *wakingMinute;
 
+@property (nonatomic, retain) IBOutlet UIDatePicker *pickerView;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
+
+@property (nonatomic, retain) NSArray *dataArray;
+@property (nonatomic, retain) NSDateFormatter *dateFormatter;
+
+- (IBAction)doneAction:(id)sender;	// when the done button is clicked
+- (IBAction)dateAction:(id)sender;	// when the user has changed the date picked
 
 -(void)determineAndSetTheSixToBeShown;
 -(void)addNotification:(LESixOfDay *)sixOfDayLogEntry;
@@ -58,7 +66,7 @@
 @synthesize showRemainingScheduledEntries	= _showRemainingScheduledEntries;
 @synthesize showUpdatedEntries				= _showUpdatedEntries;
 @synthesize mostRecentlyAddedDate		= _mostRecentlyAddedDate;
-@synthesize followedAdvice				= _followedAdvice;
+@synthesize allAdviceFollowedByUser				= _allAdviceFollowedByUser;
 @synthesize wakingHour					= _wakingHour;
 @synthesize wakingMinute				= _wakingMinute;
 
@@ -128,15 +136,48 @@
 -(void)viewWillAppear:(BOOL)animated
 {
 	[self setupAdviceFetchedResultsController];
+    self.allAdviceFollowedByUser				= [NSMutableArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
+	
+	if (self.debug) {
+		NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
+		NSLog(@"The count of the advice that is currently being followed is %i", [self.allAdviceFollowedByUser count]);
+	}
+	
+	
 	[self setupDaysFetchedResultsController];
-	self.title		= self.today.date.date;
+	
+	if ([self.fetchedResultsController.fetchedObjects count] == 0) {
+		if (self.debug)
+			NSLog(@"0 days have been fetched. There isn't a mostRecentlyAddedDate");
+		self.mostRecentlyAddedDate				= nil;
+	} else {
+		Day *mostRecentDay						= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
+		NSLog(@"the mostRecentDay is %@.", mostRecentDay.date.timeAndDate);
+		LESixOfDay *lastTheSixOfMostRecentDay	= [[mostRecentDay getTheSixSorted] lastObject];
+		self.mostRecentlyAddedDate				= mostRecentDay.date;
+		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
+		self.today								= mostRecentDay;
+		if (self.debug) {
+			NSLog(@"Most recent date: %@", self.mostRecentlyAddedDate.date);
+			NSLog(@"lastTheSixOfMostRecentDay: %@", lastTheSixOfMostRecentDay.advice.name);
+			NSLog(@"Index of that advice: %i", [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice]);
+			NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
+		}
+		self.wakingHour		= 5;			// This will need to be fixed
+		self.wakingMinute	= 30;			// This will need to be fixed
+		
+		[self addDay:0];
+	}
+
+	self.title		= self.mostRecentlyAddedDate.date;
 	
 	NSArray *allRemainingEntries			= [self.today getTheSixWithoutUserEntriesSorted];
 	NSRange rangeRemainingScheduledEntries;
 	rangeRemainingScheduledEntries.location	= 1;
 	rangeRemainingScheduledEntries.length	= [allRemainingEntries count] - 1;
 	self.nextEntry							= [allRemainingEntries objectAtIndex:0];
-	self.remainingScheduledEntries			= [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];		// need to account for an empty array
+	
+	self.remainingScheduledEntries			= [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
 	self.showRemainingScheduledEntries		= NO;
 	
 	self.updatedEntries						= [self.today getTheSixThatHaveUserEntriesSorted];
@@ -162,40 +203,10 @@
 																		  sectionNameKeyPath:nil
 																				   cacheName:nil];
     [self performFetch];
-	
-	// check to see if any days have been added
-	if ([self.fetchedResultsController.fetchedObjects count] == 0) {
-		if (self.debug)
-			NSLog(@"0 days have been fetched. There isn't a mostRecentlyAddedDate");
-		self.mostRecentlyAddedDate				= nil;
-	} else {
-		// Set most recent day
-		Day *mostRecentDay						= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
-		NSLog(@"the mostRecentDay is %@.", mostRecentDay.date.timeAndDate);
-		LESixOfDay *lastTheSixOfMostRecentDay	= [[mostRecentDay getTheSixSorted] lastObject];
-		self.mostRecentlyAddedDate				= mostRecentDay.date;
-		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.followedAdvice indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
-		self.today								= mostRecentDay;
-		if (self.debug) {
-			NSLog(@"Most recent date: %@", self.mostRecentlyAddedDate.date);
-			NSLog(@"lastTheSixOfMostRecentDay: %@", lastTheSixOfMostRecentDay.advice.name);
-			NSLog(@"Index of that advice: %i", [self.followedAdvice indexOfObject:lastTheSixOfMostRecentDay.advice]);
-			NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
-		}
-		self.wakingHour		= 5;			// This will need to be fixed
-		self.wakingMinute	= 30;			// This will need to be fixed
-		
-		[self addDay:0];
-	}
-	if (self.debug)
-		NSLog(@"The setup for the Days fetchedResultsController is successful.");
 }
 
 -(void)setupAdviceFetchedResultsController
 {
-	if (self.debug)
-		NSLog(@"Preparing to setup the fetchedResultsController for Advice.");
-	
     // Set request with sorting and predicate, then fetch
     NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:@"Advice"];
     request.predicate				= [NSPredicate predicateWithFormat:@"containedWithinSetOfAdvice.orderNumberInFollowedSets > 0", [NSNumber numberWithBool:YES]];
@@ -211,14 +222,6 @@
                                                                           sectionNameKeyPath:@"containedWithinSetOfAdvice.name"
                                                                                    cacheName:nil];
     [self performFetch];
-
-    self.followedAdvice	= [NSMutableArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
-	
-	if (self.debug) {
-		NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
-		NSLog(@"The count of the advice that is currently being followed is %i", [self.followedAdvice count]);
-		NSLog(@"The setup for the Days fetchedResultsController is successful.");
-	}
 }
 
 
@@ -226,23 +229,35 @@
 
 -(void)addDay:(id)sender
 {
-	if (self.debug)
-		NSLog(@"At start of addDay:");
+	NSDate *now						= [NSDate date];
+	NSDate *mostRecentDate			= self.today.date;
+	if (self.today.startHour && self.today.startMinute) {
+		[mostRecentDate setHour:[self.today.startHour intValue] andMinute:[self.today.startMinute intValue]];
+	} else {
+		[mostRecentDate setHour:6 andMinute:0];
+	}
 	
-	NSDate *now					= [NSDate date];
+	NSTimeInterval eighteenHours	= 18*60*60;
+	NSTimeInterval twentyFourHours	= 24*60*60;
 	
 	if (self.mostRecentlyAddedDate) {
-		LESixOfDay *lastScheduledLogEntryOfMostRecentDate					= [[self.today getTheSixSorted] lastObject];
-		NSDate *sixHoursAfterDateOfLastScheduledLogEntryOfMostRecentDate	= [lastScheduledLogEntryOfMostRecentDate.timeScheduled dateByAddingTimeInterval:6*60*60];
-		
-		// do the compare
-		if ([now compare:sixHoursAfterDateOfLastScheduledLogEntryOfMostRecentDate] == NSOrderedDescending) {
-			NSLog(@"Now [%@] is later in time than 6 Hours After Date of Last Scheduled Loge Entry of Most Recent Date [%@].", now.timeAndDate, sixHoursAfterDateOfLastScheduledLogEntryOfMostRecentDate.timeAndDate);
+		if ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending) {
+			NSLog(@"Now [%@] is later in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, mostRecentDate.timeAndDate);
 			
 			Day *newDay					= [NSEntityDescription insertNewObjectForEntityForName:@"Day"
 															inManagedObjectContext:self.managedObjectContext];
 			
-			newDay.date					= now;
+			BOOL nowIsOnSameDateAsMostRecentDateButAfterEntryLogging	= ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending && [now compare:[mostRecentDate dateByAddingTimeInterval:twentyFourHours]] == NSOrderedAscending);
+			
+			if (nowIsOnSameDateAsMostRecentDateButAfterEntryLogging) {
+				newDay.date				= [mostRecentDate dateByAddingTimeInterval:twentyFourHours];
+			} else {
+				newDay.date				= now;
+			}
+			
+			newDay.startHour			= (self.today.startHour) ? self.today.startHour : [NSNumber numberWithInt:6];
+			newDay.startMinute			= (self.today.startMinute) ? self.today.startMinute : [NSNumber numberWithInt:0];
+			
 			self.mostRecentlyAddedDate	= newDay.date;
 			if (self.debug)
 				NSLog(@"A new Day has been created. Its date is %@. The most recently added date is %@.", newDay.date, self.mostRecentlyAddedDate);
@@ -258,7 +273,7 @@
 				NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
 			}
 		} else {
-			NSLog(@"Now [%@] is earlier (or exactly equal) in time than 6 Hours After Date of Last Scheduled Loge Entry of Most Recent Date [%@].", now.timeAndDate, sixHoursAfterDateOfLastScheduledLogEntryOfMostRecentDate.timeAndDate);
+			NSLog(@"Now [%@] is earlier (or exactly equal) in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, self.today.date.timeAndDate);
 		}
 	}
 }
@@ -267,37 +282,40 @@
 {
 	int indexOfFollowedAdviceForTheDay;
 	
-	// Check to see if the index of the first followed Advice that was passed into the method exceeds the index limit of the followedAdvice array and reset as necessary
+	// Check to see if the index of the first followed Advice that was passed into the method exceeds the index limit of the allAdviceFollowedByUser array and reset as necessary
 	
-	if (indexOfFirstFollowedAdvice >= [self.followedAdvice count])
+	if (indexOfFirstFollowedAdvice >= [self.allAdviceFollowedByUser count])
 		indexOfFirstFollowedAdvice = 0;
 	
     
     // Starting with the first advice to be followed for the day, cycle through the advice that has been
 	// selected to be followed and add 6 advices to LogEntries that will be added to a day.
-    for (int followedAdviceIncrement=0; followedAdviceIncrement<6; followedAdviceIncrement++) {
-        indexOfFollowedAdviceForTheDay = followedAdviceIncrement + indexOfFirstFollowedAdvice;
+    for (int allAdviceFollowedByUserIncrement=0; allAdviceFollowedByUserIncrement<6; allAdviceFollowedByUserIncrement++) {
+        indexOfFollowedAdviceForTheDay = allAdviceFollowedByUserIncrement + indexOfFirstFollowedAdvice;
 		
 		if (self.debug)
 			NSLog(@"indexOfFollowedAdviceForTheDay: %i", indexOfFollowedAdviceForTheDay);
         
-        if (indexOfFollowedAdviceForTheDay==[self.followedAdvice count] - 1)
+        if (indexOfFollowedAdviceForTheDay==[self.allAdviceFollowedByUser count] - 1)
         {
             // reset to the beginning
-            indexOfFirstFollowedAdvice = -1 - followedAdviceIncrement;
+            indexOfFirstFollowedAdvice = -1 - allAdviceFollowedByUserIncrement;
 			
 			if (self.debug)
 				NSLog(@"indexOfFirstFollowedAdvice has been reset. Value is now: %i", indexOfFirstFollowedAdvice);
         }
         
 		// Add the advice to a log entry
-		Advice *advice			= [self.followedAdvice objectAtIndex:indexOfFollowedAdviceForTheDay];
+		Advice *advice			= [self.allAdviceFollowedByUser objectAtIndex:indexOfFollowedAdviceForTheDay];
 		
 		// orderNumber range will be 1-6
-		NSInteger orderNumber	= followedAdviceIncrement+1;
+		NSInteger orderNumber	= allAdviceFollowedByUserIncrement+1;
 		
 		// Create a log entry for the Six of the Day and initiate it with advice, and order number, and the day -- add to the managedObjectContext
-		LESixOfDay *logEntry	= [LESixOfDay logEntryWithAdvice:advice withOrderNumber:orderNumber onDay:day withWakingHour:self.wakingHour andWakingMinute:self.wakingMinute inManagedObjectContext:managedObjectContext];
+		LESixOfDay *logEntry	= [LESixOfDay logEntryWithAdvice:advice
+											  withOrderNumber:orderNumber
+														onDay:day
+									   inManagedObjectContext:managedObjectContext];
 		
 		if (self.debug)
 			[logEntry logValuesOfLogEntry];
@@ -504,7 +522,7 @@
 					UITableViewCell *summaryOrSetupCell					= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 					
 					summaryOrSetupCell.textLabel.text		= @"Guidelines Being Followed";
-					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%i", [self.followedAdvice count]];
+					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%i", [self.allAdviceFollowedByUser count]];
 					return summaryOrSetupCell;
 					break;
 				}
@@ -548,6 +566,7 @@
 		case TODAYS_GUIDELINES:
 			[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
 			break;
+			
 		case TODAYS_GUIDELINES_REMAINING:
 		{
 			if ([self.remainingScheduledEntries count] > 0) {
@@ -577,7 +596,8 @@
 		{
 			switch (indexPath.row) {
 				case 0:
-					// get date picker
+					NSLog(@"Going to trigger -showDatePicker");
+					[self showDatePicker];
 					break;
 				case 1:
 					[self performSegueWithIdentifier:@"Guidelines Followed" sender:self];
@@ -596,6 +616,97 @@
 
 
 #pragma mark - UI Interactions
+-(void)showDatePicker
+{
+	if (self.debug)
+		NSLog(@"In -showDatePicker");
+	NSIndexPath *indexPath		= [self.tableView indexPathForSelectedRow];
+	UITableViewCell *targetCell = [self.tableView cellForRowAtIndexPath:indexPath];
+	self.pickerView.date		= [self.dateFormatter dateFromString:targetCell.detailTextLabel.text];
+	
+	// check if our date picker is already on screen
+	if (self.pickerView.superview == nil)
+	{
+		[self.view.window addSubview: self.pickerView];
+		
+		// size up the picker view to our screen and compute the start/end frame origin for our slide up animation
+		//
+		// compute the start frame
+		CGRect screenRect		= [[UIScreen mainScreen] applicationFrame];
+		CGSize pickerSize		= [self.pickerView sizeThatFits:CGSizeZero];
+		CGRect startRect		= CGRectMake(0.0,
+									  screenRect.origin.y + screenRect.size.height,
+									  pickerSize.width, pickerSize.height);
+		self.pickerView.frame = startRect;
+		
+		// compute the end frame
+		CGRect pickerRect		= CGRectMake(0.0,
+									   screenRect.origin.y + screenRect.size.height - pickerSize.height,
+									   pickerSize.width,
+									   pickerSize.height);
+		// start the slide up animation
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDuration:0.3];
+		
+		// we need to perform some post operations after the animation is complete
+		[UIView setAnimationDelegate:self];
+		
+		self.pickerView.frame	= pickerRect;
+		
+		// shrink the table vertical size to make room for the date picker
+		CGRect newFrame			= self.tableView.frame;
+		newFrame.size.height	-= self.pickerView.frame.size.height;
+		self.tableView.frame	= newFrame;
+		[UIView commitAnimations];
+		
+		// add the "Done" button to the nav bar
+		self.navigationItem.rightBarButtonItem = self.doneButton;
+	}
+}
+
+
+- (void)slideDownDidStop
+{
+	// the date picker has finished sliding downwards, so remove it
+	[self.pickerView removeFromSuperview];
+}
+
+- (IBAction)dateAction:(id)sender
+{
+	NSIndexPath *indexPath		= [self.tableView indexPathForSelectedRow];
+	UITableViewCell *cell		= [self.tableView cellForRowAtIndexPath:indexPath];
+	cell.detailTextLabel.text	= [self.pickerView.date time]; //  [self.dateFormatter stringFromDate:self.pickerView.date];
+}
+
+- (IBAction)doneAction:(id)sender
+{
+	CGRect screenRect		= [[UIScreen mainScreen] applicationFrame];
+	CGRect endFrame			= self.pickerView.frame;
+	endFrame.origin.y		= screenRect.origin.y + screenRect.size.height;
+	
+	// start the slide down animation
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationDuration:0.3];
+	
+	// we need to perform some post operations after the animation is complete
+	[UIView setAnimationDelegate:self];
+	[UIView setAnimationDidStopSelector:@selector(slideDownDidStop)];
+	
+	self.pickerView.frame	= endFrame;
+	[UIView commitAnimations];
+	
+	// grow the table back again in vertical size to make room for the date picker
+	CGRect newFrame			= self.tableView.frame;
+	newFrame.size.height	+= self.pickerView.frame.size.height;
+	self.tableView.frame	= newFrame;
+	
+	// remove the "Done" button in the nav bar
+	self.navigationItem.rightBarButtonItem = nil;
+	
+	// deselect the current table row
+	NSIndexPath *indexPath	= [self.tableView indexPathForSelectedRow];
+	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

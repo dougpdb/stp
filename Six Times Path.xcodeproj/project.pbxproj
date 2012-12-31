@@ -59,6 +59,7 @@
 		9137F1AA166A4C9000C789D2 /* Day+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F1A9166A4C9000C789D2 /* Day+ST.m */; };
 		91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 91573F091629E6E300914D3E /* UITextView+Placeholder.m */; };
 		915E3FE315CFD37A0036C6FE /* prog journal.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 915E3FE215CFD37A0036C6FE /* prog journal.rtf */; };
+		918D4133168F3036007501DD /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 918D4132168F3035007501DD /* Day.m */; };
 		91DDA5B51679F98200B0AEDA /* STOtherEntriesForDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */; };
 		91E94AE416258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */; };
 		91E94AE816258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E94AE716258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m */; };
@@ -67,7 +68,6 @@
 		91EE793E15C2A3B800D43A96 /* LogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793D15C2A3B800D43A96 /* LogEntry.m */; };
 		91EE794115C2A3B900D43A96 /* ActionTaken.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE794015C2A3B900D43A96 /* ActionTaken.m */; };
 		91EE794A15C2A3B900D43A96 /* Advice.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE794915C2A3B900D43A96 /* Advice.m */; };
-		91EE794D15C2A3BA00D43A96 /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE794C15C2A3BA00D43A96 /* Day.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -162,6 +162,8 @@
 		91573F081629E6E300914D3E /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		91573F091629E6E300914D3E /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		915E3FE215CFD37A0036C6FE /* prog journal.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "prog journal.rtf"; sourceTree = SOURCE_ROOT; };
+		918D4131168F3035007501DD /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Day.h; path = "Data Classes/Managed Object Classes/Day.h"; sourceTree = "<group>"; };
+		918D4132168F3035007501DD /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Day.m; path = "Data Classes/Managed Object Classes/Day.m"; sourceTree = "<group>"; };
 		91DDA5B31679F98200B0AEDA /* STOtherEntriesForDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STOtherEntriesForDayTVC.h; path = "View Controllers/STOtherEntriesForDayTVC.h"; sourceTree = "<group>"; };
 		91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STOtherEntriesForDayTVC.m; path = "View Controllers/STOtherEntriesForDayTVC.m"; sourceTree = "<group>"; };
 		91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = STLogEntryBestWorstOrToDoTextEntryCell.xib; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.xib"; sourceTree = "<group>"; };
@@ -177,8 +179,6 @@
 		91EE794015C2A3B900D43A96 /* ActionTaken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionTaken.m; path = "Data Classes/Managed Object Classes/ActionTaken.m"; sourceTree = "<group>"; };
 		91EE794815C2A3B900D43A96 /* Advice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Advice.h; path = "Data Classes/Managed Object Classes/Advice.h"; sourceTree = "<group>"; };
 		91EE794915C2A3B900D43A96 /* Advice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Advice.m; path = "Data Classes/Managed Object Classes/Advice.m"; sourceTree = "<group>"; };
-		91EE794B15C2A3BA00D43A96 /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Day.h; path = "Data Classes/Managed Object Classes/Day.h"; sourceTree = "<group>"; };
-		91EE794C15C2A3BA00D43A96 /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Day.m; path = "Data Classes/Managed Object Classes/Day.m"; sourceTree = "<group>"; };
 		91F1B88B164E9DEC00F9B56B /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -311,8 +311,8 @@
 				91EE794915C2A3B900D43A96 /* Advice.m */,
 				91EE793315C2A3B700D43A96 /* AdviceReference.h */,
 				91EE793415C2A3B700D43A96 /* AdviceReference.m */,
-				91EE794B15C2A3BA00D43A96 /* Day.h */,
-				91EE794C15C2A3BA00D43A96 /* Day.m */,
+				918D4131168F3035007501DD /* Day.h */,
+				918D4132168F3035007501DD /* Day.m */,
 				91EE793915C2A3B800D43A96 /* Insight.h */,
 				91EE793A15C2A3B800D43A96 /* Insight.m */,
 				91EE793C15C2A3B800D43A96 /* LogEntry.h */,
@@ -531,7 +531,6 @@
 				91EE793E15C2A3B800D43A96 /* LogEntry.m in Sources */,
 				91EE794115C2A3B900D43A96 /* ActionTaken.m in Sources */,
 				91EE794A15C2A3B900D43A96 /* Advice.m in Sources */,
-				91EE794D15C2A3BA00D43A96 /* Day.m in Sources */,
 				911251E015FAE9F7005E22FC /* STLogEntryTimedCell.m in Sources */,
 				9122152F160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m in Sources */,
 				91221532160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.m in Sources */,
@@ -566,6 +565,7 @@
 				911FE97F166F6BC4006BF9CD /* ToDo.m in Sources */,
 				911FE982166F7009006BF9CD /* STTodayTVC.m in Sources */,
 				91DDA5B51679F98200B0AEDA /* STOtherEntriesForDayTVC.m in Sources */,
+				918D4133168F3036007501DD /* Day.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

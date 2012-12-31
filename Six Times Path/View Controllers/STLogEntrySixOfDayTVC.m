@@ -81,17 +81,13 @@
 	// There should only be one postive and one negative action associated with the log entry type SixOfDay
 	// Therefore, get the set of actions (there should only be one in the set at most) for each type of action
 	// and assign the ActionTaken objects from that set and assign to the properties aPostiveActionTaken and aNegativeActionTaken
-	NSSet *setOfPositiveActionsTaken	= self.leSixOfDay.getPositiveActionsTaken;
-	if (self.debug)
-		NSLog(@"The number of positive actions taken for this log entry is %i", [setOfPositiveActionsTaken count]);
-	self.aPositiveActionTaken			= [setOfPositiveActionsTaken anyObject];
+	NSSet *setOfPositiveActionsTaken						= self.leSixOfDay.getPositiveActionsTaken;
+	self.aPositiveActionTaken								= [setOfPositiveActionsTaken anyObject];
 	self.mostRecentlySavedPositiveActionTakenDescription	= (self.aPositiveActionTaken) ? self.aPositiveActionTaken.text : @"";
 	self.updatedPositiveActionTakenDescription				= self.mostRecentlySavedPositiveActionTakenDescription;
 
-	NSSet *setOfNegativeActionsTaken	= self.leSixOfDay.getNegativeActionsTaken;
-	if (self.debug)
-		NSLog(@"The number of positive actions taken for this log entry is %i", [setOfNegativeActionsTaken count]);
-	self.aNegativeActionTaken			= [setOfNegativeActionsTaken anyObject];
+	NSSet *setOfNegativeActionsTaken						= self.leSixOfDay.getNegativeActionsTaken;
+	self.aNegativeActionTaken								= [setOfNegativeActionsTaken anyObject];
 	self.mostRecentlySavedNegativeActionTakenDescription	= (self.aNegativeActionTaken) ? self.aNegativeActionTaken.text : @"";
 	self.updatedNegativeActionTakenDescription				= self.mostRecentlySavedNegativeActionTakenDescription;
 	
@@ -112,7 +108,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-	[self saveEntry:nil];
+	[self saveEntry];
 }
 
 - (void)viewDidUnload
@@ -233,20 +229,20 @@
 		case OVERVIEW_SECTION_NUMBER:
 		{
 			// Get data for the cell
-			LESixOfDay *sixOfDayEntry	= self.leSixOfDay;
+			LESixOfDay *sixOfDayEntry			= self.leSixOfDay;
 			
 			// Configure the cell...
-			NSString *labelText			= sixOfDayEntry.advice.name;
+			NSString *labelText					= sixOfDayEntry.advice.name;
 			
-			CGSize constraint			= CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
+			CGSize constraint					= CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
 			
-			CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE+3]
-									   constrainedToSize:constraint
-										   lineBreakMode:UILineBreakModeWordWrap];
+			CGSize labelSize					= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE+3]
+													   constrainedToSize:constraint
+														   lineBreakMode:UILineBreakModeWordWrap];
 			
 			// Effectively, the MIN() will make sure that the height of the label will either 1 or 2 lines.
 			// We add 10 to the height to give it some padding within the cell, to make sure that the tails of g and y are not clipped.
-			CGFloat labelHeight			= labelSize.height;		// MIN(labelSize.height, 37.0f);
+			CGFloat labelHeight					= labelSize.height;		// MIN(labelSize.height, 37.0f);
 			
 			overviewCell.guidelineLabel.text	= labelText;
 			overviewCell.guidelineLabel.font	= [UIFont systemFontOfSize:FONT_SIZE+2];
@@ -256,10 +252,10 @@
 			
 			
 			if (sixOfDayEntry.timeLastUpdated) {
-				overviewCell.timeLabel.text	= [NSString stringWithFormat:@"Updated %@", sixOfDayEntry.timeLastUpdated.time];
-				overviewCell.timeLabel.font	= [UIFont italicSystemFontOfSize:13.0];
+				overviewCell.timeLabel.text		= [NSString stringWithFormat:@"Updated %@", sixOfDayEntry.timeLastUpdated.time];
+				overviewCell.timeLabel.font		= [UIFont italicSystemFontOfSize:13.0];
 			} else {
-				overviewCell.timeLabel.text	= sixOfDayEntry.timeScheduled.time;
+				overviewCell.timeLabel.text		= sixOfDayEntry.timeScheduled.time;
 			}
 			
 			overviewCell.guidelineLabel.frame	= CGRectMake(CELL_CONTENT_LEFT_MARGIN,
@@ -374,7 +370,6 @@
 
 -(void)textViewDidChange:(UITextView *)textView
 {
-	// update variables
 	switch (textView.tag) {
 		case TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER:
 			self.updatedPositiveActionTakenDescription	= textView.text;
@@ -393,55 +388,58 @@
 
 #pragma mark - Save
 
-- (IBAction)saveEntry:(id)sender {
-	if (self.aPositiveActionTaken) {
-		[self.aPositiveActionTaken updateText:self.updatedPositiveActionTakenDescription
-									andRating:1];
+-(void)saveEntry {
+	if ([self.mostRecentlySavedPositiveActionTakenDescription isEqualToString:[self.updatedPositiveActionTakenDescription stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]] &&
+		[self.mostRecentlySavedNegativeActionTakenDescription isEqualToString:[self.updatedNegativeActionTakenDescription stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]]) {
+		// Do nothing, becausethe descriptions haven't changed
 	} else {
-		ActionTaken *aPositiveActionTaken	= [ActionTaken actionTakenWithText:self.updatedPositiveActionTakenDescription
-																   isPositive:YES
-																   withRating:1
-																  forLogEntry:self.leSixOfDay
-													   inManagedObjectContext:self.managedObjectContext];
-		self.leSixOfDay.timeFirstUpdated	= [NSDate date];
-	}
-	
-	if (self.aNegativeActionTaken) {
-		[self.aNegativeActionTaken updateText:self.updatedNegativeActionTakenDescription
-									andRating:1];
-	} else {
-		ActionTaken *aNegativeActionTaken	= [ActionTaken actionTakenWithText:self.updatedNegativeActionTakenDescription
-																  isPositive:NO
-																  withRating:1
-																 forLogEntry:self.leSixOfDay
-													  inManagedObjectContext:self.managedObjectContext];
-		// there isn't a need to set timeFirstUpdated, as it has already been set for the positive
-	}
-	
-	if (self.leSixOfDay.toDo) {
-		[self.leSixOfDay.toDo updateText:self.updatedToDoText
-					   andDueDateAndTime:[NSDate dateWithTimeIntervalSinceNow:3600]];
-	} else {
-		ToDo *aToDo							= [ToDo toDoWithText:self.updatedToDoText
-											withDueDateAndTime:[NSDate dateWithTimeIntervalSinceNow:3600]
-												   forLogEntry:self.leSixOfDay
-										inManagedObjectContext:self.managedObjectContext];
-					}
-	
-	// set updated time
-	self.leSixOfDay.timeLastUpdated	= [NSDate date];
-	
-	// save to store!
-	NSError *error;
-	if ([self.managedObjectContext hasChanges] && ![self.managedObjectContext save:&error]) {
-		/*
-		 Replace this implementation with code to handle the error appropriately.
-		 
-		 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
-		 */
-		NSLog(@"Error occured when attempting to save. Error and userInfo: %@, %@", error, [error userInfo]);
-	}
-	
+		// Add or update objects
+		if (self.aPositiveActionTaken) {
+			[self.aPositiveActionTaken updateText:self.updatedPositiveActionTakenDescription
+										andRating:1];
+		} else {
+			[ActionTaken actionTakenWithText:self.updatedPositiveActionTakenDescription
+								   isPositive:YES
+								   withRating:1
+								  forLogEntry:self.leSixOfDay
+					   inManagedObjectContext:self.managedObjectContext];
+			self.leSixOfDay.timeFirstUpdated	= [NSDate date];
+		}
+		
+		if (self.aNegativeActionTaken) {
+			[self.aNegativeActionTaken updateText:self.updatedNegativeActionTakenDescription
+										andRating:1];
+		} else {
+			[ActionTaken actionTakenWithText:self.updatedNegativeActionTakenDescription
+								  isPositive:NO
+								  withRating:1
+								 forLogEntry:self.leSixOfDay
+					  inManagedObjectContext:self.managedObjectContext];
+		}
+		
+	/*
+			if (self.leSixOfDay.toDo) {
+			[self.leSixOfDay.toDo updateText:self.updatedToDoText
+						   andDueDateAndTime:[NSDate dateWithTimeIntervalSinceNow:3600]];
+		} else {
+			ToDo *aToDo							= [ToDo toDoWithText:self.updatedToDoText
+												withDueDateAndTime:[NSDate dateWithTimeIntervalSinceNow:3600]
+													   forLogEntry:self.leSixOfDay
+											inManagedObjectContext:self.managedObjectContext];
+						}
+	*/
+			
+		self.leSixOfDay.timeLastUpdated	= [NSDate date];
+		
+		// save to store!
+		NSError *error;
+		if ([self.managedObjectContext hasChanges] && ![self.managedObjectContext save:&error]) {
+			/*
+			 Replace this implementation with code to handle the error appropriately.
+			*/
+			NSLog(@"Error occured when attempting to save. Error and userInfo: %@, %@", error, [error userInfo]);
+		}
+	}	
 }
 
 #pragma mark - Using a Storyboard

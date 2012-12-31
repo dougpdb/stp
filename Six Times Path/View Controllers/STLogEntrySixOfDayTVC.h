@@ -23,6 +23,6 @@
 
 @property BOOL *showHints;
 
-- (IBAction)saveEntry:(id)sender;
+- (void)saveEntry;
 
 @end
