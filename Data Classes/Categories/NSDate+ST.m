@@ -98,5 +98,17 @@
     return [dateFormatter stringFromDate:self];
 }
 
+-(NSInteger)hour
+{
+	NSDateFormatter *dateFormatter  = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"H"];
+    return [[dateFormatter stringFromDate:self] intValue];
+}
 
+-(NSInteger)minute
+{
+	NSDateFormatter *dateFormatter  = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"m"];
+    return [[dateFormatter stringFromDate:self] intValue];	
+}
 @end

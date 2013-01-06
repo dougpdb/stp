@@ -20,6 +20,8 @@
 -(NSSet *)getPositiveActionsTaken;
 -(NSSet *)getNegativeActionsTaken;
 
+-(void)resetScheduledTime;
+
 
 // For logging in the XCode console
 -(void)logValuesOfLogEntry;

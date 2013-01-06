@@ -12,7 +12,7 @@
 #import "NSDate+ST.h"
 #import "LESixOfDay+ST.h"
 #import "STLogEntrySixOfDayTVC.h"
-#import "STDaysTVC.h"
+#import "STPreviousDaysTVC.h"
 #import "STTraditionsFollowedTVC.h"
 
 #define TODAYS_GUIDELINES			0
@@ -36,14 +36,8 @@
 @property NSInteger *wakingHour;
 @property NSInteger *wakingMinute;
 
-@property (nonatomic, retain) IBOutlet UIDatePicker *pickerView;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
 
-@property (nonatomic, retain) NSArray *dataArray;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
 
-- (IBAction)doneAction:(id)sender;	// when the done button is clicked
-- (IBAction)dateAction:(id)sender;	// when the user has changed the date picked
 
 -(void)determineAndSetTheSixToBeShown;
 -(void)addNotification:(LESixOfDay *)sixOfDayLogEntry;
@@ -54,24 +48,30 @@
 
 @implementation STTodayTVC
 
-@synthesize managedObjectContext		= _managedObjectContext;
-@synthesize fetchedResultsController	= _fetchedResultsController;
+@synthesize managedObjectContext			= _managedObjectContext;
+@synthesize fetchedResultsController		= _fetchedResultsController;
 
-@synthesize today						= _today;
+@synthesize today							= _today;
 
 //@synthesize theSixToBeShown				= _theSixToBeShown;
-@synthesize nextEntry					= _nextEntry;
-@synthesize remainingScheduledEntries	= _remainingScheduledEntries;
-@synthesize updatedEntries				= _updatedEntries;
+@synthesize nextEntry						= _nextEntry;
+@synthesize remainingScheduledEntries		= _remainingScheduledEntries;
+@synthesize updatedEntries					= _updatedEntries;
 @synthesize showRemainingScheduledEntries	= _showRemainingScheduledEntries;
 @synthesize showUpdatedEntries				= _showUpdatedEntries;
-@synthesize mostRecentlyAddedDate		= _mostRecentlyAddedDate;
-@synthesize allAdviceFollowedByUser				= _allAdviceFollowedByUser;
-@synthesize wakingHour					= _wakingHour;
-@synthesize wakingMinute				= _wakingMinute;
+@synthesize mostRecentlyAddedDate			= _mostRecentlyAddedDate;
+@synthesize allAdviceFollowedByUser			= _allAdviceFollowedByUser;
+@synthesize wakingHour						= _wakingHour;
+@synthesize wakingMinute					= _wakingMinute;
 
 @synthesize isOnlyShowingTheSixWithoutUserEntriesSorted	= _isOnlyShowingTheSixWithoutUserEntriesSorted;
 @synthesize orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay	= _orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
+
+
+@synthesize pickerView		= _pickerView;
+@synthesize doneButton		= _doneButton;
+@synthesize dataArray		= _dataArray;
+@synthesize dateFormatter	= _dateFormatter;
 
 
 #pragma mark - init
@@ -119,6 +119,11 @@
     [super viewDidLoad];
 	
 	self.debug	= YES;
+	
+	self.dateFormatter = [[NSDateFormatter alloc] init];
+	[self.dateFormatter setDateFormat:@"h:mm a"];
+	//	[self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+
 }
 
 - (void)viewDidUnload
@@ -230,12 +235,7 @@
 -(void)addDay:(id)sender
 {
 	NSDate *now						= [NSDate date];
-	NSDate *mostRecentDate			= self.today.date;
-	if (self.today.startHour && self.today.startMinute) {
-		[mostRecentDate setHour:[self.today.startHour intValue] andMinute:[self.today.startMinute intValue]];
-	} else {
-		[mostRecentDate setHour:6 andMinute:0];
-	}
+	NSDate *mostRecentDate			= [self.today.date setHour:[self.today.startHour intValue] andMinute:[self.today.startMinute intValue]];
 	
 	NSTimeInterval eighteenHours	= 18*60*60;
 	NSTimeInterval twentyFourHours	= 24*60*60;
@@ -259,6 +259,8 @@
 			newDay.startMinute			= (self.today.startMinute) ? self.today.startMinute : [NSNumber numberWithInt:0];
 			
 			self.mostRecentlyAddedDate	= newDay.date;
+			self.today					= newDay;
+
 			if (self.debug)
 				NSLog(@"A new Day has been created. Its date is %@. The most recently added date is %@.", newDay.date, self.mostRecentlyAddedDate);
 			
@@ -273,7 +275,7 @@
 				NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
 			}
 		} else {
-			NSLog(@"Now [%@] is earlier (or exactly equal) in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, self.today.date.timeAndDate);
+			NSLog(@"Now [%@] is earlier (or exactly equal) in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, mostRecentDate.timeAndDate);
 		}
 	}
 }
@@ -320,7 +322,6 @@
 		if (self.debug)
 			[logEntry logValuesOfLogEntry];
 		
-		// Add the log entry to the day
 		[day addTheSixObject:logEntry];
 		
 		// TEMP
@@ -328,10 +329,8 @@
 		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = indexOfFollowedAdviceForTheDay;
 	}
 	
-	// Increment up 1 for the next day to be created
 	self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay++;
 	
-	// Set the notifications
 	for (LESixOfDay *logEntry in day.theSix) {
 		[self addNotification:logEntry];
 	}
@@ -517,23 +516,23 @@
 		case TODAYS_SETUP:
 		{
 			switch (indexPath.row) {
+				case 0:
+				{
+					UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+					
+					summaryOrSetupCell.textLabel.text		= @"Wake Up Time";
+					LESixOfDay *firstGuidelineOfDay			= [[self.today getTheSixSorted] objectAtIndex:0];
+					NSDate *wakeUpAt						= [firstGuidelineOfDay.timeScheduled dateByAddingTimeInterval:-2*60*60];	// this will need to be fixed
+					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", wakeUpAt.time];
+					return summaryOrSetupCell;
+					break;
+				}
 				case 1:
 				{
 					UITableViewCell *summaryOrSetupCell					= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 					
 					summaryOrSetupCell.textLabel.text		= @"Guidelines Being Followed";
 					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%i", [self.allAdviceFollowedByUser count]];
-					return summaryOrSetupCell;
-					break;
-				}
-				case 0:
-				{
-					UITableViewCell *summaryOrSetupCell					= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
-					
-					summaryOrSetupCell.textLabel.text		= @"Wake Up Time";
-					LESixOfDay *firstGuidelineOfDay			= [[self.today getTheSixSorted] objectAtIndex:0];
-					NSDate *wakeUpAt						= [firstGuidelineOfDay.timeScheduled dateByAddingTimeInterval:-2*60*60];	// this will need to be fixed
-					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", wakeUpAt.time];
 					return summaryOrSetupCell;
 					break;
 				}
@@ -544,10 +543,10 @@
 		}
 		case PREVIOUS_DAYS:
 		{
-			UITableViewCell *summaryOrSetupCell					= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+			UITableViewCell *summaryOrSetupCell				= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 			
-			summaryOrSetupCell.textLabel.text		= @"Previous Days";
-			summaryOrSetupCell.detailTextLabel.text	= @"";
+			summaryOrSetupCell.textLabel.text				= @"Previous Days";
+			summaryOrSetupCell.detailTextLabel.text			= @"";
 			return summaryOrSetupCell;
 			break;
 		}
@@ -605,10 +604,13 @@
 				default:
 					break;
 			}
+			break;
 		}
 		case PREVIOUS_DAYS:
+		{
 			[self performSegueWithIdentifier:@"Previous Days" sender:self];
 			break;
+		}
 		default:
 			break;
 	}
@@ -671,15 +673,34 @@
 	[self.pickerView removeFromSuperview];
 }
 
-- (IBAction)dateAction:(id)sender
-{
-	NSIndexPath *indexPath		= [self.tableView indexPathForSelectedRow];
-	UITableViewCell *cell		= [self.tableView cellForRowAtIndexPath:indexPath];
-	cell.detailTextLabel.text	= [self.pickerView.date time]; //  [self.dateFormatter stringFromDate:self.pickerView.date];
-}
 
 - (IBAction)doneAction:(id)sender
 {
+	
+	self.today.startHour		= [NSNumber numberWithInt:[self.pickerView.date hour]];
+	self.today.startMinute		= [NSNumber numberWithInt:[self.pickerView.date minute]];
+	
+	UIApplication *STPapp		= [UIApplication sharedApplication];
+	[STPapp cancelAllLocalNotifications];
+	// Reset scheduled times for log entries
+	for (LESixOfDay *oneOfSix in [self.today getTheSixWithoutUserEntriesSorted]) {
+		[oneOfSix resetScheduledTime];
+		[self addNotification:oneOfSix];
+	}
+
+	// save to store!
+	NSError *error;
+	if ([self.managedObjectContext hasChanges] && ![self.managedObjectContext save:&error]) {
+		/*
+		 Replace this implementation with code to handle the error appropriately.
+		 */
+		NSLog(@"Error occured when attempting to save. Error and userInfo: %@, %@", error, [error userInfo]);
+	}
+
+	NSIndexPath *indexPath		= [self.tableView indexPathForSelectedRow];
+	UITableViewCell *cell		= [self.tableView cellForRowAtIndexPath:indexPath];
+	cell.detailTextLabel.text	= [self.pickerView.date time]; //  [self.dateFormatter stringFromDate:self.pickerView.date];
+
 	CGRect screenRect		= [[UIScreen mainScreen] applicationFrame];
 	CGRect endFrame			= self.pickerView.frame;
 	endFrame.origin.y		= screenRect.origin.y + screenRect.size.height;
@@ -704,14 +725,17 @@
 	self.navigationItem.rightBarButtonItem = nil;
 	
 	// deselect the current table row
-	NSIndexPath *indexPath	= [self.tableView indexPathForSelectedRow];
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	[self.tableView reloadData];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 	NSIndexPath *indexPath  = [self.tableView indexPathForSelectedRow];
 	
+	NSLog(@"Segue identifier is %@", segue.identifier.description);
+		
 	if ([[segue identifier] isEqualToString:@"Guideline Entry"]) {
 		
 		//	Get the indexPath for which entry this should go to
@@ -740,8 +764,8 @@
 		
 	} else if ([[segue identifier] isEqualToString:@"Previous Days"]) {
 		
-		STDaysTVC *daysTVC						= segue.destinationViewController;
-		daysTVC.managedObjectContext			= self.managedObjectContext;
+		STPreviousDaysTVC *previousDaysTVC		= segue.destinationViewController;
+		previousDaysTVC.managedObjectContext	= self.managedObjectContext;
 		
 	} 
 }

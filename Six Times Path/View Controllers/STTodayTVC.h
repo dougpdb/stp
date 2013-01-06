@@ -17,4 +17,15 @@
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property (strong, nonatomic) Day *today;
+
+// from apple sample code
+@property (nonatomic, retain) IBOutlet UIDatePicker *pickerView;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
+
+@property (nonatomic, retain) NSArray *dataArray;
+@property (nonatomic, retain) NSDateFormatter *dateFormatter;
+
+- (IBAction)doneAction:(id)sender;	// when the done button is clicked
+									//- (IBAction)dateAction:(id)sender;	// when the user has changed the date picke values (m/d/y)
+
 @end

@@ -60,6 +60,7 @@
 		91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 91573F091629E6E300914D3E /* UITextView+Placeholder.m */; };
 		915E3FE315CFD37A0036C6FE /* prog journal.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 915E3FE215CFD37A0036C6FE /* prog journal.rtf */; };
 		918D4133168F3036007501DD /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 918D4132168F3035007501DD /* Day.m */; };
+		918EA1EF169703FF001FCFDA /* STPreviousDaysTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 918EA1EE169703FF001FCFDA /* STPreviousDaysTVC.m */; };
 		91DDA5B51679F98200B0AEDA /* STOtherEntriesForDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */; };
 		91E94AE416258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */; };
 		91E94AE816258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E94AE716258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m */; };
@@ -164,6 +165,8 @@
 		915E3FE215CFD37A0036C6FE /* prog journal.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "prog journal.rtf"; sourceTree = SOURCE_ROOT; };
 		918D4131168F3035007501DD /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Day.h; path = "Data Classes/Managed Object Classes/Day.h"; sourceTree = "<group>"; };
 		918D4132168F3035007501DD /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Day.m; path = "Data Classes/Managed Object Classes/Day.m"; sourceTree = "<group>"; };
+		918EA1ED169703FF001FCFDA /* STPreviousDaysTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STPreviousDaysTVC.h; path = "View Controllers/STPreviousDaysTVC.h"; sourceTree = "<group>"; };
+		918EA1EE169703FF001FCFDA /* STPreviousDaysTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STPreviousDaysTVC.m; path = "View Controllers/STPreviousDaysTVC.m"; sourceTree = "<group>"; };
 		91DDA5B31679F98200B0AEDA /* STOtherEntriesForDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STOtherEntriesForDayTVC.h; path = "View Controllers/STOtherEntriesForDayTVC.h"; sourceTree = "<group>"; };
 		91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STOtherEntriesForDayTVC.m; path = "View Controllers/STOtherEntriesForDayTVC.m"; sourceTree = "<group>"; };
 		91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = STLogEntryBestWorstOrToDoTextEntryCell.xib; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.xib"; sourceTree = "<group>"; };
@@ -358,6 +361,8 @@
 				1E6A38D015B5794B005741FF /* Advice TVCs */,
 				911FE980166F7009006BF9CD /* STTodayTVC.h */,
 				911FE981166F7009006BF9CD /* STTodayTVC.m */,
+				918EA1ED169703FF001FCFDA /* STPreviousDaysTVC.h */,
+				918EA1EE169703FF001FCFDA /* STPreviousDaysTVC.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -475,7 +480,7 @@
 			attributes = {
 				CLASSPREFIX = ST;
 				LastUpgradeCheck = 0450;
-				ORGANIZATIONNAME = "6000 American Family Dr";
+				ORGANIZATIONNAME = "A Great Highway";
 			};
 			buildConfigurationList = 1E5523281591E2F9009114B7 /* Build configuration list for PBXProject "Six Times Path" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -566,6 +571,7 @@
 				911FE982166F7009006BF9CD /* STTodayTVC.m in Sources */,
 				91DDA5B51679F98200B0AEDA /* STOtherEntriesForDayTVC.m in Sources */,
 				918D4133168F3036007501DD /* Day.m in Sources */,
+				918EA1EF169703FF001FCFDA /* STPreviousDaysTVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

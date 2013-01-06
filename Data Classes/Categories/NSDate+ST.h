@@ -19,5 +19,7 @@
 -(NSString *)date;
 -(NSString *)timeAndDate;
 
+-(NSInteger)hour;
+-(NSInteger)minute;
 
 @end

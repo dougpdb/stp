@@ -284,5 +284,46 @@ added category for ToDo data objects\
 added ToDo text section\
 \
 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f4\b\fs22 \cf0 January 3, 2013\
+\pard\tx560\tx1120\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\b0\fs24 \cf0 In StToday TVC. m\
+- Finalized -addDay for now, fixing bug\
+- (yesterday) able to set the startHour, startMinute of the day\
+- (yesterday) reset timeScheduledEntry for LESixOfDay based upon the startHour, startMinute\
+- when changing startHour, startMinute, all notifications are now cancelled and new notifications are scheduled based upon the new startHour, startMinute.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f4\b\fs22 \cf0 January 4, 2013\
+\pard\tx560\tx1120\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\b0\fs24 \cf0 Storyboard\
+- Add Previous Days table view with new style\
+\
+In STDays.m\
+- \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f4\b\fs22 \cf0 January 6, 2013\
+\pard\tx560\tx1120\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\b0\fs24 \cf0 STPreviousDaysTVC\
+- fixed bug so that all days will show instead of 0\
+  WORKING MYSTERY: It seems that after performing a fetch, I tried assigning  
+\f1\fs22 \CocoaLigature0 	\cf12 self\cf0 .\cf8 days\cf0 	= [\cf7 NSArray\cf0  \cf9 arrayWithArray\cf0 :\cf12 self\cf0 .\cf8 fetchedResultsController\cf0 .\cf7 fetchedObjects\cf0 ];
+\f0\fs24 \CocoaLigature1  \
+  but then when I tried to do a count of self.days in -tableView:numberOfRowsInSection:, I always got 0.\
+  If I did a count in -tableView:numberOfRowsInSection: on 
+\f1\fs22 \CocoaLigature0 	\cf12 self\cf0 .\cf8 days\cf0 	= \cf12 self\cf0 .\cf8 fetchedResultsController\cf0 .\cf7 fetchedObjects\cf0 ] 
+\f0\fs24 \CocoaLigature1 then I would get 16 (or whatever the number is)\
+  I did the above assignment in -viewDidLoad: and in -setupDaysFetchedResultsController\
+\
+STTodayTVC\
+- fixed bug so that updates on notifications only happen to the guidelines that don't have entries\
+\
 \
 }

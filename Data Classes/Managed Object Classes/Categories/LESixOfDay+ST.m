@@ -29,8 +29,8 @@
 	// The scheduled time for each log entry is at regular intervals of 2 hours. The first log entry should come at 2 hours after waking, the 2nd 2 hours after that, and so on.
 	NSInteger hourInterval	= 2;
 	NSDate *date						= day.date;
-	date								=[date setHour:[day.startHour intValue] + (hourInterval * orderNumberForType) andMinute:[day.startMinute intValue]];
-	oneOfSixLogEntries.timeScheduled	= date;
+	oneOfSixLogEntries.timeScheduled	= [date setHour:[day.startHour intValue] + (hourInterval * orderNumberForType)
+										   andMinute:[day.startMinute intValue]];
 	
 	return oneOfSixLogEntries;
 }
@@ -56,6 +56,15 @@
 	return oneOfSixLogEntries;
 }
 
+
+#pragma mark - Time Adjustments
+
+-(void)resetScheduledTime
+{
+	NSInteger hourInterval	= 2;
+	self.timeScheduled	= [self.dayOfSix.date setHour:[self.dayOfSix.startHour intValue] + (hourInterval * [self.orderNumberForType intValue])
+										   andMinute:[self.dayOfSix.startMinute intValue]];
+}
 
 #pragma mark - Actions Taken
 
