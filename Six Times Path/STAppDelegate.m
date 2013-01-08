@@ -11,8 +11,9 @@
 #import "STFollowingAdviceTVC.h"
 #import "SpiritualTradtion.h"
 #import "SetOfAdvice.h"
-#import "STDaysTVC.h"
 #import "STTodayTVC.h"
+#import "STLogEntrySixOfDayTVC.h"
+// #import "STDaysTVC.h"
 
 #import "Advice.h"
 
@@ -250,20 +251,9 @@
     }
 	
 	
-	// Process Local Notifications
-	Class cls = NSClassFromString(@"UILocalNotification");
-    if (cls) {
-        UILocalNotification *notification = [launchOptions objectForKey:
-											 UIApplicationLaunchOptionsLocalNotificationKey];
-		
-        if (notification) {
-			// some code here
-        }
-    }
-	
-    application.applicationIconBadgeNumber = 0;
-	
-//	if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
+	// Process Local Notifications	
+ 	
+	//	if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
 //		UILocalNotification *incomingNotification	= [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
 //		incomingNotification.hasAction				= NO;									// I want to see if this will hide a notification that is in the notification pull down.
 //		
@@ -272,23 +262,44 @@
 //	}
 
 
-	// Timer to check for day
-	
+	NSLog(@"-application:didFinishLaunchingWithOptions: fired");
+
     
     // Override point for customization after application launch.
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        UISplitViewController *splitViewController		= (UISplitViewController *)self.window.rootViewController;
-        UINavigationController *navigationController	= [splitViewController.viewControllers lastObject];
-        splitViewController.delegate					= (id)navigationController.topViewController;
-        
-        UINavigationController *masterNavigationController	= [splitViewController.viewControllers objectAtIndex:0];
-        STTodayTVC *controller					= (STTodayTVC *)masterNavigationController.topViewController;
-        controller.managedObjectContext						= self.managedObjectContext;
-    } else {
-        UINavigationController *navigationController		= (UINavigationController *)self.window.rootViewController;
-        STTodayTVC *controller					= (STTodayTVC *)navigationController.topViewController;
-        controller.managedObjectContext						= self.managedObjectContext;
-    }
+	UILocalNotification *notification = [launchOptions objectForKey:
+											 UIApplicationLaunchOptionsLocalNotificationKey];
+	
+	NSLog(@"UILocalNotification.description: %@", notification.description);
+	if (notification) {
+		if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+			UISplitViewController *splitViewController		= (UISplitViewController *)self.window.rootViewController;
+			UINavigationController *navigationController	= [splitViewController.viewControllers lastObject];
+			splitViewController.delegate					= (id)navigationController.topViewController;
+			
+			UINavigationController *masterNavigationController	= [splitViewController.viewControllers objectAtIndex:0];
+			STLogEntrySixOfDayTVC *controller					= (STLogEntrySixOfDayTVC *)masterNavigationController.topViewController;
+			controller.managedObjectContext						= self.managedObjectContext;
+		} else {
+			UINavigationController *navigationController		= (UINavigationController *)self.window.rootViewController;
+			STLogEntrySixOfDayTVC *controller					= (STLogEntrySixOfDayTVC *)navigationController.topViewController;
+			controller.managedObjectContext						= self.managedObjectContext;
+		}
+		application.applicationIconBadgeNumber = 0;
+	} else {
+		if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+			UISplitViewController *splitViewController		= (UISplitViewController *)self.window.rootViewController;
+			UINavigationController *navigationController	= [splitViewController.viewControllers lastObject];
+			splitViewController.delegate					= (id)navigationController.topViewController;
+			
+			UINavigationController *masterNavigationController	= [splitViewController.viewControllers objectAtIndex:0];
+			STTodayTVC *controller								= (STTodayTVC *)masterNavigationController.topViewController;
+			controller.managedObjectContext						= self.managedObjectContext;
+		} else {
+			UINavigationController *navigationController		= (UINavigationController *)self.window.rootViewController;
+			STTodayTVC *controller								= (STTodayTVC *)navigationController.topViewController;
+			controller.managedObjectContext						= self.managedObjectContext;
+		}		
+	}
     return YES;
 }
 
@@ -312,6 +323,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+	NSLog(@"-applicationDidBecomeActive: fired");
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

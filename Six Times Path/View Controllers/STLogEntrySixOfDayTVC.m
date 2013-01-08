@@ -278,7 +278,7 @@
 		case BEST_SECTION_NUMBER:
 		{			
 			bestWorstOrToDoCell.textInput.delegate		= self;
-            bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
+            bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyNext;
 			bestWorstOrToDoCell.textInput.tag			= TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER;
 
 			// set placeholder text

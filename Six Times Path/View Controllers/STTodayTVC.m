@@ -131,6 +131,9 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	
+	self.showRemainingScheduledEntries	= NO;
+	self.showUpdatedEntries				= NO;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -194,6 +197,11 @@
 	}
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+	self.showUpdatedEntries				= NO;
+	self.showRemainingScheduledEntries	= NO;
+}
 
 #pragma mark - Core Data Setup
 -(void)setupDaysFetchedResultsController
@@ -422,13 +430,7 @@
 	static NSString *guidelineNextEntryCellIdentifier	= @"GuidelineNextEntryCell";
 	static NSString *guidelineOtherEntryCellIdentifier	= @"GuidelineOtherEntryCell";
 	static NSString *summaryOrSetupCellIdentifier		= @"SummaryOrSetupCell";
-	
-	//	UITableViewCell
-	
-	
-	if (self.debug)
-		NSLog(@"Index path [Section, Row]: %d, %d", indexPath.section, indexPath.row);
-	
+		
     switch (indexPath.section) {
 		case TODAYS_GUIDELINES:
 		{
