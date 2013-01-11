@@ -17,6 +17,7 @@
 
 -(NSString *)time;
 -(NSString *)date;
+-(NSString *)weekday;
 -(NSString *)timeAndDate;
 
 -(NSInteger)hour;

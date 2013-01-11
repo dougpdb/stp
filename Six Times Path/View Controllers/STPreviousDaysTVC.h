@@ -8,11 +8,14 @@
 
 #import "CoreDataTableViewController.h"
 
+@class STTodayTVC;
+
 @interface STPreviousDaysTVC : CoreDataTableViewController
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property (strong, nonatomic) NSArray *days;
+@property (strong, nonatomic) STTodayTVC *today;
 
 @end

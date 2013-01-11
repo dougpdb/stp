@@ -73,18 +73,28 @@
 -(NSString *)time
 {
     NSDateFormatter *dateFormatter  = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"h:mm a"];
-    NSString *tmpString             = [dateFormatter stringFromDate:self];
-
-    //  TO DO: Examine tmpString for @":00" (i.e. to see if the time is right on the hour). If so, then drop the @":00" from the string, so the date will read 8 AM instead of 8:00 AM.
+	[dateFormatter setDateStyle:NSDateFormatterNoStyle];
+	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+	//    [dateFormatter setDateFormat:@"h:mm a"];
     
-    return tmpString;
+	return [dateFormatter stringFromDate:self];
 }
 
 -(NSString *)date
 {
     NSDateFormatter *dateFormatter  = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MMM d, YYYY"];
+	[dateFormatter setDateStyle:NSDateFormatterLongStyle];
+	[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+	//    [dateFormatter setDateFormat:@"MMM d, YYYY"];
+    
+	return [dateFormatter stringFromDate:self];
+}
+
+-(NSString *)weekday
+{
+    NSDateFormatter *dateFormatter  = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"eeee"];
+        
     return [dateFormatter stringFromDate:self];
 }
 
@@ -92,9 +102,7 @@
 {
     NSDateFormatter *dateFormatter  = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"h:mm a 'on' MMM d"];
-    
-    //  TO DO: Examine tmpString for @":00" (i.e. to see if the time is right on the hour). If so, then drop the @":00" from the string, so the date will read 8 AM instead of 8:00 AM.
-    
+        
     return [dateFormatter stringFromDate:self];
 }
 

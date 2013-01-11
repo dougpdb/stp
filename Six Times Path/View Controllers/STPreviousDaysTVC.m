@@ -11,6 +11,8 @@
 #import "NSDate+ST.h"
 
 @interface STPreviousDaysTVC ()
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
+
 
 -(void)setupDaysFetchedResultsController;
 
@@ -22,6 +24,7 @@
 @synthesize fetchedResultsController	= __fetchedResultsController;
 
 @synthesize days						= _days;
+@synthesize dateFormatter				= _dateFormatter;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -48,10 +51,11 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	NSLog(@"Previous days has loaded.");
+	
 	[self setupDaysFetchedResultsController];
 	self.days	= [NSArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
 	
-	NSLog(@"There are %i days.", [self.days count]);
+	NSLog(@"There are %i previous days.", [self.days count]);
 }
 
 -(void)viewWillAppear
@@ -88,7 +92,10 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [self.fetchedResultsController.fetchedObjects count];
+	NSInteger numberOfAllDays		= [self.fetchedResultsController.fetchedObjects count];
+	NSInteger numberOfPreviousDays	= (numberOfAllDays == 0) ? 0 : numberOfAllDays - 1;
+
+	return numberOfPreviousDays;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -97,9 +104,9 @@
 		
 	UITableViewCell *cell		= [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	
-	Day *day					= [self.days objectAtIndex:indexPath.row];
+	Day *day					= [self.days objectAtIndex:indexPath.row + 1];										// use +1 to "skip" today
 	
-	cell.textLabel.text			= day.date.date;
+	cell.textLabel.text			= [NSString stringWithFormat:@"%@, %@", day.date.weekday, day.date.date];
 	cell.detailTextLabel.text	= [NSString stringWithFormat:@"%i Entries", [[day getTheSixThatHaveUserEntriesSorted] count]];
 	
 	return cell;
