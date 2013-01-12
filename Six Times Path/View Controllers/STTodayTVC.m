@@ -37,12 +37,25 @@
 //@property NSInteger *wakingMinute;
 @property (nonatomic) NSInteger countOfTheSixWithoutUserEntries;
 
-@property (nonatomic) NSInteger sectionNextEntry;
-@property (nonatomic) NSInteger sectionRemainingScheduledEntries;
-@property (nonatomic) NSInteger sectionUpdatedEntries;
-@property (nonatomic) NSInteger sectionSetupForDay;
-@property (nonatomic) NSInteger sectionPreviousDays;
+//@property (nonatomic) NSInteger sectionNextEntry;
+//@property (nonatomic) NSInteger sectionRemainingScheduledEntries;
+//@property (nonatomic) NSInteger sectionUpdatedEntries;
+//@property (nonatomic) NSInteger sectionSetupForDay;
+//@property (nonatomic) NSInteger sectionPreviousDays;
 
+@property (nonatomic, strong) NSMutableArray *tableViewSections;
+
+//typedef NS_ENUM(NSInteger, STTableViewSectionDescription) {    // unadjusted index of section numbers
+//	STSectionNextEntry					= 0,
+//	STSectionRemainingScheduledEntries	= 1,
+//	STSectionUpdatedEntries				= 2,
+//	STSectionSetupForDay				= 3,
+//	STSectionPreviousDays				= 4
+//};
+
+
+	
+//-(NSInteger)indexOfTableViewSection:(STTableViewSectionDescription)sectionDescription;
 
 
 -(void)determineAndSetTheSixToBeShown;
@@ -71,11 +84,13 @@
 //@synthesize wakingMinute					= _wakingMinute;
 @synthesize countOfTheSixWithoutUserEntries	= _countOfTheSixWithoutUserEntries;
 
-@synthesize sectionNextEntry				= _sectionNextEntry;
-@synthesize sectionRemainingScheduledEntries= _sectionRemainingScheduledEntries;
-@synthesize sectionUpdatedEntries			= _sectionUpdatedEntries;
-@synthesize sectionSetupForDay				= _sectionSetupForDay;
-@synthesize sectionPreviousDays				= _sectionPreviousDays;
+//@synthesize sectionNextEntry				= _sectionNextEntry;
+//@synthesize sectionRemainingScheduledEntries= _sectionRemainingScheduledEntries;
+//@synthesize sectionUpdatedEntries			= _sectionUpdatedEntries;
+//@synthesize sectionSetupForDay				= _sectionSetupForDay;
+//@synthesize sectionPreviousDays				= _sectionPreviousDays;
+
+@synthesize tableViewSections				= _tableViewSections;
 
 @synthesize isOnlyShowingTheSixWithoutUserEntriesSorted	= _isOnlyShowingTheSixWithoutUserEntriesSorted;
 @synthesize orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay	= _orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
@@ -134,6 +149,24 @@
 	return _countOfTheSixWithoutUserEntries;
 }
 
+-(NSMutableArray *)tableViewSections
+{
+	if (_tableViewSections == nil || [self.managedObjectContext hasChanges]) {
+		NSMutableArray *tmpSectionArray	= [NSMutableArray arrayWithObjects:@"Next Entry", @"Remaining Scheduled Entries", @"Updated Entries", @"Setup for Day", @"Previous Days", nil];
+		
+		if (self.countOfTheSixWithoutUserEntries <= 1)
+			[tmpSectionArray removeObjectIdenticalTo:@"Remaining Scheduled Entries"];
+		else if (self.countOfTheSixWithoutUserEntries == 6)
+			[tmpSectionArray removeObjectIdenticalTo:@"Updated Entries"];
+		
+		_tableViewSections	= tmpSectionArray;
+	}
+	
+	return _tableViewSections;
+}
+
+
+
 -(NSInteger)sectionNextEntry
 {
 	return 0;
@@ -173,6 +206,61 @@
 		return 4;
 }
 
+/*
+-(NSInteger)indexOfTableViewSection:(STTableViewSectionDescription)sectionDescription
+{
+	NSInteger outOfRangeIndex	= 100;
+	
+	switch (sectionDescription) {
+		case STSectionNextEntry:
+		{
+			return STSectionNextEntry;
+			break;
+		}
+			
+		case STSectionRemainingScheduledEntries:
+		{
+			if (self.countOfTheSixWithoutUserEntries > 1)
+				return STSectionRemainingScheduledEntries;
+			else
+				return STSectionRemainingScheduledEntries + outOfRangeIndex;
+			break;
+		}
+			
+		case STSectionUpdatedEntries:
+		{
+			if (self.countOfTheSixWithoutUserEntries <= 1)
+				return STSectionUpdatedEntries - 1;
+			else if (self.countOfTheSixWithoutUserEntries > 1 && self.countOfTheSixWithoutUserEntries < 6)
+				return STSectionUpdatedEntries;
+			else
+				return STSectionUpdatedEntries + outOfRangeIndex;
+			break;
+		}
+		
+		case STSectionSetupForDay:
+		{
+			if (self.countOfTheSixWithoutUserEntries <= 1 || self.countOfTheSixWithoutUserEntries == 6)
+				return STSectionSetupForDay - 1;
+			else
+				return STSectionSetupForDay;
+			break;
+		}
+			
+		case STSectionPreviousDays:
+		{
+			if (self.countOfTheSixWithoutUserEntries <= 1 || self.countOfTheSixWithoutUserEntries == 6)
+				return STSectionPreviousDays - 1;
+			else
+				return STSectionPreviousDays;
+			break;
+		}
+			
+		default:
+			break;
+	}
+}
+*/
 
 #pragma mark - View Loading and Appearing
 
@@ -427,72 +515,49 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.sectionPreviousDays + 1;	// Index of Last Section + 1
+    return [self.tableViewSections count];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	switch (section) {
-		case self.sectionNextEntry:
+	if (section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
+		return 1;
+	} else if (section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
+		if (self.showRemainingScheduledEntries)
+			return [self.remainingScheduledEntries count] + 1;
+		else
+			return 1;		
+	} else if (section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
+		if (self.showUpdatedEntries)
+			return [self.updatedEntries count] + 1;
+		else
 			return 1;
-			break;
-			
-		case self.sectionRemainingScheduledEntries:
-			if (self.showRemainingScheduledEntries)
-				return [self.remainingScheduledEntries count] + 1;
-			else
-				return 1;
-			break;
-			
-		case self.sectionUpdatedEntries:
-			if (self.showUpdatedEntries)
-				return [self.updatedEntries count] + 1;
-			else
-				return 1;
-			break;
-		
-		case self.sectionSetupForDay:
-			return 2;
-			break;
-			
-		case self.sectionPreviousDays:
-			return 1;
-			
-		default:
-			break;
+	} else if (section == [self.tableViewSections indexOfObject:@"Setup for Day"]) {
+		return 2;
+	} else {
+		return 1;
 	}
-	return 0;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	switch (section) {
-		case self.sectionNextEntry:
-			return @"Today's Guidelines";
-			break;
-			
-		case self.sectionSetupForDay:
-			return @"Setup for Today";
-			break;
-			
-		case self.sectionPreviousDays:
-			return nil;
-			break;
-			
-		default:
-			break;
-	}
-	return nil;
+	if (section == [self.tableViewSections indexOfObject:@"Next Entry"])
+		return @"Today's Guidelines";
+	else if (section == [self.tableViewSections indexOfObject:@"Setup for Day"])
+		return @"Setup for Today";
+	else
+		return nil;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == self.sectionNextEntry)
+	if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
 		return 129;		// change for landscape orientation?
-	else if ((indexPath.section == self.sectionRemainingScheduledEntries || indexPath.section == self.sectionUpdatedEntries) && indexPath.row > 0)
+	} else if ((indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"] || indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) && indexPath.row > 0) {
 		return 81;
-	else
+	} else {
 		return 35;
+	}
 }
 
 #pragma mark - Table view data source
@@ -503,9 +568,8 @@
 	static NSString *guidelineOtherEntryCellIdentifier	= @"GuidelineOtherEntryCell";
 	static NSString *summaryOrSetupCellIdentifier		= @"SummaryOrSetupCell";
 		
-    switch (indexPath.section) {
-		case self.sectionNextEntry:
-		{
+    if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
+		
 			UITableViewCell *guidelineNextEntryCell		= [tableView dequeueReusableCellWithIdentifier:guidelineNextEntryCellIdentifier];
 			
 			NSString *timeEntryTextPrefix;
@@ -539,10 +603,9 @@
 				//	guidelineNextEntryCell.hidden	= YES;
 			}
 			return guidelineNextEntryCell;
-			break;
-		}
-		case self.sectionRemainingScheduledEntries:
-		{
+		
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
+	
 			if (self.showRemainingScheduledEntries && indexPath.row > 0) {
 				UITableViewCell *guidelineOtherEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineOtherEntryCellIdentifier];
 				
@@ -570,10 +633,9 @@
 				
 				return summaryOrSetupCell;
 			}
-			break;
-		}
-		case self.sectionUpdatedEntries:
-		{
+
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
+
 			if (self.showUpdatedEntries && indexPath.row > 0) {
 				UITableViewCell *guidelineOtherEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineOtherEntryCellIdentifier];
 				
@@ -601,9 +663,9 @@
 
 				return summaryOrSetupCell;
 			}
-		}
-		case self.sectionSetupForDay:
-		{
+		
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Setup for Day"]) {
+		
 			switch (indexPath.row) {
 				case 0:
 				{
@@ -628,19 +690,15 @@
 				default:
 					break;
 			}
-			break;
-		}
-		case self.sectionPreviousDays:
-		{
+			
+	} else { // Previous Days
+
 			UITableViewCell *summaryOrSetupCell				= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 			
 			summaryOrSetupCell.textLabel.text				= @"Previous Days";
 			summaryOrSetupCell.detailTextLabel.text			= @"";
 			return summaryOrSetupCell;
-			break;
-		}
-		default:
-			break;
+
 	}
 	return nil;
 }
@@ -650,15 +708,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	switch (indexPath.section) {
-		case self.sectionNextEntry:
+	//switch (indexPath.section) {
+    if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
+	
 			if (self.countOfTheSixWithoutUserEntries > 0) {
 				[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
 			}
-			break;
 			
-		case self.sectionRemainingScheduledEntries:
-		{
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
+		
 			if ([self.remainingScheduledEntries count] > 0) {
 				if (indexPath.row > 0) {
 					[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
@@ -667,11 +725,9 @@
 					[tableView reloadSections:[NSIndexSet indexSetWithIndex:self.sectionRemainingScheduledEntries] withRowAnimation:YES];
 				}
 			}
-			break;
-		}
-			
-		case self.sectionUpdatedEntries:
-		{
+		
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
+
 			if ([self.updatedEntries count] > 0) {
 				if (indexPath.row > 0) {
 					[self performSegueWithIdentifier:@"Guideline Entry" sender:self];					
@@ -680,10 +736,9 @@
 					[tableView reloadSections:[NSIndexSet indexSetWithIndex:self.sectionUpdatedEntries] withRowAnimation:YES];
 				}
 			}
-			break;
-		}
-		case self.sectionSetupForDay:
-		{
+
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Setup for Day"]) {
+
 			switch (indexPath.row) {
 				case 0:
 					NSLog(@"Going to trigger -showDatePicker");
@@ -695,15 +750,9 @@
 				default:
 					break;
 			}
-			break;
-		}
-		case self.sectionPreviousDays:
-		{
+	
+	} else {
 			[self performSegueWithIdentifier:@"Previous Days" sender:self];
-			break;
-		}
-		default:
-			break;
 	}
 }
 
@@ -834,19 +883,12 @@
 		STLogEntrySixOfDayTVC *leSixOfDayTVC	= segue.destinationViewController;
 		leSixOfDayTVC.managedObjectContext		= self.managedObjectContext;
 		
-		switch (indexPath.section) {
-			case self.sectionNextEntry:
-				leSixOfDayTVC.leSixOfDay		= self.nextEntry;
-				break;
-			case self.sectionRemainingScheduledEntries:
-				leSixOfDayTVC.leSixOfDay		= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];
-				break;
-			case self.sectionUpdatedEntries:
-				leSixOfDayTVC.leSixOfDay		= [self.updatedEntries objectAtIndex:indexPath.row - 1];
-				
-			default:
-				break;
-		}
+		if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"])
+			leSixOfDayTVC.leSixOfDay			= self.nextEntry;
+		else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"])
+			leSixOfDayTVC.leSixOfDay			= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];
+		else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"])
+			leSixOfDayTVC.leSixOfDay			= [self.updatedEntries objectAtIndex:indexPath.row - 1];
 		
 	} else if ([[segue identifier] isEqualToString:@"Guidelines Followed"]) {
 		
