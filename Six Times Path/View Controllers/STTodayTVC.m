@@ -142,7 +142,7 @@
 
 -(NSInteger)countOfTheSixWithoutUserEntries
 {
-	if (_countOfTheSixWithoutUserEntries == nil || [self.managedObjectContext hasChanges]) {
+	if (!_countOfTheSixWithoutUserEntries) {
 		_countOfTheSixWithoutUserEntries	= [[self.today getTheSixWithoutUserEntriesSorted] count];
 	}
 	
@@ -151,8 +151,13 @@
 
 -(NSMutableArray *)tableViewSections
 {
-	if (_tableViewSections == nil || [self.managedObjectContext hasChanges]) {
-		NSMutableArray *tmpSectionArray	= [NSMutableArray arrayWithObjects:@"Next Entry", @"Remaining Scheduled Entries", @"Updated Entries", @"Setup for Day", @"Previous Days", nil];
+	if (!_tableViewSections) {
+		NSMutableArray *tmpSectionArray	= [NSMutableArray arrayWithObjects:@"Next Entry",
+																		   @"Remaining Scheduled Entries",
+																		   @"Updated Entries",
+																		   @"Setup for Day",
+																		   @"Previous Days",
+																		   nil];
 		
 		if (self.countOfTheSixWithoutUserEntries <= 1)
 			[tmpSectionArray removeObjectIdenticalTo:@"Remaining Scheduled Entries"];
@@ -293,6 +298,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+	self.tableViewSections						= nil;
+	self.countOfTheSixWithoutUserEntries		= nil;
 	[self setupAdviceFetchedResultsController];
     self.allAdviceFollowedByUser				= [NSMutableArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
 	
