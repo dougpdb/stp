@@ -15,16 +15,10 @@
 #import "STPreviousDaysTVC.h"
 #import "STTraditionsFollowedTVC.h"
 
-//#define TODAYS_GUIDELINES			0
-//#define TODAYS_GUIDELINES_REMAINING	1
-//#define TODAYS_GUIDELINES_UPDATED	2
-//#define TODAYS_SETUP				3
-//#define PREVIOUS_DAYS				4
 
 @interface STTodayTVC ()
 
 @property BOOL isOnlyShowingTheSixWithoutUserEntriesSorted;
-//@property (strong, nonatomic) NSArray *theSixToBeShown;
 @property (strong, nonatomic) LESixOfDay *nextEntry;
 @property (strong, nonatomic) NSArray *remainingScheduledEntries;
 @property (strong, nonatomic) NSArray *updatedEntries;
@@ -33,29 +27,9 @@
 @property (strong, nonatomic) NSDate *mostRecentlyAddedDate;
 @property NSInteger orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
 @property (strong, nonatomic) NSMutableArray *allAdviceFollowedByUser;
-//@property NSInteger *wakingHour;
-//@property NSInteger *wakingMinute;
 @property (nonatomic) NSInteger countOfTheSixWithoutUserEntries;
 
-//@property (nonatomic) NSInteger sectionNextEntry;
-//@property (nonatomic) NSInteger sectionRemainingScheduledEntries;
-//@property (nonatomic) NSInteger sectionUpdatedEntries;
-//@property (nonatomic) NSInteger sectionSetupForDay;
-//@property (nonatomic) NSInteger sectionPreviousDays;
-
 @property (nonatomic, strong) NSMutableArray *tableViewSections;
-
-//typedef NS_ENUM(NSInteger, STTableViewSectionDescription) {    // unadjusted index of section numbers
-//	STSectionNextEntry					= 0,
-//	STSectionRemainingScheduledEntries	= 1,
-//	STSectionUpdatedEntries				= 2,
-//	STSectionSetupForDay				= 3,
-//	STSectionPreviousDays				= 4
-//};
-
-
-	
-//-(NSInteger)indexOfTableViewSection:(STTableViewSectionDescription)sectionDescription;
 
 
 -(void)determineAndSetTheSixToBeShown;
@@ -72,7 +46,6 @@
 
 @synthesize today							= _today;
 
-//@synthesize theSixToBeShown				= _theSixToBeShown;
 @synthesize nextEntry						= _nextEntry;
 @synthesize remainingScheduledEntries		= _remainingScheduledEntries;
 @synthesize updatedEntries					= _updatedEntries;
@@ -80,19 +53,11 @@
 @synthesize showUpdatedEntries				= _showUpdatedEntries;
 @synthesize mostRecentlyAddedDate			= _mostRecentlyAddedDate;
 @synthesize allAdviceFollowedByUser			= _allAdviceFollowedByUser;
-//@synthesize wakingHour						= _wakingHour;
-//@synthesize wakingMinute					= _wakingMinute;
 @synthesize countOfTheSixWithoutUserEntries	= _countOfTheSixWithoutUserEntries;
-
-//@synthesize sectionNextEntry				= _sectionNextEntry;
-//@synthesize sectionRemainingScheduledEntries= _sectionRemainingScheduledEntries;
-//@synthesize sectionUpdatedEntries			= _sectionUpdatedEntries;
-//@synthesize sectionSetupForDay				= _sectionSetupForDay;
-//@synthesize sectionPreviousDays				= _sectionPreviousDays;
 
 @synthesize tableViewSections				= _tableViewSections;
 
-@synthesize isOnlyShowingTheSixWithoutUserEntriesSorted	= _isOnlyShowingTheSixWithoutUserEntriesSorted;
+@synthesize isOnlyShowingTheSixWithoutUserEntriesSorted			= _isOnlyShowingTheSixWithoutUserEntriesSorted;
 @synthesize orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay	= _orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
 
 
@@ -125,21 +90,6 @@
 
 #pragma mark - Getters and Setters
 
-//	DEPRECATED?
-/*
--(void)onlyShowTheSixWithoutUserEntries:(BOOL)onlyShowWithoutUserEntries
-{	
-	self.isOnlyShowingTheSixWithoutUserEntriesSorted	= onlyShowWithoutUserEntries;
-	
-	if (self.isOnlyShowingTheSixWithoutUserEntriesSorted)
-		self.theSixToBeShown = [self.today getTheSixWithoutUserEntriesSorted];
-	else
-		self.theSixToBeShown = [[self.today getTheSixWithoutUserEntriesSorted] arrayByAddingObjectsFromArray:[self.today getTheSixThatHaveUserEntriesSorted]];
-	
-	NSLog(@"Count of theSixToBeShown: %i", [self.theSixToBeShown count]);
-}
- */
-
 -(NSInteger)countOfTheSixWithoutUserEntries
 {
 	if (!_countOfTheSixWithoutUserEntries) {
@@ -170,102 +120,6 @@
 	return _tableViewSections;
 }
 
-
-
--(NSInteger)sectionNextEntry
-{
-	return 0;
-}
-
--(NSInteger)sectionRemainingScheduledEntries
-{
-	if (self.countOfTheSixWithoutUserEntries > 1)
-		return 1;
-	else
-		return -999;	// i.e. return an in
-}
-
--(NSInteger)sectionUpdatedEntries
-{
-	if (self.countOfTheSixWithoutUserEntries <= 1)
-		return 1;
-	else if (self.countOfTheSixWithoutUserEntries > 1 && self.countOfTheSixWithoutUserEntries < 6)
-		return 2;
-	else
-		return -999;
-}
-
--(NSInteger)sectionSetupForDay
-{
-	if (self.countOfTheSixWithoutUserEntries <= 1 || self.countOfTheSixWithoutUserEntries == 6)
-		return 2;
-	else
-		return 3;
-}
-
--(NSInteger)sectionPreviousDays
-{
-	if (self.countOfTheSixWithoutUserEntries <= 1 || self.countOfTheSixWithoutUserEntries == 6)
-		return 3;
-	else
-		return 4;
-}
-
-/*
--(NSInteger)indexOfTableViewSection:(STTableViewSectionDescription)sectionDescription
-{
-	NSInteger outOfRangeIndex	= 100;
-	
-	switch (sectionDescription) {
-		case STSectionNextEntry:
-		{
-			return STSectionNextEntry;
-			break;
-		}
-			
-		case STSectionRemainingScheduledEntries:
-		{
-			if (self.countOfTheSixWithoutUserEntries > 1)
-				return STSectionRemainingScheduledEntries;
-			else
-				return STSectionRemainingScheduledEntries + outOfRangeIndex;
-			break;
-		}
-			
-		case STSectionUpdatedEntries:
-		{
-			if (self.countOfTheSixWithoutUserEntries <= 1)
-				return STSectionUpdatedEntries - 1;
-			else if (self.countOfTheSixWithoutUserEntries > 1 && self.countOfTheSixWithoutUserEntries < 6)
-				return STSectionUpdatedEntries;
-			else
-				return STSectionUpdatedEntries + outOfRangeIndex;
-			break;
-		}
-		
-		case STSectionSetupForDay:
-		{
-			if (self.countOfTheSixWithoutUserEntries <= 1 || self.countOfTheSixWithoutUserEntries == 6)
-				return STSectionSetupForDay - 1;
-			else
-				return STSectionSetupForDay;
-			break;
-		}
-			
-		case STSectionPreviousDays:
-		{
-			if (self.countOfTheSixWithoutUserEntries <= 1 || self.countOfTheSixWithoutUserEntries == 6)
-				return STSectionPreviousDays - 1;
-			else
-				return STSectionPreviousDays;
-			break;
-		}
-			
-		default:
-			break;
-	}
-}
-*/
 
 #pragma mark - View Loading and Appearing
 
@@ -328,8 +182,6 @@
 			NSLog(@"Index of that advice: %i", [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice]);
 			NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
 		}
-//		self.wakingHour		= 5;			// This will need to be fixed
-//		self.wakingMinute	= 30;			// This will need to be fixed
 		
 		[self addDay:0];
 	}
