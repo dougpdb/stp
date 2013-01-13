@@ -107,10 +107,15 @@
 	
 	Day *day					= (indexPath.section == 0) ? [self.days objectAtIndex:indexPath.row + 1] : [self.fetchedResultsController  objectAtIndexPath:indexPath];										// use +1 to "skip" today
 	
-	cell.textLabel.text			= day.date.dateAndWeekday;
+	cell.textLabel.text			= day.date.shortWeekdayAndDate;
 	cell.detailTextLabel.text	= [NSString stringWithFormat:@"%i Entries", [[day getTheSixThatHaveUserEntriesSorted] count]];
 	
 	return cell;
+}
+
+-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+	return nil;
 }
 
 @end

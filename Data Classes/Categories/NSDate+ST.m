@@ -120,7 +120,7 @@
     return [dateFormatter stringFromDate:self];
 }
 
-- (NSString *)weekdayMonthAndDate
+- (NSString *)weekdayMonthAndDay
 {
 	static NSDateFormatter *dateFormatter;
     static dispatch_once_t onceToken;
@@ -139,6 +139,18 @@
     dispatch_once(&onceToken, ^{
 		dateFormatter	= [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"d eeee"];
+    });
+	
+    return [dateFormatter stringFromDate:self];
+}
+
+-(NSString *)shortWeekdayAndDate
+{
+	static NSDateFormatter *dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+		dateFormatter	= [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"eee, MMM d"];
     });
 	
     return [dateFormatter stringFromDate:self];

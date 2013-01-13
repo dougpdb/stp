@@ -20,8 +20,9 @@
 -(NSString *)weekday;
 -(NSString *)timeAndDate;
 -(NSString *)monthAndYear;
--(NSString *)weekdayMonthAndDate;
+-(NSString *)weekdayMonthAndDay;
 -(NSString *)dateAndWeekday;
+-(NSString *)shortWeekdayAndDate;
 
 -(NSInteger)hour;
 -(NSInteger)minute;

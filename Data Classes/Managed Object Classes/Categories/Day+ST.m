@@ -99,6 +99,11 @@
 	return [self sortByOrderNumberForType:unsortedArray];
 }
 
+//-(NSString *)dateMonthAndYear
+//{
+//	return self.date.monthAndYear;
+//}
+
 #pragma mark - Private Sort
 
 -(NSArray *)sortByOrderNumberForType:(NSArray *)unsortedArray
