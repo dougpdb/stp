@@ -15,6 +15,7 @@
 #import "STPreviousDaysTVC.h"
 #import "STTraditionsFollowedTVC.h"
 
+#define OUT_OF_RANGE	10000
 
 @interface STTodayTVC ()
 
@@ -92,7 +93,7 @@
 
 -(NSInteger)countOfTheSixWithoutUserEntries
 {
-	if (!_countOfTheSixWithoutUserEntries) {
+	if (_countOfTheSixWithoutUserEntries == OUT_OF_RANGE) {
 		_countOfTheSixWithoutUserEntries	= [[self.today getTheSixWithoutUserEntriesSorted] count];
 	}
 	
@@ -101,7 +102,7 @@
 
 -(NSMutableArray *)tableViewSections
 {
-	if (!_tableViewSections) {
+	if (_tableViewSections == nil) {
 		NSMutableArray *tmpSectionArray	= [NSMutableArray arrayWithObjects:@"Next Entry",
 																		   @"Remaining Scheduled Entries",
 																		   @"Updated Entries",
@@ -151,9 +152,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated
-{
-	self.tableViewSections						= nil;
-	self.countOfTheSixWithoutUserEntries		= nil;
+{	
 	[self setupAdviceFetchedResultsController];
     self.allAdviceFollowedByUser				= [NSMutableArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
 	
@@ -214,6 +213,12 @@
 		NSLog(@"There are %u entries that have been updated.", [[self.today getTheSixThatHaveUserEntriesSorted] count]);
 		NSLog(@"There are %u entries that have not yet been updated.", [[self.today getTheSixWithoutUserEntriesSorted] count]);
 	}
+	
+	self.countOfTheSixWithoutUserEntries		= OUT_OF_RANGE;
+	self.tableViewSections						= nil;
+	
+	[self.tableView reloadData];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -581,7 +586,8 @@
 					[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
 				} else {
 					self.showRemainingScheduledEntries	= (self.showRemainingScheduledEntries) ? NO : YES;		// toggle to other state
-					[tableView reloadSections:[NSIndexSet indexSetWithIndex:self.sectionRemainingScheduledEntries] withRowAnimation:YES];
+					[tableView reloadSections:[NSIndexSet indexSetWithIndex:[self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]]
+							 withRowAnimation:YES];
 				}
 			}
 		
@@ -592,7 +598,8 @@
 					[self performSegueWithIdentifier:@"Guideline Entry" sender:self];					
 				} else {
 					self.showUpdatedEntries = (self.showUpdatedEntries) ? NO : YES;
-					[tableView reloadSections:[NSIndexSet indexSetWithIndex:self.sectionUpdatedEntries] withRowAnimation:YES];
+					[tableView reloadSections:[NSIndexSet indexSetWithIndex:[self.tableViewSections indexOfObject:@"Updated Entries"]]
+							 withRowAnimation:YES];
 				}
 			}
 
