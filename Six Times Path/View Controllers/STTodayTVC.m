@@ -419,8 +419,10 @@
 {
 	if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
 		return 129;		// change for landscape orientation?
-	} else if ((indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"] || indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) && indexPath.row > 0) {
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"] && indexPath.row > 0) {
 		return 81;
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"] && indexPath.row > 0) {
+		return 130;
 	} else {
 		return 35;
 	}
@@ -432,6 +434,7 @@
 {
 	static NSString *guidelineNextEntryCellIdentifier	= @"GuidelineNextEntryCell";
 	static NSString *guidelineOtherEntryCellIdentifier	= @"GuidelineOtherEntryCell";
+	static NSString *guidelineSummaryEntryCellIdentifier	= @"GuidelineSummaryEntryCell";
 	static NSString *summaryOrSetupCellIdentifier		= @"SummaryOrSetupCell";
 		
     if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
@@ -503,18 +506,22 @@
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
 
 			if (self.showUpdatedEntries && indexPath.row > 0) {
-				UITableViewCell *guidelineOtherEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineOtherEntryCellIdentifier];
+				UITableViewCell *guidelineSummaryEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineSummaryEntryCellIdentifier];
 				
-				LESixOfDay *updatedEntry	= [self.updatedEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
-				NSString *timeEntryText		= [NSString stringWithFormat:@"Updated - %@", updatedEntry.timeLastUpdated.time];
-				NSString *guidelineText		= updatedEntry.advice.name;
+				LESixOfDay *updatedEntry					= [self.updatedEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
+				NSString *timeEntryText						= [NSString stringWithFormat:@"Updated %@", updatedEntry.timeLastUpdated.time];
+				NSString *guidelineText						= updatedEntry.advice.name;
+				NSString *positiveAction					= [[updatedEntry.getPositiveActionsTaken anyObject] valueForKey:@"text"];
+				NSString *negativeAction					= [[updatedEntry.getNegativeActionsTaken anyObject] valueForKey:@"text"];
 				
-				[[guidelineOtherEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
-				[[guidelineOtherEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
+				[[guidelineSummaryEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
+				[[guidelineSummaryEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
+				[[guidelineSummaryEntryCell viewWithTag:20] setValue:positiveAction forKey:@"text"];
+				[[guidelineSummaryEntryCell viewWithTag:21] setValue:negativeAction forKey:@"text"];
 				
-				return guidelineOtherEntryCell;
+				return guidelineSummaryEntryCell;
 			} else {
-				UITableViewCell *summaryOrSetupCell					= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+				UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 			
 				summaryOrSetupCell.textLabel.text		= @"Guidelines with Entries";
 				summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [self.updatedEntries count]];
