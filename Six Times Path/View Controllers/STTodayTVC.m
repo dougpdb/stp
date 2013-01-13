@@ -239,7 +239,7 @@
 																		managedObjectContext:self.managedObjectContext
 																		  sectionNameKeyPath:nil
 																				   cacheName:nil];
-    [self performFetch];
+	[self performFetch];
 }
 
 -(void)setupAdviceFetchedResultsController
@@ -489,7 +489,7 @@
 				summaryOrSetupCell.textLabel.text		= @"Remaining Guidelines";
 				summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [self.remainingScheduledEntries count]];
 				
-				if ([self.remainingScheduledEntries count] == 0) {
+				if (self.showRemainingScheduledEntries) {
 					summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleNone;
 					summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryNone;
 				} else {
@@ -519,7 +519,7 @@
 				summaryOrSetupCell.textLabel.text		= @"Guidelines with Entries";
 				summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [self.updatedEntries count]];
 				
-				if ([self.updatedEntries count] == 0) {
+				if (self.showUpdatedEntries) {
 					summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleNone;
 					summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryNone;
 				} else {

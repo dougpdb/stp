@@ -208,7 +208,7 @@
 	
 		// Modify the cell's formatting
 		// Possibly move into the subclass as a method?
-		overviewCell.accessoryType	= UITableViewCellAccessoryDetailDisclosureButton;
+		overviewCell.accessoryType	= UITableViewCellAccessoryNone;
 
 	}
 	if (bestWorstOrToDoCell == nil) {

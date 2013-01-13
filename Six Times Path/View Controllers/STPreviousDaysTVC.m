@@ -78,25 +78,25 @@
 	
 	// Set request with sorting, then fetch
 	NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:@"Day"];
-    request.sortDescriptors			= [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"date"
-																						ascending:NO
-																						 selector:@selector(localizedCaseInsensitiveCompare:)], nil];
-    self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
+    request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"date"
+																ascending:NO]];
+	self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
 																		managedObjectContext:self.managedObjectContext
-																		  sectionNameKeyPath:nil
+																		  sectionNameKeyPath:@"date.monthAndYear"
 																				   cacheName:nil];
     [self performFetch];
 }
 
 #pragma mark - Table View Structure
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSInteger numberOfAllDays		= [self.fetchedResultsController.fetchedObjects count];
-	NSInteger numberOfPreviousDays	= (numberOfAllDays == 0) ? 0 : numberOfAllDays - 1;
-
-	return numberOfPreviousDays;
+    if (section == 0)
+		return [[[self.fetchedResultsController sections] objectAtIndex:section] numberOfObjects] -1;
+	else
+		return [[[self.fetchedResultsController sections] objectAtIndex:section] numberOfObjects];
 }
+
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -104,9 +104,10 @@
 		
 	UITableViewCell *cell		= [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	
-	Day *day					= [self.days objectAtIndex:indexPath.row + 1];										// use +1 to "skip" today
 	
-	cell.textLabel.text			= [NSString stringWithFormat:@"%@, %@", day.date.weekday, day.date.date];
+	Day *day					= (indexPath.section == 0) ? [self.days objectAtIndex:indexPath.row + 1] : [self.fetchedResultsController  objectAtIndexPath:indexPath];										// use +1 to "skip" today
+	
+	cell.textLabel.text			= day.date.dateAndWeekday;
 	cell.detailTextLabel.text	= [NSString stringWithFormat:@"%i Entries", [[day getTheSixThatHaveUserEntriesSorted] count]];
 	
 	return cell;

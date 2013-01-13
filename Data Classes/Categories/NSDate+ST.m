@@ -108,6 +108,42 @@
     return [dateFormatter stringFromDate:self];
 }
 
+- (NSString *)monthAndYear
+{
+	static NSDateFormatter *dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+		dateFormatter	= [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"MMMM yyyy"];
+    });
+	
+    return [dateFormatter stringFromDate:self];
+}
+
+- (NSString *)weekdayMonthAndDate
+{
+	static NSDateFormatter *dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+		dateFormatter	= [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"eeee', ' MMMM d"];
+    });
+	
+    return [dateFormatter stringFromDate:self];
+}
+
+-(NSString *)dateAndWeekday
+{
+	static NSDateFormatter *dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+		dateFormatter	= [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"d eeee"];
+    });
+	
+    return [dateFormatter stringFromDate:self];
+}
+
 -(NSString *)timeAndDate
 {
 	static NSDateFormatter *dateFormatter;
