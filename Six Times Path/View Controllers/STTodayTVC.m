@@ -392,6 +392,8 @@
 		else
 			return 1;		
 	} else if (section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
+		if (self.countOfTheSixWithoutUserEntries == 0)
+			self.showUpdatedEntries	= YES;
 		if (self.showUpdatedEntries)
 			return [self.updatedEntries count] + 1;
 		else
@@ -683,11 +685,14 @@
 - (IBAction)doneAction:(id)sender
 {
 	
-	self.today.startHour		= [NSNumber numberWithInt:[self.pickerView.date hour]];
-	self.today.startMinute		= [NSNumber numberWithInt:[self.pickerView.date minute]];
+	self.today.startHour				= [NSNumber numberWithInt:[self.pickerView.date hour]];
+	self.today.startMinute				= [NSNumber numberWithInt:[self.pickerView.date minute]];
 	
-	UIApplication *STPapp		= [UIApplication sharedApplication];
+	UIApplication *STPapp				= [UIApplication sharedApplication];
+	STPapp.applicationIconBadgeNumber	= 0;
 	[STPapp cancelAllLocalNotifications];
+	
+	
 	// Reset scheduled times for log entries
 	for (LESixOfDay *oneOfSix in [self.today getTheSixWithoutUserEntriesSorted]) {
 		[oneOfSix resetScheduledTime];
@@ -774,8 +779,8 @@
 
 - (void)addNotification:(LESixOfDay *)sixOfDayLogEntry {
 	NSDictionary *userInfo	= @{
-	@"logEntryTimeScheduled"	: sixOfDayLogEntry.timeScheduled.timeAndDate,
-	@"logEntryAdviceText"		: sixOfDayLogEntry.advice.name
+		@"logEntryTimeScheduled"	: sixOfDayLogEntry.timeScheduled.timeAndDate,
+		@"logEntryAdviceText"		: sixOfDayLogEntry.advice.name
 	};
 	
 	NSLog(@"userInfo dictionary, %@", userInfo);

@@ -72,51 +72,75 @@
 
 -(NSString *)time
 {
-    NSDateFormatter *dateFormatter  = [[NSDateFormatter alloc] init];
-	[dateFormatter setDateStyle:NSDateFormatterNoStyle];
-	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-	//    [dateFormatter setDateFormat:@"h:mm a"];
+	static NSDateFormatter *dateFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		dateFormatter  = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateStyle:NSDateFormatterNoStyle];
+		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+	});
     
 	return [dateFormatter stringFromDate:self];
 }
 
 -(NSString *)date
 {
-    NSDateFormatter *dateFormatter  = [[NSDateFormatter alloc] init];
-	[dateFormatter setDateStyle:NSDateFormatterLongStyle];
-	[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-	//    [dateFormatter setDateFormat:@"MMM d, YYYY"];
-    
+	static NSDateFormatter *dateFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		dateFormatter  = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateStyle:NSDateFormatterLongStyle];
+		[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+	});
+	
 	return [dateFormatter stringFromDate:self];
 }
 
 -(NSString *)weekday
 {
-    NSDateFormatter *dateFormatter  = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"eeee"];
+	static NSDateFormatter *dateFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		dateFormatter  = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateFormat:@"eeee"];
+	});
         
     return [dateFormatter stringFromDate:self];
 }
 
 -(NSString *)timeAndDate
 {
-    NSDateFormatter *dateFormatter  = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"h:mm a 'on' MMM d"];
+	static NSDateFormatter *dateFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		dateFormatter  = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateFormat:@"h:mm a 'on' MMM d"];
+	});
         
     return [dateFormatter stringFromDate:self];
 }
 
 -(NSInteger)hour
 {
-	NSDateFormatter *dateFormatter  = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"H"];
+	static NSDateFormatter *dateFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		dateFormatter  = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateFormat:@"H"];
+	});
+	
     return [[dateFormatter stringFromDate:self] intValue];
 }
 
 -(NSInteger)minute
 {
-	NSDateFormatter *dateFormatter  = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"m"];
-    return [[dateFormatter stringFromDate:self] intValue];	
+	static NSDateFormatter *dateFormatter;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		dateFormatter  = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateFormat:@"m"];
+	});
+	
+    return [[dateFormatter stringFromDate:self] intValue];
 }
 @end
