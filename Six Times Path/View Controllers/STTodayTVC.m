@@ -45,7 +45,7 @@
 @synthesize managedObjectContext			= _managedObjectContext;
 @synthesize fetchedResultsController		= _fetchedResultsController;
 
-@synthesize today							= _today;
+@synthesize thisDay							= _thisDay;
 
 @synthesize nextEntry						= _nextEntry;
 @synthesize remainingScheduledEntries		= _remainingScheduledEntries;
@@ -94,7 +94,7 @@
 -(NSInteger)countOfTheSixWithoutUserEntries
 {
 	if (_countOfTheSixWithoutUserEntries == OUT_OF_RANGE) {
-		_countOfTheSixWithoutUserEntries	= [[self.today getTheSixWithoutUserEntriesSorted] count];
+		_countOfTheSixWithoutUserEntries	= [[self.thisDay getTheSixWithoutUserEntriesSorted] count];
 	}
 	
 	return _countOfTheSixWithoutUserEntries;
@@ -174,7 +174,7 @@
 		LESixOfDay *lastTheSixOfMostRecentDay	= [[mostRecentDay getTheSixSorted] lastObject];
 		self.mostRecentlyAddedDate				= mostRecentDay.date;
 		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
-		self.today								= mostRecentDay;
+		self.thisDay								= mostRecentDay;
 		if (self.debug) {
 			NSLog(@"Most recent date: %@", self.mostRecentlyAddedDate.date);
 			NSLog(@"lastTheSixOfMostRecentDay: %@", lastTheSixOfMostRecentDay.advice.name);
@@ -187,18 +187,18 @@
 
 	self.title		= self.mostRecentlyAddedDate.date;
 		
-	NSArray *allRemainingEntries			= [self.today getTheSixWithoutUserEntriesSorted];
+	NSArray *allRemainingEntries			= [self.thisDay getTheSixWithoutUserEntriesSorted];
 	
 	NSRange rangeRemainingScheduledEntries;
 	rangeRemainingScheduledEntries.location	= 1;
 	
-	rangeRemainingScheduledEntries.length	= ([[self.today getTheSixWithoutUserEntriesSorted] count] == 0) ? 0 : [allRemainingEntries count] - 1;
+	rangeRemainingScheduledEntries.length	= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? 0 : [allRemainingEntries count] - 1;
 	
 	if ([allRemainingEntries count] > 0) {
 		self.nextEntry						= [allRemainingEntries objectAtIndex:0];
 	}
 	
-	if ([[self.today getTheSixWithoutUserEntriesSorted] count] == 0) {
+	if ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) {
 		NSLog(@"There are 0 entries.");
 		self.remainingScheduledEntries		= allRemainingEntries;
 	} else {
@@ -206,12 +206,12 @@
 	}
 	self.showRemainingScheduledEntries		= NO;
 	
-	self.updatedEntries						= [self.today getTheSixThatHaveUserEntriesSorted];
+	self.updatedEntries						= [self.thisDay getTheSixThatHaveUserEntriesSorted];
 	self.showUpdatedEntries					= NO;
 	
 	if (self.debug) {
-		NSLog(@"There are %u entries that have been updated.", [[self.today getTheSixThatHaveUserEntriesSorted] count]);
-		NSLog(@"There are %u entries that have not yet been updated.", [[self.today getTheSixWithoutUserEntriesSorted] count]);
+		NSLog(@"There are %u entries that have been updated.", [[self.thisDay getTheSixThatHaveUserEntriesSorted] count]);
+		NSLog(@"There are %u entries that have not yet been updated.", [[self.thisDay getTheSixWithoutUserEntriesSorted] count]);
 	}
 	
 	self.countOfTheSixWithoutUserEntries		= OUT_OF_RANGE;
@@ -267,7 +267,7 @@
 -(void)addDay:(id)sender
 {
 	NSDate *now						= [NSDate date];
-	NSDate *mostRecentDate			= [self.today.date setHour:[self.today.startHour intValue] andMinute:[self.today.startMinute intValue]];
+	NSDate *mostRecentDate			= [self.thisDay.date setHour:[self.thisDay.startHour intValue] andMinute:[self.thisDay.startMinute intValue]];
 	
 	NSTimeInterval eighteenHours	= 18*60*60;
 	NSTimeInterval twentyFourHours	= 24*60*60;
@@ -287,11 +287,11 @@
 				newDay.date				= now;
 			}
 			
-			newDay.startHour			= (self.today.startHour) ? self.today.startHour : [NSNumber numberWithInt:6];
-			newDay.startMinute			= (self.today.startMinute) ? self.today.startMinute : [NSNumber numberWithInt:0];
+			newDay.startHour			= (self.thisDay.startHour) ? self.thisDay.startHour : [NSNumber numberWithInt:6];
+			newDay.startMinute			= (self.thisDay.startMinute) ? self.thisDay.startMinute : [NSNumber numberWithInt:0];
 			
 			self.mostRecentlyAddedDate	= newDay.date;
-			self.today					= newDay;
+			self.thisDay					= newDay;
 
 			if (self.debug)
 				NSLog(@"A new Day has been created. Its date is %@. The most recently added date is %@.", newDay.date, self.mostRecentlyAddedDate);
@@ -545,7 +545,7 @@
 					UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 					
 					summaryOrSetupCell.textLabel.text		= @"Wake Up Time";
-					LESixOfDay *firstGuidelineOfDay			= [[self.today getTheSixSorted] objectAtIndex:0];
+					LESixOfDay *firstGuidelineOfDay			= [[self.thisDay getTheSixSorted] objectAtIndex:0];
 					NSDate *wakeUpAt						= [firstGuidelineOfDay.timeScheduled dateByAddingTimeInterval:-2*60*60];	// this will need to be fixed
 					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", wakeUpAt.time];
 					return summaryOrSetupCell;
@@ -692,8 +692,8 @@
 - (IBAction)doneAction:(id)sender
 {
 	
-	self.today.startHour				= [NSNumber numberWithInt:[self.pickerView.date hour]];
-	self.today.startMinute				= [NSNumber numberWithInt:[self.pickerView.date minute]];
+	self.thisDay.startHour				= [NSNumber numberWithInt:[self.pickerView.date hour]];
+	self.thisDay.startMinute				= [NSNumber numberWithInt:[self.pickerView.date minute]];
 	
 	UIApplication *STPapp				= [UIApplication sharedApplication];
 	STPapp.applicationIconBadgeNumber	= 0;
@@ -701,7 +701,7 @@
 	
 	
 	// Reset scheduled times for log entries
-	for (LESixOfDay *oneOfSix in [self.today getTheSixWithoutUserEntriesSorted]) {
+	for (LESixOfDay *oneOfSix in [self.thisDay getTheSixWithoutUserEntriesSorted]) {
 		[oneOfSix resetScheduledTime];
 		[self addNotification:oneOfSix];
 	}

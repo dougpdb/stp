@@ -16,7 +16,7 @@
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-@property (strong, nonatomic) Day *today;
+@property (strong, nonatomic) Day *thisDay;
 
 // from apple sample code
 @property (nonatomic, retain) IBOutlet UIDatePicker *pickerView;
