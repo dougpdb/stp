@@ -19,24 +19,12 @@
 
 @interface STTodayTVC ()
 
-@property BOOL isOnlyShowingTheSixWithoutUserEntriesSorted;
-@property (strong, nonatomic) LESixOfDay *nextEntry;
-@property (strong, nonatomic) NSArray *remainingScheduledEntries;
-@property (strong, nonatomic) NSArray *updatedEntries;
-@property BOOL showRemainingScheduledEntries;
-@property BOOL showUpdatedEntries;
-@property (strong, nonatomic) NSDate *mostRecentlyAddedDate;
-@property NSInteger orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
-@property (strong, nonatomic) NSMutableArray *allAdviceFollowedByUser;
-@property (nonatomic) NSInteger countOfTheSixWithoutUserEntries;
+// from apple sample code
+@property (nonatomic, retain) IBOutlet UIDatePicker *pickerView;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
 
-@property (nonatomic, strong) NSMutableArray *tableViewSections;
-
-
--(void)determineAndSetTheSixToBeShown;
--(void)addNotification:(LESixOfDay *)sixOfDayLogEntry;
--(void)addDay:(id)sender;
--(void)setTheSixAdvicesFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+@property (nonatomic, retain) NSArray *dataArray;
+@property (nonatomic, retain) NSDateFormatter *dateFormatter;
 
 @end
 
@@ -47,25 +35,26 @@
 
 @synthesize thisDay							= _thisDay;
 
+@synthesize pickerView						= _pickerView;
+@synthesize doneButton						= _doneButton;
+@synthesize dataArray						= _dataArray;
+@synthesize dateFormatter					= _dateFormatter;
+
+
+@synthesize showRemainingScheduledEntries	= _showRemainingScheduledEntries;
+@synthesize showUpdatedEntries				= _showUpdatedEntries;
 @synthesize nextEntry						= _nextEntry;
 @synthesize remainingScheduledEntries		= _remainingScheduledEntries;
 @synthesize updatedEntries					= _updatedEntries;
-@synthesize showRemainingScheduledEntries	= _showRemainingScheduledEntries;
-@synthesize showUpdatedEntries				= _showUpdatedEntries;
 @synthesize mostRecentlyAddedDate			= _mostRecentlyAddedDate;
 @synthesize allAdviceFollowedByUser			= _allAdviceFollowedByUser;
 @synthesize countOfTheSixWithoutUserEntries	= _countOfTheSixWithoutUserEntries;
 
 @synthesize tableViewSections				= _tableViewSections;
 
-@synthesize isOnlyShowingTheSixWithoutUserEntriesSorted			= _isOnlyShowingTheSixWithoutUserEntriesSorted;
 @synthesize orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay	= _orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
 
 
-@synthesize pickerView		= _pickerView;
-@synthesize doneButton		= _doneButton;
-@synthesize dataArray		= _dataArray;
-@synthesize dateFormatter	= _dateFormatter;
 
 
 #pragma mark - init
@@ -459,6 +448,9 @@
 				
 				[[guidelineNextEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
 				[[guidelineNextEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
+
+				guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
+				guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
 			} else {
 				NSString *timeEntryText	= timeEntryTextPrefix;
 				NSString *guidelineText	= @"You've made entries for all 6 guidelines. Be happy over what you've done well to day, and regret the mistaken actions.";
@@ -605,7 +597,7 @@
 			if ([self.updatedEntries count] > 0) {
 				if (indexPath.row > 0) {
 					[self performSegueWithIdentifier:@"Guideline Entry" sender:self];					
-				} else {
+				} else if (indexPath.row < 6) {
 					self.showUpdatedEntries = (self.showUpdatedEntries) ? NO : YES;
 					[tableView reloadSections:[NSIndexSet indexSetWithIndex:[self.tableViewSections indexOfObject:@"Updated Entries"]]
 							 withRowAnimation:YES];

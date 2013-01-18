@@ -10,6 +10,6 @@
 
 @interface STPreviousDayTVC : STTodayTVC
 
-
+@property BOOL editingMode;
 
 @end

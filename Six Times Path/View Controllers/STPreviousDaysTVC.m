@@ -7,6 +7,7 @@
 //
 
 #import "STPreviousDaysTVC.h"
+#import "STPreviousDayTVC.h"
 #import "Day+ST.h"
 #import "NSDate+ST.h"
 
@@ -118,4 +119,15 @@
 	return nil;
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	NSIndexPath *indexPath  = [self.tableView indexPathForSelectedRow];
+	
+	NSLog(@"Segue identifier is %@", segue.identifier.description);
+	
+	STPreviousDayTVC *previousDay		= segue.destinationViewController;
+	previousDay.managedObjectContext	= self.managedObjectContext;
+	previousDay.thisDay					= (indexPath.section == 0) ? [self.days objectAtIndex:indexPath.row +1] : [self.fetchedResultsController objectAtIndexPath:indexPath];
+	
+}
 @end

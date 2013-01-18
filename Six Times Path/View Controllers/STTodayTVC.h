@@ -8,7 +8,7 @@
 
 #import "CoreDataTableViewController.h"
 
-@class Day;
+@class Day, LESixOfDay;
 
 @interface STTodayTVC : CoreDataTableViewController
 
@@ -18,12 +18,30 @@
 
 @property (strong, nonatomic) Day *thisDay;
 
-// from apple sample code
-@property (nonatomic, retain) IBOutlet UIDatePicker *pickerView;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
 
-@property (nonatomic, retain) NSArray *dataArray;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
+// moved out of implementation category for purposes of subclassing
+// maybe move some back in
+
+@property BOOL showRemainingScheduledEntries;
+@property BOOL showUpdatedEntries;
+@property (strong, nonatomic) LESixOfDay *nextEntry;
+@property (strong, nonatomic) NSArray *remainingScheduledEntries;
+@property (strong, nonatomic) NSArray *updatedEntries;
+@property (strong, nonatomic) NSDate *mostRecentlyAddedDate;
+@property NSInteger orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
+@property (strong, nonatomic) NSMutableArray *allAdviceFollowedByUser;
+@property (nonatomic) NSInteger countOfTheSixWithoutUserEntries;
+
+@property (nonatomic, strong) NSMutableArray *tableViewSections;
+
+
+-(void)determineAndSetTheSixToBeShown;
+-(void)addNotification:(LESixOfDay *)sixOfDayLogEntry;
+-(void)addDay:(id)sender;
+-(void)setTheSixAdvicesFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+
+
+
 
 - (IBAction)doneAction:(id)sender;	// when the done button is clicked
 									//- (IBAction)dateAction:(id)sender;	// when the user has changed the date picke values (m/d/y)
