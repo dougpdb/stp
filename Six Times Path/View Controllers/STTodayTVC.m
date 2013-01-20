@@ -174,7 +174,7 @@
 		[self addDay:0];
 	}
 
-	self.title		= self.mostRecentlyAddedDate.date;
+	self.title		= self.mostRecentlyAddedDate.shortWeekdayAndDate;
 		
 	NSArray *allRemainingEntries			= [self.thisDay getTheSixWithoutUserEntriesSorted];
 	

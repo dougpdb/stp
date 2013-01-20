@@ -1,3 +1,4 @@
+
 //
 //  STAdviceEntryTVC.m
 //  Six Times Path
@@ -13,6 +14,10 @@
 #import "ActionTaken+ST.h"
 #import "ToDo+ST.h"
 #import "NSDate+ST.h"
+
+#import "BSKeyboardControls.h"
+
+
 
 #import "STLogEntryTimedCell.h"
 #import "STLogEntryBestWorstOrToDoTextEntryCell.h"
@@ -33,6 +38,8 @@
 
 @interface STLogEntrySixOfDayTVC ()
 
+@property (nonatomic, strong) BSKeyboardControls *keyboardControls;
+
 @property (nonatomic, strong) NSString *mostRecentlySavedPositiveActionTakenDescription;
 @property (nonatomic, strong) NSString *mostRecentlySavedNegativeActionTakenDescription;
 @property (nonatomic, strong) NSString *updatedPositiveActionTakenDescription;
@@ -52,7 +59,14 @@
 @synthesize aPositiveActionTaken		= _aPositiveActionTaken;
 @synthesize aNegativeActionTaken		= _aNegativeActionTaken;
 
+@synthesize guidelineTime				= _guidelineTime;
+@synthesize guidelineText				= _guidelineText;
+@synthesize positiveActionTextView		= _positiveActionTextView;
+@synthesize negativeActionTextView		= _negativeActionTextView;
+
 @synthesize showHints					= _showHints;
+
+@synthesize keyboardControls			= _keyboardControls;
 
 @synthesize mostRecentlySavedPositiveActionTakenDescription	= _mostRecentlySavedPositiveActionTakenDescription;
 @synthesize mostRecentlySavedNegativeActionTakenDescription	= _mostRecentlySavedNegativeActionTakenDescription;
@@ -61,7 +75,10 @@
 @synthesize updatedToDoText									= _updatedToDoText;
 
 
- 
+
+
+#pragma mark - Lifecycle
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -78,9 +95,11 @@
 	self.showHints	= YES;
 	self.debug		= YES;
 	
-	// There should only be one postive and one negative action associated with the log entry type SixOfDay
-	// Therefore, get the set of actions (there should only be one in the set at most) for each type of action
-	// and assign the ActionTaken objects from that set and assign to the properties aPostiveActionTaken and aNegativeActionTaken
+	
+	/*	There should only be one postive and one negative action associated with the log entry type SixOfDay
+		Therefore, get the set of actions (there should only be one in the set at most) for each type of action
+		and assign the ActionTaken objects from that set and assign to the properties aPostiveActionTaken and aNegativeActionTaken
+	 */
 	NSSet *setOfPositiveActionsTaken						= self.leSixOfDay.getPositiveActionsTaken;
 	self.aPositiveActionTaken								= [setOfPositiveActionsTaken anyObject];
 	self.mostRecentlySavedPositiveActionTakenDescription	= (self.aPositiveActionTaken) ? self.aPositiveActionTaken.text : @"";
@@ -90,20 +109,24 @@
 	self.aNegativeActionTaken								= [setOfNegativeActionsTaken anyObject];
 	self.mostRecentlySavedNegativeActionTakenDescription	= (self.aNegativeActionTaken) ? self.aNegativeActionTaken.text : @"";
 	self.updatedNegativeActionTakenDescription				= self.mostRecentlySavedNegativeActionTakenDescription;
-	
-/*
-	// get the updated to
-	self.updatedToDoText									= (self.leSixOfDay.toDo) ? self.leSixOfDay.toDo.text : @"";
-*/
-	
-	// for the Console
-	[self.leSixOfDay logValuesOfLogEntry];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	if (self.leSixOfDay.timeLastUpdated) {
+		self.guidelineTime.text	= [NSString stringWithFormat:@"Updated %@", self.leSixOfDay.timeLastUpdated.time];
+		self.guidelineTime.font	= [UIFont italicSystemFontOfSize:13.0];
+	} else {
+		self.guidelineTime.text	= self.leSixOfDay.timeScheduled.time;
+	}
+	
+	self.guidelineText.text				= self.leSixOfDay.advice.name;
+	self.positiveActionTextView.text	= self.updatedPositiveActionTakenDescription;
+	self.negativeActionTextView.text	= self.updatedNegativeActionTakenDescription;
+	
+	NSArray *fields			= @[self.positiveActionTextView, self.negativeActionTextView];
+    
+    [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:fields]];
+    [self.keyboardControls setDelegate:self];
+	
+	self.navigationController.title		= self.leSixOfDay.advice.name;		// not working for some reason.
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -113,6 +136,10 @@
 
 - (void)viewDidUnload
 {
+	[self setPositiveActionTextView:nil];
+	[self setNegativeActionTextView:nil];
+	[self setGuidelineTime:nil];
+	[self setGuidelineText:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -127,70 +154,83 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;		// 3 for Name of Guideline and Best and Worst, 4 for To Do
+    return 2;		// 3 for Name of Guideline and Best and Worst, 4 for To Do
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
-}
-
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-	switch (section) {
-		case OVERVIEW_SECTION_NUMBER:
-			return @"";
+    switch (section) {
+		case 0:
+			return 1;
 			break;
-		case BEST_SECTION_NUMBER:
-			return @"+";
-			break;
-		case WORST_SECTION_NUMBER:
-			return @"-";
-			break;
-		case TO_DO_SECTION_NUMBER:
-			return @"To Do";
+			
+		case 1:
+			return 2;
 			break;
 			
 		default:
 			break;
 	}
-	return @"";
+	return nil;
 }
+/*
+//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//	switch (section) {
+//		case OVERVIEW_SECTION_NUMBER:
+//			return @"";
+//			break;
+//		case BEST_SECTION_NUMBER:
+//			return @"+";
+//			break;
+//		case WORST_SECTION_NUMBER:
+//			return @"-";
+//			break;
+//		case TO_DO_SECTION_NUMBER:
+//			return @"To Do";
+//			break;
+//			
+//		default:
+//			break;
+//	}
+//	return @"";
+//}
 
--(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-{
-	if (self.showHints) {
-		switch (section) {
-			case OVERVIEW_SECTION_NUMBER:
-				return @"";
-				break;
-			case BEST_SECTION_NUMBER:
-				return @"A recent, specific, positive action that fulfilled this guideline (as closely as possible).";
-				break;
-			case WORST_SECTION_NUMBER:
-				return @"A recent, specific, negative action that did not fulfill this guideline.";
-				break;
-			case TO_DO_SECTION_NUMBER:
-				return @"";
-				break;
-				
-			default:
-				break;
-		}
-	}
-	return @"";
-}
-
+//-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+//{
+//	if (self.showHints) {
+//		switch (section) {
+//			case OVERVIEW_SECTION_NUMBER:
+//				return @"";
+//				break;
+//			case BEST_SECTION_NUMBER:
+//				return @"A recent, specific, positive action that fulfilled this guideline (as closely as possible).";
+//				break;
+//			case WORST_SECTION_NUMBER:
+//				return @"A recent, specific, negative action that did not fulfill this guideline.";
+//				break;
+//			case TO_DO_SECTION_NUMBER:
+//				return @"";
+//				break;
+//				
+//			default:
+//				break;
+//		}
+//	}
+//	return @"";
+//}
+*/
 
 
 #pragma mark - Table view data source
-
+/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *overviewCellIdentifier		= @"logEntryAdvice";
-	static NSString *bestOrWorstCellIdentifier	= @"bestOrWorstCell";
+    static NSString *guidelineCellIdentifier	= @"GuidelineCell";
+	static NSString *positiveCellIdentifier	= @"PositiveActionCell";
+	static NSString *negativeCellIdentifier	= @"NegativeActionCell";
 	
-	STLogEntryTimedCell *overviewCell							= (STLogEntryTimedCell *)[tableView dequeueReusableCellWithIdentifier:overviewCellIdentifier];
+	STLogEntryTimedCell *overviewCell		= (STLogEntryTimedCell *)[tableView dequeueReusableCellWithIdentifier:overviewCellIdentifier];
 	STLogEntryBestWorstOrToDoTextEntryCell *bestWorstOrToDoCell	= (STLogEntryBestWorstOrToDoTextEntryCell *)[tableView dequeueReusableCellWithIdentifier:bestOrWorstCellIdentifier];
 	
 	// Init the cells...
@@ -228,9 +268,10 @@
 	switch (indexPath.section) {
 		case OVERVIEW_SECTION_NUMBER:
 		{
-			// Get data for the cell
-			LESixOfDay *sixOfDayEntry			= self.leSixOfDay;
+			UITableViewCell *guidelineCell			= [tableView dequeueReusableCellWithIdentifier:guidelineCellIdentifier];
 			
+			LESixOfDay *sixOfDayEntry				= self.leSixOfDay;
+
 			// Configure the cell...
 			NSString *labelText					= sixOfDayEntry.advice.name;
 			
@@ -243,21 +284,12 @@
 			// Effectively, the MIN() will make sure that the height of the label will either 1 or 2 lines.
 			// We add 10 to the height to give it some padding within the cell, to make sure that the tails of g and y are not clipped.
 			CGFloat labelHeight					= labelSize.height;		// MIN(labelSize.height, 37.0f);
-			
-			overviewCell.guidelineLabel.text	= labelText;
-			overviewCell.guidelineLabel.font	= [UIFont systemFontOfSize:FONT_SIZE+2];
-			
-			if (self.debug)
-				NSLog(@"The height of the guideline text and the label is %g and %g", labelHeight, CGRectGetHeight(overviewCell.guidelineLabel.bounds));
+		
+			guidelineCell.textLabel.text			= sixOfDayEntry.advice.name;
+			//			overviewCell.guidelineLabel.font	= [UIFont systemFontOfSize:FONT_SIZE+2];
 			
 			
-			if (sixOfDayEntry.timeLastUpdated) {
-				overviewCell.timeLabel.text		= [NSString stringWithFormat:@"Updated %@", sixOfDayEntry.timeLastUpdated.time];
-				overviewCell.timeLabel.font		= [UIFont italicSystemFontOfSize:13.0];
-			} else {
-				overviewCell.timeLabel.text		= sixOfDayEntry.timeScheduled.time;
-			}
-			
+
 			overviewCell.guidelineLabel.frame	= CGRectMake(CELL_CONTENT_LEFT_MARGIN,
 															 CELL_CONTENT_VERTICAL_MARGIN,
 															 CELL_CONTENT_WIDTH,
@@ -270,39 +302,36 @@
 			//	Highlighting used only to see relative positioning of UI Label within the cell
 			//			[theSixEntryCell layoutSubviews];
 			
-			return overviewCell;
-			
-			
-			break;
+			return guidelineCell;
 		}
 		case BEST_SECTION_NUMBER:
 		{			
-			bestWorstOrToDoCell.textInput.delegate		= self;
-            bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyNext;
-			bestWorstOrToDoCell.textInput.tag			= TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER;
-
-			// set placeholder text
-			bestWorstOrToDoCell.textInput.text		= self.updatedPositiveActionTakenDescription;
-			// set updated status
+			UITableViewCell *positiveActionCell			= [tableView dequeueReusableCellWithIdentifier:positiveCellIdentifier];
 			
-			return bestWorstOrToDoCell;
+			self.positiveActionTextView.delegate		= self;
+			//           self.positiveActionTextView.returnKeyType	= UIReturnKeyNext;
+			self.positiveActionTextView.tag				= TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER;
+
+			self.positiveActionTextView.text			= self.updatedPositiveActionTakenDescription;
+			
+			return positiveActionCell;
 		}
 		case WORST_SECTION_NUMBER:
 		{
-			bestWorstOrToDoCell.textInput.delegate		= self;
-            bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
-			bestWorstOrToDoCell.textInput.tag			= TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER;
+			UITableViewCell *negativeActionCell			= [tableView dequeueReusableCellWithIdentifier:negativeCellIdentifier];
 			
-			// set placeholder text
-			bestWorstOrToDoCell.textInput.text		= self.updatedNegativeActionTakenDescription;
-			// set updated status
+			self.negativeActionTextView.delegate		= self;
+            //	self.negativeActionTextView.returnKeyType	= UIReturnKeyDone;
+			self.negativeActionTextView.tag				= TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER;
 			
-			return bestWorstOrToDoCell;
+			self.negativeActionTextView.text			= self.updatedNegativeActionTakenDescription;
 			
+			return negativeActionCell;
 		}
 		case TO_DO_SECTION_NUMBER:
 		{
-			bestWorstOrToDoCell.textInput.delegate		= self;
+
+ bestWorstOrToDoCell.textInput.delegate		= self;
             bestWorstOrToDoCell.textInput.returnKeyType = UIReturnKeyDone;
 			bestWorstOrToDoCell.textInput.tag			= TAG_PREFIX_UITEXTVIEW + TO_DO_SECTION_NUMBER;
 			if (self.debug)
@@ -313,59 +342,77 @@
 			// set updated status
 			
 			return bestWorstOrToDoCell;
-			
+		
 		}
 
 		default:
 			break;
 	}
 }
+*/
+
+/*
+//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//	if (indexPath.section == 0) {
+//		// Get data for the cell
+//		LESixOfDay *sixOfDayEntry	= self.leSixOfDay;
+//		
+//		// Configure the cell...
+//		NSString *labelText			= sixOfDayEntry.advice.name;
+//		
+//		CGSize constraint			= CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
+//		
+//		CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE+3] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+//		
+//		// Effectively, the MIN() will make sure that the height of the label will either 1 or 2 lines.
+//		// We add 10 to the height to give it some padding within the cell, to make sure that the tails of g and y are not clipped.
+//		CGFloat labelHeight			= labelSize.height;		// MIN(labelSize.height, 37.0f);
+//		CGFloat timeLabelHeight		= 21.0;
+//		
+//		CGFloat rowHeight			= CELL_CONTENT_VERTICAL_MARGIN + labelHeight + timeLabelHeight + CELL_CONTENT_VERTICAL_MARGIN - 2.;
+//		
+//		if (self.debug)
+//			NSLog(@"The height of the lable and row [%i, %i] is %g and %g", indexPath.section, indexPath.row, labelHeight, rowHeight);
+//		return rowHeight;
+//	} else {
+//		return 90.0;
+//	}
+//}
+*/
 
 
+#pragma mark - Text Field Delegate
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-	if (indexPath.section == 0) {
-		// Get data for the cell
-		LESixOfDay *sixOfDayEntry	= self.leSixOfDay;
-		
-		// Configure the cell...
-		NSString *labelText			= sixOfDayEntry.advice.name;
-		
-		CGSize constraint			= CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
-		
-		CGSize labelSize			= [labelText sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE+3] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
-		
-		// Effectively, the MIN() will make sure that the height of the label will either 1 or 2 lines.
-		// We add 10 to the height to give it some padding within the cell, to make sure that the tails of g and y are not clipped.
-		CGFloat labelHeight			= labelSize.height;		// MIN(labelSize.height, 37.0f);
-		CGFloat timeLabelHeight		= 21.0;
-		
-		CGFloat rowHeight			= CELL_CONTENT_VERTICAL_MARGIN + labelHeight + timeLabelHeight + CELL_CONTENT_VERTICAL_MARGIN - 2.;
-		
-		if (self.debug)
-			NSLog(@"The height of the lable and row [%i, %i] is %g and %g", indexPath.section, indexPath.row, labelHeight, rowHeight);
-		return rowHeight;
-	} else {
-		return 90.0;
-	}
+    [self.keyboardControls setActiveField:textField];
+	[self.tableView scrollRectToVisible:textField.frame animated:YES];
 }
 
 
+#pragma mark - Text View Delegate
 
-#pragma mark - Table view delegate
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [self.keyboardControls setActiveField:textView];
+	[self animateTextViewUp:YES];
+}
 
+- (void) textViewDidEndEditing:(UITextView *)textView
+{
+	[self animateTextViewUp:NO];
+}
 
-
-#pragma mark - Text View
-
-- (BOOL)textView:(UITextView *)txtView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    if( [text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound ) {
-        return YES;
-    }
+- (void) animateTextViewUp:(BOOL)up
+{
+    int movement = (up ? -80 :80);
 	
-    [txtView resignFirstResponder];
-    return NO;
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:0.3f];
+    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+    [UIView commitAnimations];
 }
 
 -(void)textViewDidChange:(UITextView *)textView
@@ -379,12 +426,30 @@
 			break;
 		case TAG_PREFIX_UITEXTVIEW + TO_DO_SECTION_NUMBER:
 			self.updatedToDoText						= textView.text;
-			NSLog(@"updatedToDoText, textView.text: [%@], [%@]", self.updatedToDoText, textView.text);
 			break;
 		default:
 			break;
 	}
 }
+
+
+#pragma mark - Keyboard Controls Delegate
+
+- (void)keyboardControls:(BSKeyboardControls *)keyboardControls directionPressed:(BSKeyboardControlsDirection)direction
+{
+    UIView *view = keyboardControls.activeField.superview.superview;
+    [self.tableView scrollRectToVisible:view.frame animated:YES];
+}
+
+- (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
+{
+	[keyboardControls.activeField resignFirstResponder];
+}
+
+
+#pragma mark - TableView Resizing
+
+
 
 #pragma mark - Save
 

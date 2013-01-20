@@ -7,6 +7,7 @@
 //
 
 #import "STAppDelegate.h"
+#import <Crashlytics/Crashlytics.h>
 
 #import "STFollowingAdviceTVC.h"
 #import "SpiritualTradtion.h"
@@ -236,7 +237,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.debug	= YES;
+    
+	[Crashlytics startWithAPIKey:@"404953fc9bd6c37e14f978a53ec8dabf001f82bf"];
+	
+	self.debug	= YES;
 	
     // fetch the initial data results
     [self setupFetchedResultsController];

@@ -60,8 +60,12 @@
 		9137F1AA166A4C9000C789D2 /* Day+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F1A9166A4C9000C789D2 /* Day+ST.m */; };
 		91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 91573F091629E6E300914D3E /* UITextView+Placeholder.m */; };
 		915E3FE315CFD37A0036C6FE /* prog journal.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 915E3FE215CFD37A0036C6FE /* prog journal.rtf */; };
+		9164B88016A9911200002B76 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9164B87F16A9911200002B76 /* Crashlytics.framework */; };
 		918D4133168F3036007501DD /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 918D4132168F3035007501DD /* Day.m */; };
 		918EA1EF169703FF001FCFDA /* STPreviousDaysTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 918EA1EE169703FF001FCFDA /* STPreviousDaysTVC.m */; };
+		91A9692616AAE1D700085EC5 /* BSKeyboardControls.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A9692216AAE1D700085EC5 /* BSKeyboardControls.m */; };
+		91A9692716AAE1D700085EC5 /* BSKeyboardControls.strings in Resources */ = {isa = PBXBuildFile; fileRef = 91A9692316AAE1D700085EC5 /* BSKeyboardControls.strings */; };
+		91A9692A16AAE20B00085EC5 /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 91A9692916AAE20B00085EC5 /* License.txt */; };
 		91DDA5B51679F98200B0AEDA /* STOtherEntriesForDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */; };
 		91E94AE416258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */; };
 		91E94AE816258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E94AE716258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m */; };
@@ -166,10 +170,16 @@
 		91573F081629E6E300914D3E /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		91573F091629E6E300914D3E /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		915E3FE215CFD37A0036C6FE /* prog journal.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "prog journal.rtf"; sourceTree = SOURCE_ROOT; };
+		9164B87F16A9911200002B76 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		918D4131168F3035007501DD /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Day.h; path = "Data Classes/Managed Object Classes/Day.h"; sourceTree = "<group>"; };
 		918D4132168F3035007501DD /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Day.m; path = "Data Classes/Managed Object Classes/Day.m"; sourceTree = "<group>"; };
 		918EA1ED169703FF001FCFDA /* STPreviousDaysTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STPreviousDaysTVC.h; path = "View Controllers/STPreviousDaysTVC.h"; sourceTree = "<group>"; };
 		918EA1EE169703FF001FCFDA /* STPreviousDaysTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STPreviousDaysTVC.m; path = "View Controllers/STPreviousDaysTVC.m"; sourceTree = "<group>"; };
+		91A9692116AAE1D700085EC5 /* BSKeyboardControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSKeyboardControls.h; sourceTree = "<group>"; };
+		91A9692216AAE1D700085EC5 /* BSKeyboardControls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSKeyboardControls.m; sourceTree = "<group>"; };
+		91A9692416AAE1D700085EC5 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/BSKeyboardControls.strings; sourceTree = "<group>"; };
+		91A9692516AAE1D700085EC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/BSKeyboardControls.strings; sourceTree = "<group>"; };
+		91A9692916AAE20B00085EC5 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		91DDA5B31679F98200B0AEDA /* STOtherEntriesForDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STOtherEntriesForDayTVC.h; path = "View Controllers/STOtherEntriesForDayTVC.h"; sourceTree = "<group>"; };
 		91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STOtherEntriesForDayTVC.m; path = "View Controllers/STOtherEntriesForDayTVC.m"; sourceTree = "<group>"; };
 		91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = STLogEntryBestWorstOrToDoTextEntryCell.xib; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.xib"; sourceTree = "<group>"; };
@@ -197,6 +207,7 @@
 				1E5523331591E2F9009114B7 /* UIKit.framework in Frameworks */,
 				1E5523351591E2F9009114B7 /* Foundation.framework in Frameworks */,
 				1E5523371591E2F9009114B7 /* CoreGraphics.framework in Frameworks */,
+				9164B88016A9911200002B76 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +257,7 @@
 		1E5523311591E2F9009114B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9164B87F16A9911200002B76 /* Crashlytics.framework */,
 				1E6B11AF159C62980045AA42 /* CoreData.framework */,
 				1E5523321591E2F9009114B7 /* UIKit.framework */,
 				1E5523341591E2F9009114B7 /* Foundation.framework */,
@@ -257,6 +269,7 @@
 		1E5523381591E2FA009114B7 /* Six Times Path */ = {
 			isa = PBXGroup;
 			children = (
+				91A9692016AAE1D700085EC5 /* BSKeyboardControls */,
 				1E5523411591E2FA009114B7 /* STAppDelegate.h */,
 				1E5523421591E2FA009114B7 /* STAppDelegate.m */,
 				1E6B11B2159C6A600045AA42 /* Images */,
@@ -398,6 +411,17 @@
 			name = "Entry TVCs";
 			sourceTree = "<group>";
 		};
+		91A9692016AAE1D700085EC5 /* BSKeyboardControls */ = {
+			isa = PBXGroup;
+			children = (
+				91A9692916AAE20B00085EC5 /* License.txt */,
+				91A9692116AAE1D700085EC5 /* BSKeyboardControls.h */,
+				91A9692216AAE1D700085EC5 /* BSKeyboardControls.m */,
+				91A9692316AAE1D700085EC5 /* BSKeyboardControls.strings */,
+			);
+			path = BSKeyboardControls;
+			sourceTree = "<group>";
+		};
 		91AD7C4B15E1114A0066B118 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -467,6 +491,7 @@
 				1E55232A1591E2F9009114B7 /* Sources */,
 				1E55232B1591E2F9009114B7 /* Frameworks */,
 				1E55232C1591E2F9009114B7 /* Resources */,
+				9164B87D16A9909C00002B76 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -493,6 +518,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				da,
 			);
 			mainGroup = 1E5523231591E2F9009114B7;
 			productRefGroup = 1E55232F1591E2F9009114B7 /* Products */;
@@ -523,10 +549,28 @@
 				9122153B160C7F3400BEEEE6 /* LogEntryAddCell.xib in Resources */,
 				91E94AE416258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib in Resources */,
 				911BC009164499F900586524 /* appIcon@2x.png in Resources */,
+				91A9692716AAE1D700085EC5 /* BSKeyboardControls.strings in Resources */,
+				91A9692A16AAE20B00085EC5 /* License.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9164B87D16A9909C00002B76 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 404953fc9bd6c37e14f978a53ec8dabf001f82bf";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1E55232A1591E2F9009114B7 /* Sources */ = {
@@ -578,6 +622,7 @@
 				918D4133168F3036007501DD /* Day.m in Sources */,
 				918EA1EF169703FF001FCFDA /* STPreviousDaysTVC.m in Sources */,
 				9120B82216A4255700F53B4C /* STPreviousDayTVC.m in Sources */,
+				91A9692616AAE1D700085EC5 /* BSKeyboardControls.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,6 +651,15 @@
 				1E5523481591E2FA009114B7 /* en */,
 			);
 			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		91A9692316AAE1D700085EC5 /* BSKeyboardControls.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				91A9692416AAE1D700085EC5 /* da */,
+				91A9692516AAE1D700085EC5 /* en */,
+			);
+			name = BSKeyboardControls.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -661,6 +715,10 @@
 		1E55235B1591E2FA009114B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Six Times Path/Six Times Path-Prefix.pch";
 				INFOPLIST_FILE = "Six Times Path/Six Times Path-Info.plist";
@@ -673,6 +731,10 @@
 		1E55235C1591E2FA009114B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Six Times Path/Six Times Path-Prefix.pch";
 				INFOPLIST_FILE = "Six Times Path/Six Times Path-Info.plist";

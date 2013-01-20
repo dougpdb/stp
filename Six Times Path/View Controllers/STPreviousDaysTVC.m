@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 A Great Highway. All rights reserved.
 //
 
+#import <Crashlytics/Crashlytics.h>
 #import "STPreviousDaysTVC.h"
 #import "STPreviousDayTVC.h"
 #import "Day+ST.h"
@@ -94,8 +95,9 @@
 {
     if (section == 0)
 		return [[[self.fetchedResultsController sections] objectAtIndex:section] numberOfObjects] -1;
-	else
+	else {
 		return [[[self.fetchedResultsController sections] objectAtIndex:section] numberOfObjects];
+	}
 }
 
 
@@ -110,7 +112,9 @@
 	
 	cell.textLabel.text			= day.date.shortWeekdayAndDate;
 	cell.detailTextLabel.text	= [NSString stringWithFormat:@"%i Entries", [[day getTheSixThatHaveUserEntriesSorted] count]];
-	
+
+	//	[[Crashlytics sharedInstance] crash];
+
 	return cell;
 }
 
