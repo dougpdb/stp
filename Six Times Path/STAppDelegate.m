@@ -8,15 +8,19 @@
 
 #import "STAppDelegate.h"
 #import <Crashlytics/Crashlytics.h>
+#import "TestFlight.h"
 
 #import "STFollowingAdviceTVC.h"
 #import "SpiritualTradtion.h"
 #import "SetOfAdvice.h"
 #import "STTodayTVC.h"
 #import "STLogEntrySixOfDayTVC.h"
-// #import "STDaysTVC.h"
+#import "NSDate+ST.h"
+
 
 #import "Advice.h"
+
+#define TESTING	1
 
 @implementation STAppDelegate
 
@@ -228,7 +232,7 @@
                                                                                       selector:@selector(localizedCaseInsensitiveCompare:)]];
     
     // 5 - Fetch it
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+    self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                         managedObjectContext:self.managedObjectContext
                                                                           sectionNameKeyPath:nil
                                                                                    cacheName:nil];
@@ -239,10 +243,13 @@
 {
     
 	[Crashlytics startWithAPIKey:@"404953fc9bd6c37e14f978a53ec8dabf001f82bf"];
+	#ifdef TESTING
+		[TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
+	#endif
+	[TestFlight takeOff:@"a8e8bc8c4f06c2d6ae5584599aa9a8af_MTc3NTE1MjAxMy0wMS0yMSAwNjo1Nzo1OS45NDcyOTk"];
 	
 	self.debug	= YES;
 	
-    // fetch the initial data results
     [self setupFetchedResultsController];
 	
 	if (self.debug)
@@ -252,58 +259,35 @@
     if (![[self.fetchedResultsController fetchedObjects] count] > 0 ) {
         NSLog(@"!!!!! ~~> There's nothing in the database so defaults will be inserted");
         [self importDefaultCoreData];
-    }
 	
-	
-	// Process Local Notifications	
- 	
-	//	if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]) {
-//		UILocalNotification *incomingNotification	= [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-//		incomingNotification.hasAction				= NO;									// I want to see if this will hide a notification that is in the notification pull down.
-//		
-//		[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];				// This should remove all badge numbers. Alternately, I can set this to #--
-//		[[UIApplication sharedApplication] cancelLocalNotification:incomingNotification];	// Not sure if I need to cancel ... maybe this should only be done before the notification fires
-//	}
 
-
-	NSLog(@"-application:didFinishLaunchingWithOptions: fired");
-
-    
     // Override point for customization after application launch.
-	UILocalNotification *notification = [launchOptions objectForKey:
-											 UIApplicationLaunchOptionsLocalNotificationKey];
-	
-	NSLog(@"UILocalNotification.description: %@", notification.description);
-	if (notification) {
-		if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-			UISplitViewController *splitViewController		= (UISplitViewController *)self.window.rootViewController;
-			UINavigationController *navigationController	= [splitViewController.viewControllers lastObject];
-			splitViewController.delegate					= (id)navigationController.topViewController;
-			
-			UINavigationController *masterNavigationController	= [splitViewController.viewControllers objectAtIndex:0];
-			STLogEntrySixOfDayTVC *controller					= (STLogEntrySixOfDayTVC *)masterNavigationController.topViewController;
-			controller.managedObjectContext						= self.managedObjectContext;
-		} else {
-			UINavigationController *navigationController		= (UINavigationController *)self.window.rootViewController;
-			STLogEntrySixOfDayTVC *controller					= (STLogEntrySixOfDayTVC *)navigationController.topViewController;
-			controller.managedObjectContext						= self.managedObjectContext;
-		}
-		application.applicationIconBadgeNumber = 0;
+    UILocalNotification *notification			=	[launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (notification) {
+		NSString *NotificationValue = [notification.userInfo objectForKey:@"logEntryTimeScheduled"];
+		NSString *fireDate			= notification.fireDate.timeAndDate;
+		
+		NSLog(@"LOCAL NOTIFICATION RECEVIED, value: %@", NotificationValue);
+		NSLog(@"LOCAL NOTIFICATION RECEVIED, fireDate: %@", fireDate);
+        application.applicationIconBadgeNumber	= notification.applicationIconBadgeNumber-1;
+		[TestFlight passCheckpoint:@"LAUNCH APP WITH NOTIFICATION"];
+
+    }
+
+/*
+	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+		UISplitViewController *splitViewController		= (UISplitViewController *)self.window.rootViewController;
+		UINavigationController *navigationController	= [splitViewController.viewControllers lastObject];
+		splitViewController.delegate					= (id)navigationController.topViewController;
+		
+		UINavigationController *masterNavigationController	= [splitViewController.viewControllers objectAtIndex:0];
+		STTodayTVC *controller								= (STTodayTVC *)masterNavigationController.topViewController;
+		controller.managedObjectContext						= self.managedObjectContext;
 	} else {
-		if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-			UISplitViewController *splitViewController		= (UISplitViewController *)self.window.rootViewController;
-			UINavigationController *navigationController	= [splitViewController.viewControllers lastObject];
-			splitViewController.delegate					= (id)navigationController.topViewController;
-			
-			UINavigationController *masterNavigationController	= [splitViewController.viewControllers objectAtIndex:0];
-			STTodayTVC *controller								= (STTodayTVC *)masterNavigationController.topViewController;
-			controller.managedObjectContext						= self.managedObjectContext;
-		} else {
-			UINavigationController *navigationController		= (UINavigationController *)self.window.rootViewController;
-			STTodayTVC *controller								= (STTodayTVC *)navigationController.topViewController;
-			controller.managedObjectContext						= self.managedObjectContext;
-		}		
-	}
+*/		UINavigationController *navigationController		= (UINavigationController *)self.window.rootViewController;
+		STTodayTVC *controller								= (STTodayTVC *)navigationController.topViewController;
+		controller.managedObjectContext						= self.managedObjectContext;
+	//	}
     return YES;
 }
 
@@ -334,6 +318,36 @@
 {
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+	
+    //----- GET THE LOCAL NOTIFICATION INFORMATION IF WE HAVE BEEN RUN FROM THE USER PRESSING THE ACTION BUTTON OF ONE OF OUR NOTIFICATIONS -----
+	NSString *NotificationValue = [notification.userInfo objectForKey:@"logEntryTimeScheduled"];
+	NSString *fireDate			= notification.fireDate.timeAndDate;
+	
+    NSLog(@"LOCAL NOTIFICATION RECEVIED, value: %@", NotificationValue);
+    NSLog(@"LOCAL NOTIFICATION RECEVIED, fireDate: %@", fireDate);
+	
+    if (NotificationValue)
+    {
+        //----- VIEW NOTIFICATION -----
+        UIApplicationState state = [application applicationState];
+        if (state == UIApplicationStateInactive)
+        {
+            //----- APPLICATION WAS IN BACKGROUND - USER HAS SEEN NOTIFICATION AND PRESSED THE ACTION BUTTON -----
+            NSLog(@"Local noticiation - App was in background and user pressed action button");
+			[application cancelLocalNotification:notification];
+			application.applicationIconBadgeNumber = application.applicationIconBadgeNumber - 1;
+			[TestFlight passCheckpoint:@"LAUNCH FROM BACKGROUND FROM NOTIFICATION"];
+        }
+        else
+        {
+            //----- APPLICATION IS IN FOREGROUND - USER HAS NOT BEEN PRESENTED WITH THE NOTIFICATION -----
+            NSLog(@"Local noticiation - App was in foreground");
+			
+        }
+    }
 }
 
 - (void)saveContext

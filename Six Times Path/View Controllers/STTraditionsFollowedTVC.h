@@ -21,4 +21,5 @@
 @property (nonatomic) NSMutableArray *selectedSetsOfAdvice;
 @property (nonatomic) NSArray *allSetsOfAdvice;
 
+- (IBAction)greatHIghwayExplorerFeedback:(id)sender;
 @end

@@ -66,6 +66,11 @@
 		91A9692616AAE1D700085EC5 /* BSKeyboardControls.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A9692216AAE1D700085EC5 /* BSKeyboardControls.m */; };
 		91A9692716AAE1D700085EC5 /* BSKeyboardControls.strings in Resources */ = {isa = PBXBuildFile; fileRef = 91A9692316AAE1D700085EC5 /* BSKeyboardControls.strings */; };
 		91A9692A16AAE20B00085EC5 /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 91A9692916AAE20B00085EC5 /* License.txt */; };
+		91A9693016AD5E5700085EC5 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91A9692C16AD5E5700085EC5 /* libTestFlight.a */; };
+		91A9693116AD5E5700085EC5 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91A9692D16AD5E5700085EC5 /* README.md */; };
+		91A9693216AD5E5700085EC5 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 91A9692E16AD5E5700085EC5 /* release_notes.md */; };
+		91A9693416AD5EE300085EC5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91A9693316AD5EE200085EC5 /* libz.dylib */; };
+		91A9693716AE1C9600085EC5 /* NSDate+ES.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A9693616AE1C9600085EC5 /* NSDate+ES.m */; };
 		91DDA5B51679F98200B0AEDA /* STOtherEntriesForDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */; };
 		91E94AE416258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */; };
 		91E94AE816258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E94AE716258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m */; };
@@ -180,6 +185,13 @@
 		91A9692416AAE1D700085EC5 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/BSKeyboardControls.strings; sourceTree = "<group>"; };
 		91A9692516AAE1D700085EC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/BSKeyboardControls.strings; sourceTree = "<group>"; };
 		91A9692916AAE20B00085EC5 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
+		91A9692C16AD5E5700085EC5 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		91A9692D16AD5E5700085EC5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		91A9692E16AD5E5700085EC5 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		91A9692F16AD5E5700085EC5 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		91A9693316AD5EE200085EC5 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		91A9693516AE1C9600085EC5 /* NSDate+ES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+ES.h"; path = "Data Classes/Categories/NSDate+ES.h"; sourceTree = SOURCE_ROOT; };
+		91A9693616AE1C9600085EC5 /* NSDate+ES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+ES.m"; path = "Data Classes/Categories/NSDate+ES.m"; sourceTree = SOURCE_ROOT; };
 		91DDA5B31679F98200B0AEDA /* STOtherEntriesForDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STOtherEntriesForDayTVC.h; path = "View Controllers/STOtherEntriesForDayTVC.h"; sourceTree = "<group>"; };
 		91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STOtherEntriesForDayTVC.m; path = "View Controllers/STOtherEntriesForDayTVC.m"; sourceTree = "<group>"; };
 		91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = STLogEntryBestWorstOrToDoTextEntryCell.xib; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.xib"; sourceTree = "<group>"; };
@@ -203,11 +215,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91A9693416AD5EE300085EC5 /* libz.dylib in Frameworks */,
 				1E6B11B0159C62980045AA42 /* CoreData.framework in Frameworks */,
 				1E5523331591E2F9009114B7 /* UIKit.framework in Frameworks */,
 				1E5523351591E2F9009114B7 /* Foundation.framework in Frameworks */,
 				1E5523371591E2F9009114B7 /* CoreGraphics.framework in Frameworks */,
 				9164B88016A9911200002B76 /* Crashlytics.framework in Frameworks */,
+				91A9693016AD5E5700085EC5 /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +254,7 @@
 		1E5523231591E2F9009114B7 = {
 			isa = PBXGroup;
 			children = (
+				91A9693316AD5EE200085EC5 /* libz.dylib */,
 				1E5523381591E2FA009114B7 /* Six Times Path */,
 				1E5523311591E2F9009114B7 /* Frameworks */,
 				1E55232F1591E2F9009114B7 /* Products */,
@@ -269,6 +284,7 @@
 		1E5523381591E2FA009114B7 /* Six Times Path */ = {
 			isa = PBXGroup;
 			children = (
+				91A9692B16AD5E5700085EC5 /* TestFlightSDK1 */,
 				91A9692016AAE1D700085EC5 /* BSKeyboardControls */,
 				1E5523411591E2FA009114B7 /* STAppDelegate.h */,
 				1E5523421591E2FA009114B7 /* STAppDelegate.m */,
@@ -363,6 +379,8 @@
 				9137F1A5166A4C7C00C789D2 /* NSDate+ST.h */,
 				9137F1A6166A4C7C00C789D2 /* NSDate+ST.m */,
 				1EA5067A1594895B0075BC91 /* Managed Object Classes */,
+				91A9693516AE1C9600085EC5 /* NSDate+ES.h */,
+				91A9693616AE1C9600085EC5 /* NSDate+ES.m */,
 			);
 			name = "Data Classes";
 			sourceTree = "<group>";
@@ -420,6 +438,17 @@
 				91A9692316AAE1D700085EC5 /* BSKeyboardControls.strings */,
 			);
 			path = BSKeyboardControls;
+			sourceTree = "<group>";
+		};
+		91A9692B16AD5E5700085EC5 /* TestFlightSDK1 */ = {
+			isa = PBXGroup;
+			children = (
+				91A9692C16AD5E5700085EC5 /* libTestFlight.a */,
+				91A9692D16AD5E5700085EC5 /* README.md */,
+				91A9692E16AD5E5700085EC5 /* release_notes.md */,
+				91A9692F16AD5E5700085EC5 /* TestFlight.h */,
+			);
+			path = TestFlightSDK1;
 			sourceTree = "<group>";
 		};
 		91AD7C4B15E1114A0066B118 /* Categories */ = {
@@ -551,6 +580,8 @@
 				911BC009164499F900586524 /* appIcon@2x.png in Resources */,
 				91A9692716AAE1D700085EC5 /* BSKeyboardControls.strings in Resources */,
 				91A9692A16AAE20B00085EC5 /* License.txt in Resources */,
+				91A9693116AD5E5700085EC5 /* README.md in Resources */,
+				91A9693216AD5E5700085EC5 /* release_notes.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,6 +654,7 @@
 				918EA1EF169703FF001FCFDA /* STPreviousDaysTVC.m in Sources */,
 				9120B82216A4255700F53B4C /* STPreviousDayTVC.m in Sources */,
 				91A9692616AAE1D700085EC5 /* BSKeyboardControls.m in Sources */,
+				91A9693716AE1C9600085EC5 /* NSDate+ES.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -715,6 +747,8 @@
 		1E55235B1591E2FA009114B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Paul Baker (982EGMKQZT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Paul Baker (982EGMKQZT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -723,7 +757,13 @@
 				GCC_PREFIX_HEADER = "Six Times Path/Six Times Path-Prefix.pch";
 				INFOPLIST_FILE = "Six Times Path/Six Times Path-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Six Times Path/TestFlightSDK1\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8B7E2A69-F6F4-4166-A045-05892C990FAA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B7E2A69-F6F4-4166-A045-05892C990FAA";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -731,6 +771,8 @@
 		1E55235C1591E2FA009114B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Paul Baker";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Paul Baker";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -739,7 +781,13 @@
 				GCC_PREFIX_HEADER = "Six Times Path/Six Times Path-Prefix.pch";
 				INFOPLIST_FILE = "Six Times Path/Six Times Path-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Six Times Path/TestFlightSDK1\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "BCD34BA8-DFC7-4F5D-BF3A-C5DDAA5BB62F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BCD34BA8-DFC7-4F5D-BF3A-C5DDAA5BB62F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

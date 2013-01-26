@@ -28,6 +28,7 @@
 
 @property BOOL *showHints;
 
+- (IBAction)greatHighwayExplorerFeedback:(id)sender;
 - (void)saveEntry;
 
 @end

@@ -12,6 +12,7 @@
 #import "NSDate+ST.h"
 #import "STLogEntrySixOfDayTVC.h"
 #import "Advice.h"
+#import "TestFlight.h"
 
 #define OUT_OF_RANGE	10000
 
@@ -196,5 +197,9 @@
 #pragma mark - UI Interactions
 
 
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+}
 
 @end

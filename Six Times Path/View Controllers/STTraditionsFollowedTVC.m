@@ -9,6 +9,7 @@
 #import "STTraditionsFollowedTVC.h"
 #import "STSetOfAdviceTVC.h"
 #import "SpiritualTradtion.h"
+#import "TestFlight.h"
 
 @interface STTraditionsFollowedTVC ()
 
@@ -231,4 +232,7 @@
 	[self updateSelectedSetsOfAdvice];
 }
 
+- (IBAction)greatHIghwayExplorerFeedback:(id)sender {
+	[TestFlight openFeedbackView];
+}
 @end

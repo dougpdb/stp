@@ -18,4 +18,5 @@
 @property (strong, nonatomic) NSArray *days;
 @property (strong, nonatomic) STTodayTVC *today;
 
+- (IBAction)greatHighwayExplorerFeedback:(id)sender;
 @end

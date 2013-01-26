@@ -10,10 +10,12 @@
 #import "Advice.h"
 #import "Day+ST.h"
 #import "NSDate+ST.h"
+#import "NSDate+ES.h"
 #import "LESixOfDay+ST.h"
 #import "STLogEntrySixOfDayTVC.h"
 #import "STPreviousDaysTVC.h"
 #import "STTraditionsFollowedTVC.h"
+#import "TestFlight.h"
 
 #define OUT_OF_RANGE	10000
 
@@ -753,22 +755,28 @@
 		STLogEntrySixOfDayTVC *leSixOfDayTVC	= segue.destinationViewController;
 		leSixOfDayTVC.managedObjectContext		= self.managedObjectContext;
 		
-		if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"])
+		if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
 			leSixOfDayTVC.leSixOfDay			= self.nextEntry;
-		else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"])
+			[TestFlight passCheckpoint:@"GO TO NEXT ENTRY"];
+		} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
 			leSixOfDayTVC.leSixOfDay			= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];
-		else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"])
+			[TestFlight passCheckpoint:@"GO TO FUTURE ENTRY"];
+		} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
 			leSixOfDayTVC.leSixOfDay			= [self.updatedEntries objectAtIndex:indexPath.row - 1];
+			[TestFlight passCheckpoint:@"GO TO PREVIOUS ENTRY"];
+		}
 		
 	} else if ([[segue identifier] isEqualToString:@"Guidelines Followed"]) {
 		
 		STTraditionsFollowedTVC *tradtionsTVC	= segue.destinationViewController;
 		tradtionsTVC.managedObjectContext		= self.managedObjectContext;
+		[TestFlight passCheckpoint:@"GO TO GUIDELINES"];
 		
 	} else if ([[segue identifier] isEqualToString:@"Previous Days"]) {
 		
 		STPreviousDaysTVC *previousDaysTVC		= segue.destinationViewController;
 		previousDaysTVC.managedObjectContext	= self.managedObjectContext;
+		[TestFlight passCheckpoint:@"GO TO PREVIOUS DAYS"];
 		
 	} 
 }
@@ -806,5 +814,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

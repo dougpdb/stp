@@ -30,6 +30,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [self setupFetchedResultsController];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -77,7 +78,6 @@
     self.debug  = YES; // turn on debugging
     
     [super viewWillAppear:animated];
-    [self setupFetchedResultsController];
 //    [self initFollowingAdvice];
 }
 

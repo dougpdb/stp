@@ -11,6 +11,7 @@
 #import "STPreviousDayTVC.h"
 #import "Day+ST.h"
 #import "NSDate+ST.h"
+#import "TestFlight.h"
 
 @interface STPreviousDaysTVC ()
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
@@ -113,8 +114,6 @@
 	cell.textLabel.text			= day.date.shortWeekdayAndDate;
 	cell.detailTextLabel.text	= [NSString stringWithFormat:@"%i Entries", [[day getTheSixThatHaveUserEntriesSorted] count]];
 
-	//	[[Crashlytics sharedInstance] crash];
-
 	return cell;
 }
 
@@ -125,13 +124,18 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	NSIndexPath *indexPath  = [self.tableView indexPathForSelectedRow];
-	
-	NSLog(@"Segue identifier is %@", segue.identifier.description);
-	
+	[TestFlight passCheckpoint:@"GO TO PREVIOUS DAY"];
+	NSIndexPath *indexPath				= [self.tableView indexPathForSelectedRow];
+		
 	STPreviousDayTVC *previousDay		= segue.destinationViewController;
+	NSLog(@"Previous Day object created");
 	previousDay.managedObjectContext	= self.managedObjectContext;
+	NSLog(@"The managed object has been set");
 	previousDay.thisDay					= (indexPath.section == 0) ? [self.days objectAtIndex:indexPath.row +1] : [self.fetchedResultsController objectAtIndexPath:indexPath];
-	
+	NSLog(@"This day has been set");
+
+}
+- (IBAction)greatHighwayExplorerFeedback:(id)sender {
+	[TestFlight openFeedbackView];
 }
 @end

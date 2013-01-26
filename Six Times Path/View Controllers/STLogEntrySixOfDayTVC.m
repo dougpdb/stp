@@ -14,6 +14,8 @@
 #import "ActionTaken+ST.h"
 #import "ToDo+ST.h"
 #import "NSDate+ST.h"
+#import "NSDate+ES.h"
+#import "TestFlight.h"
 
 #import "BSKeyboardControls.h"
 
@@ -453,15 +455,22 @@
 
 #pragma mark - Save
 
+- (IBAction)greatHighwayExplorerFeedback:(id)sender {
+	[TestFlight openFeedbackView];
+}
+
 -(void)saveEntry {
 	if ([self.mostRecentlySavedPositiveActionTakenDescription isEqualToString:[self.updatedPositiveActionTakenDescription stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]] &&
 		[self.mostRecentlySavedNegativeActionTakenDescription isEqualToString:[self.updatedNegativeActionTakenDescription stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]]) {
 		// Do nothing, becausethe descriptions haven't changed
+		[TestFlight passCheckpoint:@"LEAVE LOG ENTRY WITHOUT SAVING"];
+
 	} else {
 		// Add or update objects
 		if (self.aPositiveActionTaken) {
 			[self.aPositiveActionTaken updateText:self.updatedPositiveActionTakenDescription
 										andRating:1];
+			[TestFlight passCheckpoint:@"LOG ENTRY + UPDATED"];
 		} else {
 			[ActionTaken actionTakenWithText:self.updatedPositiveActionTakenDescription
 								   isPositive:YES
@@ -469,17 +478,20 @@
 								  forLogEntry:self.leSixOfDay
 					   inManagedObjectContext:self.managedObjectContext];
 			self.leSixOfDay.timeFirstUpdated	= [NSDate date];
+			[TestFlight passCheckpoint:@"LOG ENTRY + ADDED"];
 		}
 		
 		if (self.aNegativeActionTaken) {
 			[self.aNegativeActionTaken updateText:self.updatedNegativeActionTakenDescription
 										andRating:1];
+			[TestFlight passCheckpoint:@"LOG ENTRY - UPDATED"];
 		} else {
 			[ActionTaken actionTakenWithText:self.updatedNegativeActionTakenDescription
 								  isPositive:NO
 								  withRating:1
 								 forLogEntry:self.leSixOfDay
 					  inManagedObjectContext:self.managedObjectContext];
+			[TestFlight passCheckpoint:@"LOG ENTRY - ADDED"];
 		}
 		
 	/*
@@ -504,7 +516,9 @@
 			*/
 			NSLog(@"Error occured when attempting to save. Error and userInfo: %@, %@", error, [error userInfo]);
 		}
-	}	
+		[TestFlight passCheckpoint:@"LOG ENTRY SAVED"];
+
+	}
 }
 
 #pragma mark - Using a Storyboard
