@@ -174,24 +174,6 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.tableView beginUpdates];  // Avoid NSInternalInconsistencyException
-        
-        // Delete the tradition object that was swiped
-        SpiritualTradtion *traditionToDelete    = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        NSLog(@"Deleting (%@)", traditionToDelete.name);
-        [self.managedObjectContext deleteObject:traditionToDelete];
-        [self.managedObjectContext save:nil];
-        
-        // Delet the (now empty) row on the table
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self performFetch];
-        
-        [self.tableView endUpdates];
-    }
-}
 
 
 
