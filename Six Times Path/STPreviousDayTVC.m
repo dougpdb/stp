@@ -98,7 +98,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-	self.title		= self.thisDay.date.date;
+	self.title		= self.thisDay.date.shortWeekdayAndDate;
 }
 
 - (void)didReceiveMemoryWarning
