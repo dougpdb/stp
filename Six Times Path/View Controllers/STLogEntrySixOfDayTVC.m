@@ -289,18 +289,24 @@
 						}
 	*/
 			
-		self.leSixOfDay.timeLastUpdated	= [NSDate date];
-		
 		UIApplication *SixTimeApp	= [UIApplication sharedApplication];
-		for (UILocalNotification *notification in SixTimeApp.scheduledLocalNotifications) {
-			if ([notification.fireDate.timeAndDate isEqualToString:self.leSixOfDay.timeScheduled.timeAndDate]) {
-				NSLog(@"we've got a match: %@", notification.userInfo.description);
-				[SixTimeApp cancelLocalNotification:notification];
-				[TestFlight passCheckpoint:@"LOG ENTRY COMPLETED BEFORE TIME AND NOTIFICATION CANCELLED"];
+		
+		if ([[NSDate date] isLaterThanDate:self.leSixOfDay.timeScheduled] && self.leSixOfDay.timeScheduled) {
+			SixTimeApp.applicationIconBadgeNumber	= SixTimeApp.applicationIconBadgeNumber - 1;
+			[TestFlight passCheckpoint:@"LOG ENTRY COMPLETED AFTER SCHEDULED TIME"];
+		} else {
+			for (UILocalNotification *notification in SixTimeApp.scheduledLocalNotifications) {
+				if ([notification.fireDate.timeAndDate isEqualToString:self.leSixOfDay.timeScheduled.timeAndDate]) {
+					[SixTimeApp cancelLocalNotification:notification];
+					
+					[TestFlight passCheckpoint:@"LOG ENTRY COMPLETED BEFORE TIME AND NOTIFICATION CANCELLED"];
+					break;
+				}
 			}
-			break;
 		}
 		
+		self.leSixOfDay.timeLastUpdated	= [NSDate date];
+				
 		// save to store!
 		NSError *error;
 		if ([self.managedObjectContext hasChanges] && ![self.managedObjectContext save:&error]) {
