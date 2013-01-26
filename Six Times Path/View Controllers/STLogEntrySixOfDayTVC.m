@@ -116,7 +116,16 @@
 		self.guidelineTime.text	= [NSString stringWithFormat:@"Updated %@", self.leSixOfDay.timeLastUpdated.time];
 		self.guidelineTime.font	= [UIFont italicSystemFontOfSize:13.0];
 	} else {
-		self.guidelineTime.text	= self.leSixOfDay.timeScheduled.time;
+		NSString *timeEntryTextPrefix;
+		
+		if ([self.leSixOfDay.dayOfSix.getTheSixWithoutUserEntriesSorted count] < 6) {
+			timeEntryTextPrefix	= @"Next Entry - ";
+		} else if ([self.leSixOfDay.dayOfSix.getTheSixWithoutUserEntriesSorted count] == 6) {
+			timeEntryTextPrefix	= @"First Entry - ";
+		} else {
+			timeEntryTextPrefix	= @"Last Entry - ";
+		}
+		self.guidelineTime.text	= [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.leSixOfDay.timeScheduled.time];
 	}
 	
 	self.guidelineText.text				= self.leSixOfDay.advice.name;
