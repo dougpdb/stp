@@ -427,6 +427,29 @@
 }
 
 #pragma mark - Table view data source
+-(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text
+{
+	CGSize maximumLabelSize		= CGSizeMake(290, FLT_MAX);
+	
+	CGSize expectedLabelSize	= [text sizeWithFont:label.font
+								constrainedToSize:maximumLabelSize
+									lineBreakMode:label.lineBreakMode];
+
+	return expectedLabelSize.height;
+}
+
+-(void)resizeHeightToFitForLabel:(UILabel *)label
+{
+	CGRect newFrame			= label.frame;
+	newFrame.size.height	= [self heightForLabel:label withText:label.text];
+	label.frame				= newFrame;
+}
+
+-(void)resizeHeightToFitForLabel:(UILabel *)label withText:(NSString *)text
+{
+	label.text				= text;
+	[self resizeHeightToFitForLabel:label];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -456,7 +479,7 @@
 				NSString *guidelineText	= self.nextEntry.advice.name;
 				
 				[[guidelineNextEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
-				[[guidelineNextEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
+				[self resizeHeightToFitForLabel:(UILabel *)[guidelineNextEntryCell viewWithTag:11] withText:guidelineText];
 
 				guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
 				guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
@@ -465,14 +488,16 @@
 				NSString *guidelineText	= @"You've made entries for all 6 guidelines. Be happy over what you've done well to day, and regret the mistaken actions.";
 				
 				[[guidelineNextEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
-				[[guidelineNextEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
+				[self resizeHeightToFitForLabel:(UILabel *)[guidelineNextEntryCell viewWithTag:11] withText:guidelineText];
 				
 				guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleNone;
 				guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryNone;
 				
 				//	guidelineNextEntryCell.hidden	= YES;
 			}
-			return guidelineNextEntryCell;
+
+		
+		return guidelineNextEntryCell;
 		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
 	
@@ -484,7 +509,7 @@
 				NSString *guidelineText		= scheduledEntry.advice.name;
 				
 				[[guidelineOtherEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
-				[[guidelineOtherEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
+				[self resizeHeightToFitForLabel:(UILabel *)[guidelineOtherEntryCell viewWithTag:11] withText:guidelineText];
 				
 				return guidelineOtherEntryCell;
 			} else {
@@ -516,7 +541,7 @@
 				NSString *negativeAction					= [[updatedEntry.getNegativeActionsTaken anyObject] valueForKey:@"text"];
 				
 				[[guidelineSummaryEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
-				[[guidelineSummaryEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
+				[self resizeHeightToFitForLabel:(UILabel *)[guidelineSummaryEntryCell viewWithTag:11] withText:guidelineText];
 				[[guidelineSummaryEntryCell viewWithTag:20] setValue:positiveAction forKey:@"text"];
 				[[guidelineSummaryEntryCell viewWithTag:21] setValue:negativeAction forKey:@"text"];
 				
