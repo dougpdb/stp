@@ -156,73 +156,21 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;		// 3 for Name of Guideline and Best and Worst, 4 for To Do
+    return 3;		// 3 for Name of Guideline and Best and Worst, 4 for To Do
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    switch (section) {
-		case 0:
-			return 1;
-			break;
-			
-		case 1:
-			return 2;
-			break;
-			
-		default:
-			break;
-	}
-	return nil;
+	return 1;
 }
-/*
-//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//	switch (section) {
-//		case OVERVIEW_SECTION_NUMBER:
-//			return @"";
-//			break;
-//		case BEST_SECTION_NUMBER:
-//			return @"+";
-//			break;
-//		case WORST_SECTION_NUMBER:
-//			return @"-";
-//			break;
-//		case TO_DO_SECTION_NUMBER:
-//			return @"To Do";
-//			break;
-//			
-//		default:
-//			break;
-//	}
-//	return @"";
-//}
 
-//-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-//{
-//	if (self.showHints) {
-//		switch (section) {
-//			case OVERVIEW_SECTION_NUMBER:
-//				return @"";
-//				break;
-//			case BEST_SECTION_NUMBER:
-//				return @"A recent, specific, positive action that fulfilled this guideline (as closely as possible).";
-//				break;
-//			case WORST_SECTION_NUMBER:
-//				return @"A recent, specific, negative action that did not fulfill this guideline.";
-//				break;
-//			case TO_DO_SECTION_NUMBER:
-//				return @"";
-//				break;
-//				
-//			default:
-//				break;
-//		}
-//	}
-//	return @"";
-//}
-*/
-
+-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	if (section == 2)
+		return @"Reflect and the ethical guideline and how you've acted and spoken on the past 24 or 48 hours\.\n\nEnter a short, simple, and specific description of a recent postive action(+). Do the same with a recent negative action (-).";
+	else
+		return nil;
+}
 
 #pragma mark - Table view data source
 
@@ -241,23 +189,6 @@
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [self.keyboardControls setActiveField:textView];
-	[self animateTextViewUp:YES];
-}
-
-- (void) textViewDidEndEditing:(UITextView *)textView
-{
-	[self animateTextViewUp:NO];
-}
-
-- (void) animateTextViewUp:(BOOL)up
-{
-    int movement = (up ? -80 :80);
-	
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationDuration:0.3f];
-    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
-    [UIView commitAnimations];
 }
 
 -(void)textViewDidChange:(UITextView *)textView
@@ -280,7 +211,7 @@
 
 #pragma mark - Keyboard Controls Delegate
 
-- (void)keyboardControls:(BSKeyboardControls *)keyboardControls directionPressed:(BSKeyboardControlsDirection)direction
+- (void)keyboardControls:(BSKeyboardControls *)keyboardControls selectedField:(UIView *)field inDirection:(BSKeyboardControlsDirection)direction
 {
     UIView *view = keyboardControls.activeField.superview.superview;
     [self.tableView scrollRectToVisible:view.frame animated:YES];
@@ -350,6 +281,16 @@
 	*/
 			
 		self.leSixOfDay.timeLastUpdated	= [NSDate date];
+		
+		UIApplication *SixTimeApp	= [UIApplication sharedApplication];
+		for (UILocalNotification *notification in SixTimeApp.scheduledLocalNotifications) {
+			if ([notification.fireDate.timeAndDate isEqualToString:self.leSixOfDay.timeScheduled.timeAndDate]) {
+				NSLog(@"we've got a match: %@", notification.userInfo.description);
+				[SixTimeApp cancelLocalNotification:notification];
+				[TestFlight passCheckpoint:@"LOG ENTRY COMPLETED BEFORE TIME AND NOTIFICATION CANCELLED"];
+			}
+			break;
+		}
 		
 		// save to store!
 		NSError *error;
