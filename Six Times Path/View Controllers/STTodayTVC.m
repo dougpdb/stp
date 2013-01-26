@@ -158,7 +158,11 @@
 	if ([self.fetchedResultsController.fetchedObjects count] == 0) {
 		if (self.debug)
 			NSLog(@"0 days have been fetched. There isn't a mostRecentlyAddedDate");
-		self.mostRecentlyAddedDate				= nil;
+		self.mostRecentlyAddedDate				= [NSDate dateYesterday];
+		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = 0;
+		self.thisDay							= nil;
+		
+		[self addDay:0];
 	} else {
 		Day *mostRecentDay						= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
 		NSLog(@"the mostRecentDay is %@.", mostRecentDay.date.timeAndDate);
