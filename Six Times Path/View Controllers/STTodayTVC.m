@@ -549,6 +549,7 @@
 					LESixOfDay *firstGuidelineOfDay			= [[self.thisDay getTheSixSorted] objectAtIndex:0];
 					NSDate *wakeUpAt						= [firstGuidelineOfDay.timeScheduled dateByAddingTimeInterval:-2*60*60];	// this will need to be fixed
 					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", wakeUpAt.time];
+					summaryOrSetupCell.detailTextLabel.tag	= 10001;
 					return summaryOrSetupCell;
 					break;
 				}
@@ -715,9 +716,10 @@
 		NSLog(@"Error occured when attempting to save. Error and userInfo: %@, %@", error, [error userInfo]);
 	}
 
-	NSIndexPath *indexPath		= [self.tableView indexPathForSelectedRow];
-	UITableViewCell *cell		= [self.tableView cellForRowAtIndexPath:indexPath];
-	cell.detailTextLabel.text	= [self.pickerView.date time]; //  [self.dateFormatter stringFromDate:self.pickerView.date];
+	UILabel *wakeUpTimeTextLabel= [self.tableView viewWithTag:10001];
+	wakeUpTimeTextLabel.text	= [self.pickerView.date time]; //  [self.dateFormatter stringFromDate:self.pickerView.date];
+	
+	[TestFlight passCheckpoint:@"RESET WAKEUP TIME"];
 
 	CGRect screenRect		= [[UIScreen mainScreen] applicationFrame];
 	CGRect endFrame			= self.pickerView.frame;
@@ -743,6 +745,7 @@
 	self.navigationItem.rightBarButtonItem = nil;
 	
 	// deselect the current table row
+	NSIndexPath *indexPath		= [self.tableView indexPathForSelectedRow];
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 	[self.tableView reloadData];
 }
