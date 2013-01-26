@@ -43,25 +43,21 @@
 
 - (void)setupFetchedResultsController
 {
-    // 1 - Decide what Entity you want
-    NSString *entityName = @"SetOfAdvice";
-    NSLog(@"Setting up a Fetched Results Controller for the Entity named %@", entityName);
+    NSString *entityName			= @"SetOfAdvice";
     
-    // 2 - Request that Entity
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:entityName];
     
     // 3 - Filter it if you want
     //request.predicate = [NSPredicate predicateWithFormat:@"Role.name = Blah"];
     
-    // 4 - Sort it if you want
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name"
-                                                                                     ascending:YES
-                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
-    // 5 - Fetch it
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
-                                                                        managedObjectContext:self.managedObjectContext
-                                                                          sectionNameKeyPath:@"practicedWithinTradition.name" //nil
-                                                                                   cacheName:nil];
+    request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"name"
+																	 ascending:YES
+																	  selector:@selector(localizedCaseInsensitiveCompare:)]];
+
+    self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
+																		managedObjectContext:self.managedObjectContext
+																		  sectionNameKeyPath:@"practicedWithinTradition.name" //nil
+																				   cacheName:nil];
     [self performFetch];
 }
 
@@ -69,10 +65,9 @@
 {
     [super viewWillAppear:animated];
     [self setupFetchedResultsController];
-	self.allSetsOfAdvice	= [self.fetchedResultsController fetchedObjects];
+	self.allSetsOfAdvice		= [self.fetchedResultsController fetchedObjects];
 	self.selectedSetsOfAdvice	= [[NSMutableArray alloc] init];
 	[self updateSelectedSetsOfAdvice];
-	NSLog(@"Setup complete. %i sets of advice fetched.", [self.allSetsOfAdvice count]);
 }
 
 -(void)updateSelectedSetsOfAdvice
@@ -84,10 +79,8 @@
 			[self.selectedSetsOfAdvice addObject:setOfAdvice];
 			setOfAdvice.orderNumberInFollowedSets	= [NSNumber numberWithInt:[self.selectedSetsOfAdvice count]];
 		}
-		NSLog(@"[%@] is order number %@", setOfAdvice.name, setOfAdvice.orderNumberInFollowedSets);
 	}
     [self.managedObjectContext save:nil];
-	NSLog(@"There are %i sets of advices that have been selected", [self.selectedSetsOfAdvice count]);
 }
 
 

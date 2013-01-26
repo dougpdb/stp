@@ -48,9 +48,9 @@
 
 -(Advice *)insertAdviceWithName:(NSString *)adviceName
 {
-    Advice *advice  = [NSEntityDescription insertNewObjectForEntityForName:@"Advice"
+    Advice *advice					= [NSEntityDescription insertNewObjectForEntityForName:@"Advice"
                                                     inManagedObjectContext:self.managedObjectContext];
-    advice.name     = adviceName;
+    advice.name						= adviceName;
     
     [self.managedObjectContext save:nil];
     
@@ -110,17 +110,27 @@
 -(void)importDefaultCoreData 
 {
     // Buddhist Tradition
-    NSArray *adviceTheTen       = [NSArray arrayWithObjects:@"Protect and nuture life",
-                                   @"Honor others' property",
-                                   @"Honor others' and your own relationships",
-                                   @"Speak truthfully",
-                                   @"Speak to promote agreement and to bring people together",
-                                   @"Speak kind words",
-                                   @"Speak meaningfully",
-                                   @"Give and share",
-                                   @"Be happy when things go well for others",
-                                   @"Maintain correct view",
-                                   nil];
+    NSArray *adviceTenVirtues		=@[@"Protect and nuture life",
+									   @"Honor others' property",
+									   @"Honor others' and your own relationships",
+									   @"Speak truthfully",
+									   @"Speak to promote agreement and to bring people together",
+									   @"Speak kind words",
+									   @"Speak meaningfully",
+									   @"Be happy for others when things go well for them",
+									   @"Feel for others when they experience misfortune",
+									   @"Maintain correct view"];
+	
+	NSArray *adviceTenNonvirtues	= @[@"Refrain from killing",
+										@"Refrain from stealing",
+										@"Refrain from sexual misconduct",
+										@"Refrain from lying",
+										@"Refrain from divisive speech",
+										@"Refrain from harsh words",
+										@"Refrain from meaningless talk",
+										@"Refrain from craving",
+										@"Refrain from illwill",
+										@"Refrain from wrong views"];
     
     // Christian Tradition
     NSArray *adviceTenCommandmentsPositive  = [NSArray arrayWithObjects:@"Honor the Lord thy God",
@@ -186,18 +196,27 @@
     
     NSLog(@"Importing default values into Core Data for Traditions.");
     // Set up Buddhist guidelines
-    SpiritualTradtion *buddhismTradition        = [self insertSpiritualTraditionWithName:@"Buddhism"];
-    SetOfAdvice *theTenSetOfAdvice              = [self insertSetOfAdviceWithAdviceName:@"10 Virtues" andArrayOfGuidelineNames:adviceTheTen intoTradition:buddhismTradition];
+    SpiritualTradtion *traditionBuddhism		= [self insertSpiritualTraditionWithName:@"Buddhism"];
+    SetOfAdvice *theTenVirtuesSetOfAdvice		= [self insertSetOfAdviceWithAdviceName:@"10 Virtues"
+															  andArrayOfGuidelineNames:adviceTenVirtues
+																		 intoTradition:traditionBuddhism];
+	SetOfAdvice *theTenNonvirtuesSetOfAdvice	= [self insertSetOfAdviceWithAdviceName:@"10 Nonvirtues"
+																andArrayOfGuidelineNames:adviceTenNonvirtues
+																		   intoTradition:traditionBuddhism];
     
-    theTenSetOfAdvice.orderNumberInFollowedSets = [NSNumber numberWithInt:1];
+	//    theTenVirtuesSetOfAdvice.orderNumberInFollowedSets = [NSNumber numberWithInt:1];
     
     // Set up Christian guidelines
-    SpiritualTradtion *christianTradition       = [self insertSpiritualTraditionWithName:@"Christianity"];
-    SetOfAdvice *tenCommandments                = [self insertSetOfAdviceWithAdviceName:@"The 10 Commandments" andArrayOfGuidelineNames:adviceTenCommandmentsPositive intoTradition:christianTradition];
-    SetOfAdvice *beatitudes                     = [self insertSetOfAdviceWithAdviceName:@"The Beatitudes" andArrayOfGuidelineNames:adviceBeatitudes intoTradition:christianTradition];
+    SpiritualTradtion *traditionChristianity	= [self insertSpiritualTraditionWithName:@"Christianity"];
+    SetOfAdvice *tenCommandments                = [self insertSetOfAdviceWithAdviceName:@"The 10 Commandments (Positively Stated)"
+															   andArrayOfGuidelineNames:adviceTenCommandmentsPositive
+																		  intoTradition:traditionChristianity];
+    SetOfAdvice *beatitudes                     = [self insertSetOfAdviceWithAdviceName:@"The Beatitudes"
+															   andArrayOfGuidelineNames:adviceBeatitudes
+																		  intoTradition:traditionChristianity];
     
 	//    tenCommandments.orderNumberInFollowedSets	=
-	beatitudes.orderNumberInFollowedSets        = [NSNumber numberWithInt:2];
+	beatitudes.orderNumberInFollowedSets        = [NSNumber numberWithInt:1];
     
     
     // Set up Civic guidelines
@@ -217,17 +236,15 @@
 
 - (void)setupFetchedResultsController
 {
-    // 1 - Decide what Entity you want
-    NSString *entityName = @"SpiritualTradition"; // Put your entity name here
+    NSString *entityName			= @"SpiritualTradition"; // Put your entity name here
     
-    // 2 - Request that Entity
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:entityName];
 
     // 3 - Filter it if you want
     //request.predicate = [NSPredicate predicateWithFormat:@"Person.name = Blah"];
     
     // 4 - Sort it if you want
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name"
+    request.sortDescriptors			= [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name"
                                                                                      ascending:YES
                                                                                       selector:@selector(localizedCaseInsensitiveCompare:)]];
     
@@ -252,12 +269,7 @@
 	
     [self setupFetchedResultsController];
 	
-	if (self.debug)
-		NSLog(@"The fetchedResultsController has been set in appDelegate.");
-    
-    // if nothing is returned, then import the default data into Core Data store
-    if (![[self.fetchedResultsController fetchedObjects] count] > 0 ) {
-        NSLog(@"!!!!! ~~> There's nothing in the database so defaults will be inserted");
+    if (![[self.fetchedResultsController fetchedObjects] count] > 0 )
         [self importDefaultCoreData];
 	
 
@@ -311,7 +323,6 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-	NSLog(@"-applicationDidBecomeActive: fired");
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

@@ -165,7 +165,7 @@
 		LESixOfDay *lastTheSixOfMostRecentDay	= [[mostRecentDay getTheSixSorted] lastObject];
 		self.mostRecentlyAddedDate				= mostRecentDay.date;
 		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
-		self.thisDay								= mostRecentDay;
+		self.thisDay							= mostRecentDay;
 		if (self.debug) {
 			NSLog(@"Most recent date: %@", self.mostRecentlyAddedDate.date);
 			NSLog(@"lastTheSixOfMostRecentDay: %@", lastTheSixOfMostRecentDay.advice.name);
@@ -258,7 +258,8 @@
 -(void)addDay:(id)sender
 {
 	NSDate *now						= [NSDate date];
-	NSDate *mostRecentDate			= [self.thisDay.date setHour:[self.thisDay.startHour intValue] andMinute:[self.thisDay.startMinute intValue]];
+	NSDate *mostRecentDate			= [self.mostRecentlyAddedDate setHour:[self.thisDay.startHour intValue]
+																andMinute:[self.thisDay.startMinute intValue]];
 	
 	NSTimeInterval eighteenHours	= 18*60*60;
 	NSTimeInterval twentyFourHours	= 24*60*60;
@@ -268,7 +269,7 @@
 			NSLog(@"Now [%@] is later in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, mostRecentDate.timeAndDate);
 			
 			Day *newDay					= [NSEntityDescription insertNewObjectForEntityForName:@"Day"
-															inManagedObjectContext:self.managedObjectContext];
+																		inManagedObjectContext:self.managedObjectContext];
 			
 			BOOL nowIsOnSameDateAsMostRecentDateButAfterEntryLogging	= ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending && [now compare:[mostRecentDate dateByAddingTimeInterval:twentyFourHours]] == NSOrderedAscending);
 			
@@ -282,8 +283,10 @@
 			newDay.startMinute			= (self.thisDay.startMinute) ? self.thisDay.startMinute : [NSNumber numberWithInt:0];
 			
 			self.mostRecentlyAddedDate	= newDay.date;
-			self.thisDay					= newDay;
+			self.thisDay				= newDay;
 
+			[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %i", [self.fetchedResultsController.fetchedObjects count]]];
+			
 			if (self.debug)
 				NSLog(@"A new Day has been created. Its date is %@. The most recently added date is %@.", newDay.date, self.mostRecentlyAddedDate);
 			
@@ -687,8 +690,7 @@
 {
 	
 	self.thisDay.startHour				= [NSNumber numberWithInt:[self.pickerView.date hour]];
-	self.thisDay.startMinute				= [NSNumber numberWithInt:[self.pickerView.date minute]];
-	
+	self.thisDay.startMinute			= [NSNumber numberWithInt:[self.pickerView.date minute]];
 	UIApplication *STPapp				= [UIApplication sharedApplication];
 	STPapp.applicationIconBadgeNumber	= 0;
 	[STPapp cancelAllLocalNotifications];
@@ -738,7 +740,6 @@
 	
 	// deselect the current table row
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-	
 	[self.tableView reloadData];
 }
 
@@ -789,9 +790,7 @@
 		@"logEntryTimeScheduled"	: sixOfDayLogEntry.timeScheduled.timeAndDate,
 		@"logEntryAdviceText"		: sixOfDayLogEntry.advice.name
 	};
-	
-	NSLog(@"userInfo dictionary, %@", userInfo);
-	
+		
     UILocalNotification *localNotification = [[UILocalNotification alloc] init]; //Create the localNotification object
     
 	localNotification.fireDate						= sixOfDayLogEntry.timeScheduled; //Set the date when the alert will be launched using the date adding the time the user selected on the timer

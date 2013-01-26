@@ -38,39 +38,25 @@
 
 - (void)setupFetchedResultsController
 {
-    // 1 - Decide what Entity you want
-    NSString *entityName = @"Advice";
-    NSLog(@"Setting up a Fetched Results Controller for the Entity named %@", entityName);
-    NSLog(@"entityName: %@", entityName);
+    NSString *entityName			= @"Advice";
     
-    // 2 - Request that Entity
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
-    NSLog(@"fetchRequestWithEntityName completed.");
+    NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:entityName];
     
-    // 3 - Filter it if you want
-    // REMEMBER: When comparing a collection (like practicedWithinTradition), you need to either use a collection comparator (CONTAINS), or use a predicate modifier (ANY/ALL/SOME, etc).
-    request.predicate = [NSPredicate predicateWithFormat:@"containedWithinSetOfAdvice.orderNumberInFollowedSets > 0", [NSNumber numberWithBool:YES]];
-    NSLog(@"a predicate has been set.");
+     // REMEMBER: When comparing a collection (like practicedWithinTradition), you need to either use a collection comparator (CONTAINS), or use a predicate modifier (ANY/ALL/SOME, etc).
+    request.predicate				= [NSPredicate predicateWithFormat:@"containedWithinSetOfAdvice.orderNumberInFollowedSets > 0", [NSNumber numberWithBool:YES]];
     
-    // 4 - Sort it if you want
-    request.sortDescriptors = [NSArray arrayWithObjects:
-                                [NSSortDescriptor sortDescriptorWithKey:@"containedWithinSetOfAdvice.orderNumberInFollowedSets"
-                                                                                      ascending:YES
-                                                                                       selector:@selector(localizedCaseInsensitiveCompare:)],
-                                [NSSortDescriptor sortDescriptorWithKey:@"orderNumberInSet"
-                                                             ascending:YES],
-                               nil];
-    NSLog(@"sortDescriptors have been set on the request.");
+    request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"containedWithinSetOfAdvice.orderNumberInFollowedSets"
+																	  ascending:YES
+																	   selector:@selector(localizedCaseInsensitiveCompare:)],
+										[NSSortDescriptor sortDescriptorWithKey:@"orderNumberInSet"
+																	  ascending:YES]];
     
-    // 5 - Fetch it
-    // Set attribute name to sectionNameKeyPath
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+    
+    self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                         managedObjectContext:self.managedObjectContext
                                                                           sectionNameKeyPath:@"containedWithinSetOfAdvice.name"
                                                                                    cacheName:nil];
     [self performFetch];
-    
-    NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -91,8 +77,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"adviceCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *CellIdentifier	= @"adviceCell";
+    UITableViewCell *cell			= [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
     if (cell == nil) {
@@ -100,18 +86,11 @@
     }
     
     // Configure the cell...
-    Advice *advice      = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = advice.name;
+    Advice *advice					= [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text				= advice.name;
     
     return cell;
 }
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
 
 
 // Override to support conditional rearranging of the table view.
