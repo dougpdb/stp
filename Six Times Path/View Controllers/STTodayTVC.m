@@ -18,6 +18,11 @@
 #import "TestFlight.h"
 
 #define OUT_OF_RANGE	10000
+#define IS_IPAD	(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define IS_PORTRAIT 
+
+#define GUIDELINE_LABEL_WIDTH	264
+#define ACTION_LABEL_WIDTH		245
 
 @interface STTodayTVC ()
 
@@ -66,6 +71,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+	
     }
     return self;
 }
@@ -415,21 +421,51 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	UILabel *guidelineLabel			= [UILabel new];
+	guidelineLabel.lineBreakMode	= NSLineBreakByWordWrapping;
+
 	if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
-		return 129;		// change for landscape orientation?
+		
+		guidelineLabel.font				= [UIFont boldSystemFontOfSize:15];
+
+		if (self.countOfTheSixWithoutUserEntries > 0)
+			guidelineLabel.text			= self.nextEntry.advice.name;
+		else
+			guidelineLabel.text			= @"You've made entries for all 6 guidelines. Be happy over what you've done well to day, and regret the mistaken actions.";
+		
+		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
+		
+		return 32 + guidelineLabelHeight + 13;		// change for landscape orientation?
+		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"] && indexPath.row > 0) {
-		return 81;
+		
+		guidelineLabel.font				= [UIFont boldSystemFontOfSize:15];
+		guidelineLabel.text				= [[[self.remainingScheduledEntries objectAtIndex:indexPath.row - 1] valueForKey:@"advice"] valueForKey:@"name"];
+		
+		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
+
+		return 30 + guidelineLabelHeight + 10;
+		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"] && indexPath.row > 0) {
-		return 130;
+		
+		guidelineLabel.font				= [UIFont boldSystemFontOfSize:15];
+		guidelineLabel.text				= [[[self.updatedEntries objectAtIndex:indexPath.row - 1] valueForKey:@"advice"] valueForKey:@"name"];
+		
+		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
+		
+		return 30 + guidelineLabelHeight + 65;
+		
 	} else {
+		
 		return 35;
+		
 	}
 }
 
 #pragma mark - Table view data source
--(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text
+-(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
 {
-	CGSize maximumLabelSize		= CGSizeMake(290, FLT_MAX);
+	CGSize maximumLabelSize		= CGSizeMake(labelWidth, FLT_MAX);
 	
 	CGSize expectedLabelSize	= [text sizeWithFont:label.font
 								constrainedToSize:maximumLabelSize
@@ -438,31 +474,29 @@
 	return expectedLabelSize.height;
 }
 
--(void)resizeHeightToFitForLabel:(UILabel *)label
+-(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth
 {
 	CGRect newFrame			= label.frame;
-	newFrame.size.height	= [self heightForLabel:label withText:label.text];
+	newFrame.size.height	= [self heightForLabel:label withText:label.text labelWidth:labelWidth];
 	label.frame				= newFrame;
-}
-
--(void)resizeHeightToFitForLabel:(UILabel *)label withText:(NSString *)text
-{
-	label.text				= text;
-	[self resizeHeightToFitForLabel:label];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString *guidelineNextEntryCellIdentifier	= @"GuidelineNextEntryCell";
-	static NSString *guidelineOtherEntryCellIdentifier	= @"GuidelineOtherEntryCell";
+	static NSString *guidelineNextEntryCellIdentifier		= @"GuidelineNextEntryCell";
+	static NSString *guidelineOtherEntryCellIdentifier		= @"GuidelineOtherEntryCell";
 	static NSString *guidelineSummaryEntryCellIdentifier	= @"GuidelineSummaryEntryCell";
-	static NSString *summaryOrSetupCellIdentifier		= @"SummaryOrSetupCell";
+	static NSString *summaryOrSetupCellIdentifier			= @"SummaryOrSetupCell";
 		
     if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
 		
 			UITableViewCell *guidelineNextEntryCell		= [tableView dequeueReusableCellWithIdentifier:guidelineNextEntryCellIdentifier];
 			
-			NSString *timeEntryTextPrefix;
+			UILabel *timeLabel							= (UILabel *)[guidelineNextEntryCell viewWithTag:10];
+			UILabel *guidelineLabel						= (UILabel *)[guidelineNextEntryCell viewWithTag:11];
+
+		
+		NSString *timeEntryTextPrefix;
 			
 			if (self.countOfTheSixWithoutUserEntries == 0) {
 				timeEntryTextPrefix	= @"Excellent!";
@@ -473,57 +507,58 @@
 			} else {
 				timeEntryTextPrefix	= @"First Entry - ";
 			}
-			
+
+		
+		
 			if (self.countOfTheSixWithoutUserEntries > 0) {
-				NSString *timeEntryText	= [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.nextEntry.timeScheduled.time];
-				NSString *guidelineText	= self.nextEntry.advice.name;
+				timeLabel.text							= [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.nextEntry.timeScheduled.time];
+				guidelineLabel.text						= self.nextEntry.advice.name;
 				
-				[[guidelineNextEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
-				[self resizeHeightToFitForLabel:(UILabel *)[guidelineNextEntryCell viewWithTag:11] withText:guidelineText];
+				[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
 
 				guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
 				guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
 			} else {
-				NSString *timeEntryText	= timeEntryTextPrefix;
-				NSString *guidelineText	= @"You've made entries for all 6 guidelines. Be happy over what you've done well to day, and regret the mistaken actions.";
+				timeLabel.text							= timeEntryTextPrefix;
+				guidelineLabel.text						= @"You've made entries for all 6 guidelines. Be happy over what you've done well to day, and regret the mistaken actions.";
 				
-				[[guidelineNextEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
-				[self resizeHeightToFitForLabel:(UILabel *)[guidelineNextEntryCell viewWithTag:11] withText:guidelineText];
+				[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
 				
 				guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleNone;
 				guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryNone;
 				
 				//	guidelineNextEntryCell.hidden	= YES;
 			}
-
 		
-		return guidelineNextEntryCell;
+			return guidelineNextEntryCell;
 		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
 	
 			if (self.showRemainingScheduledEntries && indexPath.row > 0) {
 				UITableViewCell *guidelineOtherEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineOtherEntryCellIdentifier];
+				UILabel *timeLabel							= (UILabel *)[guidelineOtherEntryCell viewWithTag:10];
+				UILabel *guidelineLabel						= (UILabel *)[guidelineOtherEntryCell viewWithTag:11];
 				
-				LESixOfDay *scheduledEntry	= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
-				NSString *timeEntryText		= [NSString stringWithFormat:@"Scheduled - %@", scheduledEntry.timeScheduled.time];
-				NSString *guidelineText		= scheduledEntry.advice.name;
+				LESixOfDay *scheduledEntry					= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
+
+				timeLabel.text								= [NSString stringWithFormat:@"Scheduled - %@", scheduledEntry.timeScheduled.time];
+				guidelineLabel.text							= scheduledEntry.advice.name;
 				
-				[[guidelineOtherEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
-				[self resizeHeightToFitForLabel:(UILabel *)[guidelineOtherEntryCell viewWithTag:11] withText:guidelineText];
+				[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
 				
 				return guidelineOtherEntryCell;
 			} else {
-				UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+				UITableViewCell *summaryOrSetupCell			= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 				
-				summaryOrSetupCell.textLabel.text		= @"Remaining Guidelines";
-				summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [self.remainingScheduledEntries count]];
+				summaryOrSetupCell.textLabel.text			= @"Remaining Guidelines";
+				summaryOrSetupCell.detailTextLabel.text		= [NSString stringWithFormat:@"%i", [self.remainingScheduledEntries count]];
 				
 				if (self.showRemainingScheduledEntries) {
-					summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleNone;
-					summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryNone;
+					summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleNone;
+					summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryNone;
 				} else {
-					summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
-					summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
+					summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleBlue;
+					summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryDisclosureIndicator;
 				}
 				
 				return summaryOrSetupCell;
@@ -533,17 +568,36 @@
 
 			if (self.showUpdatedEntries && indexPath.row > 0) {
 				UITableViewCell *guidelineSummaryEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineSummaryEntryCellIdentifier];
+				UILabel *timeLabel							= (UILabel *)[guidelineSummaryEntryCell viewWithTag:10];
+				UILabel *guidelineLabel						= (UILabel *)[guidelineSummaryEntryCell viewWithTag:11];
+				UILabel *positiveIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:15];
+				UILabel *negativeIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:16];
+				UILabel *positiveActionLabel				= (UILabel *)[guidelineSummaryEntryCell viewWithTag:20];
+				UILabel *negativeActionLabel				= (UILabel *)[guidelineSummaryEntryCell viewWithTag:21];
 				
 				LESixOfDay *updatedEntry					= [self.updatedEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
-				NSString *timeEntryText						= [NSString stringWithFormat:@"Updated %@", updatedEntry.timeLastUpdated.time];
-				NSString *guidelineText						= updatedEntry.advice.name;
-				NSString *positiveAction					= [[updatedEntry.getPositiveActionsTaken anyObject] valueForKey:@"text"];
-				NSString *negativeAction					= [[updatedEntry.getNegativeActionsTaken anyObject] valueForKey:@"text"];
 				
-				[[guidelineSummaryEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
-				[self resizeHeightToFitForLabel:(UILabel *)[guidelineSummaryEntryCell viewWithTag:11] withText:guidelineText];
-				[[guidelineSummaryEntryCell viewWithTag:20] setValue:positiveAction forKey:@"text"];
-				[[guidelineSummaryEntryCell viewWithTag:21] setValue:negativeAction forKey:@"text"];
+				timeLabel.text								= [NSString stringWithFormat:@"Updated %@", updatedEntry.timeLastUpdated.time];
+				guidelineLabel.text							= updatedEntry.advice.name;
+				positiveActionLabel.text					= [[updatedEntry.getPositiveActionsTaken anyObject] valueForKey:@"text"];
+				negativeActionLabel.text					= [[updatedEntry.getNegativeActionsTaken anyObject] valueForKey:@"text"];
+				
+				[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
+				
+				CGFloat	guidelineLabelHeight				= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
+
+				CGRect positiveIconLabelFrame				= positiveIconLabel.frame;
+				CGRect negativeIconLabelFrame				= negativeIconLabel.frame;
+				CGRect positiveActionLabelFrame				= positiveActionLabel.frame;
+				CGRect negativeActionLabelFrame				= negativeActionLabel.frame;
+				positiveIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 5;
+				negativeIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 31;
+				positiveActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 10;
+				negativeActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 35;
+				positiveIconLabel.frame						= positiveIconLabelFrame;
+				negativeIconLabel.frame						= negativeIconLabelFrame;
+				positiveActionLabel.frame					= positiveActionLabelFrame;
+				negativeActionLabel.frame					= negativeActionLabelFrame;
 				
 				return guidelineSummaryEntryCell;
 			} else {

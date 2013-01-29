@@ -40,9 +40,8 @@
 -(void)addDay:(id)sender;
 -(void)setTheSixAdvicesFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
--(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text;
--(void)resizeHeightToFitForLabel:(UILabel *)label;
--(void)resizeHeightToFitForLabel:(UILabel *)label withText:(NSString *)text;
+-(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth;
+-(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth;
 
 
 - (IBAction)doneAction:(id)sender;	// when the done button is clicked

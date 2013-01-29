@@ -222,7 +222,7 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.98823529409999999" green="0.87843137250000003" blue="0.75686274509999996" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" red="0.97254901960784312" green="0.75294117647058822" blue="0.51372549019607838" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="separatorColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GuidelineNextEntryCell" rowHeight="129" id="kWt-6c-NqJ" userLabel="Guideline Entry Cell - Next or Anytime">
                                 <rect key="frame" x="0.0" y="46" width="320" height="130"/>
@@ -232,14 +232,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" text="This is the next guideline to be considered and reflected upon in deeds past, positive and negative." lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ejv-cY-plH" userLabel="Guideline">
-                                            <rect key="frame" x="11" y="28" width="264" height="89"/>
+                                            <rect key="frame" x="11" y="32" width="265" height="83"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="Next Entry - HH:MM AP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MoS-Ha-GRd" userLabel="Scheduled Time">
-                                            <rect key="frame" x="11" y="9" width="248" height="21"/>
+                                            <rect key="frame" x="11" y="12" width="248" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -249,22 +249,22 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GuidelineOtherEntryCell" rowHeight="81" id="SIp-lQ-5A5" userLabel="Guideline Entry Cell - Next or Anytime">
-                                <rect key="frame" x="0.0" y="176" width="320" height="81"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GuidelineOtherEntryCell" rowHeight="76" id="SIp-lQ-5A5" userLabel="Guideline Entry Cell - Next or Anytime">
+                                <rect key="frame" x="0.0" y="176" width="320" height="76"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="10" y="0.0" width="280" height="80"/>
+                                    <rect key="frame" x="10" y="0.0" width="280" height="75"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" text="This is an upcoming guideline to be considered and reflected upon in deeds past, positive and negative." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7M0-A9-9eO" userLabel="Guideline">
-                                            <rect key="frame" x="11" y="26" width="269" height="41"/>
+                                            <rect key="frame" x="11" y="30" width="264" height="35"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="Other Entry - HH:MM AP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P2n-5N-2V5" userLabel="Scheduled Time">
-                                            <rect key="frame" x="11" y="7" width="248" height="21"/>
+                                            <rect key="frame" x="11" y="12" width="248" height="15"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -275,7 +275,7 @@
                                 </view>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SummaryOrSetupCell" textLabel="DMf-OO-DHZ" detailTextLabel="dRB-LV-Jcl" rowHeight="35" style="IBUITableViewCellStyleValue1" id="utV-ZB-Vw5" userLabel="Summary of Entries or Setup Cell">
-                                <rect key="frame" x="0.0" y="257" width="320" height="35"/>
+                                <rect key="frame" x="0.0" y="252" width="320" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="10" y="0.0" width="280" height="34"/>
@@ -300,49 +300,49 @@
                                 </view>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GuidelineSummaryEntryCell" rowHeight="130" id="IZJ-e5-FDc" userLabel="Guideline Cell with Summary of Entry" colorLabel="IBBuiltInLabel-Purple">
-                                <rect key="frame" x="0.0" y="292" width="320" height="131"/>
+                                <rect key="frame" x="0.0" y="287" width="320" height="131"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="10" y="0.0" width="280" height="129"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" text="This is a previous guideline to be considered and reflected upon in deeds past, positive and negative." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iWt-Vg-BKJ" userLabel="Guideline">
-                                            <rect key="frame" x="11" y="26" width="269" height="41"/>
+                                            <rect key="frame" x="11" y="30" width="264" height="35"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="20" contentMode="top" text="The + of the guideline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nUt-5e-0cR" userLabel="Summary of Positive Action">
-                                            <rect key="frame" x="35" y="71" width="245" height="23"/>
+                                            <rect key="frame" x="35" y="75" width="245" height="16"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="21" contentMode="top" text="The - of the guideline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P8T-h5-pIZ" userLabel="Summary of Negative Action">
-                                            <rect key="frame" x="35" y="96" width="245" height="23"/>
+                                            <rect key="frame" x="35" y="100" width="245" height="16"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="Other Entry - HH:MM AP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U61-BO-EgV" userLabel="Scheduled Time">
-                                            <rect key="frame" x="11" y="7" width="248" height="21"/>
+                                            <rect key="frame" x="11" y="12" width="248" height="15"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QXf-NR-Kgs" userLabel="Scheduled Time">
-                                            <rect key="frame" x="11" y="72" width="15" height="21"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="15" contentMode="left" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QXf-NR-Kgs" userLabel="Scheduled Time">
+                                            <rect key="frame" x="11" y="70" width="15" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Toe-Fa-6Dh" userLabel="Scheduled Time">
-                                            <rect key="frame" x="10" y="98" width="15" height="21"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="16" contentMode="left" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Toe-Fa-6Dh" userLabel="Scheduled Time">
+                                            <rect key="frame" x="10" y="96" width="15" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -397,6 +397,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <connections>
                         <action selector="doneAction:" destination="OYj-pl-7YY" id="vvt-fv-KtC"/>
                     </connections>
+                </barButtonItem>
+                <barButtonItem systemItem="reply" id="GVx-WX-c7T" userLabel="TestFlight Feedback">
+                    <color key="tintColor" red="0.99607843139999996" green="0.92941176469999998" blue="0.50980392159999999" alpha="1" colorSpace="calibratedRGB"/>
                 </barButtonItem>
             </objects>
             <point key="canvasLocation" x="1526" y="4027"/>
@@ -763,6 +766,44 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <point key="canvasLocation" x="2568" y="3802"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="CoreDataTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
+        </class>
+        <class className="STLogEntrySixOfDayTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STLogEntrySixOfDayTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="greatHighwayExplorerFeedback:"/>
+                <relationship kind="outlet" name="guidelineText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="guidelineTime" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="negativeActionTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="positiveActionTextView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="STPreviousDayTVC" superclassName="STTodayTVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STPreviousDayTVC.h"/>
+        </class>
+        <class className="STPreviousDaysTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STPreviousDaysTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="greatHighwayExplorerFeedback:"/>
+            </relationships>
+        </class>
+        <class className="STTodayTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STTodayTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="doneAction:"/>
+                <relationship kind="outlet" name="doneButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="pickerView" candidateClass="UIDatePicker"/>
+            </relationships>
+        </class>
+        <class className="STTraditionsFollowedTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STTraditionsFollowedTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="greatHIghwayExplorerFeedback:"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
