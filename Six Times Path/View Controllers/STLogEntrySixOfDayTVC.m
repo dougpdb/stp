@@ -181,7 +181,22 @@
 		return nil;
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table view delegate
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	switch (indexPath.section) {
+		case 1:
+			[(UILabel *)[tableView viewWithTag:101] becomeFirstResponder];
+			break;
+		case 2:
+			[(UILabel *)[tableView viewWithTag:102] becomeFirstResponder];
+			break;
+			
+		default:
+			break;
+	}
+
+}
 
 
 #pragma mark - Text Field Delegate

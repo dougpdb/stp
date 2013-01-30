@@ -15,6 +15,8 @@
 #import "TestFlight.h"
 
 #define OUT_OF_RANGE	10000
+#define GUIDELINE_LABEL_WIDTH	264
+#define ACTION_LABEL_WIDTH		245
 
 
 @interface STPreviousDayTVC ()
@@ -101,6 +103,12 @@
 	self.title		= self.thisDay.date.shortWeekdayAndDate;
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+	self.showUpdatedEntries				= NO;
+	self.showRemainingScheduledEntries	= NO;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -124,13 +132,15 @@
 		
 		if (self.showRemainingScheduledEntries && indexPath.row > 0) {
 			UITableViewCell *guidelineOtherEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineOtherEntryCellIdentifier];
+			UILabel *timeLabel							= (UILabel *)[guidelineOtherEntryCell viewWithTag:10];
+			UILabel *guidelineLabel						= (UILabel *)[guidelineOtherEntryCell viewWithTag:11];
 			
 			LESixOfDay *scheduledEntry					= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
-			NSString *timeEntryText						= [NSString stringWithFormat:@"Scheduled - %@", scheduledEntry.timeScheduled.time];
-			NSString *guidelineText						= scheduledEntry.advice.name;
 			
-			[[guidelineOtherEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
-			[[guidelineOtherEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
+			timeLabel.text								= [NSString stringWithFormat:@"Scheduled - %@", scheduledEntry.timeScheduled.time];
+			guidelineLabel.text							= scheduledEntry.advice.name;
+			
+			[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
 			
 			return guidelineOtherEntryCell;
 		} else {
@@ -139,8 +149,13 @@
 			summaryOrSetupCell.textLabel.text			= @"Remaining Guidelines";
 			summaryOrSetupCell.detailTextLabel.text		= [NSString stringWithFormat:@"%i", [self.remainingScheduledEntries count]];
 			
-			summaryOrSetupCell.selectionStyle			= UITableViewCellSelectionStyleNone;
-			summaryOrSetupCell.accessoryType			= UITableViewCellAccessoryNone;
+			if (self.showRemainingScheduledEntries) {
+				summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleNone;
+				summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryNone;
+			} else {
+				summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleBlue;
+				summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryDisclosureIndicator;
+			}
 			
 			return summaryOrSetupCell;
 		}
@@ -149,27 +164,51 @@
 		
 		if (self.showUpdatedEntries && indexPath.row > 0) {
 			UITableViewCell *guidelineSummaryEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineSummaryEntryCellIdentifier];
+			UILabel *timeLabel							= (UILabel *)[guidelineSummaryEntryCell viewWithTag:10];
+			UILabel *guidelineLabel						= (UILabel *)[guidelineSummaryEntryCell viewWithTag:11];
+			UILabel *positiveIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:15];
+			UILabel *negativeIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:16];
+			UILabel *positiveActionLabel				= (UILabel *)[guidelineSummaryEntryCell viewWithTag:20];
+			UILabel *negativeActionLabel				= (UILabel *)[guidelineSummaryEntryCell viewWithTag:21];
 			
 			LESixOfDay *updatedEntry					= [self.updatedEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
-			NSString *timeEntryText						= [NSString stringWithFormat:@"Updated %@", updatedEntry.timeLastUpdated.time];
-			NSString *guidelineText						= updatedEntry.advice.name;
-			NSString *positiveAction					= [[updatedEntry.getPositiveActionsTaken anyObject] valueForKey:@"text"];
-			NSString *negativeAction					= [[updatedEntry.getNegativeActionsTaken anyObject] valueForKey:@"text"];
 			
-			[[guidelineSummaryEntryCell viewWithTag:10] setValue:timeEntryText forKey:@"text"];
-			[[guidelineSummaryEntryCell viewWithTag:11] setValue:guidelineText forKey:@"text"];
-			[[guidelineSummaryEntryCell viewWithTag:20] setValue:positiveAction forKey:@"text"];
-			[[guidelineSummaryEntryCell viewWithTag:21] setValue:negativeAction forKey:@"text"];
+			timeLabel.text								= [NSString stringWithFormat:@"Updated %@", updatedEntry.timeLastUpdated.time];
+			guidelineLabel.text							= updatedEntry.advice.name;
+			positiveActionLabel.text					= [[updatedEntry.getPositiveActionsTaken anyObject] valueForKey:@"text"];
+			negativeActionLabel.text					= [[updatedEntry.getNegativeActionsTaken anyObject] valueForKey:@"text"];
+			
+			[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
+			
+			CGFloat	guidelineLabelHeight				= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
+			
+			CGRect positiveIconLabelFrame				= positiveIconLabel.frame;
+			CGRect negativeIconLabelFrame				= negativeIconLabel.frame;
+			CGRect positiveActionLabelFrame				= positiveActionLabel.frame;
+			CGRect negativeActionLabelFrame				= negativeActionLabel.frame;
+			positiveIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 5;
+			negativeIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 31;
+			positiveActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 10;
+			negativeActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 35;
+			positiveIconLabel.frame						= positiveIconLabelFrame;
+			negativeIconLabel.frame						= negativeIconLabelFrame;
+			positiveActionLabel.frame					= positiveActionLabelFrame;
+			negativeActionLabel.frame					= negativeActionLabelFrame;
 			
 			return guidelineSummaryEntryCell;
 		} else {
-			UITableViewCell *summaryOrSetupCell			= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+			UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 			
-			summaryOrSetupCell.textLabel.text			= @"Guidelines with Entries";
-			summaryOrSetupCell.detailTextLabel.text		= [NSString stringWithFormat:@"%i", [self.updatedEntries count]];
+			summaryOrSetupCell.textLabel.text		= @"Guidelines with Entries";
+			summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [self.updatedEntries count]];
 			
-			summaryOrSetupCell.selectionStyle			= UITableViewCellSelectionStyleNone;
-			summaryOrSetupCell.accessoryType			= UITableViewCellAccessoryNone;
+			if (self.showUpdatedEntries) {
+				summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleNone;
+				summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryNone;
+			} else {
+				summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
+				summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
+			}
 			
 			return summaryOrSetupCell;
 		}
