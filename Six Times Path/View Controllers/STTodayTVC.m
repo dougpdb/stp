@@ -26,12 +26,15 @@
 
 @interface STTodayTVC ()
 
-// from apple sample code
 @property (nonatomic, retain) IBOutlet UIDatePicker *pickerView;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *feedbackButton;
 
 @property (nonatomic, retain) NSArray *dataArray;
 @property (nonatomic, retain) NSDateFormatter *dateFormatter;
+
+- (IBAction)greatHighwayExplorerFeedback:(id)sender;
+
 
 @end
 
@@ -47,6 +50,7 @@
 @synthesize dataArray						= _dataArray;
 @synthesize dateFormatter					= _dateFormatter;
 
+@synthesize feedbackButton					= _feedbackButton;
 
 @synthesize showRemainingScheduledEntries	= _showRemainingScheduledEntries;
 @synthesize showUpdatedEntries				= _showUpdatedEntries;
@@ -129,7 +133,8 @@
 	
 	self.dateFormatter = [[NSDateFormatter alloc] init];
 	[self.dateFormatter setDateFormat:@"h:mm a"];
-	//	[self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+
+	self.navigationItem.leftBarButtonItem	= self.feedbackButton;
 
 }
 
@@ -215,8 +220,8 @@
 		NSLog(@"There are %u entries that have not yet been updated.", [[self.thisDay getTheSixWithoutUserEntriesSorted] count]);
 	}
 	
-	self.countOfTheSixWithoutUserEntries		= OUT_OF_RANGE;
-	self.tableViewSections						= nil;
+	self.countOfTheSixWithoutUserEntries	= OUT_OF_RANGE;
+	self.tableViewSections					= nil;
 	
 	[self.tableView reloadData];
 
@@ -866,6 +871,10 @@
 		[TestFlight passCheckpoint:@"GO TO PREVIOUS DAYS"];
 		
 	} 
+}
+
+- (IBAction)greatHighwayExplorerFeedback:(id)sender {
+	[TestFlight openFeedbackView];
 }
 
 

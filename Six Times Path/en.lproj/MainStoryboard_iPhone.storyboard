@@ -207,10 +207,17 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="r7J-v6-qGY"/>
                     <connections>
+                        <outlet property="feedbackButton" destination="vbM-4t-e3h" id="6AV-YK-iN3"/>
                         <segue destination="gTE-bC-Kqu" kind="push" identifier="Guideline Entry" id="Up7-ri-eLG"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rOi-PZ-IDp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <barButtonItem systemItem="reply" id="vbM-4t-e3h">
+                    <color key="tintColor" red="0.99607843139999996" green="0.92941176469999998" blue="0.50980392159999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="greatHighwayExplorerFeedback:" destination="TZk-ta-hhA" id="NF8-zy-WN5"/>
+                    </connections>
+                </barButtonItem>
             </objects>
             <point key="canvasLocation" x="2558" y="4527"/>
         </scene>
@@ -357,7 +364,8 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Day, MMM DD" id="Bmt-xS-Od5"/>
                     <connections>
-                        <outlet property="doneButton" destination="pAS-wS-17i" id="LNt-Ix-PgY"/>
+                        <outlet property="doneButton" destination="GVx-WX-c7T" id="5iN-Jb-sNc"/>
+                        <outlet property="feedbackButton" destination="GVx-WX-c7T" id="GAJ-pP-ib1"/>
                         <outlet property="pickerView" destination="twk-ag-S7j" id="P5S-dm-TqC"/>
                         <segue destination="gTE-bC-Kqu" kind="push" identifier="Guideline Entry" id="Bfh-JL-a9S"/>
                         <segue destination="vht-HB-8PU" kind="push" identifier="Guidelines Followed" id="8uf-5x-upd"/>
@@ -400,9 +408,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </barButtonItem>
                 <barButtonItem systemItem="reply" id="GVx-WX-c7T" userLabel="TestFlight Feedback">
                     <color key="tintColor" red="0.99607843139999996" green="0.92941176469999998" blue="0.50980392159999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="greatHighwayExplorerFeedback:" destination="OYj-pl-7YY" id="MJ0-qv-oxJ"/>
+                    </connections>
                 </barButtonItem>
             </objects>
-            <point key="canvasLocation" x="1526" y="4027"/>
+            <point key="canvasLocation" x="1509" y="4027"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MNk-uQ-ttv">
@@ -550,14 +561,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             <outlet property="delegate" destination="vht-HB-8PU" id="6BJ-lj-ili"/>
                         </connections>
                     </tableView>
-                    <toolbarItems>
-                        <barButtonItem systemItem="reply" id="VpP-rq-jeL">
-                            <color key="tintColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="greatHIghwayExplorerFeedback:" destination="vht-HB-8PU" id="3Gr-9E-Mas"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lMs-1x-6rK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -766,44 +770,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <point key="canvasLocation" x="2568" y="3802"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="CoreDataTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
-        </class>
-        <class className="STLogEntrySixOfDayTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STLogEntrySixOfDayTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="greatHighwayExplorerFeedback:"/>
-                <relationship kind="outlet" name="guidelineText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="guidelineTime" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="negativeActionTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="positiveActionTextView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="STPreviousDayTVC" superclassName="STTodayTVC">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STPreviousDayTVC.h"/>
-        </class>
-        <class className="STPreviousDaysTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STPreviousDaysTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="greatHighwayExplorerFeedback:"/>
-            </relationships>
-        </class>
-        <class className="STTodayTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STTodayTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="doneAction:"/>
-                <relationship kind="outlet" name="doneButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="pickerView" candidateClass="UIDatePicker"/>
-            </relationships>
-        </class>
-        <class className="STTraditionsFollowedTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/STTraditionsFollowedTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="greatHIghwayExplorerFeedback:"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

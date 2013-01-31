@@ -21,12 +21,19 @@
 
 @interface STPreviousDayTVC ()
 
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *feedbackButton;
+
+- (IBAction)greatHighwayExplorerFeedback:(id)sender;
+
+
 @end
 
 @implementation STPreviousDayTVC
 
 @synthesize thisDay					= _thisDay;
 @synthesize tableViewSections		= _tableViewSections;
+
+@synthesize feedbackButton			= _feedbackButton;
 
 @synthesize editingMode				= _editingMode;
 
@@ -94,8 +101,11 @@
 	self.remainingScheduledEntries			= [self.thisDay getTheSixWithoutUserEntriesSorted];
 	self.updatedEntries						= [self.thisDay getTheSixThatHaveUserEntriesSorted];
 
-	self.showRemainingScheduledEntries	= YES;
-	self.showUpdatedEntries				= YES;
+	self.showRemainingScheduledEntries		= YES;
+	self.showUpdatedEntries					= YES;
+	
+	self.navigationItem.rightBarButtonItem	= self.feedbackButton;
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -234,6 +244,10 @@
 
 
 #pragma mark - UI Interactions
+
+- (IBAction)greatHighwayExplorerFeedback:(id)sender {
+	[TestFlight openFeedbackView];
+}
 
 
 
