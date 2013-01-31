@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="pCE-SW-QV2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="pCE-SW-QV2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--Previous Days TVC-->
@@ -364,7 +364,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Day, MMM DD" id="Bmt-xS-Od5"/>
                     <connections>
-                        <outlet property="doneButton" destination="GVx-WX-c7T" id="5iN-Jb-sNc"/>
+                        <outlet property="doneButton" destination="pAS-wS-17i" id="U2n-Sx-kaX"/>
                         <outlet property="feedbackButton" destination="GVx-WX-c7T" id="GAJ-pP-ib1"/>
                         <outlet property="pickerView" destination="twk-ag-S7j" id="P5S-dm-TqC"/>
                         <segue destination="gTE-bC-Kqu" kind="push" identifier="Guideline Entry" id="Bfh-JL-a9S"/>
@@ -770,12 +770,56 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <point key="canvasLocation" x="2568" y="3802"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="CoreDataTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
+        </class>
+        <class className="STLogEntrySixOfDayTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STLogEntrySixOfDayTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="greatHighwayExplorerFeedback:"/>
+                <relationship kind="outlet" name="guidelineText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="guidelineTime" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="negativeActionTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="positiveActionTextView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="STPreviousDayTVC" superclassName="STTodayTVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STPreviousDayTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="greatHighwayExplorerFeedback:"/>
+                <relationship kind="outlet" name="feedbackButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="STPreviousDaysTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STPreviousDaysTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="greatHighwayExplorerFeedback:"/>
+            </relationships>
+        </class>
+        <class className="STTodayTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STTodayTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="doneAction:"/>
+                <relationship kind="action" name="greatHighwayExplorerFeedback:"/>
+                <relationship kind="outlet" name="doneButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="feedbackButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="pickerView" candidateClass="UIDatePicker"/>
+            </relationships>
+        </class>
+        <class className="STTraditionsFollowedTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/STTraditionsFollowedTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="greatHIghwayExplorerFeedback:"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Up7-ri-eLG"/>
+        <segue reference="Bfh-JL-a9S"/>
     </inferredMetricsTieBreakers>
 </document>
