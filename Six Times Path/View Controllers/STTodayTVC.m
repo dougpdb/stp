@@ -134,7 +134,8 @@
 	self.dateFormatter = [[NSDateFormatter alloc] init];
 	[self.dateFormatter setDateFormat:@"h:mm a"];
 
-	self.navigationItem.leftBarButtonItem	= self.feedbackButton;
+	if ([self isMemberOfClass:[STTodayTVC class]])
+		self.navigationItem.leftBarButtonItem	= self.feedbackButton;
 
 }
 
