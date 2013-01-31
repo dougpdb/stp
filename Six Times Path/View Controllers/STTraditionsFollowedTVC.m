@@ -50,7 +50,10 @@
     // 3 - Filter it if you want
     //request.predicate = [NSPredicate predicateWithFormat:@"Role.name = Blah"];
     
-    request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"name"
+    request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"practicedWithinTradition.name"
+																ascending:YES
+																 selector:@selector(localizedCaseInsensitiveCompare:)],
+										[NSSortDescriptor sortDescriptorWithKey:@"name"
 																	 ascending:YES
 																	  selector:@selector(localizedCaseInsensitiveCompare:)]];
 
