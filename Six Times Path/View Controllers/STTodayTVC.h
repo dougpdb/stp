@@ -25,6 +25,7 @@
 @property BOOL showRemainingScheduledEntries;
 @property BOOL showUpdatedEntries;
 @property (strong, nonatomic) LESixOfDay *nextEntry;
+@property (nonatomic) LESixOfDay *entryFromNotification;
 @property (strong, nonatomic) NSArray *remainingScheduledEntries;
 @property (strong, nonatomic) NSArray *updatedEntries;
 @property (strong, nonatomic) NSDate *mostRecentlyAddedDate;
@@ -44,6 +45,8 @@
 -(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth;
 
 -(BOOL)isTimeToAddDay;
+
+-(void)setupDaysFetchedResultsController;
 
 - (IBAction)doneAction:(id)sender;	// when the done button is clicked
 									//- (IBAction)dateAction:(id)sender;	// when the user has changed the date picke values (m/d/y)

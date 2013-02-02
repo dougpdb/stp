@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 6000 American Family Dr. All rights reserved.
 //
 
+#import "STAppDelegate.h"
 #import "STTodayTVC.h"
 #import "Advice.h"
 #import "Day+ST.h"
@@ -55,6 +56,7 @@
 @synthesize showRemainingScheduledEntries	= _showRemainingScheduledEntries;
 @synthesize showUpdatedEntries				= _showUpdatedEntries;
 @synthesize nextEntry						= _nextEntry;
+@synthesize entryFromNotification			= _entryFromNotification;
 @synthesize remainingScheduledEntries		= _remainingScheduledEntries;
 @synthesize updatedEntries					= _updatedEntries;
 @synthesize mostRecentlyAddedDate			= _mostRecentlyAddedDate;
@@ -849,27 +851,28 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	NSIndexPath *indexPath  = [self.tableView indexPathForSelectedRow];
-	
-	NSLog(@"Segue identifier is %@", segue.identifier.description);
-		
+			
 	if ([[segue identifier] isEqualToString:@"Guideline Entry"]) {
 		
-		//	Get the indexPath for which entry this should go to
-		
-
 		STLogEntrySixOfDayTVC *leSixOfDayTVC	= segue.destinationViewController;
 		leSixOfDayTVC.managedObjectContext		= self.managedObjectContext;
+		NSIndexPath *indexPath  = [self.tableView indexPathForSelectedRow];
 		
-		if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
-			leSixOfDayTVC.leSixOfDay			= self.nextEntry;
-			[TestFlight passCheckpoint:@"GO TO NEXT ENTRY"];
-		} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
-			leSixOfDayTVC.leSixOfDay			= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];
-			[TestFlight passCheckpoint:@"GO TO FUTURE ENTRY"];
-		} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
-			leSixOfDayTVC.leSixOfDay			= [self.updatedEntries objectAtIndex:indexPath.row - 1];
-			[TestFlight passCheckpoint:@"GO TO PREVIOUS ENTRY"];
+		if ([sender isMemberOfClass:[STAppDelegate class]]) {
+			leSixOfDayTVC.leSixOfDay			= self.entryFromNotification;
+		} else {
+		
+			if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
+				leSixOfDayTVC.leSixOfDay			= self.nextEntry;
+				[TestFlight passCheckpoint:@"GO TO NEXT ENTRY"];
+			} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
+				leSixOfDayTVC.leSixOfDay			= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];
+				[TestFlight passCheckpoint:@"GO TO FUTURE ENTRY"];
+			} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
+				leSixOfDayTVC.leSixOfDay			= [self.updatedEntries objectAtIndex:indexPath.row - 1];
+				[TestFlight passCheckpoint:@"GO TO PREVIOUS ENTRY"];
+			}
+			
 		}
 		
 	} else if ([[segue identifier] isEqualToString:@"Guidelines Followed"]) {
@@ -898,8 +901,9 @@
 
 - (void)addNotification:(LESixOfDay *)sixOfDayLogEntry {
 	NSDictionary *userInfo	= @{
-		@"logEntryTimeScheduled"	: sixOfDayLogEntry.timeScheduled.timeAndDate,
-		@"logEntryAdviceText"		: sixOfDayLogEntry.advice.name
+		@"logEntryTimeScheduled"				: sixOfDayLogEntry.timeScheduled.timeAndDate,
+		@"logEntryAdviceText"					: sixOfDayLogEntry.advice.name,
+		@"logEntryOrderNumberInSetOfEntries"	: sixOfDayLogEntry.orderNumberForType
 	};
 		
     UILocalNotification *localNotification = [[UILocalNotification alloc] init]; //Create the localNotification object

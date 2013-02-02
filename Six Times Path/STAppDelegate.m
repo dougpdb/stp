@@ -13,6 +13,9 @@
 #import "STFollowingAdviceTVC.h"
 #import "SpiritualTradtion.h"
 #import "SetOfAdvice.h"
+#import "Day+ST.h"
+#import "Advice.h"
+#import "LESixOfDay.h"
 #import "STTodayTVC.h"
 #import "STLogEntrySixOfDayTVC.h"
 #import "NSDate+ST.h"
@@ -327,7 +330,7 @@
 	
 	NSLog(@"The visibleViewController is %@", [[navigationController.visibleViewController class] description]);
 	
-	if ([[[navigationController.visibleViewController class] description] isEqualToString:@"STTodayTVC"]) {
+	if ([navigationController.visibleViewController isMemberOfClass:[STTodayTVC class]]) {
 		STTodayTVC *todayTVC						= (STTodayTVC *)navigationController.visibleViewController;
 		if ([todayTVC isTimeToAddDay]) {
 			NSLog(@"It is time to add a new day!");
@@ -348,8 +351,9 @@
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
 	
     //----- GET THE LOCAL NOTIFICATION INFORMATION IF WE HAVE BEEN RUN FROM THE USER PRESSING THE ACTION BUTTON OF ONE OF OUR NOTIFICATIONS -----
-	NSString *NotificationValue = [notification.userInfo objectForKey:@"logEntryTimeScheduled"];
-	NSString *fireDate			= notification.fireDate.timeAndDate;
+	NSString *NotificationValue			= [notification.userInfo objectForKey:@"logEntryTimeScheduled"];
+	NSString *fireDate					= notification.fireDate.timeAndDate;
+	NSNumber *orderNumberInSetOfEntries	= [notification.userInfo objectForKey:@"logEntryOrderNumberInSetOfEntries"];
 	
     NSLog(@"LOCAL NOTIFICATION RECEVIED, value: %@", NotificationValue);
     NSLog(@"LOCAL NOTIFICATION RECEVIED, fireDate: %@", fireDate);
@@ -362,6 +366,26 @@
         {
             //----- APPLICATION WAS IN BACKGROUND - USER HAS SEEN NOTIFICATION AND PRESSED THE ACTION BUTTON -----
             NSLog(@"Local noticiation - App was in background and user pressed action button");
+			
+			UINavigationController *navigationController	= (UINavigationController *)self.window.rootViewController;
+
+			if ([navigationController.visibleViewController isMemberOfClass:[STLogEntrySixOfDayTVC class]]) {
+				[(STLogEntrySixOfDayTVC *)navigationController.visibleViewController saveEntry];
+			}
+			
+			[navigationController popToRootViewControllerAnimated:NO];
+			
+			STTodayTVC *todayTVC							= (STTodayTVC *)navigationController.topViewController;
+			
+			if ([todayTVC isTimeToAddDay]) {
+				// do nothing
+			} else {
+				[todayTVC setupDaysFetchedResultsController];
+				todayTVC.entryFromNotification				= (LESixOfDay *)[todayTVC.thisDay entrySixOfDay:orderNumberInSetOfEntries];
+				[todayTVC performSegueWithIdentifier:@"Guideline Entry" sender:self];
+			}
+			
+			
 			[application cancelLocalNotification:notification];
 			application.applicationIconBadgeNumber = application.applicationIconBadgeNumber - 1;
 			[TestFlight passCheckpoint:@"LAUNCH FROM BACKGROUND FROM NOTIFICATION"];
