@@ -192,7 +192,7 @@
 		[self addDay:0];
 	}
 
-	self.title		= self.mostRecentlyAddedDate.shortWeekdayAndDate;
+	self.title		= self.mostRecentlyAddedDate.weekdayMonthAndDay;
 		
 	NSArray *allRemainingEntries			= [self.thisDay getTheSixWithoutUserEntriesSorted];
 	
@@ -271,6 +271,20 @@
 
 #pragma mark - Core Data Add Records
 
+-(BOOL)isTimeToAddDay
+{
+	NSDate *now						= [NSDate date];
+	NSDate *mostRecentDate			= [self.mostRecentlyAddedDate setHour:[self.thisDay.startHour intValue]
+														 andMinute:[self.thisDay.startMinute intValue]];
+	
+	NSTimeInterval eighteenHours	= 18*60*60;
+
+	if (self.mostRecentlyAddedDate)
+		return ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending);
+	else
+		return false;
+}
+
 -(void)addDay:(id)sender
 {
 	NSDate *now						= [NSDate date];
@@ -280,45 +294,43 @@
 	NSTimeInterval eighteenHours	= 18*60*60;
 	NSTimeInterval twentyFourHours	= 24*60*60;
 	
-	if (self.mostRecentlyAddedDate) {
-		if ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending) {
-			NSLog(@"Now [%@] is later in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, mostRecentDate.timeAndDate);
-			
-			Day *newDay					= [NSEntityDescription insertNewObjectForEntityForName:@"Day"
-																		inManagedObjectContext:self.managedObjectContext];
-			
-			BOOL nowIsOnSameDateAsMostRecentDateButAfterEntryLogging	= ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending && [now compare:[mostRecentDate dateByAddingTimeInterval:twentyFourHours]] == NSOrderedAscending);
-			
-			if (nowIsOnSameDateAsMostRecentDateButAfterEntryLogging) {
-				newDay.date				= [mostRecentDate dateByAddingTimeInterval:twentyFourHours];
-			} else {
-				newDay.date				= now;
-			}
-			
-			newDay.startHour			= (self.thisDay.startHour) ? self.thisDay.startHour : [NSNumber numberWithInt:6];
-			newDay.startMinute			= (self.thisDay.startMinute) ? self.thisDay.startMinute : [NSNumber numberWithInt:0];
-			
-			self.mostRecentlyAddedDate	= newDay.date;
-			self.thisDay				= newDay;
-
-			[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %i", [self.fetchedResultsController.fetchedObjects count]]];
-			
-			if (self.debug)
-				NSLog(@"A new Day has been created. Its date is %@. The most recently added date is %@.", newDay.date, self.mostRecentlyAddedDate);
-			
-			[self setTheSixAdvicesFor:newDay withIndexOfFirstFollowedAdvice:self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay inManagedObjectContext:self.managedObjectContext];
-			
-			[self.managedObjectContext save:nil];
-			[self performFetch];
-			[self.tableView reloadData];
-			
-			if (self.debug) {
-				NSLog(@"newDay.date = %@", [newDay.date date]);
-				NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
-			}
+	if ([self isTimeToAddDay]) {
+		NSLog(@"Now [%@] is later in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, mostRecentDate.timeAndDate);
+		
+		Day *newDay					= [NSEntityDescription insertNewObjectForEntityForName:@"Day"
+																	inManagedObjectContext:self.managedObjectContext];
+		
+		BOOL nowIsOnSameDateAsMostRecentDateButAfterEntryLogging	= ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending && [now compare:[mostRecentDate dateByAddingTimeInterval:twentyFourHours]] == NSOrderedAscending);
+		
+		if (nowIsOnSameDateAsMostRecentDateButAfterEntryLogging) {
+			newDay.date				= [mostRecentDate dateByAddingTimeInterval:twentyFourHours];
 		} else {
-			NSLog(@"Now [%@] is earlier (or exactly equal) in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, mostRecentDate.timeAndDate);
+			newDay.date				= now;
 		}
+		
+		newDay.startHour			= (self.thisDay.startHour) ? self.thisDay.startHour : [NSNumber numberWithInt:6];
+		newDay.startMinute			= (self.thisDay.startMinute) ? self.thisDay.startMinute : [NSNumber numberWithInt:0];
+		
+		self.mostRecentlyAddedDate	= newDay.date;
+		self.thisDay				= newDay;
+
+		[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %i", [self.fetchedResultsController.fetchedObjects count]]];
+		
+		if (self.debug)
+			NSLog(@"A new Day has been created. Its date is %@. The most recently added date is %@.", newDay.date, self.mostRecentlyAddedDate);
+		
+		[self setTheSixAdvicesFor:newDay withIndexOfFirstFollowedAdvice:self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay inManagedObjectContext:self.managedObjectContext];
+		
+		[self.managedObjectContext save:nil];
+		[self performFetch];
+		[self.tableView reloadData];
+		
+		if (self.debug) {
+			NSLog(@"newDay.date = %@", [newDay.date date]);
+			NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
+		}
+	} else {
+		NSLog(@"Now [%@] is earlier (or exactly equal) in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, mostRecentDate.timeAndDate);
 	}
 }
 
@@ -801,14 +813,14 @@
 		NSLog(@"Error occured when attempting to save. Error and userInfo: %@, %@", error, [error userInfo]);
 	}
 
-	UILabel *wakeUpTimeTextLabel= [self.tableView viewWithTag:10001];
-	wakeUpTimeTextLabel.text	= [self.pickerView.date time]; //  [self.dateFormatter stringFromDate:self.pickerView.date];
+	UILabel *wakeUpTimeTextLabel	= (UILabel *)[self.tableView viewWithTag:10001];
+	wakeUpTimeTextLabel.text		= [self.pickerView.date time]; //  [self.dateFormatter stringFromDate:self.pickerView.date];
 	
 	[TestFlight passCheckpoint:@"RESET WAKEUP TIME"];
 
-	CGRect screenRect		= [[UIScreen mainScreen] applicationFrame];
-	CGRect endFrame			= self.pickerView.frame;
-	endFrame.origin.y		= screenRect.origin.y + screenRect.size.height;
+	CGRect screenRect				= [[UIScreen mainScreen] applicationFrame];
+	CGRect endFrame					= self.pickerView.frame;
+	endFrame.origin.y				= screenRect.origin.y + screenRect.size.height;
 	
 	// start the slide down animation
 	[UIView beginAnimations:nil context:NULL];
@@ -818,19 +830,19 @@
 	[UIView setAnimationDelegate:self];
 	[UIView setAnimationDidStopSelector:@selector(slideDownDidStop)];
 	
-	self.pickerView.frame	= endFrame;
+	self.pickerView.frame			= endFrame;
 	[UIView commitAnimations];
 	
 	// grow the table back again in vertical size to make room for the date picker
-	CGRect newFrame			= self.tableView.frame;
-	newFrame.size.height	+= self.pickerView.frame.size.height;
-	self.tableView.frame	= newFrame;
+	CGRect newFrame					= self.tableView.frame;
+	newFrame.size.height			+= self.pickerView.frame.size.height;
+	self.tableView.frame			= newFrame;
 	
 	// remove the "Done" button in the nav bar
 	self.navigationItem.rightBarButtonItem = nil;
 	
 	// deselect the current table row
-	NSIndexPath *indexPath		= [self.tableView indexPathForSelectedRow];
+	NSIndexPath *indexPath			= [self.tableView indexPathForSelectedRow];
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 	[self.tableView reloadData];
 }
@@ -845,6 +857,7 @@
 		
 		//	Get the indexPath for which entry this should go to
 		
+
 		STLogEntrySixOfDayTVC *leSixOfDayTVC	= segue.destinationViewController;
 		leSixOfDayTVC.managedObjectContext		= self.managedObjectContext;
 		
@@ -872,6 +885,8 @@
 		[TestFlight passCheckpoint:@"GO TO PREVIOUS DAYS"];
 		
 	} 
+	self.title		= self.mostRecentlyAddedDate.shortWeekdayAndDate;
+
 }
 
 - (IBAction)greatHighwayExplorerFeedback:(id)sender {

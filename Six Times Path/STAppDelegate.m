@@ -323,6 +323,20 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+	UINavigationController *navigationController	= (UINavigationController *)self.window.rootViewController;
+	
+	NSLog(@"The visibleViewController is %@", [[navigationController.visibleViewController class] description]);
+	
+	if ([[[navigationController.visibleViewController class] description] isEqualToString:@"STTodayTVC"]) {
+		STTodayTVC *todayTVC						= (STTodayTVC *)navigationController.visibleViewController;
+		if ([todayTVC isTimeToAddDay]) {
+			NSLog(@"It is time to add a new day!");
+			[[todayTVC tableView] reloadData];;
+		} else {
+			NSLog(@"It is NOT time to add a new day.");
+		}
+	}
+	
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

@@ -43,6 +43,7 @@
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth;
 -(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth;
 
+-(BOOL)isTimeToAddDay;
 
 - (IBAction)doneAction:(id)sender;	// when the done button is clicked
 									//- (IBAction)dateAction:(id)sender;	// when the user has changed the date picke values (m/d/y)
