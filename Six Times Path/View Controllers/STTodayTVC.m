@@ -21,7 +21,7 @@
 #define IS_IPAD	(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_PORTRAIT 
 
-#define GUIDELINE_LABEL_WIDTH	264
+#define GUIDELINE_LABEL_WIDTH	268
 #define ACTION_LABEL_WIDTH		245
 
 @interface STTodayTVC ()
@@ -432,7 +432,7 @@
 
 	if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
 		
-		guidelineLabel.font				= [UIFont boldSystemFontOfSize:15];
+		guidelineLabel.font				= [UIFont boldSystemFontOfSize:17];
 
 		if (self.countOfTheSixWithoutUserEntries > 0)
 			guidelineLabel.text			= self.nextEntry.advice.name;
@@ -441,7 +441,7 @@
 		
 		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
 		
-		return 32 + guidelineLabelHeight + 13;		// change for landscape orientation?
+		return 36 + guidelineLabelHeight + 8;		// change for landscape orientation?
 		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"] && indexPath.row > 0) {
 		

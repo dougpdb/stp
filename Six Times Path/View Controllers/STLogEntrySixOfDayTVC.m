@@ -36,6 +36,8 @@
 #define CELL_CONTENT_LEFT_MARGIN		8.0f
 #define FONT_SIZE						15.0f
 
+#define GUIDELINE_LABEL_WIDTH	276
+
 
 
 @interface STLogEntrySixOfDayTVC ()
@@ -132,7 +134,9 @@
 	self.positiveActionTextView.text	= self.updatedPositiveActionTakenDescription;
 	self.negativeActionTextView.text	= self.updatedNegativeActionTakenDescription;
 	
-	NSArray *fields			= @[self.positiveActionTextView, self.negativeActionTextView];
+	[self resizeHeightToFitForLabel:self.guidelineText labelWidth:GUIDELINE_LABEL_WIDTH];
+	
+	NSArray *fields						= @[self.positiveActionTextView, self.negativeActionTextView];
     
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:fields]];
     [self.keyboardControls setDelegate:self];
@@ -249,7 +253,45 @@
 
 #pragma mark - TableView Resizing
 
+-(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
+{
+	CGSize maximumLabelSize		= CGSizeMake(labelWidth, FLT_MAX);
+	
+	CGSize expectedLabelSize	= [text sizeWithFont:label.font
+								constrainedToSize:maximumLabelSize
+									lineBreakMode:label.lineBreakMode];
+	
+	return expectedLabelSize.height;
+}
 
+-(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth
+{
+	CGRect newFrame			= label.frame;
+	newFrame.size.height	= [self heightForLabel:label withText:label.text labelWidth:labelWidth];
+	label.frame				= newFrame;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	UILabel *guidelineLabel			= [UILabel new];
+	guidelineLabel.lineBreakMode	= NSLineBreakByWordWrapping;
+	if (indexPath.section == 0) {
+		
+		guidelineLabel.font				= [UIFont boldSystemFontOfSize:17];
+		
+		guidelineLabel.text				= self.leSixOfDay.advice.name;
+		
+		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
+		
+		return 36 + guidelineLabelHeight + 8;		// change for landscape orientation?
+		
+	} else {
+		
+		return 71;
+		
+	}
+
+}
 
 #pragma mark - Save
 
