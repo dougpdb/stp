@@ -22,4 +22,7 @@
 -(NSArray *)getBestOfDaySorted;
 -(NSArray *)getWorstOfDaySorted;
 
+-(LESixOfDay *)entrySixOfDay:(NSNumber *)orderNumberInSetOfEntries;
+
+
 @end

@@ -104,6 +104,17 @@
 //	return self.date.monthAndYear;
 //}
 
+-(LESixOfDay *)entrySixOfDay:(NSNumber *)orderNumberInSetOfEntries
+{
+	for (LESixOfDay *entry in [self.theSix allObjects]) {
+		if (entry.orderNumberForType == orderNumberInSetOfEntries) {
+			return entry;
+			break;
+		}
+	}
+	return nil;
+}
+
 #pragma mark - Private Sort
 
 -(NSArray *)sortByOrderNumberForType:(NSArray *)unsortedArray
