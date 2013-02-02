@@ -156,6 +156,18 @@
     return [dateFormatter stringFromDate:self];
 }
 
+-(NSString *)veryShortWeekdayAndDate
+{
+	static NSDateFormatter *dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+		dateFormatter	= [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"e, M'/'d"];
+    });
+	
+    return [dateFormatter stringFromDate:self];
+}
+
 -(NSString *)timeAndDate
 {
 	static NSDateFormatter *dateFormatter;
