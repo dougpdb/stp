@@ -178,18 +178,10 @@
 {	
 	[self setupAdviceFetchedResultsController];
     self.allAdviceFollowedByUser				= [NSMutableArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
-	
-	if (self.debug) {
-		NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
-		NSLog(@"The count of the advice that is currently being followed is %i", [self.allAdviceFollowedByUser count]);
-	}
-	
-	
+		
 	[self setupDaysFetchedResultsController];
 	
 	if ([self.fetchedResultsController.fetchedObjects count] == 0) {
-		if (self.debug)
-			NSLog(@"0 days have been fetched. There isn't a mostRecentlyAddedDate");
 		self.mostRecentlyAddedDate				= [NSDate dateYesterday];
 		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = 0;
 		self.thisDay							= nil;
@@ -197,17 +189,10 @@
 		[self addDay:0];
 	} else {
 		Day *mostRecentDay						= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
-		NSLog(@"the mostRecentDay is %@.", mostRecentDay.date.timeAndDate);
 		LESixOfDay *lastTheSixOfMostRecentDay	= [[mostRecentDay getTheSixSorted] lastObject];
 		self.mostRecentlyAddedDate				= mostRecentDay.date;
 		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
 		self.thisDay							= mostRecentDay;
-		if (self.debug) {
-			NSLog(@"Most recent date: %@", self.mostRecentlyAddedDate.date);
-			NSLog(@"lastTheSixOfMostRecentDay: %@", lastTheSixOfMostRecentDay.advice.name);
-			NSLog(@"Index of that advice: %i", [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice]);
-			NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
-		}
 		
 		[self addDay:0];
 	}

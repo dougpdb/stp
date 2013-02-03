@@ -12,18 +12,10 @@
 
 @interface STTodayTVC : CoreDataTableViewController
 
-// Core Data
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property (strong, nonatomic) Day *thisDay;
-
-
-// moved out of implementation category for purposes of subclassing
-// maybe move some back in
-
-@property BOOL showRemainingScheduledEntries;
-@property BOOL showUpdatedEntries;
 @property (strong, nonatomic) LESixOfDay *nextEntry;
 @property (nonatomic) LESixOfDay *entryFromNotification;
 @property (strong, nonatomic) NSArray *remainingScheduledEntries;
@@ -34,21 +26,25 @@
 @property (nonatomic) NSInteger countOfTheSixWithoutUserEntries;
 
 @property (nonatomic, strong) NSMutableArray *tableViewSections;
+@property BOOL showRemainingScheduledEntries;
+@property BOOL showUpdatedEntries;
 
 
--(void)resetTheSixToBeShown;
--(void)addNotification:(LESixOfDay *)sixOfDayLogEntry;
+#pragma mark - Setup and Manage Data
+-(void)setupDaysFetchedResultsController;
+-(BOOL)isTimeToAddDay;
 -(void)addDay:(id)sender;
 -(void)setTheSixFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+-(void)resetTheSixToBeShown;
 
+#pragma mark - Managing Notifications
+-(void)addNotification:(LESixOfDay *)sixOfDayLogEntry;
+
+#pragma mark - Managing Cell and Label Heights
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth;
 -(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth;
 
--(BOOL)isTimeToAddDay;
-
--(void)setupDaysFetchedResultsController;
-
-- (IBAction)doneAction:(id)sender;	// when the done button is clicked
-									//- (IBAction)dateAction:(id)sender;	// when the user has changed the date picke values (m/d/y)
+#pragma mark - Setting the Start of the Day
+- (IBAction)doneAction:(id)sender;	
 
 @end
