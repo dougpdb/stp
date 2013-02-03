@@ -33,7 +33,7 @@
 #pragma mark - Setup and Manage Data
 -(void)setupDaysFetchedResultsController;
 -(BOOL)isTimeToAddDay;
--(void)addDay:(id)sender;
+-(void)addDay;
 -(void)setTheSixFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 -(void)resetTheSixToBeShown;
 
@@ -44,7 +44,7 @@
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth;
 -(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth;
 
-#pragma mark - Setting the Start of the Day
+#pragma mark - Managing the Start of the Day
 - (IBAction)doneAction:(id)sender;	
 
 @end

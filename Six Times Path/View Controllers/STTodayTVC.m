@@ -186,7 +186,7 @@
 		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = 0;
 		self.thisDay							= nil;
 		
-		[self addDay:0];
+		[self addDay];
 	} else {
 		Day *mostRecentDay						= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
 		LESixOfDay *lastTheSixOfMostRecentDay	= [[mostRecentDay getTheSixSorted] lastObject];
@@ -194,7 +194,7 @@
 		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
 		self.thisDay							= mostRecentDay;
 		
-		[self addDay:0];
+		[self addDay];
 	}
 
 	self.title		= self.mostRecentlyAddedDate.weekdayMonthAndDay;
@@ -211,7 +211,6 @@
 	}
 	
 	if ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) {
-		NSLog(@"There are 0 entries.");
 		self.remainingScheduledEntries		= allRemainingEntries;
 	} else {
 		self.remainingScheduledEntries		= [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
@@ -220,11 +219,6 @@
 	
 	self.updatedEntries						= [self.thisDay getTheSixThatHaveUserEntriesSorted];
 	self.showUpdatedEntries					= NO;
-	
-	if (self.debug) {
-		NSLog(@"There are %u entries that have been updated.", [[self.thisDay getTheSixThatHaveUserEntriesSorted] count]);
-		NSLog(@"There are %u entries that have not yet been updated.", [[self.thisDay getTheSixWithoutUserEntriesSorted] count]);
-	}
 	
 	self.countOfTheSixWithoutUserEntries	= OUT_OF_RANGE;
 	self.tableViewSections					= nil;
@@ -242,7 +236,6 @@
 #pragma mark - Core Data Setup
 -(void)setupDaysFetchedResultsController
 {
-    // Set request with sorting, then fetch
 	NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:@"Day"];
     request.sortDescriptors			= [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"date"
                                                                                       ascending:NO
@@ -256,16 +249,13 @@
 
 -(void)setupAdviceFetchedResultsController
 {
-    // Set request with sorting and predicate, then fetch
     NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:@"Advice"];
     request.predicate				= [NSPredicate predicateWithFormat:@"containedWithinSetOfAdvice.orderNumberInFollowedSets > 0", [NSNumber numberWithBool:YES]];
-    request.sortDescriptors			= [NSArray arrayWithObjects:
-                               [NSSortDescriptor sortDescriptorWithKey:@"containedWithinSetOfAdvice.orderNumberInFollowedSets"
-                                                             ascending:YES
-                                                              selector:@selector(localizedCaseInsensitiveCompare:)],
-                               [NSSortDescriptor sortDescriptorWithKey:@"orderNumberInSet"
-                                                             ascending:YES],
-                               nil];
+    request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"containedWithinSetOfAdvice.orderNumberInFollowedSets"
+																	 ascending:YES
+																	  selector:@selector(localizedCaseInsensitiveCompare:)],
+										[NSSortDescriptor sortDescriptorWithKey:@"orderNumberInSet"
+																	  ascending:YES]];
     self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                         managedObjectContext:self.managedObjectContext
                                                                           sectionNameKeyPath:@"containedWithinSetOfAdvice.name"
@@ -274,7 +264,7 @@
 }
 
 
-#pragma mark - Core Data Add Records
+#pragma mark - Core Data Add and Manage Records
 
 -(BOOL)isTimeToAddDay
 {
@@ -290,7 +280,7 @@
 		return false;
 }
 
--(void)addDay:(id)sender
+-(void)addDay
 {
 	NSDate *now						= [NSDate date];
 	NSDate *mostRecentDate			= [self.mostRecentlyAddedDate setHour:[self.thisDay.startHour intValue]
@@ -307,11 +297,7 @@
 		
 		BOOL nowIsOnSameDateAsMostRecentDateButAfterEntryLogging	= ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending && [now compare:[mostRecentDate dateByAddingTimeInterval:twentyFourHours]] == NSOrderedAscending);
 		
-		if (nowIsOnSameDateAsMostRecentDateButAfterEntryLogging) {
-			newDay.date				= [mostRecentDate dateByAddingTimeInterval:twentyFourHours];
-		} else {
-			newDay.date				= now;
-		}
+		newDay.date					= (nowIsOnSameDateAsMostRecentDateButAfterEntryLogging) ? [mostRecentDate dateByAddingTimeInterval:twentyFourHours] : now;
 		
 		newDay.startHour			= (self.thisDay.startHour) ? self.thisDay.startHour : [NSNumber numberWithInt:6];
 		newDay.startMinute			= (self.thisDay.startMinute) ? self.thisDay.startMinute : [NSNumber numberWithInt:0];
@@ -321,29 +307,17 @@
 
 		[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %i", [self.fetchedResultsController.fetchedObjects count]]];
 		
-		if (self.debug)
-			NSLog(@"A new Day has been created. Its date is %@. The most recently added date is %@.", newDay.date, self.mostRecentlyAddedDate);
-		
 		[self setTheSixFor:newDay withIndexOfFirstFollowedAdvice:self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay inManagedObjectContext:self.managedObjectContext];
 		
 		[self.managedObjectContext save:nil];
 		[self performFetch];
 		[self.tableView reloadData];
-		
-		if (self.debug) {
-			NSLog(@"newDay.date = %@", [newDay.date date]);
-			NSLog(@"Fetch performed. Number of objects fetched: %u", [self.fetchedResultsController.fetchedObjects count]);
-		}
-	} else {
-		NSLog(@"Now [%@] is earlier (or exactly equal) in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, mostRecentDate.timeAndDate);
 	}
 }
 
 -(void)setTheSixFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
 	int indexOfFollowedAdviceForTheDay;
-	
-	// Check to see if the index of the first followed Advice that was passed into the method exceeds the index limit of the allAdviceFollowedByUser array and reset as necessary
 	
 	if (indexOfFirstFollowedAdvice >= [self.allAdviceFollowedByUser count])
 		indexOfFirstFollowedAdvice = 0;
@@ -366,13 +340,11 @@
 				NSLog(@"indexOfFirstFollowedAdvice has been reset. Value is now: %i", indexOfFirstFollowedAdvice);
         }
         
-		// Add the advice to a log entry
 		Advice *advice			= [self.allAdviceFollowedByUser objectAtIndex:indexOfFollowedAdviceForTheDay];
 		
 		// orderNumber range will be 1-6
 		NSInteger orderNumber	= allAdviceFollowedByUserIncrement+1;
 		
-		// Create a log entry for the Six of the Day and initiate it with advice, and order number, and the day -- add to the managedObjectContext
 		LESixOfDay *logEntry	= [LESixOfDay logEntryWithAdvice:advice
 											  withOrderNumber:orderNumber
 														onDay:day
@@ -383,8 +355,6 @@
 		
 		[day addTheSixObject:logEntry];
 		
-		// TEMP
-		//
 		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = indexOfFollowedAdviceForTheDay;
 	}
 	
@@ -393,13 +363,12 @@
 	for (LESixOfDay *logEntry in day.theSix) {
 		[self addNotification:logEntry];
 	}
-	
-	
-	if (self.debug)
-		NSLog(@"The next starting orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay will be %i", self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay);
 }
 
-
+-(void)resetTheSixToBeShown
+{
+	// TO BE COMPLETED
+}
 
 
 #pragma mark - Table View Structure
@@ -485,7 +454,9 @@
 	}
 }
 
-#pragma mark - Table view data source
+
+
+#pragma mark - Managing Cell and Label Heights
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
 {
 	CGSize maximumLabelSize		= CGSizeMake(labelWidth, FLT_MAX);
@@ -504,6 +475,9 @@
 	label.frame				= newFrame;
 }
 
+
+
+#pragma mark - Table view data source
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	static NSString *guidelineNextEntryCellIdentifier		= @"GuidelineNextEntryCell";
@@ -736,7 +710,7 @@
 }
 
 
-#pragma mark - UI Interactions
+#pragma mark - Managing the Start of the Day
 -(void)showDatePicker
 {
 	if (self.debug)
@@ -900,7 +874,7 @@
 }
 
 
-#pragma mark - Notification
+#pragma mark - Managing Notifications
 
 - (void)addNotification:(LESixOfDay *)sixOfDayLogEntry {
 	NSDictionary *userInfo	= @{
