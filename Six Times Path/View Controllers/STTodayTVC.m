@@ -8,14 +8,14 @@
 
 #import "STAppDelegate.h"
 #import "STTodayTVC.h"
-#import "Advice.h"
-#import "Day+ST.h"
-#import "NSDate+ST.h"
-#import "NSDate+ES.h"
-#import "LESixOfDay+ST.h"
 #import "STLogEntrySixOfDayTVC.h"
 #import "STPreviousDaysTVC.h"
 #import "STTraditionsFollowedTVC.h"
+#import "Advice.h"
+#import "Day+ST.h"
+#import "LESixOfDay+ST.h"
+#import "NSDate+ST.h"
+#import "NSDate+ES.h"
 #import "TestFlight.h"
 
 #define OUT_OF_RANGE	10000
