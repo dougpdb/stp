@@ -36,10 +36,10 @@
 @property (nonatomic, strong) NSMutableArray *tableViewSections;
 
 
--(void)determineAndSetTheSixToBeShown;
+-(void)resetTheSixToBeShown;
 -(void)addNotification:(LESixOfDay *)sixOfDayLogEntry;
 -(void)addDay:(id)sender;
--(void)setTheSixAdvicesFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+-(void)setTheSixFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth;
 -(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth;

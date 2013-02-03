@@ -147,8 +147,26 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 	
-	self.showRemainingScheduledEntries	= NO;
-	self.showUpdatedEntries				= NO;
+	self.showRemainingScheduledEntries	= nil;
+	self.showUpdatedEntries				= nil;
+	
+	self.thisDay					= nil;
+	self.nextEntry					= nil;
+	self.entryFromNotification		= nil;
+	self.remainingScheduledEntries	= nil;
+	self.updatedEntries				= nil;
+	self. mostRecentlyAddedDate		= nil;
+	self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay	= nil;
+	self.allAdviceFollowedByUser	= nil;
+	self.countOfTheSixWithoutUserEntries	= nil;
+	self.tableViewSections			= nil;
+	
+	self.dataArray					= nil;
+	self.dateFormatter				= nil;
+	self.doneButton					= nil;
+	self.feedbackButton				= nil;
+	self.pickerView					= nil;
+	self.fetchedResultsController	= nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -321,7 +339,7 @@
 		if (self.debug)
 			NSLog(@"A new Day has been created. Its date is %@. The most recently added date is %@.", newDay.date, self.mostRecentlyAddedDate);
 		
-		[self setTheSixAdvicesFor:newDay withIndexOfFirstFollowedAdvice:self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay inManagedObjectContext:self.managedObjectContext];
+		[self setTheSixFor:newDay withIndexOfFirstFollowedAdvice:self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay inManagedObjectContext:self.managedObjectContext];
 		
 		[self.managedObjectContext save:nil];
 		[self performFetch];
@@ -336,7 +354,7 @@
 	}
 }
 
--(void)setTheSixAdvicesFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+-(void)setTheSixFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
 	int indexOfFollowedAdviceForTheDay;
 	
