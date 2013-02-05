@@ -334,7 +334,8 @@
 		STTodayTVC *todayTVC						= (STTodayTVC *)navigationController.visibleViewController;
 		if ([todayTVC isTimeToAddDay]) {
 			NSLog(@"It is time to add a new day!");
-			[[todayTVC tableView] reloadData];;
+			[todayTVC setupDayAndAdviceData];
+			[todayTVC.tableView reloadData];
 		} else {
 			NSLog(@"It is NOT time to add a new day.");
 		}

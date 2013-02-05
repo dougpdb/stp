@@ -176,9 +176,27 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {	
+	[self setupDayAndAdviceData];
+	self.title							= self.mostRecentlyAddedDate.weekdayMonthAndDay;
+	self.tableViewSections				= nil;
+	[self.tableView reloadData];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+	self.showUpdatedEntries				= NO;
+	self.showRemainingScheduledEntries	= NO;
+}
+
+
+
+#pragma mark - Set Data for the Table View Controller
+
+-(void)setupDayAndAdviceData
+{
 	[self setupAdviceFetchedResultsController];
     self.allAdviceFollowedByUser				= [NSMutableArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
-		
+	
 	[self setupDaysFetchedResultsController];
 	
 	if ([self.fetchedResultsController.fetchedObjects count] == 0) {
@@ -196,44 +214,29 @@
 		
 		[self addDay];
 	}
-
-	self.title		= self.mostRecentlyAddedDate.weekdayMonthAndDay;
 		
-	NSArray *allRemainingEntries			= [self.thisDay getTheSixWithoutUserEntriesSorted];
+	NSArray *allRemainingEntries				= [self.thisDay getTheSixWithoutUserEntriesSorted];
 	
 	NSRange rangeRemainingScheduledEntries;
-	rangeRemainingScheduledEntries.location	= 1;
+	rangeRemainingScheduledEntries.location		= 1;
+	rangeRemainingScheduledEntries.length		= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? 0 : [allRemainingEntries count] - 1;
 	
-	rangeRemainingScheduledEntries.length	= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? 0 : [allRemainingEntries count] - 1;
+	if ([allRemainingEntries count] > 0)
+		self.nextEntry							= [allRemainingEntries objectAtIndex:0];
 	
-	if ([allRemainingEntries count] > 0) {
-		self.nextEntry						= [allRemainingEntries objectAtIndex:0];
-	}
+	self.remainingScheduledEntries				= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? allRemainingEntries : [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
 	
-	if ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) {
-		self.remainingScheduledEntries		= allRemainingEntries;
-	} else {
-		self.remainingScheduledEntries		= [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
-	}
-	self.showRemainingScheduledEntries		= NO;
+	self.showRemainingScheduledEntries			= NO;
 	
-	self.updatedEntries						= [self.thisDay getTheSixThatHaveUserEntriesSorted];
-	self.showUpdatedEntries					= NO;
+	self.updatedEntries							= [self.thisDay getTheSixThatHaveUserEntriesSorted];
+	self.showUpdatedEntries						= NO;
 	
-	self.countOfTheSixWithoutUserEntries	= OUT_OF_RANGE;
-	self.tableViewSections					= nil;
-	
-	[self.tableView reloadData];
-
+	self.countOfTheSixWithoutUserEntries		= OUT_OF_RANGE;
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-	self.showUpdatedEntries				= NO;
-	self.showRemainingScheduledEntries	= NO;
-}
 
 #pragma mark - Core Data Setup
+
 -(void)setupDaysFetchedResultsController
 {
 	NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:@"Day"];
@@ -302,16 +305,16 @@
 		newDay.startHour			= (self.thisDay.startHour) ? self.thisDay.startHour : [NSNumber numberWithInt:6];
 		newDay.startMinute			= (self.thisDay.startMinute) ? self.thisDay.startMinute : [NSNumber numberWithInt:0];
 		
+		[self setTheSixFor:newDay withIndexOfFirstFollowedAdvice:self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay inManagedObjectContext:self.managedObjectContext];
+
 		self.mostRecentlyAddedDate	= newDay.date;
 		self.thisDay				= newDay;
-
-		[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %i", [self.fetchedResultsController.fetchedObjects count]]];
-		
-		[self setTheSixFor:newDay withIndexOfFirstFollowedAdvice:self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay inManagedObjectContext:self.managedObjectContext];
 		
 		[self.managedObjectContext save:nil];
 		[self performFetch];
-		[self.tableView reloadData];
+		//		[self.tableView reloadData];
+
+		[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %i", [self.fetchedResultsController.fetchedObjects count]]];
 	}
 }
 

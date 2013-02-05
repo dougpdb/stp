@@ -31,6 +31,7 @@
 
 
 #pragma mark - Setup and Manage Data
+-(void)setupDayAndAdviceData;
 -(void)setupDaysFetchedResultsController;
 -(BOOL)isTimeToAddDay;
 -(void)addDay;
