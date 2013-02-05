@@ -10,7 +10,6 @@
 #import <Crashlytics/Crashlytics.h>
 #import "TestFlight.h"
 
-#import "STFollowingAdviceTVC.h"
 #import "SpiritualTradtion.h"
 #import "SetOfAdvice.h"
 #import "Day+ST.h"

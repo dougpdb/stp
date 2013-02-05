@@ -21,8 +21,8 @@
 
 
 
-#import "STLogEntryTimedCell.h"
-#import "STLogEntryBestWorstOrToDoTextEntryCell.h"
+//#import "STLogEntryTimedCell.h"
+//#import "STLogEntryBestWorstOrToDoTextEntryCell.h"
 
 #define OVERVIEW_SECTION_NUMBER	0
 #define BEST_SECTION_NUMBER		1
@@ -180,7 +180,7 @@
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
 	if (section == 2)
-		return @"Reflect and the ethical guideline and how you've acted and spoken on the past 24 or 48 hours\.\n\nEnter a short, simple, and specific description of a recent postive action(+). Do the same with a recent negative action (-).";
+		return @"Reflect and the ethical guideline and how you've acted and spoken on the past 24 or 48 hours.\n\nEnter a short, simple, and specific description of a recent postive action(+). Do the same with a recent negative action (-).";
 	else
 		return nil;
 }

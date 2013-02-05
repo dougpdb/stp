@@ -8,15 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "CoreDataTableViewController.h"
-#import "STAddTraditionTVC.h"
-#import "STTraditionDetailTVC.h"
 
-@interface STTraditionsFollowedTVC : CoreDataTableViewController <STAddTraditionTVCDelegate, STTraditionDetailTVCDelegate>
+@interface STTraditionsFollowedTVC : CoreDataTableViewController 
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-@property (strong, nonatomic) SpiritualTradtion *selectedTradition;
+//@property (strong, nonatomic) SpiritualTradtion *selectedTradition;
 
 @property (nonatomic) NSMutableArray *selectedSetsOfAdvice;
 @property (nonatomic) NSArray *allSetsOfAdvice;

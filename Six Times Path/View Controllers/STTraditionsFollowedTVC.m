@@ -20,7 +20,7 @@
 @synthesize fetchedResultsController	= __fetchedResultsController;
 @synthesize managedObjectContext		= __managedObjectContext;
 
-@synthesize selectedTradition			= _selectedTradition;
+//@synthesize selectedTradition			= _selectedTradition;
 
 @synthesize selectedSetsOfAdvice		= _selectedSetsOfAdvice;
 @synthesize allSetsOfAdvice				= _allSetsOfAdvice;
@@ -96,64 +96,47 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"Add Tradition Segue"]) {
-        NSLog(@"Setting STTRaditionsFollowedTVC as a delegate of STAddTraditionTVC.");
-        
-        STAddTraditionTVC *addTraditionTVC  = segue.destinationViewController;
-        addTraditionTVC.delegate            = self;
-        addTraditionTVC.managedObjectContext= self.managedObjectContext;
-    } else if ([segue.identifier isEqualToString:@"Role Detail Segue"]) {
-        NSLog(@"Setting STTraditionsFollowedTVC as a delegate of STTraditionDetailTVC.");
-        STTraditionDetailTVC *traditionDetailTVC        = segue.destinationViewController;
-        traditionDetailTVC.delegate                     = self;
-        traditionDetailTVC.managedObjectContext         = self.managedObjectContext;
-        
-        // Store the selected SpiritualTradition in selectedTradition property
-        NSIndexPath *indexPath  = [self.tableView indexPathForSelectedRow];
-        self.selectedTradition  = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        
-        NSLog(@"Passing selected role (%@} to STTraditionDetailTVC.", self.selectedTradition.name);
-        traditionDetailTVC.tradition    = self.selectedTradition;
-    } else if ([segue.identifier isEqualToString:@"viewTraditionAdviceSegue"]) {
-        NSLog(@"Segue triggered: viewTraditionAdviceSegue to %@", segue.destinationViewController);
-        STSetOfAdviceTVC *setOfAdviceTVC                = segue.destinationViewController;
-        NSLog(@"setOfAdvice has been set.");
-        setOfAdviceTVC.managedObjectContext             = self.managedObjectContext;
-        NSLog(@"The tradition has been set.");
-        
+//    if ([segue.identifier isEqualToString:@"Add Tradition Segue"]) {
+//        NSLog(@"Setting STTRaditionsFollowedTVC as a delegate of STAddTraditionTVC.");
+//        
+//        STAddTraditionTVC *addTraditionTVC  = segue.destinationViewController;
+//        addTraditionTVC.delegate            = self;
+//        addTraditionTVC.managedObjectContext= self.managedObjectContext;
+//    } else if ([segue.identifier isEqualToString:@"Role Detail Segue"]) {
+//        NSLog(@"Setting STTraditionsFollowedTVC as a delegate of STTraditionDetailTVC.");
 //        STTraditionDetailTVC *traditionDetailTVC        = segue.destinationViewController;
 //        traditionDetailTVC.delegate                     = self;
 //        traditionDetailTVC.managedObjectContext         = self.managedObjectContext;
-
-        // Store the selected SpiritualTradition in selectedTradition property
-        NSIndexPath *indexPath  = [self.tableView indexPathForSelectedRow];
-        self.selectedTradition  = [self.fetchedResultsController objectAtIndexPath:indexPath];
-
-        NSLog(@"Passing selected role (%@} to STSetOfAdviceTVC.", self.selectedTradition.name);
-        setOfAdviceTVC.selectedTradition    = self.selectedTradition;
-        
-    }else {
-        NSLog(@"Unidentified segue attempted!");
-    }
+//        
+//        // Store the selected SpiritualTradition in selectedTradition property
+//        NSIndexPath *indexPath  = [self.tableView indexPathForSelectedRow];
+//        self.selectedTradition  = [self.fetchedResultsController objectAtIndexPath:indexPath];
+//        
+//        NSLog(@"Passing selected role (%@} to STTraditionDetailTVC.", self.selectedTradition.name);
+//        traditionDetailTVC.tradition    = self.selectedTradition;
+//    } else if ([segue.identifier isEqualToString:@"viewTraditionAdviceSegue"]) {
+//        NSLog(@"Segue triggered: viewTraditionAdviceSegue to %@", segue.destinationViewController);
+//        STSetOfAdviceTVC *setOfAdviceTVC                = segue.destinationViewController;
+//        NSLog(@"setOfAdvice has been set.");
+//        setOfAdviceTVC.managedObjectContext             = self.managedObjectContext;
+//        NSLog(@"The tradition has been set.");
+//        
+////        STTraditionDetailTVC *traditionDetailTVC        = segue.destinationViewController;
+////        traditionDetailTVC.delegate                     = self;
+////        traditionDetailTVC.managedObjectContext         = self.managedObjectContext;
+//
+//        // Store the selected SpiritualTradition in selectedTradition property
+//        NSIndexPath *indexPath  = [self.tableView indexPathForSelectedRow];
+//        self.selectedTradition  = [self.fetchedResultsController objectAtIndexPath:indexPath];
+//
+//        NSLog(@"Passing selected role (%@} to STSetOfAdviceTVC.", self.selectedTradition.name);
+//        setOfAdviceTVC.selectedTradition    = self.selectedTradition;
+//        
+//    }else {
+//        NSLog(@"Unidentified segue attempted!");
+//    }
 }
 
-#pragma mark - Delegation
-
--(void)saveWasTappedOnAddTradition:(STAddTraditionTVC *)controller
-{
-    // do something
-    
-    // close the delegated view
-    [controller.navigationController popViewControllerAnimated:YES];
-}
-
--(void)saveWasTappedOnTraditionDetail:(STTraditionDetailTVC *)controller
-{
-    // do something
-    
-    // close the delegated view
-    [controller.navigationController popViewControllerAnimated:YES];
-}
 
 #pragma mark - Table view data source
 
