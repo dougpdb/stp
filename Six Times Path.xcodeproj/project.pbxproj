@@ -21,18 +21,10 @@
 		1EAA7EBF15BEAC3C0052F489 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EBE15BEAC3C0052F489 /* Default@2x.png */; };
 		1EAA7EC115BEAC790052F489 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EC015BEAC790052F489 /* Default.png */; };
 		1EAA7EC315BEB07A0052F489 /* Launch2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EC215BEB07A0052F489 /* Launch2x.png */; };
-		911251DC15FADEC2005E22FC /* Log Entry - Timed.xib in Resources */ = {isa = PBXBuildFile; fileRef = 911251DB15FADEC2005E22FC /* Log Entry - Timed.xib */; };
-		911251E015FAE9F7005E22FC /* STLogEntryTimedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 911251DF15FAE9F7005E22FC /* STLogEntryTimedCell.m */; };
 		911BC009164499F900586524 /* appIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 911BC008164499F900586524 /* appIcon@2x.png */; };
 		911FE97F166F6BC4006BF9CD /* ToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = 911FE97E166F6BC4006BF9CD /* ToDo.m */; };
 		911FE982166F7009006BF9CD /* STTodayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 911FE981166F7009006BF9CD /* STTodayTVC.m */; };
 		9120B82216A4255700F53B4C /* STPreviousDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9120B82116A4255700F53B4C /* STPreviousDayTVC.m */; };
-		9122152F160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9122152E160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m */; };
-		91221532160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91221531160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.m */; };
-		91221535160C7E5900BEEEE6 /* STLogEntryAddCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91221534160C7E5800BEEEE6 /* STLogEntryAddCell.m */; };
-		91221537160C7EFE00BEEEE6 /* LogEntryBestOrWorstOfDayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91221536160C7EFE00BEEEE6 /* LogEntryBestOrWorstOfDayCell.xib */; };
-		91221539160C7F1800BEEEE6 /* LogEntrySpecialFocusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91221538160C7F1800BEEEE6 /* LogEntrySpecialFocusCell.xib */; };
-		9122153B160C7F3400BEEEE6 /* LogEntryAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9122153A160C7F3400BEEEE6 /* LogEntryAddCell.xib */; };
 		9137F168166A4AF900C789D2 /* LEBestOfDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F161166A4AF900C789D2 /* LEBestOfDay.m */; };
 		9137F169166A4AF900C789D2 /* LESixOfDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F163166A4AF900C789D2 /* LESixOfDay.m */; };
 		9137F16A166A4AF900C789D2 /* LESpecialFocus.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F165166A4AF900C789D2 /* LESpecialFocus.m */; };
@@ -72,8 +64,6 @@
 		91A9693416AD5EE300085EC5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91A9693316AD5EE200085EC5 /* libz.dylib */; };
 		91A9693716AE1C9600085EC5 /* NSDate+ES.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A9693616AE1C9600085EC5 /* NSDate+ES.m */; };
 		91DDA5B51679F98200B0AEDA /* STOtherEntriesForDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */; };
-		91E94AE416258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */; };
-		91E94AE816258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E94AE716258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m */; };
 		91EE793515C2A3B700D43A96 /* AdviceReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793415C2A3B700D43A96 /* AdviceReference.m */; };
 		91EE793B15C2A3B800D43A96 /* Insight.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793A15C2A3B800D43A96 /* Insight.m */; };
 		91EE793E15C2A3B800D43A96 /* LogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793D15C2A3B800D43A96 /* LogEntry.m */; };
@@ -102,9 +92,6 @@
 		1EAA7EC215BEB07A0052F489 /* Launch2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Launch2x.png; path = Images/Launch2x.png; sourceTree = "<group>"; };
 		1EAB9F7415AC37A6001A6540 /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
 		1EAEC6D915BFFB9900DF538B /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
-		911251DB15FADEC2005E22FC /* Log Entry - Timed.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Log Entry - Timed.xib"; path = "Custom Cells/Log Entry - Timed.xib"; sourceTree = "<group>"; };
-		911251DE15FAE9F7005E22FC /* STLogEntryTimedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntryTimedCell.h; path = "Custom Cells/STLogEntryTimedCell.h"; sourceTree = "<group>"; };
-		911251DF15FAE9F7005E22FC /* STLogEntryTimedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntryTimedCell.m; path = "Custom Cells/STLogEntryTimedCell.m"; sourceTree = "<group>"; };
 		911BC008164499F900586524 /* appIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "appIcon@2x.png"; path = "Images/appIcon@2x.png"; sourceTree = "<group>"; };
 		911BC00A16449A6C00586524 /* appIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "appIcon@2x.png"; path = "Images/appIcon@2x.png"; sourceTree = "<group>"; };
 		911FE97D166F6BC4006BF9CD /* ToDo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDo.h; sourceTree = "<group>"; };
@@ -113,15 +100,6 @@
 		911FE981166F7009006BF9CD /* STTodayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTodayTVC.m; path = "View Controllers/STTodayTVC.m"; sourceTree = "<group>"; };
 		9120B82016A4255700F53B4C /* STPreviousDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPreviousDayTVC.h; sourceTree = "<group>"; };
 		9120B82116A4255700F53B4C /* STPreviousDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPreviousDayTVC.m; sourceTree = "<group>"; };
-		9122152D160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntryBestOrWorstOfDayCell.h; path = "Custom Cells/STLogEntryBestOrWorstOfDayCell.h"; sourceTree = "<group>"; };
-		9122152E160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntryBestOrWorstOfDayCell.m; path = "Custom Cells/STLogEntryBestOrWorstOfDayCell.m"; sourceTree = "<group>"; };
-		91221530160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntrySpecialFocusCell.h; path = "Custom Cells/STLogEntrySpecialFocusCell.h"; sourceTree = "<group>"; };
-		91221531160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntrySpecialFocusCell.m; path = "Custom Cells/STLogEntrySpecialFocusCell.m"; sourceTree = "<group>"; };
-		91221533160C7E5800BEEEE6 /* STLogEntryAddCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntryAddCell.h; path = "Custom Cells/STLogEntryAddCell.h"; sourceTree = "<group>"; };
-		91221534160C7E5800BEEEE6 /* STLogEntryAddCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntryAddCell.m; path = "Custom Cells/STLogEntryAddCell.m"; sourceTree = "<group>"; };
-		91221536160C7EFE00BEEEE6 /* LogEntryBestOrWorstOfDayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogEntryBestOrWorstOfDayCell.xib; path = "Custom Cells/LogEntryBestOrWorstOfDayCell.xib"; sourceTree = "<group>"; };
-		91221538160C7F1800BEEEE6 /* LogEntrySpecialFocusCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogEntrySpecialFocusCell.xib; path = "Custom Cells/LogEntrySpecialFocusCell.xib"; sourceTree = "<group>"; };
-		9122153A160C7F3400BEEEE6 /* LogEntryAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogEntryAddCell.xib; path = "Custom Cells/LogEntryAddCell.xib"; sourceTree = "<group>"; };
 		9137F160166A4AF900C789D2 /* LEBestOfDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEBestOfDay.h; path = "Data Classes/Managed Object Classes/LEBestOfDay.h"; sourceTree = "<group>"; };
 		9137F161166A4AF900C789D2 /* LEBestOfDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEBestOfDay.m; path = "Data Classes/Managed Object Classes/LEBestOfDay.m"; sourceTree = "<group>"; };
 		9137F162166A4AF900C789D2 /* LESixOfDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LESixOfDay.h; path = "Data Classes/Managed Object Classes/LESixOfDay.h"; sourceTree = "<group>"; };
@@ -194,9 +172,6 @@
 		91A9693616AE1C9600085EC5 /* NSDate+ES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+ES.m"; path = "Data Classes/Categories/NSDate+ES.m"; sourceTree = SOURCE_ROOT; };
 		91DDA5B31679F98200B0AEDA /* STOtherEntriesForDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STOtherEntriesForDayTVC.h; path = "View Controllers/STOtherEntriesForDayTVC.h"; sourceTree = "<group>"; };
 		91DDA5B41679F98200B0AEDA /* STOtherEntriesForDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STOtherEntriesForDayTVC.m; path = "View Controllers/STOtherEntriesForDayTVC.m"; sourceTree = "<group>"; };
-		91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = STLogEntryBestWorstOrToDoTextEntryCell.xib; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.xib"; sourceTree = "<group>"; };
-		91E94AE616258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntryBestWorstOrToDoTextEntryCell.h; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.h"; sourceTree = "<group>"; };
-		91E94AE716258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntryBestWorstOrToDoTextEntryCell.m; path = "Custom Cells/STLogEntryBestWorstOrToDoTextEntryCell.m"; sourceTree = "<group>"; };
 		91EE793315C2A3B700D43A96 /* AdviceReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdviceReference.h; path = "Data Classes/Managed Object Classes/AdviceReference.h"; sourceTree = "<group>"; };
 		91EE793415C2A3B700D43A96 /* AdviceReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdviceReference.m; path = "Data Classes/Managed Object Classes/AdviceReference.m"; sourceTree = "<group>"; };
 		91EE793915C2A3B800D43A96 /* Insight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Insight.h; path = "Data Classes/Managed Object Classes/Insight.h"; sourceTree = "<group>"; };
@@ -408,7 +383,6 @@
 			children = (
 				1E5523441591E2FA009114B7 /* MainStoryboard_iPhone.storyboard */,
 				1E5523471591E2FA009114B7 /* MainStoryboard_iPad.storyboard */,
-				91EEA323160E8E0A004EB4A5 /* Table Cells */,
 			);
 			name = "Storyboards and Xibs with VCs";
 			sourceTree = "<group>";
@@ -477,28 +451,6 @@
 				9137F19E166A4C1400C789D2 /* STLogEntryWorstOfDayTVC.m */,
 			);
 			name = FUTURE;
-			sourceTree = "<group>";
-		};
-		91EEA323160E8E0A004EB4A5 /* Table Cells */ = {
-			isa = PBXGroup;
-			children = (
-				911251DB15FADEC2005E22FC /* Log Entry - Timed.xib */,
-				911251DE15FAE9F7005E22FC /* STLogEntryTimedCell.h */,
-				911251DF15FAE9F7005E22FC /* STLogEntryTimedCell.m */,
-				91221536160C7EFE00BEEEE6 /* LogEntryBestOrWorstOfDayCell.xib */,
-				9122152D160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.h */,
-				9122152E160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m */,
-				91221538160C7F1800BEEEE6 /* LogEntrySpecialFocusCell.xib */,
-				91221530160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.h */,
-				91221531160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.m */,
-				9122153A160C7F3400BEEEE6 /* LogEntryAddCell.xib */,
-				91221533160C7E5800BEEEE6 /* STLogEntryAddCell.h */,
-				91221534160C7E5800BEEEE6 /* STLogEntryAddCell.m */,
-				91E94AE316258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib */,
-				91E94AE616258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.h */,
-				91E94AE716258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m */,
-			);
-			name = "Table Cells";
 			sourceTree = "<group>";
 		};
 		91FF4B0415C69D63008A92E0 /* Advice Followed TVCs */ = {
@@ -572,11 +524,6 @@
 				1EAA7EC115BEAC790052F489 /* Default.png in Resources */,
 				1EAA7EC315BEB07A0052F489 /* Launch2x.png in Resources */,
 				915E3FE315CFD37A0036C6FE /* prog journal.rtf in Resources */,
-				911251DC15FADEC2005E22FC /* Log Entry - Timed.xib in Resources */,
-				91221537160C7EFE00BEEEE6 /* LogEntryBestOrWorstOfDayCell.xib in Resources */,
-				91221539160C7F1800BEEEE6 /* LogEntrySpecialFocusCell.xib in Resources */,
-				9122153B160C7F3400BEEEE6 /* LogEntryAddCell.xib in Resources */,
-				91E94AE416258C21006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.xib in Resources */,
 				911BC009164499F900586524 /* appIcon@2x.png in Resources */,
 				91A9692716AAE1D700085EC5 /* BSKeyboardControls.strings in Resources */,
 				91A9692A16AAE20B00085EC5 /* License.txt in Resources */,
@@ -616,11 +563,6 @@
 				91EE793E15C2A3B800D43A96 /* LogEntry.m in Sources */,
 				91EE794115C2A3B900D43A96 /* ActionTaken.m in Sources */,
 				91EE794A15C2A3B900D43A96 /* Advice.m in Sources */,
-				911251E015FAE9F7005E22FC /* STLogEntryTimedCell.m in Sources */,
-				9122152F160C7DE900BEEEE6 /* STLogEntryBestOrWorstOfDayCell.m in Sources */,
-				91221532160C7E3000BEEEE6 /* STLogEntrySpecialFocusCell.m in Sources */,
-				91221535160C7E5900BEEEE6 /* STLogEntryAddCell.m in Sources */,
-				91E94AE816258CC6006F0E49 /* STLogEntryBestWorstOrToDoTextEntryCell.m in Sources */,
 				91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */,
 				9137F168166A4AF900C789D2 /* LEBestOfDay.m in Sources */,
 				9137F169166A4AF900C789D2 /* LESixOfDay.m in Sources */,
