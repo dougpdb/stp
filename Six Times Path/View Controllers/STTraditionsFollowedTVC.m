@@ -12,6 +12,9 @@
 #import "TestFlight.h"
 
 @interface STTraditionsFollowedTVC ()
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsControllerFollowingSetsOfAdvice;
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsControllerAllSetsOfAdvice;
 
 @end
 
@@ -25,7 +28,7 @@
 {
     [super viewDidLoad];
 	
-	
+	[self initSetOfAdviceSegmentedControlFilter];
 }
 
 - (void)viewDidUnload
@@ -35,37 +38,60 @@
 	self.allSetsOfAdvice		= nil;
 }
 
-- (void)setupFetchedResultsController
-{
-    NSString *entityName			= @"SetOfAdvice";
-    
-    NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:entityName];
-    
-    // 3 - Filter it if you want
-    //request.predicate = [NSPredicate predicateWithFormat:@"Role.name = Blah"];
-    
-    request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"practicedWithinTradition.name"
-																ascending:YES
-																 selector:@selector(localizedCaseInsensitiveCompare:)],
-										[NSSortDescriptor sortDescriptorWithKey:@"name"
-																	 ascending:YES
-																	  selector:@selector(localizedCaseInsensitiveCompare:)]];
-
-    self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
-																		managedObjectContext:self.managedObjectContext
-																		  sectionNameKeyPath:@"practicedWithinTradition.name" //nil
-																				   cacheName:nil];
-    [self performFetch];
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setupFetchedResultsController];
-	self.allSetsOfAdvice		= [self.fetchedResultsController fetchedObjects];
+	self.allSetsOfAdvice		= [self.fetchedResultsControllerAllSetsOfAdvice fetchedObjects];
 	self.selectedSetsOfAdvice	= [[NSMutableArray alloc] init];
 	[self updateSelectedSetsOfAdvice];
 }
+
+
+#pragma mark - Core Data Load
+-(NSFetchedResultsController *)fetchedResultsControllerAllSetsOfAdvice
+{
+	if (!_fetchedResultsControllerAllSetsOfAdvice) {
+		NSString *entityName			= @"SetOfAdvice";
+		NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:entityName];
+		request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"practicedWithinTradition.name"
+																	ascending:YES
+																	 selector:@selector(localizedCaseInsensitiveCompare:)],
+								[NSSortDescriptor sortDescriptorWithKey:@"name"
+															  ascending:YES
+															   selector:@selector(localizedCaseInsensitiveCompare:)]];
+		self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
+																			managedObjectContext:self.managedObjectContext
+																			  sectionNameKeyPath:nil
+																					   cacheName:nil];
+		[self performFetch];
+		_fetchedResultsControllerAllSetsOfAdvice		= self.fetchedResultsController;
+	}
+	return _fetchedResultsControllerAllSetsOfAdvice;
+}
+
+-(NSFetchedResultsController *)fetchedResultsControllerFollowingSetsOfAdvice
+{
+	if (!_fetchedResultsControllerFollowingSetsOfAdvice) {
+		NSString *entityName			= @"SetOfAdvice";
+		NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:entityName];
+		request.predicate = [NSPredicate predicateWithFormat:@"Role.name = Blah"];
+		request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"practicedWithinTradition.name"
+																		   ascending:YES
+																			selector:@selector(localizedCaseInsensitiveCompare:)],
+										   [NSSortDescriptor sortDescriptorWithKey:@"name"
+																		 ascending:YES
+																		  selector:@selector(localizedCaseInsensitiveCompare:)]];
+		self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
+																					   managedObjectContext:self.managedObjectContext
+																						 sectionNameKeyPath:nil
+																								  cacheName:nil];
+		[self performFetch];
+		
+		_fetchedResultsControllerFollowingSetsOfAdvice	= self.fetchedResultsController;
+	}
+	return _fetchedResultsControllerFollowingSetsOfAdvice;
+}
+
 
 -(void)updateSelectedSetsOfAdvice
 {
@@ -86,7 +112,30 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+
+#pragma mark - Segmented Control Filter
+
+-(void)setSetOfAdviceViewFilter:(UISegmentedControl *)segmentedControl
+{
+	
+}
+
+-(void)initSetOfAdviceSegmentedControlFilter
+{
+	NSArray *buttonNames	= @[@"Following",@"All"];
+	UISegmentedControl *segmentedControl	= [[UISegmentedControl alloc] initWithItems:buttonNames];
+	segmentedControl.segmentedControlStyle	= UISegmentedControlStyleBar;
+	segmentedControl.momentary				= YES;
+	[segmentedControl addTarget:self
+						 action:@selector(setSetOfAdviceViewFilter:)
+			   forControlEvents:UIControlEventValueChanged];
+	self.navigationItem.titleView			= segmentedControl;
+}
+
+
 #pragma mark - UI Interactions
+
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

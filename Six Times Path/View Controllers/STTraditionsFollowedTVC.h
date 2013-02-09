@@ -11,7 +11,6 @@
 
 @interface STTraditionsFollowedTVC : CoreDataTableViewController 
 
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property (nonatomic) NSMutableArray *selectedSetsOfAdvice;
