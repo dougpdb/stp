@@ -24,13 +24,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    self.selectedSetsOfAdvice	= nil;
+	self.allSetsOfAdvice		= nil;
 }
 
 - (void)setupFetchedResultsController
