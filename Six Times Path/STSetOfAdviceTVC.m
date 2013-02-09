@@ -45,14 +45,6 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-//    if ([segue.identifier isEqualToString:@"viewGuidelineDetails"]) {        
-//        STSetOfAdviceDetailTVC *setOfAdviceDetailTVC    = segue.destinationViewController;
-//        setOfAdviceDetailTVC.managedObjectContext       = self.managedObjectContext;
-//        NSLog(@"The name of the selectedSetOfAdvice is %@", self.selectedSetOfAdvice.name);
-//        setOfAdviceDetailTVC.selectedSetOfAdvice        = self.selectedSetOfAdvice;
-//    } else {
-//        NSLog(@"Unidentified segue attempted!");
-//    }
 }
 
 

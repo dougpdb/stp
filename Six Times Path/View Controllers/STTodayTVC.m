@@ -467,7 +467,7 @@
 			UILabel *guidelineLabel						= (UILabel *)[guidelineNextEntryCell viewWithTag:11];
 
 		
-		NSString *timeEntryTextPrefix;
+			NSString *timeEntryTextPrefix;
 			
 			if (self.countOfTheSixWithoutUserEntries == 0) {
 				timeEntryTextPrefix	= @"Excellent!";
@@ -633,7 +633,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	//switch (indexPath.section) {
     if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
 	
 			if (self.countOfTheSixWithoutUserEntries > 0) {
