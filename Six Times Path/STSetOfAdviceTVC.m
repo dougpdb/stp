@@ -16,11 +16,6 @@
 
 @implementation STSetOfAdviceTVC
 
-@synthesize fetchedResultsController    = __fetchedResultsController;
-@synthesize managedObjectContext        = __managedObjectContext;
-@synthesize selectedSetOfAdvice         = _selectedSetOfAdvice;
-@synthesize selectedTradition           = _selectedTradition;
-
 
 - (void)viewDidLoad
 {

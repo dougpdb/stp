@@ -17,14 +17,6 @@
 
 @implementation STTraditionsFollowedTVC
 
-@synthesize fetchedResultsController	= __fetchedResultsController;
-@synthesize managedObjectContext		= __managedObjectContext;
-
-//@synthesize selectedTradition			= _selectedTradition;
-
-@synthesize selectedSetsOfAdvice		= _selectedSetsOfAdvice;
-@synthesize allSetsOfAdvice				= _allSetsOfAdvice;
-
 
 
 #pragma mark - View loading and appearing

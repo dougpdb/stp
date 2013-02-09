@@ -56,29 +56,6 @@
 
 @implementation STLogEntrySixOfDayTVC
 
-@synthesize fetchedResultsController	= _fetchedResultsController;
-@synthesize managedObjectContext		= _managedObjectContext;
-
-@synthesize leSixOfDay					= _leSixOfDay;
-@synthesize aPositiveActionTaken		= _aPositiveActionTaken;
-@synthesize aNegativeActionTaken		= _aNegativeActionTaken;
-
-@synthesize guidelineTime				= _guidelineTime;
-@synthesize guidelineText				= _guidelineText;
-@synthesize positiveActionTextView		= _positiveActionTextView;
-@synthesize negativeActionTextView		= _negativeActionTextView;
-
-@synthesize showHints					= _showHints;
-
-@synthesize keyboardControls			= _keyboardControls;
-
-@synthesize mostRecentlySavedPositiveActionTakenDescription	= _mostRecentlySavedPositiveActionTakenDescription;
-@synthesize mostRecentlySavedNegativeActionTakenDescription	= _mostRecentlySavedNegativeActionTakenDescription;
-@synthesize updatedPositiveActionTakenDescription			= _updatedPositiveActionTakenDescription;
-@synthesize updatedNegativeActionTakenDescription			= _updatedNegativeActionTakenDescription;
-@synthesize updatedToDoText									= _updatedToDoText;
-
-
 
 
 #pragma mark - Lifecycle

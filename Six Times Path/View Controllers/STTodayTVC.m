@@ -41,35 +41,6 @@
 
 @implementation STTodayTVC
 
-@synthesize managedObjectContext			= _managedObjectContext;
-@synthesize fetchedResultsController		= _fetchedResultsController;
-
-@synthesize thisDay							= _thisDay;
-
-@synthesize pickerView						= _pickerView;
-@synthesize doneButton						= _doneButton;
-@synthesize dataArray						= _dataArray;
-@synthesize dateFormatter					= _dateFormatter;
-
-@synthesize feedbackButton					= _feedbackButton;
-
-@synthesize showRemainingScheduledEntries	= _showRemainingScheduledEntries;
-@synthesize showUpdatedEntries				= _showUpdatedEntries;
-@synthesize nextEntry						= _nextEntry;
-@synthesize entryFromNotification			= _entryFromNotification;
-@synthesize remainingScheduledEntries		= _remainingScheduledEntries;
-@synthesize updatedEntries					= _updatedEntries;
-@synthesize mostRecentlyAddedDate			= _mostRecentlyAddedDate;
-@synthesize allAdviceFollowedByUser			= _allAdviceFollowedByUser;
-@synthesize countOfTheSixWithoutUserEntries	= _countOfTheSixWithoutUserEntries;
-
-@synthesize tableViewSections				= _tableViewSections;
-
-@synthesize orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay	= _orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
-
-
-
-
 #pragma mark - init
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

@@ -26,17 +26,12 @@
 - (IBAction)greatHighwayExplorerFeedback:(id)sender;
 
 
+
 @end
 
 @implementation STPreviousDayTVC
 
-@synthesize thisDay					= _thisDay;
-@synthesize tableViewSections		= _tableViewSections;
-
-@synthesize feedbackButton			= _feedbackButton;
-
-@synthesize editingMode				= _editingMode;
-
+@synthesize tableViewSections	= _tableViewSections;
 
 #pragma mark - init
 

@@ -23,12 +23,6 @@
 
 @implementation STPreviousDaysTVC
 
-@synthesize managedObjectContext		= __managedObjectContext;
-@synthesize fetchedResultsController	= __fetchedResultsController;
-
-@synthesize days						= _days;
-@synthesize dateFormatter				= _dateFormatter;
-
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
