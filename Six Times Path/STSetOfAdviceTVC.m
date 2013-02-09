@@ -11,6 +11,9 @@
 #import "Advice.h"
 
 
+#define SET_OF_ADVICE_LABEL_WIDTH	274
+#define GUIDELINE_LABEL_WIDTH		264
+
 @interface STSetOfAdviceTVC ()
 
 @end
@@ -21,6 +24,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	self.title	= self.selectedSetOfAdvice.name;
 }
 
 - (void)viewDidUnload
@@ -82,6 +86,9 @@
 		nameOfTraditionLabel.text					= self.selectedSetOfAdvice.practicedWithinTradition.name;
 		nameOfSetOfAdviceLabel.text					= self.selectedSetOfAdvice.name;
 		
+		[self resizeHeightToFitForLabel:nameOfSetOfAdviceLabel
+							 labelWidth:SET_OF_ADVICE_LABEL_WIDTH];
+
 		return setOfAdviceCell;
 	} else {
 		static NSString *adviceCellIdentifier		= @"adviceInASetCell";
@@ -95,6 +102,9 @@
 		orderNumberOfAdviceInSetLabel.text			= [advice.orderNumberInSet stringValue];
 		nameOfAdviceLabel.text						= advice.name;
 		
+		[self resizeHeightToFitForLabel:nameOfAdviceLabel
+							 labelWidth:GUIDELINE_LABEL_WIDTH];
+
 		return adviceCell;
 	}
 }
@@ -113,7 +123,36 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 85;
+
+	if (indexPath.row == 0) {
+		UILabel *setOfAdviceLabel		= [UILabel new];
+		setOfAdviceLabel.lineBreakMode	= NSLineBreakByWordWrapping;
+		setOfAdviceLabel.font			= [UIFont boldSystemFontOfSize:17]; 
+		
+		setOfAdviceLabel.text			= self.selectedSetOfAdvice.practicedWithinTradition.name;
+				
+		CGFloat guidelineLabelHeight	= [self heightForLabel:setOfAdviceLabel
+													  withText:setOfAdviceLabel.text
+													labelWidth:SET_OF_ADVICE_LABEL_WIDTH];
+		
+		return 32 + guidelineLabelHeight + 8;		// change for landscape orientation?
+		
+	} else {
+		UILabel *adviceLabel			= [UILabel new];
+		adviceLabel.lineBreakMode		= NSLineBreakByWordWrapping;
+		adviceLabel.font				= [UIFont fontWithName:@"Palatino" size:15]; 
+		
+		Advice *advice					= [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.row-1];
+		adviceLabel.text				= advice.name;
+		
+		CGFloat adviceLabelHeight		= [self heightForLabel:adviceLabel
+													  withText:adviceLabel.text
+													labelWidth:GUIDELINE_LABEL_WIDTH];
+		
+		return 10 + adviceLabelHeight + 8;		// change for landscape orientation?
+
+	}
+
 }
 
 #pragma mark - Managing Cell and Label Heights

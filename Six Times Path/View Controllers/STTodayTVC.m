@@ -392,7 +392,7 @@
 
 	if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
 		
-		guidelineLabel.font				= [UIFont boldSystemFontOfSize:17];
+		guidelineLabel.font				= [UIFont fontWithName:@"Palatino Bold" size:17]; // [UIFont boldSystemFontOfSize:17];
 
 		if (self.countOfTheSixWithoutUserEntries > 0)
 			guidelineLabel.text			= self.nextEntry.advice.name;
@@ -485,7 +485,8 @@
 				timeLabel.text							= [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.nextEntry.timeScheduled.time];
 				guidelineLabel.text						= self.nextEntry.advice.name;
 				
-				[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
+				[self resizeHeightToFitForLabel:guidelineLabel
+									 labelWidth:GUIDELINE_LABEL_WIDTH];
 
 				guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
 				guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
@@ -493,7 +494,8 @@
 				timeLabel.text							= timeEntryTextPrefix;
 				guidelineLabel.text						= @"You've made entries for all 6 guidelines. Be happy over what you've done well to day, and regret the mistaken actions.";
 				
-				[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
+				[self resizeHeightToFitForLabel:guidelineLabel
+									 labelWidth:GUIDELINE_LABEL_WIDTH];
 				
 				guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleNone;
 				guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryNone;
