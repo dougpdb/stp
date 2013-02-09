@@ -225,17 +225,17 @@
 		1E5523381591E2FA009114B7 /* Six Times Path */ = {
 			isa = PBXGroup;
 			children = (
-				91A9692B16AD5E5700085EC5 /* TestFlightSDK1 */,
-				91A9692016AAE1D700085EC5 /* BSKeyboardControls */,
 				1E5523411591E2FA009114B7 /* STAppDelegate.h */,
 				1E5523421591E2FA009114B7 /* STAppDelegate.m */,
-				1E6B11B2159C6A600045AA42 /* Images */,
-				9137F15F166A45F300C789D2 /* Storyboards and Xibs with VCs */,
 				9137F15D166A456800C789D2 /* Data Classes */,
+				9137F15F166A45F300C789D2 /* Storyboards and Xibs with VCs */,
 				9137F15E166A45A800C789D2 /* View Controllers */,
-				1E5523391591E2FA009114B7 /* Supporting Files */,
 				91573F081629E6E300914D3E /* UITextView+Placeholder.h */,
 				91573F091629E6E300914D3E /* UITextView+Placeholder.m */,
+				1E6B11B2159C6A600045AA42 /* Images */,
+				91A9692B16AD5E5700085EC5 /* TestFlightSDK1 */,
+				91A9692016AAE1D700085EC5 /* BSKeyboardControls */,
+				1E5523391591E2FA009114B7 /* Supporting Files */,
 			);
 			path = "Six Times Path";
 			sourceTree = "<group>";

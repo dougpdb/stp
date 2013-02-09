@@ -15,7 +15,6 @@
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (strong, nonatomic) SpiritualTradtion *selectedTradition;
 @property (strong, nonatomic) SetOfAdvice *selectedSetOfAdvice;
 
 

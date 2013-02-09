@@ -127,6 +127,12 @@
 //    }else {
 //        NSLog(@"Unidentified segue attempted!");
 //    }
+	NSIndexPath *indexPath					= [self.tableView indexPathForSelectedRow];
+	
+	STSetOfAdviceTVC *setOfAdviceTVC		= segue.destinationViewController;
+	
+	setOfAdviceTVC.managedObjectContext		= self.managedObjectContext;
+	setOfAdviceTVC.selectedSetOfAdvice		= [self.fetchedResultsController objectAtIndexPath:indexPath];
 }
 
 
@@ -137,17 +143,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"setOfAdviceName";
-    
     UITableViewCell *cell			= [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
        
-    // Configure the cell...
-	SetOfAdvice	*setOfAdvice	= [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text			= setOfAdvice.name;
+	SetOfAdvice	*setOfAdvice		= [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text				= setOfAdvice.name;
 	
 	if ([self.selectedSetsOfAdvice containsObject:setOfAdvice])
-		cell.accessoryType		= UITableViewCellAccessoryCheckmark;
+		cell.accessoryType			= UITableViewCellAccessoryCheckmark;
 	else
-		cell.accessoryType		= UITableViewCellAccessoryNone;
+		cell.accessoryType			= UITableViewCellAccessoryNone;
     
     return cell;
 }

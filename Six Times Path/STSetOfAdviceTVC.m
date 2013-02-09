@@ -7,8 +7,9 @@
 //
 
 #import "STSetOfAdviceTVC.h"
-//#import "STSetOfAdviceDetailTVC.h"
 #import "SetOfAdvice.h"
+#import "Advice.h"
+
 
 @interface STSetOfAdviceTVC ()
 
@@ -36,7 +37,6 @@
 {
     [super viewWillAppear:animated];
     [self setupFetchedResultsController];
-    self.selectedSetOfAdvice    = [[self.fetchedResultsController fetchedObjects] objectAtIndex:0];
 }
 
 
@@ -61,23 +61,13 @@
 
 - (void)setupFetchedResultsController
 {
-    // 1 - Decide what Entity you want
-    NSString *entityName        = @"SetOfAdvice";
-    NSLog(@"Setting up a Fetched Results Controller for the Entity named %@", entityName);
-    
-    // 2 - Request that Entity
-    NSFetchRequest *request     = [NSFetchRequest fetchRequestWithEntityName:entityName];
-    
-    // 3 - Filter it if you want
-    // REMEMBER: When comparing a collection (like practicedWithinTradition), you need to either use a collection comparator (CONTAINS), or use a predicate modifier (ANY/ALL/SOME, etc). 
-    request.predicate           = [NSPredicate predicateWithFormat:@"ANY practicedWithinTradition.name = %@", self.selectedTradition.name];
-    
-    // 4 - Sort it if you want
-    request.sortDescriptors     = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name"
+    NSString *entityName			= @"Advice";
+    NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:entityName];
+    request.predicate				= [NSPredicate predicateWithFormat:@"ANY containedWithinSetOfAdvice.name = %@", self.selectedSetOfAdvice.name];
+	request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"orderNumberInSet"
                                                                                      ascending:YES
                                                                                       selector:@selector(localizedCaseInsensitiveCompare:)]];
-    // 5 - Fetch it
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+    self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                         managedObjectContext:self.managedObjectContext
                                                                           sectionNameKeyPath:nil
                                                                                    cacheName:nil];
@@ -90,19 +80,67 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"setOfAdviceCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    // Configure the cell...
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
-    // Configure the cell...
-    SetOfAdvice *setOfAdvice    = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text         = setOfAdvice.name;
-    
-    return cell;
+    if (indexPath.row == 0) {
+		static NSString *setOfAdviceCellIdentifier	= @"setOfAdviceCell";
+		UITableViewCell *setOfAdviceCell			= [tableView dequeueReusableCellWithIdentifier:setOfAdviceCellIdentifier];
+		
+		UILabel *nameOfTraditionLabel				= (UILabel *)[setOfAdviceCell viewWithTag:10];
+		UILabel *nameOfSetOfAdviceLabel				= (UILabel *)[setOfAdviceCell viewWithTag:11];
+
+		nameOfTraditionLabel.text					= self.selectedSetOfAdvice.practicedWithinTradition.name;
+		nameOfSetOfAdviceLabel.text					= self.selectedSetOfAdvice.name;
+		
+		return setOfAdviceCell;
+	} else {
+		static NSString *adviceCellIdentifier		= @"adviceInASetCell";
+		UITableViewCell *adviceCell					= [tableView dequeueReusableCellWithIdentifier:adviceCellIdentifier];
+		
+		UILabel *orderNumberOfAdviceInSetLabel		= (UILabel *)[adviceCell viewWithTag:10];
+		UILabel *nameOfAdviceLabel					= (UILabel *)[adviceCell viewWithTag:11];
+		
+		Advice *advice								= [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.row-1];
+
+		orderNumberOfAdviceInSetLabel.text			= [advice.orderNumberInSet stringValue];
+		nameOfAdviceLabel.text						= advice.name;
+		
+		return adviceCell;
+	}
+}
+
+#pragma mark - Table View Structure
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return [[self.fetchedResultsController fetchedObjects] count] + 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return 85;
+}
+
+#pragma mark - Managing Cell and Label Heights
+-(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
+{
+	CGSize maximumLabelSize		= CGSizeMake(labelWidth, FLT_MAX);
+	
+	CGSize expectedLabelSize	= [text sizeWithFont:label.font
+								constrainedToSize:maximumLabelSize
+									lineBreakMode:label.lineBreakMode];
+	
+	return expectedLabelSize.height;
+}
+
+-(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth
+{
+	CGRect newFrame			= label.frame;
+	newFrame.size.height	= [self heightForLabel:label withText:label.text labelWidth:labelWidth];
+	label.frame				= newFrame;
 }
 
 
