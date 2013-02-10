@@ -463,7 +463,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <!--Sets of Guidelines Followed-->
         <scene sceneID="Qyy-9x-ic9">
             <objects>
-                <tableViewController title="Sets of Guidelines" id="vht-HB-8PU" userLabel="Sets of Guidelines Followed" customClass="STTraditionsFollowedTVC" sceneMemberID="viewController">
+                <tableViewController title="Sets of Guidelines" id="vht-HB-8PU" userLabel="Sets of Guidelines Followed" customClass="STSetsOfAdviceTVC" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3T9-ag-1nk" userLabel="Guidelines Followed TVC">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

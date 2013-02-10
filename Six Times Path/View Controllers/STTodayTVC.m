@@ -10,7 +10,7 @@
 #import "STTodayTVC.h"
 #import "STLogEntrySixOfDayTVC.h"
 #import "STPreviousDaysTVC.h"
-#import "STTraditionsFollowedTVC.h"
+#import "STSetsOfAdviceTVC.h"
 #import "Advice.h"
 #import "Day+ST.h"
 #import "LESixOfDay+ST.h"
@@ -829,7 +829,7 @@
 		
 	} else if ([[segue identifier] isEqualToString:@"Guidelines Followed"]) {
 		
-		STTraditionsFollowedTVC *tradtionsTVC	= segue.destinationViewController;
+		STSetsOfAdviceTVC *tradtionsTVC	= segue.destinationViewController;
 		tradtionsTVC.managedObjectContext		= self.managedObjectContext;
 		[TestFlight passCheckpoint:@"GO TO GUIDELINES"];
 		

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CoreDataTableViewController.h"
 
-@interface STTraditionsFollowedTVC : CoreDataTableViewController 
+@interface STSetsOfAdviceTVC : CoreDataTableViewController 
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 

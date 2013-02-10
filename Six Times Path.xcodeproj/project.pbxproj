@@ -36,7 +36,7 @@
 		9137F17C166A4B3B00C789D2 /* LESixOfDay+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F178166A4B3B00C789D2 /* LESixOfDay+ST.m */; };
 		9137F17D166A4B3B00C789D2 /* ToDo+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F17A166A4B3B00C789D2 /* ToDo+ST.m */; };
 		9137F180166A4B8E00C789D2 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F17F166A4B8E00C789D2 /* CoreDataTableViewController.m */; };
-		9137F189166A4BAD00C789D2 /* STTraditionsFollowedTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F186166A4BAD00C789D2 /* STTraditionsFollowedTVC.m */; };
+		9137F189166A4BAD00C789D2 /* STSetsOfAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F186166A4BAD00C789D2 /* STSetsOfAdviceTVC.m */; };
 		9137F1A2166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F19A166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m */; };
 		9137F1A7166A4C7C00C789D2 /* NSDate+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F1A6166A4C7C00C789D2 /* NSDate+ST.m */; };
 		9137F1AA166A4C9000C789D2 /* Day+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F1A9166A4C9000C789D2 /* Day+ST.m */; };
@@ -112,8 +112,8 @@
 		9137F17A166A4B3B00C789D2 /* ToDo+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ToDo+ST.m"; path = "Data Classes/Managed Object Classes/Categories/ToDo+ST.m"; sourceTree = "<group>"; };
 		9137F17E166A4B8E00C789D2 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataTableViewController.h; path = "Six Times Path/View Controllers/CoreDataTableViewController.h"; sourceTree = "<group>"; };
 		9137F17F166A4B8E00C789D2 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataTableViewController.m; path = "Six Times Path/View Controllers/CoreDataTableViewController.m"; sourceTree = "<group>"; };
-		9137F185166A4BAD00C789D2 /* STTraditionsFollowedTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTraditionsFollowedTVC.h; path = "View Controllers/STTraditionsFollowedTVC.h"; sourceTree = "<group>"; };
-		9137F186166A4BAD00C789D2 /* STTraditionsFollowedTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTraditionsFollowedTVC.m; path = "View Controllers/STTraditionsFollowedTVC.m"; sourceTree = "<group>"; };
+		9137F185166A4BAD00C789D2 /* STSetsOfAdviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STSetsOfAdviceTVC.h; path = "View Controllers/STSetsOfAdviceTVC.h"; sourceTree = "<group>"; };
+		9137F186166A4BAD00C789D2 /* STSetsOfAdviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STSetsOfAdviceTVC.m; path = "View Controllers/STSetsOfAdviceTVC.m"; sourceTree = "<group>"; };
 		9137F199166A4C1400C789D2 /* STLogEntrySixOfDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STLogEntrySixOfDayTVC.h; path = "View Controllers/STLogEntrySixOfDayTVC.h"; sourceTree = "<group>"; };
 		9137F19A166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STLogEntrySixOfDayTVC.m; path = "View Controllers/STLogEntrySixOfDayTVC.m"; sourceTree = "<group>"; };
 		9137F1A5166A4C7C00C789D2 /* NSDate+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+ST.h"; path = "Data Classes/Categories/NSDate+ST.h"; sourceTree = SOURCE_ROOT; };
@@ -176,8 +176,8 @@
 		1E0BEE0615AEDE6F002E19F4 /* Tradition TVCs */ = {
 			isa = PBXGroup;
 			children = (
-				9137F185166A4BAD00C789D2 /* STTraditionsFollowedTVC.h */,
-				9137F186166A4BAD00C789D2 /* STTraditionsFollowedTVC.m */,
+				9137F185166A4BAD00C789D2 /* STSetsOfAdviceTVC.h */,
+				9137F186166A4BAD00C789D2 /* STSetsOfAdviceTVC.m */,
 			);
 			name = "Tradition TVCs";
 			sourceTree = "<group>";
@@ -501,7 +501,7 @@
 				9137F17C166A4B3B00C789D2 /* LESixOfDay+ST.m in Sources */,
 				9137F17D166A4B3B00C789D2 /* ToDo+ST.m in Sources */,
 				9137F180166A4B8E00C789D2 /* CoreDataTableViewController.m in Sources */,
-				9137F189166A4BAD00C789D2 /* STTraditionsFollowedTVC.m in Sources */,
+				9137F189166A4BAD00C789D2 /* STSetsOfAdviceTVC.m in Sources */,
 				9137F1A2166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m in Sources */,
 				9137F1A7166A4C7C00C789D2 /* NSDate+ST.m in Sources */,
 				9137F1AA166A4C9000C789D2 /* Day+ST.m in Sources */,

@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 6000 American Family Dr. All rights reserved.
 //
 
-#import "STTraditionsFollowedTVC.h"
+#import "STSetsOfAdviceTVC.h"
 #import "STSetOfAdviceTVC.h"
 #import "SpiritualTradtion.h"
 #import "TestFlight.h"
 #import "SetOfAdvice.h"
 
-@interface STTraditionsFollowedTVC ()
+@interface STSetsOfAdviceTVC ()
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property BOOL isFilteredForFollowingSetsOfAdvice;
 
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation STTraditionsFollowedTVC
+@implementation STSetsOfAdviceTVC
 
 
 
