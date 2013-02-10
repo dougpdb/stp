@@ -10,11 +10,15 @@
 #import "STSetOfAdviceTVC.h"
 #import "SpiritualTradtion.h"
 #import "TestFlight.h"
+#import "SetOfAdvice.h"
 
 @interface STTraditionsFollowedTVC ()
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsControllerFollowingSetsOfAdvice;
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsControllerAllSetsOfAdvice;
+@property BOOL isFilteredForFollowingSetsOfAdvice;
+
+@property (nonatomic) NSArray *allSetsOfAdvice;
+@property (nonatomic) NSMutableArray *selectedSetsOfAdvice;
+@property (nonatomic) NSArray *followingSetsOfAdvice;
 
 @end
 
@@ -27,8 +31,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+	[self setupAllSetsOfAdviceFetchedResultsController];
+	self.allSetsOfAdvice		= self.fetchedResultsController.fetchedObjects;
+	
+	NSPredicate *predicate		= [NSPredicate predicateWithFormat:@"self.orderNumberInFollowedSets > 0"];
+	self.followingSetsOfAdvice	= [self.allSetsOfAdvice filteredArrayUsingPredicate:predicate];
 	
 	[self initSetOfAdviceSegmentedControlFilter];
+	[self setViewFollowingSetsOfAdviceButtons];
+	
+	[self.tableView reloadData];
 }
 
 - (void)viewDidUnload
@@ -41,71 +54,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-	self.allSetsOfAdvice		= [self.fetchedResultsControllerAllSetsOfAdvice fetchedObjects];
 	self.selectedSetsOfAdvice	= [[NSMutableArray alloc] init];
-	[self updateSelectedSetsOfAdvice];
+	//	[self updateSelectedSetsOfAdvice];
 }
-
-
-#pragma mark - Core Data Load
--(NSFetchedResultsController *)fetchedResultsControllerAllSetsOfAdvice
-{
-	if (!_fetchedResultsControllerAllSetsOfAdvice) {
-		NSString *entityName			= @"SetOfAdvice";
-		NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:entityName];
-		request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"practicedWithinTradition.name"
-																	ascending:YES
-																	 selector:@selector(localizedCaseInsensitiveCompare:)],
-								[NSSortDescriptor sortDescriptorWithKey:@"name"
-															  ascending:YES
-															   selector:@selector(localizedCaseInsensitiveCompare:)]];
-		self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
-																			managedObjectContext:self.managedObjectContext
-																			  sectionNameKeyPath:nil
-																					   cacheName:nil];
-		[self performFetch];
-		_fetchedResultsControllerAllSetsOfAdvice		= self.fetchedResultsController;
-	}
-	return _fetchedResultsControllerAllSetsOfAdvice;
-}
-
--(NSFetchedResultsController *)fetchedResultsControllerFollowingSetsOfAdvice
-{
-	if (!_fetchedResultsControllerFollowingSetsOfAdvice) {
-		NSString *entityName			= @"SetOfAdvice";
-		NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:entityName];
-		request.predicate = [NSPredicate predicateWithFormat:@"Role.name = Blah"];
-		request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"practicedWithinTradition.name"
-																		   ascending:YES
-																			selector:@selector(localizedCaseInsensitiveCompare:)],
-										   [NSSortDescriptor sortDescriptorWithKey:@"name"
-																		 ascending:YES
-																		  selector:@selector(localizedCaseInsensitiveCompare:)]];
-		self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
-																					   managedObjectContext:self.managedObjectContext
-																						 sectionNameKeyPath:nil
-																								  cacheName:nil];
-		[self performFetch];
-		
-		_fetchedResultsControllerFollowingSetsOfAdvice	= self.fetchedResultsController;
-	}
-	return _fetchedResultsControllerFollowingSetsOfAdvice;
-}
-
-
--(void)updateSelectedSetsOfAdvice
-{
-	[self.selectedSetsOfAdvice removeAllObjects];
-	
-	for (SetOfAdvice *setOfAdvice in self.allSetsOfAdvice) {
-		if ([setOfAdvice.orderNumberInFollowedSets intValue]> 0) {
-			[self.selectedSetsOfAdvice addObject:setOfAdvice];
-			setOfAdvice.orderNumberInFollowedSets	= [NSNumber numberWithInt:[self.selectedSetsOfAdvice count]];
-		}
-	}
-    [self.managedObjectContext save:nil];
-}
-
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -113,58 +64,166 @@
 }
 
 
-#pragma mark - Segmented Control Filter
+#pragma mark - Core Data Setup
+-(void)setupAllSetsOfAdviceFetchedResultsController
+{
+	NSString *entityName			= @"SetOfAdvice";
+	NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:entityName];
+	request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"practicedWithinTradition.name"
+																ascending:YES
+																 selector:@selector(localizedCaseInsensitiveCompare:)],
+							   [NSSortDescriptor sortDescriptorWithKey:@"name"
+															 ascending:YES
+															  selector:@selector(localizedCaseInsensitiveCompare:)]];
+	self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
+																		managedObjectContext:self.managedObjectContext
+																		  sectionNameKeyPath:nil
+																				   cacheName:nil];
+}
 
--(void)setSetOfAdviceViewFilter:(UISegmentedControl *)segmentedControl
+
+#pragma mark - Navigation Item Buttons and Actions
+
+-(void)setViewFollowingSetsOfAdviceButtons
+{
+	self.navigationItem.leftBarButtonItem	= [[UIBarButtonItem alloc] initWithTitle:@"Done"
+																			 style:UIBarButtonItemStyleBordered
+																			target:self
+																			action:@selector(returnToDay:)];
+	self.navigationItem.rightBarButtonItem	= [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+																						   target:self
+																						   action:@selector(editFollowingSetsOfGuidelines:)];
+	
+}
+
+-(void)setEditFollowingSetsOfAdviceButtons
+{
+	self.navigationItem.leftBarButtonItem	= [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+																						  target:self
+																						  action:@selector(addSetsOfGuidelinesToFollowing:)];
+	self.navigationItem.rightBarButtonItem	= [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+																						   target:self
+																						   action:@selector(endEditFollowingSetsOfGuidelines:)];
+}
+
+-(void)setViewAllSetsOfAdviceButtons
+{
+	self.navigationItem.leftBarButtonItem	= [[UIBarButtonItem alloc] initWithTitle:@"Done"
+																			 style:UIBarButtonItemStyleBordered
+																			target:self
+																			action:@selector(returnToDay:)];
+	self.navigationItem.rightBarButtonItem	= [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+																						  target:self
+																						  action:@selector(addNewSetOfGuidelines:)];
+	
+}
+
+-(void)setEditAllSetsOfAdviceButtons
 {
 	
 }
+
+-(void)returnToDay:(id)sender
+{
+	[self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+-(void)editFollowingSetsOfGuidelines:(id)sender
+{
+	[self setEditFollowingSetsOfAdviceButtons];
+}
+
+-(void)addSetsOfGuidelinesToFollowing:(id)sender
+{
+	
+}
+
+-(void)endEditFollowingSetsOfGuidelines:(id)sender
+{
+	[self setViewFollowingSetsOfAdviceButtons];
+}
+
+
+
+#pragma mark - Segmented Control Filter
 
 -(void)initSetOfAdviceSegmentedControlFilter
 {
 	NSArray *buttonNames	= @[@"Following",@"All"];
 	UISegmentedControl *segmentedControl	= [[UISegmentedControl alloc] initWithItems:buttonNames];
 	segmentedControl.segmentedControlStyle	= UISegmentedControlStyleBar;
-	segmentedControl.momentary				= YES;
+	segmentedControl.selectedSegmentIndex	= 0;
+	self.isFilteredForFollowingSetsOfAdvice	= YES;
 	[segmentedControl addTarget:self
 						 action:@selector(setSetOfAdviceViewFilter:)
 			   forControlEvents:UIControlEventValueChanged];
+	
 	self.navigationItem.titleView			= segmentedControl;
+}
+
+-(void)setSetOfAdviceViewFilter:(UISegmentedControl *)segmentedControl
+{
+	if (segmentedControl.selectedSegmentIndex == 0) {
+		self.isFilteredForFollowingSetsOfAdvice	= YES;
+		[self setViewFollowingSetsOfAdviceButtons];
+	} else {
+		self.isFilteredForFollowingSetsOfAdvice = NO;
+		[self setViewAllSetsOfAdviceButtons];
+	}
+
+	[self.tableView reloadData];
 }
 
 
 #pragma mark - UI Interactions
 
-
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	NSIndexPath *indexPath					= [self.tableView indexPathForSelectedRow];
-	
-	STSetOfAdviceTVC *setOfAdviceTVC		= segue.destinationViewController;
-	
-	setOfAdviceTVC.managedObjectContext		= self.managedObjectContext;
-	setOfAdviceTVC.selectedSetOfAdvice		= [self.fetchedResultsController objectAtIndexPath:indexPath];
+	if ([segue.identifier isEqualToString:@"addFollowingSetsOfGuidelines"]) {
+		 
+	} else {		
+		NSIndexPath *indexPath					= [self.tableView indexPathForSelectedRow];
+		
+		STSetOfAdviceTVC *setOfAdviceTVC		= segue.destinationViewController;
+		
+		setOfAdviceTVC.managedObjectContext		= self.managedObjectContext;
+		
+		if (self.isFilteredForFollowingSetsOfAdvice)
+			setOfAdviceTVC.selectedSetOfAdvice	= [self.followingSetsOfAdvice objectAtIndex:indexPath.row];
+		else
+			setOfAdviceTVC.selectedSetOfAdvice	= [self.allSetsOfAdvice objectAtIndex:indexPath.row];
+	}
 }
 
 
 #pragma mark - Table view data source
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 1;
+}
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	if (self.isFilteredForFollowingSetsOfAdvice)
+		return [self.followingSetsOfAdvice count];
+	else
+		return [self.allSetsOfAdvice count];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"setOfAdviceName";
-    UITableViewCell *cell			= [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    SetOfAdvice	*setOfAdvice;
+	static NSString *CellIdentifier = @"setOfAdviceName";
+    UITableViewCell *cell			= [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
        
-	SetOfAdvice	*setOfAdvice		= [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text				= setOfAdvice.name;
-	
-	if ([self.selectedSetsOfAdvice containsObject:setOfAdvice])
-		cell.accessoryType			= UITableViewCellAccessoryCheckmark;
+	if (self.isFilteredForFollowingSetsOfAdvice)
+		setOfAdvice					= [self.followingSetsOfAdvice objectAtIndex:indexPath.row];
 	else
-		cell.accessoryType			= UITableViewCellAccessoryNone;
-    
+		setOfAdvice					= [self.allSetsOfAdvice objectAtIndex:indexPath.row];
+
+    cell.textLabel.text				= setOfAdvice.name;
+	    
     return cell;
 }
 
@@ -175,30 +234,30 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-    UITableViewCell *thisCell = [tableView cellForRowAtIndexPath:indexPath];
-	
-	NSLog(@"text of cell: %@", thisCell.textLabel.text);
-    if (thisCell.accessoryType == UITableViewCellAccessoryNone) {
-        thisCell.accessoryType = UITableViewCellAccessoryCheckmark;
-		
-		for (SetOfAdvice *setOfAdvice in self.allSetsOfAdvice) {
-			if ([thisCell.textLabel.text isEqualToString:setOfAdvice.name]) {
-				setOfAdvice.orderNumberInFollowedSets	= [NSNumber numberWithInt:[self.selectedSetsOfAdvice count] + 1];
-				break;
-			}
-		}		
-    } else {
-    	thisCell.accessoryType = UITableViewCellAccessoryNone;
-		
-		for (SetOfAdvice *setOfAdvice in self.allSetsOfAdvice) {
-			if ([thisCell.textLabel.text isEqualToString:setOfAdvice.name]) {
-				setOfAdvice.orderNumberInFollowedSets	= [NSNumber numberWithInt:0];
-				break;
-			}
-		}
-    }
-	
-	[self updateSelectedSetsOfAdvice];
+//    UITableViewCell *thisCell = [tableView cellForRowAtIndexPath:indexPath];
+//	
+//	NSLog(@"text of cell: %@", thisCell.textLabel.text);
+//    if (thisCell.accessoryType == UITableViewCellAccessoryNone) {
+//        thisCell.accessoryType = UITableViewCellAccessoryCheckmark;
+//		
+//		for (SetOfAdvice *setOfAdvice in self.allSetsOfAdvice) {
+//			if ([thisCell.textLabel.text isEqualToString:setOfAdvice.name]) {
+//				setOfAdvice.orderNumberInFollowedSets	= [NSNumber numberWithInt:[self.selectedSetsOfAdvice count] + 1];
+//				break;
+//			}
+//		}		
+//    } else {
+//    	thisCell.accessoryType = UITableViewCellAccessoryNone;
+//		
+//		for (SetOfAdvice *setOfAdvice in self.allSetsOfAdvice) {
+//			if ([thisCell.textLabel.text isEqualToString:setOfAdvice.name]) {
+//				setOfAdvice.orderNumberInFollowedSets	= [NSNumber numberWithInt:0];
+//				break;
+//			}
+//		}
+//    }
+//	
+//	[self updateSelectedSetsOfAdvice];
 }
 
 - (IBAction)greatHIghwayExplorerFeedback:(id)sender {

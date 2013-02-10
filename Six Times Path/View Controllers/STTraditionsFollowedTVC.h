@@ -13,8 +13,6 @@
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-@property (nonatomic) NSMutableArray *selectedSetsOfAdvice;
-@property (nonatomic) NSArray *allSetsOfAdvice;
 
 - (IBAction)greatHIghwayExplorerFeedback:(id)sender;
 @end
