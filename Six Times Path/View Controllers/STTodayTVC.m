@@ -31,8 +31,8 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *feedbackButton;
 
-@property (nonatomic, retain) NSArray *dataArray;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
+@property (nonatomic, weak) NSArray *dataArray;
+@property (nonatomic, weak) NSDateFormatter *dateFormatter;
 
 - (IBAction)greatHighwayExplorerFeedback:(id)sender;
 
@@ -174,18 +174,16 @@
 		self.mostRecentlyAddedDate				= [NSDate dateYesterday];
 		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = 0;
 		self.thisDay							= nil;
-		
-		[self addDay];
 	} else {
 		Day *mostRecentDay						= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
 		LESixOfDay *lastTheSixOfMostRecentDay	= [[mostRecentDay getTheSixSorted] lastObject];
 		self.mostRecentlyAddedDate				= mostRecentDay.date;
 		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
 		self.thisDay							= mostRecentDay;
-		
-		[self addDay];
 	}
 		
+	[self addDay];
+	
 	NSArray *allRemainingEntries				= [self.thisDay getTheSixWithoutUserEntriesSorted];
 	
 	NSRange rangeRemainingScheduledEntries;
@@ -211,14 +209,12 @@
 -(void)setupDaysFetchedResultsController
 {
 	NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:@"Day"];
-    request.sortDescriptors			= [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"date"
-                                                                                      ascending:NO
-                                                                                       selector:@selector(localizedCaseInsensitiveCompare:)], nil];
+    request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"date"
+																ascending:NO]];
     self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
 																		managedObjectContext:self.managedObjectContext
 																		  sectionNameKeyPath:nil
 																				   cacheName:nil];
-	[self performFetch];
 }
 
 -(void)setupAdviceFetchedResultsController
@@ -234,7 +230,6 @@
                                                                         managedObjectContext:self.managedObjectContext
                                                                           sectionNameKeyPath:@"containedWithinSetOfAdvice.name"
                                                                                    cacheName:nil];
-    [self performFetch];
 }
 
 
@@ -281,7 +276,7 @@
 		self.mostRecentlyAddedDate	= newDay.date;
 		self.thisDay				= newDay;
 		
-		[self.managedObjectContext save:nil];
+		[self saveContext];
 		[self performFetch];
 		//		[self.tableView reloadData];
 
@@ -342,6 +337,21 @@
 -(void)resetTheSixToBeShown
 {
 	// TO BE COMPLETED
+}
+
+- (void)saveContext
+{
+    NSError *error = nil;
+    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    if (managedObjectContext != nil) {
+		[managedObjectContext hasChanges];
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
 }
 
 

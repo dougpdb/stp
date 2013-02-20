@@ -206,7 +206,8 @@
 																andArrayOfGuidelineNames:adviceTenNonvirtues
 																		   intoTradition:traditionBuddhism];
     
-	//    theTenVirtuesSetOfAdvice.orderNumberInFollowedSets = [NSNumber numberWithInt:1];
+	theTenNonvirtuesSetOfAdvice.orderNumberInFollowedSets = [NSNumber numberWithInt:1];
+	theTenVirtuesSetOfAdvice.orderNumberInFollowedSets = [NSNumber numberWithInt:2];
     
     // Set up Christian guidelines
     SpiritualTradtion *traditionChristianity	= [self insertSpiritualTraditionWithName:@"Christianity"];
@@ -218,7 +219,7 @@
 																		  intoTradition:traditionChristianity];
     
 	//    tenCommandments.orderNumberInFollowedSets	=
-	beatitudes.orderNumberInFollowedSets        = [NSNumber numberWithInt:1];
+	// beatitudes.orderNumberInFollowedSets        = [NSNumber numberWithInt:1];
     
     
     // Set up Civic guidelines

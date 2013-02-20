@@ -54,6 +54,7 @@
 		91A9693416AD5EE300085EC5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91A9693316AD5EE200085EC5 /* libz.dylib */; };
 		91A9693716AE1C9600085EC5 /* NSDate+ES.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A9693616AE1C9600085EC5 /* NSDate+ES.m */; };
 		91C68E9E16C12CCB00F91420 /* STSetOfAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C68E9D16C12CCB00F91420 /* STSetOfAdviceTVC.m */; };
+		91C68EA216C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C68EA116C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.m */; };
 		91EE793515C2A3B700D43A96 /* AdviceReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793415C2A3B700D43A96 /* AdviceReference.m */; };
 		91EE793B15C2A3B800D43A96 /* Insight.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793A15C2A3B800D43A96 /* Insight.m */; };
 		91EE793E15C2A3B800D43A96 /* LogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793D15C2A3B800D43A96 /* LogEntry.m */; };
@@ -142,6 +143,8 @@
 		91A9693616AE1C9600085EC5 /* NSDate+ES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+ES.m"; path = "Data Classes/Categories/NSDate+ES.m"; sourceTree = SOURCE_ROOT; };
 		91C68E9C16C12CCB00F91420 /* STSetOfAdviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSetOfAdviceTVC.h; sourceTree = "<group>"; };
 		91C68E9D16C12CCB00F91420 /* STSetOfAdviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSetOfAdviceTVC.m; sourceTree = "<group>"; };
+		91C68EA016C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STAddFollowingSetOfAdviceTVC.h; path = "View Controllers/STAddFollowingSetOfAdviceTVC.h"; sourceTree = "<group>"; };
+		91C68EA116C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STAddFollowingSetOfAdviceTVC.m; path = "View Controllers/STAddFollowingSetOfAdviceTVC.m"; sourceTree = "<group>"; };
 		91EE793315C2A3B700D43A96 /* AdviceReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdviceReference.h; path = "Data Classes/Managed Object Classes/AdviceReference.h"; sourceTree = "<group>"; };
 		91EE793415C2A3B700D43A96 /* AdviceReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdviceReference.m; path = "Data Classes/Managed Object Classes/AdviceReference.m"; sourceTree = "<group>"; };
 		91EE793915C2A3B800D43A96 /* Insight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Insight.h; path = "Data Classes/Managed Object Classes/Insight.h"; sourceTree = "<group>"; };
@@ -173,13 +176,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1E0BEE0615AEDE6F002E19F4 /* Tradition TVCs */ = {
+		1E0BEE0615AEDE6F002E19F4 /* Advice TVCs */ = {
 			isa = PBXGroup;
 			children = (
 				9137F185166A4BAD00C789D2 /* STSetsOfAdviceTVC.h */,
 				9137F186166A4BAD00C789D2 /* STSetsOfAdviceTVC.m */,
+				91C68E9C16C12CCB00F91420 /* STSetOfAdviceTVC.h */,
+				91C68E9D16C12CCB00F91420 /* STSetOfAdviceTVC.m */,
+				91C68EA016C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.h */,
+				91C68EA116C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.m */,
 			);
-			name = "Tradition TVCs";
+			name = "Advice TVCs";
 			sourceTree = "<group>";
 		};
 		1E1C5C52159DBA0700EE0DEE /* Haggerty CDTVC */ = {
@@ -230,8 +237,6 @@
 				9137F15D166A456800C789D2 /* Data Classes */,
 				9137F15F166A45F300C789D2 /* Storyboards and Xibs with VCs */,
 				9137F15E166A45A800C789D2 /* View Controllers */,
-				91573F081629E6E300914D3E /* UITextView+Placeholder.h */,
-				91573F091629E6E300914D3E /* UITextView+Placeholder.m */,
 				1E6B11B2159C6A600045AA42 /* Images */,
 				91A9692B16AD5E5700085EC5 /* TestFlightSDK1 */,
 				91A9692016AAE1D700085EC5 /* BSKeyboardControls */,
@@ -318,17 +323,10 @@
 		9137F15E166A45A800C789D2 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				91C68E9C16C12CCB00F91420 /* STSetOfAdviceTVC.h */,
-				91C68E9D16C12CCB00F91420 /* STSetOfAdviceTVC.m */,
+				1E0BEE0615AEDE6F002E19F4 /* Advice TVCs */,
+				91C68E9F16C7511600F91420 /* Days TVCs */,
 				916322E315D1257800AA94D6 /* Entry TVCs */,
 				1E1C5C52159DBA0700EE0DEE /* Haggerty CDTVC */,
-				1E0BEE0615AEDE6F002E19F4 /* Tradition TVCs */,
-				911FE980166F7009006BF9CD /* STTodayTVC.h */,
-				911FE981166F7009006BF9CD /* STTodayTVC.m */,
-				9120B82016A4255700F53B4C /* STPreviousDayTVC.h */,
-				9120B82116A4255700F53B4C /* STPreviousDayTVC.m */,
-				918EA1ED169703FF001FCFDA /* STPreviousDaysTVC.h */,
-				918EA1EE169703FF001FCFDA /* STPreviousDaysTVC.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -347,6 +345,8 @@
 			children = (
 				9137F199166A4C1400C789D2 /* STLogEntrySixOfDayTVC.h */,
 				9137F19A166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m */,
+				91573F081629E6E300914D3E /* UITextView+Placeholder.h */,
+				91573F091629E6E300914D3E /* UITextView+Placeholder.m */,
 			);
 			name = "Entry TVCs";
 			sourceTree = "<group>";
@@ -386,6 +386,19 @@
 				9137F17A166A4B3B00C789D2 /* ToDo+ST.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		91C68E9F16C7511600F91420 /* Days TVCs */ = {
+			isa = PBXGroup;
+			children = (
+				911FE980166F7009006BF9CD /* STTodayTVC.h */,
+				911FE981166F7009006BF9CD /* STTodayTVC.m */,
+				9120B82016A4255700F53B4C /* STPreviousDayTVC.h */,
+				9120B82116A4255700F53B4C /* STPreviousDayTVC.m */,
+				918EA1ED169703FF001FCFDA /* STPreviousDaysTVC.h */,
+				918EA1EE169703FF001FCFDA /* STPreviousDaysTVC.m */,
+			);
+			name = "Days TVCs";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -513,6 +526,7 @@
 				91A9692616AAE1D700085EC5 /* BSKeyboardControls.m in Sources */,
 				91A9693716AE1C9600085EC5 /* NSDate+ES.m in Sources */,
 				91C68E9E16C12CCB00F91420 /* STSetOfAdviceTVC.m in Sources */,
+				91C68EA216C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

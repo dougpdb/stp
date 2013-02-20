@@ -17,7 +17,7 @@
 
 @property (strong, nonatomic) Day *thisDay;
 @property (strong, nonatomic) LESixOfDay *nextEntry;
-@property (nonatomic) LESixOfDay *entryFromNotification;
+@property (strong, nonatomic) LESixOfDay *entryFromNotification;
 @property (strong, nonatomic) NSArray *remainingScheduledEntries;
 @property (strong, nonatomic) NSArray *updatedEntries;
 @property (strong, nonatomic) NSDate *mostRecentlyAddedDate;
