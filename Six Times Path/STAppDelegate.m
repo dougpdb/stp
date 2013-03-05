@@ -218,8 +218,8 @@
 															   andArrayOfGuidelineNames:adviceBeatitudes
 																		  intoTradition:traditionChristianity];
     
-	//    tenCommandments.orderNumberInFollowedSets	=
-	// beatitudes.orderNumberInFollowedSets        = [NSNumber numberWithInt:1];
+	tenCommandments.orderNumberInFollowedSets	= [NSNumber numberWithInt:0];
+	beatitudes.orderNumberInFollowedSets        = [NSNumber numberWithInt:0];
     
     
     // Set up Civic guidelines
@@ -227,8 +227,8 @@
     SetOfAdvice *boyScoutOathAndLaw             = [self insertSetOfAdviceWithAdviceName:@"Boy Scout Oath and Law" andArrayOfGuidelineNames:adviceBoyScoutOath intoTradition:civicTradition];
     SetOfAdvice *girlScoutOathAndPromise        = [self insertSetOfAdviceWithAdviceName:@"Girl Scout Oath and Promise" andArrayOfGuidelineNames:adviceGirlScoutOath intoTradition:civicTradition];
 
-//    boyScoutOathAndLaw.orderNumberInFollowedSets		= [NSNumber numberWithInt:0];
-//	girlScoutOathAndPromise.orderNumberInFollowedSets	= [NSNumber numberWithInt:0];
+    boyScoutOathAndLaw.orderNumberInFollowedSets		= [NSNumber numberWithInt:0];
+	girlScoutOathAndPromise.orderNumberInFollowedSets	= [NSNumber numberWithInt:0];
 	
 	NSLog(@"Importing completed for Traditions!");
 }

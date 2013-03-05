@@ -430,35 +430,63 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             </objects>
             <point key="canvasLocation" x="974" y="4027"/>
         </scene>
-        <!--Table View Controller-->
-        <scene sceneID="D5f-ei-f2v">
+        <!--Add Following Set Of AdviceTVC - Add Set of Guidelines-->
+        <scene sceneID="7y4-98-buQ">
             <objects>
-                <tableViewController modalTransitionStyle="flipHorizontal" id="u0U-CD-qbi" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="DSk-p6-80f">
+                <tableViewController id="Z7S-Qt-7Ma" customClass="STAddFollowingSetOfAdviceTVC" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="jAk-QA-2Vj">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="2cR-6s-zt3">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="setOfAdviceName" textLabel="F92-XL-EdI" style="IBUITableViewCellStyleDefault" id="BE6-uY-kap" userLabel="Set Of Guidelines Info Cell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F92-XL-EdI">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                             </tableViewCell>
                         </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="u0U-CD-qbi" id="lZN-LF-nvc"/>
-                            <outlet property="delegate" destination="u0U-CD-qbi" id="T9T-Da-pND"/>
-                        </connections>
                     </tableView>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <navigationItem key="navigationItem" title="Add Set of Guidelines" id="Xyb-Ue-ivC">
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="tNT-Ae-KqI">
+                            <connections>
+                                <action selector="cancel:" destination="Z7S-Qt-7Ma" id="VNa-rY-PcW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Wwp-fr-Iy3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pDp-Hw-l3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2558" y="5776"/>
+            <point key="canvasLocation" x="2558" y="5759"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Qi5-2m-vX5">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="pXr-Z3-vmP" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="dg0-8c-s3U"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="iTC-ar-Z85">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.94901960784313721" green="0.50980392156862742" blue="0.027450980392156862" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Z7S-Qt-7Ma" kind="relationship" relationship="rootViewController" id="OX4-yF-F8K"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Pg-Lm-r5g" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2112" y="5759"/>
         </scene>
         <!--Sets of Guidelines Followed-->
         <scene sceneID="Qyy-9x-ic9">
@@ -469,15 +497,15 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="addSetOfGuidelines" textLabel="EFR-hK-JlY" style="IBUITableViewCellStyleDefault" id="tJv-b5-LSK" userLabel="Add Set of Guidelines Cell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="addSetOfGuidelines" textLabel="EFR-hK-JlY" style="IBUITableViewCellStyleDefault" id="tJv-b5-LSK" userLabel="Add Set of Guidelines Cell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Choose Set of Guidelines..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EFR-hK-JlY">
-                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -525,7 +553,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         </fragment>
                     </attributedString>
                     <connections>
-                        <segue destination="u0U-CD-qbi" kind="modal" identifier="addFollowingSetsOfGuidelines" modalTransitionStyle="flipHorizontal" id="LMI-3s-1PC"/>
+                        <segue destination="pXr-Z3-vmP" kind="modal" identifier="addFollowingSetsOfGuidelines" id="lAg-5W-c3b"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lMs-1x-6rK" userLabel="First Responder" sceneMemberID="firstResponder"/>

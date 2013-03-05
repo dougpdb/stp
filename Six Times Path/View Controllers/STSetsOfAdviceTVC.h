@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "CoreDataTableViewController.h"
+#import "STAddFollowingSetOfAdviceTVC.h"
 
-@interface STSetsOfAdviceTVC : CoreDataTableViewController 
+@interface STSetsOfAdviceTVC : CoreDataTableViewController <AddFollowingSetOfAdviceDelegate>
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
