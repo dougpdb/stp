@@ -21,6 +21,8 @@
 @implementation STSetOfAdviceTVC
 
 
+#pragma mark - View loading and appearing
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

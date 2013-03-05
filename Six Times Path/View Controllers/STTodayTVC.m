@@ -32,7 +32,7 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *feedbackButton;
 
 @property (nonatomic, weak) NSArray *dataArray;
-@property (nonatomic, weak) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 - (IBAction)greatHighwayExplorerFeedback:(id)sender;
 
@@ -278,7 +278,7 @@
 		
 		[self saveContext];
 		[self performFetch];
-		//		[self.tableView reloadData];
+		[self.tableView reloadData];
 
 		[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %i", [self.fetchedResultsController.fetchedObjects count]]];
 	}
