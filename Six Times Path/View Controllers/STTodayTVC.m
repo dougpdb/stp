@@ -261,6 +261,8 @@
 	if ([self isTimeToAddDay]) {
 		NSLog(@"Now [%@] is later in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, mostRecentDate.timeAndDate);
 		
+		[self cancelAllRemainingNotifications];
+		
 		Day *newDay					= [NSEntityDescription insertNewObjectForEntityForName:@"Day"
 																	inManagedObjectContext:self.managedObjectContext];
 		
@@ -276,8 +278,10 @@
 		self.mostRecentlyAddedDate	= newDay.date;
 		self.thisDay				= newDay;
 		
+		[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:YES];
 		[self saveContext];
 		[self performFetch];
+		[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
 		[self.tableView reloadData];
 
 		[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %i", [self.fetchedResultsController.fetchedObjects count]]];
@@ -751,16 +755,19 @@
 	[self.pickerView removeFromSuperview];
 }
 
+-(void)cancelAllRemainingNotifications
+{
+	UIApplication *STPapp				= [UIApplication sharedApplication];
+	STPapp.applicationIconBadgeNumber	= 0;
+	[STPapp cancelAllLocalNotifications];
+}
 
 - (IBAction)doneAction:(id)sender
 {
 	
 	self.thisDay.startHour				= [NSNumber numberWithInt:[self.pickerView.date hour]];
 	self.thisDay.startMinute			= [NSNumber numberWithInt:[self.pickerView.date minute]];
-	UIApplication *STPapp				= [UIApplication sharedApplication];
-	STPapp.applicationIconBadgeNumber	= 0;
-	[STPapp cancelAllLocalNotifications];
-	
+	[self cancelAllRemainingNotifications];
 	
 	// Reset scheduled times for log entries
 	for (LESixOfDay *oneOfSix in [self.thisDay getTheSixWithoutUserEntriesSorted]) {
