@@ -339,7 +339,22 @@
 			}
 		}
 		
-		self.leSixOfDay.timeLastUpdated	= [NSDate date];
+		
+		NSArray *allRemainingEntriesWithMostRecentlyUpdatedEntry	= [self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted];
+		NSInteger indexOfMostRecentlyUpdatedEntry					= [allRemainingEntriesWithMostRecentlyUpdatedEntry indexOfObject:self.leSixOfDay];
+		
+		self.leSixOfDay.timeLastUpdated		= [NSDate date];
+		
+		NSArray *allRemainingEntries		= [self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted];
+		NSInteger countOfCompletedEntries	= 6 - [allRemainingEntries count];
+		
+		for (LESixOfDay *remainingEntry in allRemainingEntries) {
+			if ([allRemainingEntries indexOfObject:remainingEntry] < indexOfMostRecentlyUpdatedEntry) {
+				[remainingEntry resetScheduledTimeAtHourInterval:countOfCompletedEntries + [allRemainingEntries indexOfObject:remainingEntry] + 1];
+			} else {
+				break;
+			}
+		}
 				
 		// save to store!
 		NSError *error;

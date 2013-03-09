@@ -18,6 +18,7 @@
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 
+@property BOOL isRemainingScheduledEntry;
 @property (nonatomic) LESixOfDay *leSixOfDay;
 @property (nonatomic) ActionTaken *aPositiveActionTaken;
 @property (nonatomic) ActionTaken *aNegativeActionTaken;

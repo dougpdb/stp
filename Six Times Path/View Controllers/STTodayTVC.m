@@ -151,6 +151,8 @@
 	self.title							= self.mostRecentlyAddedDate.weekdayMonthAndDay;
 	self.tableViewSections				= nil;
 	[self.tableView reloadData];
+	NSLog(@"Start hour: %i", [self.thisDay.startHour intValue]);
+	NSLog(@"Date time: %@", self.thisDay.date.timeAndDate);
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -613,7 +615,9 @@
 					
 					summaryOrSetupCell.textLabel.text		= @"Wake Up Time";
 					LESixOfDay *firstGuidelineOfDay			= [[self.thisDay getTheSixSorted] objectAtIndex:0];
-					NSDate *wakeUpAt						= [firstGuidelineOfDay.timeScheduled dateByAddingTimeInterval:-2*60*60];	// this will need to be fixed
+					NSInteger countOfEntriesCompleted		= [[self.thisDay getTheSixThatHaveUserEntriesSorted] count];
+					//NSInteger hourInterval					= countOfEntriesCompleted * 2;
+					NSDate *wakeUpAt						= [self.nextEntry.timeScheduled dateByAddingTimeInterval:-2*(1+countOfEntriesCompleted)*60*60];	// this will need to be fixed
 					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", wakeUpAt.time];
 					summaryOrSetupCell.detailTextLabel.tag	= 10001;
 					return summaryOrSetupCell;
@@ -702,8 +706,6 @@
 #pragma mark - Managing the Start of the Day
 -(void)showDatePicker
 {
-	if (self.debug)
-		NSLog(@"In -showDatePicker");
 	NSIndexPath *indexPath		= [self.tableView indexPathForSelectedRow];
 	UITableViewCell *targetCell = [self.tableView cellForRowAtIndexPath:indexPath];
 	self.pickerView.date		= [self.dateFormatter dateFromString:targetCell.detailTextLabel.text];
@@ -770,9 +772,12 @@
 	[self cancelAllRemainingNotifications];
 	
 	// Reset scheduled times for log entries
-	for (LESixOfDay *oneOfSix in [self.thisDay getTheSixWithoutUserEntriesSorted]) {
-		[oneOfSix resetScheduledTime];
-		[self addNotification:oneOfSix];
+	NSArray *allRemainingEntries		= [self.thisDay getTheSixWithoutUserEntriesSorted];
+	NSInteger countOfCompletedEntries	= [self.thisDay getTheSixThatHaveUserEntriesSorted];
+	
+	for (LESixOfDay *remainingEntry in allRemainingEntries) {
+		[remainingEntry resetScheduledTimeAtHourInterval:countOfCompletedEntries + [allRemainingEntries indexOfObject:remainingEntry] + 1];
+		[self addNotification:remainingEntry];
 	}
 
 	// save to store!
@@ -818,6 +823,9 @@
 	[self.tableView reloadData];
 }
 
+
+#pragma mark - Managing Segues
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 			
@@ -832,13 +840,14 @@
 		} else {
 		
 			if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
-				leSixOfDayTVC.leSixOfDay			= self.nextEntry;
+				leSixOfDayTVC.leSixOfDay						= self.nextEntry;
 				[TestFlight passCheckpoint:@"GO TO NEXT ENTRY"];
 			} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
-				leSixOfDayTVC.leSixOfDay			= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];
+				leSixOfDayTVC.leSixOfDay						= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];
+				leSixOfDayTVC.isRemainingScheduledEntry	= YES;
 				[TestFlight passCheckpoint:@"GO TO FUTURE ENTRY"];
 			} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
-				leSixOfDayTVC.leSixOfDay			= [self.updatedEntries objectAtIndex:indexPath.row - 1];
+				leSixOfDayTVC.leSixOfDay						= [self.updatedEntries objectAtIndex:indexPath.row - 1];
 				[TestFlight passCheckpoint:@"GO TO PREVIOUS ENTRY"];
 			}
 			

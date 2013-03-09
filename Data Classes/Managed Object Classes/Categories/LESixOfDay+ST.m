@@ -61,9 +61,17 @@
 
 -(void)resetScheduledTime
 {
+	[self resetScheduledTimeAtHourInterval:[self.orderNumberForType intValue]];
+//	NSInteger hourInterval	= 2;
+//	self.timeScheduled		= [self.dayOfSix.date setHour:[self.dayOfSix.startHour intValue] + (hourInterval * [self.orderNumberForType intValue])
+//												andMinute:[self.dayOfSix.startMinute intValue]];
+}
+
+-(void)resetScheduledTimeAtHourInterval:(NSInteger)orderNumber
+{
 	NSInteger hourInterval	= 2;
-	self.timeScheduled	= [self.dayOfSix.date setHour:[self.dayOfSix.startHour intValue] + (hourInterval * [self.orderNumberForType intValue])
-										   andMinute:[self.dayOfSix.startMinute intValue]];
+	self.timeScheduled		= [self.dayOfSix.date setHour:[self.dayOfSix.startHour intValue] + (hourInterval * orderNumber)
+											andMinute:[self.dayOfSix.startMinute intValue]];
 }
 
 #pragma mark - Actions Taken

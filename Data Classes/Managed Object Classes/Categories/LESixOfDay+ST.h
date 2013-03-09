@@ -21,6 +21,7 @@
 -(NSSet *)getNegativeActionsTaken;
 
 -(void)resetScheduledTime;
+-(void)resetScheduledTimeAtHourInterval:(NSInteger)orderNumber;
 
 
 // For logging in the XCode console
