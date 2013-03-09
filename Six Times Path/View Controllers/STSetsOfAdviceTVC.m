@@ -84,10 +84,6 @@
 
 -(void)refreshFollowingSetsOfAdvice
 {
-	for (SetOfAdvice *setOfAdvice in self.allSetsOfAdvice) {
-		NSLog(@"Set of Advice, orderNumberInFollowedSets: %@ [%i]", setOfAdvice.name, [setOfAdvice.orderNumberInFollowedSets intValue]);
-	}
-	
 	NSPredicate *predicate;
 	predicate								= [NSPredicate predicateWithFormat:@"self.orderNumberInFollowedSets > 0"];
 	NSArray *unsortedfollowingSetsOfAdvice	= [self.allSetsOfAdvice filteredArrayUsingPredicate:predicate];
@@ -197,6 +193,18 @@
 	
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (self.isFilteredForFollowingSetsOfAdvice) {
+		if (indexPath.row < [self.followingSetsOfAdvice count])
+			return @"Remove";
+	} else {
+		return @"Delete";
+	}
+	return nil;
+}
+
+
 #pragma mark Add Set
 
 -(void)addFollowingSetsOfAdvice
@@ -212,11 +220,7 @@
 	}
 	[self.managedObjectContext save:nil];
 	[self refreshFollowingSetsOfAdvice];
-	
-	for (SetOfAdvice *aSetOfAdvice in self.allSetsOfAdvice) {
-		NSLog(@"%i: %@", [aSetOfAdvice.orderNumberInFollowedSets intValue], aSetOfAdvice.name);
-	}
-	
+		
 	NSIndexPath *indexPath						= [NSIndexPath indexPathForRow:[self.followingSetsOfAdvice count]-1 inSection:0];
     UITableViewRowAnimation animationStyle		= UITableViewRowAnimationFade;
 	[self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:animationStyle];
@@ -350,18 +354,15 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 	
-	NSLog(@"prepareForSegue Triggered: %@", segue.identifier);
-	
 	if ([segue.identifier isEqualToString:@"addFollowingSetsOfGuidelines"]) {
 		
 		STAddFollowingSetOfAdviceTVC *addFollowingSetOfAdviceTVC	= [[segue.destinationViewController viewControllers] objectAtIndex:0];
 		addFollowingSetOfAdviceTVC.delegate							= self;
 		addFollowingSetOfAdviceTVC.managedObjectContext				= self.managedObjectContext;
 		addFollowingSetOfAdviceTVC.notFollowingSetsOfAdvice			= self.notFollowingSetsOfAdvice;
+			
+	} else {
 		
-		NSLog(@"notFollowingSetsOfAdvice count: %i", [self.notFollowingSetsOfAdvice count]);
-		
-	} else {		
 		NSIndexPath *indexPath					= [self.tableView indexPathForSelectedRow];
 		
 		STSetOfAdviceTVC *setOfAdviceTVC		= segue.destinationViewController;
@@ -372,6 +373,7 @@
 			setOfAdviceTVC.selectedSetOfAdvice	= [self.followingSetsOfAdvice objectAtIndex:indexPath.row];
 		else
 			setOfAdviceTVC.selectedSetOfAdvice	= [self.allSetsOfAdvice objectAtIndex:indexPath.row];
+		
 	}
 }
 

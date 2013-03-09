@@ -24,6 +24,9 @@
 
 #define TESTING	1
 
+static NSString *kTestFlightAPIKey	= @"a8e8bc8c4f06c2d6ae5584599aa9a8af_MTc3NTE1MjAxMy0wMS0yMSAwNjo1Nzo1OS45NDcyOTk";
+static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf";
+
 @implementation STAppDelegate
 
 @synthesize window = _window;
@@ -262,11 +265,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-	[Crashlytics startWithAPIKey:@"404953fc9bd6c37e14f978a53ec8dabf001f82bf"];
 	#ifdef TESTING
 		[TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
 	#endif
-	[TestFlight takeOff:@"a8e8bc8c4f06c2d6ae5584599aa9a8af_MTc3NTE1MjAxMy0wMS0yMSAwNjo1Nzo1OS45NDcyOTk"];
+	[TestFlight takeOff:kTestFlightAPIKey];
+
+	[Crashlytics startWithAPIKey:kCrashlyticsAPIKey];
 	
 	self.debug	= YES;
 	
