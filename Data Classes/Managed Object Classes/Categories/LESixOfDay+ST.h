@@ -22,7 +22,7 @@
 
 -(void)resetScheduledTime;
 -(void)resetScheduledTimeAtHourInterval:(NSInteger)orderNumber;
-
+-(void)resetScheduledTimeAtHourInterval:(NSInteger)orderNumber startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute;
 
 // For logging in the XCode console
 -(void)logValuesOfLogEntry;

@@ -8,6 +8,7 @@
 
 #import "LESixOfDay+ST.h"
 #import "NSDate+ST.h"
+#import "NSDate+ES.h"
 #import "Day.h"
 #import "Advice.h"
 #import "ToDo.h"
@@ -71,7 +72,21 @@
 {
 	NSInteger hourInterval	= 2;
 	self.timeScheduled		= [self.dayOfSix.date setHour:[self.dayOfSix.startHour intValue] + (hourInterval * orderNumber)
-											andMinute:[self.dayOfSix.startMinute intValue]];
+												andMinute:[self.dayOfSix.startMinute intValue]];
+}
+
+-(void)resetScheduledTimeAtHourInterval:(NSInteger)orderNumber startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute
+{
+	NSInteger hourInterval	= 2;
+	NSDate *date			= [NSDate dateWithMonth:[self.dayOfSix.date month]
+											andDate:[self.dayOfSix.date day]
+											andYear:[self.dayOfSix.date year]];
+	NSLog(@"The date in resetScheduledTimeAtHourInterval is %@", date.timeAndDate);
+	NSLog(@"orderNumber, startHour, startMinute: %i, %i, %i", orderNumber, startHour, startMinute);
+	self.timeScheduled		= [date setHour:startHour + (hourInterval * orderNumber)
+								  andMinute:startMinute];
+	NSLog(@"The new timeScheduled: %@", self.timeScheduled.timeAndDate);
+		
 }
 
 #pragma mark - Actions Taken

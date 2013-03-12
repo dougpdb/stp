@@ -151,8 +151,6 @@
 	self.title							= self.mostRecentlyAddedDate.weekdayMonthAndDay;
 	self.tableViewSections				= nil;
 	[self.tableView reloadData];
-	NSLog(@"Start hour: %i", [self.thisDay.startHour intValue]);
-	NSLog(@"Date time: %@", self.thisDay.date.timeAndDate);
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -773,10 +771,13 @@
 	
 	// Reset scheduled times for log entries
 	NSArray *allRemainingEntries		= [self.thisDay getTheSixWithoutUserEntriesSorted];
-	NSInteger countOfCompletedEntries	= [self.thisDay getTheSixThatHaveUserEntriesSorted];
+	NSInteger countOfCompletedEntries	= [[self.thisDay getTheSixThatHaveUserEntriesSorted] count];
 	
 	for (LESixOfDay *remainingEntry in allRemainingEntries) {
-		[remainingEntry resetScheduledTimeAtHourInterval:countOfCompletedEntries + [allRemainingEntries indexOfObject:remainingEntry] + 1];
+		[remainingEntry resetScheduledTimeAtHourInterval:countOfCompletedEntries + [allRemainingEntries indexOfObject:remainingEntry] + 1
+											   startHour:[self.thisDay.startHour intValue]
+											 startMinute:[self.thisDay.startMinute intValue]];
+		
 		[self addNotification:remainingEntry];
 	}
 
