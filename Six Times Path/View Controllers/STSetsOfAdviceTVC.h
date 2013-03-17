@@ -10,9 +10,12 @@
 #import "CoreDataTableViewController.h"
 #import "STAddFollowingSetOfAdviceTVC.h"
 
+@class Day;
+
 @interface STSetsOfAdviceTVC : CoreDataTableViewController <AddFollowingSetOfAdviceDelegate>
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) Day *currentDay;
 
 
 - (IBAction)greatHIghwayExplorerFeedback:(id)sender;

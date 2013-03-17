@@ -10,6 +10,9 @@
 #import "STSetOfAdviceTVC.h"
 #import "STAddFollowingSetOfAdviceTVC.h"
 #import "SpiritualTradtion.h"
+#import "Advice.h"
+#import "Day+ST.h"
+#import "LESixOfDay+ST.h"
 #import "TestFlight.h"
 #import "SetOfAdvice.h"
 
@@ -21,6 +24,7 @@
 @property (nonatomic) NSMutableArray *selectedSetsOfAdvice;
 @property (nonatomic) NSArray *followingSetsOfAdvice;
 @property (nonatomic) NSArray *notFollowingSetsOfAdvice;
+@property (nonatomic) NSArray *allAdviceBeingFollowed;
 
 @end
 
@@ -84,6 +88,8 @@
 
 -(void)refreshFollowingSetsOfAdvice
 {
+	self.allAdviceBeingFollowed				= nil;
+
 	NSPredicate *predicate;
 	predicate								= [NSPredicate predicateWithFormat:@"self.orderNumberInFollowedSets > 0"];
 	NSArray *unsortedfollowingSetsOfAdvice	= [self.allSetsOfAdvice filteredArrayUsingPredicate:predicate];
@@ -92,6 +98,23 @@
 
 	predicate								= [NSPredicate predicateWithFormat:@"self.orderNumberInFollowedSets == %@ or self.orderNumberInFollowedSets == 0", [NSNull null]];
 	self.notFollowingSetsOfAdvice			= [self.allSetsOfAdvice filteredArrayUsingPredicate:predicate];
+}
+
+-(NSArray *)allAdviceBeingFollowed
+{
+	if (_allAdviceBeingFollowed == nil) {
+		NSMutableArray *allAdvice			= [[NSMutableArray alloc] init];
+		for (SetOfAdvice *followedSetOfAdvice in self.followingSetsOfAdvice) {
+			NSArray *unsortedAdvice			= [followedSetOfAdvice.containsAdvice allObjects];				
+			NSArray *sortDescriptors		= @[[[NSSortDescriptor alloc] initWithKey:@"orderNumberInSet" ascending:YES]];
+			NSArray *sortedAdvice			= [unsortedAdvice sortedArrayUsingDescriptors:sortDescriptors];
+			
+			[allAdvice addObjectsFromArray:sortedAdvice];
+		}
+		_allAdviceBeingFollowed				= [NSArray arrayWithArray:allAdvice];
+		NSLog(@"The count of all advice being followed is %i", [_allAdviceBeingFollowed count]);
+	}
+	return _allAdviceBeingFollowed;
 }
 
 
@@ -125,9 +148,9 @@
 																			 style:UIBarButtonItemStyleBordered
 																			target:self
 																			action:@selector(returnToDay:)];
-	self.navigationItem.rightBarButtonItem	= [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-																						  target:self
-																						  action:@selector(addNewSetOfGuidelines:)];
+	self.navigationItem.rightBarButtonItem	= nil; // [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+//																						  target:self
+//																						  action:@selector(addNewSetOfGuidelines:)];
 	[self.tableView reloadData];
 }
 
@@ -136,30 +159,66 @@
 	
 }
 
+-(BOOL)currentlyFollowingAdvice:(Advice *)advice
+{
+	return ([self.allAdviceBeingFollowed indexOfObject:advice] == NSNotFound) ? NO : YES;
+}
+-(BOOL)notCurrentlyBeingFollowed:(Advice *)advice
+{
+	return ([self.allAdviceBeingFollowed indexOfObject:advice] == NSNotFound);
+}
 -(void)returnToDay:(id)sender
 {
+	
+	NSArray *remainingScheduledEntries		= [self.currentDay getTheSixWithoutUserEntriesSorted];
+	NSMutableArray *newFollowedEntries		= [[NSMutableArray alloc] init];
+	[newFollowedEntries addObjectsFromArray:[self.currentDay getTheSixThatHaveUserEntriesSorted]];
+	for (LESixOfDay *remainingEntry in remainingScheduledEntries) {
+		
+		if ([self currentlyFollowingAdvice:remainingEntry.advice])
+			[newFollowedEntries addObject:remainingEntry];
+		
+		if ([self notCurrentlyBeingFollowed:remainingEntry.advice]) {
+			NSInteger indexOfFirstRemainingEntryNoLongerBeingFollowed	= [remainingScheduledEntries indexOfObject:remainingEntry];
+			
+			NSRange rangeOfScheduledEntriesNotBeingFollowed;
+			rangeOfScheduledEntriesNotBeingFollowed.location			= indexOfFirstRemainingEntryNoLongerBeingFollowed;
+			rangeOfScheduledEntriesNotBeingFollowed.length				= [remainingScheduledEntries count] - indexOfFirstRemainingEntryNoLongerBeingFollowed;
+			
+			NSArray *remainingScheduledEntriesNoLongerBeingFollowed		= [remainingScheduledEntries subarrayWithRange:rangeOfScheduledEntriesNotBeingFollowed];
+
+			[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
+
+			for (LESixOfDay *entryNoLogerBeingFollowed in remainingScheduledEntriesNoLongerBeingFollowed) {
+				[self.currentDay removeTheSixObject:entryNoLogerBeingFollowed];
+				entryNoLogerBeingFollowed.dayOfSix						= nil;
+			}
+			
+			NSInteger indexOfFollowedAdviceForTheDay		= 0;
+			NSInteger orderNumber							= 0;
+
+			for (LESixOfDay *entryStillBeingFollowed in newFollowedEntries)
+				entryStillBeingFollowed.orderNumberForType	= [NSNumber numberWithInteger:++orderNumber];
+			
+			do {
+				Advice *advice			= [self.allAdviceBeingFollowed objectAtIndex:indexOfFollowedAdviceForTheDay++];
+				LESixOfDay *newEntry	= [LESixOfDay logEntryWithAdvice:advice
+													  withOrderNumber:++orderNumber
+																onDay:self.currentDay
+											   inManagedObjectContext:self.managedObjectContext];
+				[self.currentDay addTheSixObject:newEntry];
+				
+			} while (orderNumber < 6);
+			
+			[self.managedObjectContext save:nil];
+			
+			break;
+		}
+	}
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self.tableView setEditing:NO animated:YES];
 }
 
-//-(void)addSetOfGuidelinesToFollowing:(id)sender
-//{
-//	UIActionSheet *addSetOfGuidelinesActionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose a Set of Guidelines You Want to Follow."
-//																			   delegate:self
-//																	  cancelButtonTitle:nil
-//																 destructiveButtonTitle:nil
-//																	  otherButtonTitles:nil];
-//	
-//	for (SetOfAdvice *setOfAdvice in self.notFollowingSetsOfAdvice)
-//		[addSetOfGuidelinesActionSheet addButtonWithTitle:setOfAdvice.name];
-//	
-//	[addSetOfGuidelinesActionSheet addButtonWithTitle:@"Cancel"];
-//	
-//	addSetOfGuidelinesActionSheet.cancelButtonIndex		= [self.notFollowingSetsOfAdvice count];
-//	
-//    [addSetOfGuidelinesActionSheet setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
-//
-//}
 
 
 
