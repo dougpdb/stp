@@ -95,6 +95,11 @@
 	return _tableViewSections;
 }
 
+-(void)resetTableViewSections
+{
+	_tableViewSections = nil;
+}
+
 
 #pragma mark - View Loading and Appearing
 
@@ -149,7 +154,7 @@
 {	
 	[self setupDayAndAdviceData];
 	self.title							= self.mostRecentlyAddedDate.weekdayMonthAndDay;
-	self.tableViewSections				= nil;
+	[self resetTableViewSections];
 	[self.tableView reloadData];
 }
 
@@ -282,6 +287,7 @@
 		[self saveContext];
 		[self performFetch];
 		[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
+		[self resetTableViewSections];
 		[self.tableView reloadData];
 
 		[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %i", [self.fetchedResultsController.fetchedObjects count]]];
@@ -856,8 +862,9 @@
 		
 	} else if ([[segue identifier] isEqualToString:@"Guidelines Followed"]) {
 		
-		STSetsOfAdviceTVC *tradtionsTVC	= segue.destinationViewController;
+		STSetsOfAdviceTVC *tradtionsTVC			= segue.destinationViewController;
 		tradtionsTVC.managedObjectContext		= self.managedObjectContext;
+		tradtionsTVC.currentDay					= self.thisDay;
 		[TestFlight passCheckpoint:@"GO TO GUIDELINES"];
 		
 	} else if ([[segue identifier] isEqualToString:@"Previous Days"]) {
