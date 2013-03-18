@@ -18,7 +18,6 @@
 #import "NSDate+ES.h"
 #import "TestFlight.h"
 
-#define OUT_OF_RANGE	10000
 #define IS_IPAD	(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_PORTRAIT 
 
@@ -67,11 +66,16 @@
 
 -(NSInteger)countOfTheSixWithoutUserEntries
 {
-	if (_countOfTheSixWithoutUserEntries == OUT_OF_RANGE) {
+	if (_countOfTheSixWithoutUserEntries == nil) {
 		_countOfTheSixWithoutUserEntries	= [[self.thisDay getTheSixWithoutUserEntriesSorted] count];
 	}
 	
 	return _countOfTheSixWithoutUserEntries;
+}
+
+-(void)resetCountOfTheSixWithoutUserEntries
+{
+	_countOfTheSixWithoutUserEntries	= nil;
 }
 
 -(NSMutableArray *)tableViewSections
@@ -83,7 +87,9 @@
 																		   @"Setup for Day",
 																		   @"Previous Days",
 																		   nil];
-		
+
+		[self resetCountOfTheSixWithoutUserEntries];
+
 		if (self.countOfTheSixWithoutUserEntries <= 1)
 			[tmpSectionArray removeObjectIdenticalTo:@"Remaining Scheduled Entries"];
 		else if (self.countOfTheSixWithoutUserEntries == 6)
@@ -205,7 +211,7 @@
 	self.updatedEntries							= [self.thisDay getTheSixThatHaveUserEntriesSorted];
 	self.showUpdatedEntries						= NO;
 	
-	self.countOfTheSixWithoutUserEntries		= OUT_OF_RANGE;
+	[self resetCountOfTheSixWithoutUserEntries];
 }
 
 
@@ -287,6 +293,7 @@
 		[self saveContext];
 		[self performFetch];
 		[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
+		
 		[self resetTableViewSections];
 		[self.tableView reloadData];
 

@@ -383,4 +383,14 @@ Bottom Margin = 11\
 30 + guidelineLabelHeight + 5 for the + (and + 5 for the label)\
 30 + guidelineLabelHeight + 31 for the - (and + 4 for the label)\
 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f4\b\fs22 \cf0 March 18, 2013\
+\pard\tx560\tx1120\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\b0\fs24 \cf0 This is a big day, I think. I fixed a bug that I've know about for a couple months, I think.\
+STTodayTVC \
+- I believe I finally fixed the issue of when a new day is added and the app is coming out of the background. In this situation, the app isn't starting out "cold" -- meaning that it has to fetch all the data, and sets up the tableViewSections. During that process, the properties tableViewSections and 
+\f1\fs22 \CocoaLigature0 countOfTheSixWithoutUserEntries
+\f0\fs24 \CocoaLigature1 . When these are set, they will not be reset until the user leaves the page and returns to the page. In the normal use case, it those properties won't change while on the page, because I had thought that they can only be changed when a scheduled entry is updated. I did this for performance reasons -- wanting to keep the fetch of the count lively. The properties can be access multiple times, especially during the set up of the table. I thought I had fixed this problem earlier, but I had only reset the tableViewSections array. I stepped through the code today and saw that  I also needed to reset countOfTheSixWithoutUserEntries. So I'll run a test today/tomorrow to see if this finally takes care of it. Excited to see! \
 }
