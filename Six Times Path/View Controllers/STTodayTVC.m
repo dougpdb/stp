@@ -66,7 +66,7 @@
 
 -(NSInteger)countOfTheSixWithoutUserEntries
 {
-	if (_countOfTheSixWithoutUserEntries == nil) {
+	if (_countOfTheSixWithoutUserEntries == -1) {
 		_countOfTheSixWithoutUserEntries	= [[self.thisDay getTheSixWithoutUserEntriesSorted] count];
 	}
 	
@@ -75,7 +75,7 @@
 
 -(void)resetCountOfTheSixWithoutUserEntries
 {
-	_countOfTheSixWithoutUserEntries	= nil;
+	_countOfTheSixWithoutUserEntries	= -1;
 }
 
 -(NSMutableArray *)tableViewSections
@@ -129,8 +129,8 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 	
-	self.showRemainingScheduledEntries	= nil;
-	self.showUpdatedEntries				= nil;
+	//	self.showRemainingScheduledEntries	= nil;
+	//	self.showUpdatedEntries				= nil;
 	
 	self.thisDay					= nil;
 	self.nextEntry					= nil;
@@ -138,9 +138,9 @@
 	self.remainingScheduledEntries	= nil;
 	self.updatedEntries				= nil;
 	self. mostRecentlyAddedDate		= nil;
-	self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay	= nil;
+	//	self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay	= nil;
 	self.allAdviceFollowedByUser	= nil;
-	self.countOfTheSixWithoutUserEntries	= nil;
+	//	self.countOfTheSixWithoutUserEntries	= nil;
 	self.tableViewSections			= nil;
 	
 	self.dataArray					= nil;
@@ -625,9 +625,7 @@
 					UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 					
 					summaryOrSetupCell.textLabel.text		= @"Wake Up Time";
-					LESixOfDay *firstGuidelineOfDay			= [[self.thisDay getTheSixSorted] objectAtIndex:0];
 					NSInteger countOfEntriesCompleted		= [[self.thisDay getTheSixThatHaveUserEntriesSorted] count];
-					//NSInteger hourInterval					= countOfEntriesCompleted * 2;
 					NSDate *wakeUpAt						= [self.nextEntry.timeScheduled dateByAddingTimeInterval:-2*(1+countOfEntriesCompleted)*60*60];	// this will need to be fixed
 					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", wakeUpAt.time];
 					summaryOrSetupCell.detailTextLabel.tag	= 10001;
@@ -905,7 +903,7 @@
     localNotification.alertAction					= @"OK";							//The button's text that launches the application and is shown in the alert
 	localNotification.alertBody						= sixOfDayLogEntry.advice.name;		//Set the message in the notification from the textField's text
     localNotification.hasAction						= YES;								//Set that pushing the button will launch the application
-    localNotification.applicationIconBadgeNumber	= [[UIApplication sharedApplication] applicationIconBadgeNumber]+1; //Set the Application Icon Badge Number of the application's icon to the current Application Icon Badge Number plus 1
+    localNotification.applicationIconBadgeNumber	= 1; //Set the Application Icon Badge Number of the application's icon to the current Application Icon Badge Number plus 1
 	localNotification.soundName						= UILocalNotificationDefaultSoundName;
 	localNotification.userInfo						= userInfo;
 	

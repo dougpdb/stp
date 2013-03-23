@@ -50,7 +50,6 @@
 @property (nonatomic, strong) NSString *updatedNegativeActionTakenDescription;
 @property (nonatomic, strong) NSString *updatedToDoText;
 
--(void)updateTime;
 
 @end
 

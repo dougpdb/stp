@@ -347,7 +347,7 @@
 -(NSMutableArray *)resetOrderingOfFollowedSetsOfAdvice:(NSMutableArray *)setsOfAdvice
 {
 	// TO DO
-	
+	return nil;
 }
 
 

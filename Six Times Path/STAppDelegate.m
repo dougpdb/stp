@@ -29,11 +29,11 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 
 @implementation STAppDelegate
 
-@synthesize window = _window;
-@synthesize managedObjectContext = __managedObjectContext;
-@synthesize managedObjectModel = __managedObjectModel;
-@synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
-@synthesize fetchedResultsController   = __fetchedResultsController;
+@synthesize window						= _window;
+@synthesize managedObjectContext		= __managedObjectContext;
+@synthesize managedObjectModel			= __managedObjectModel;
+@synthesize persistentStoreCoordinator	= __persistentStoreCoordinator;
+@synthesize fetchedResultsController	= __fetchedResultsController;
 @synthesize debug						= debug;
 
 
@@ -266,9 +266,9 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 {
     
 	#ifdef TESTING
-		[TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
-	#endif
+	//		[TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
 	[TestFlight takeOff:kTestFlightAPIKey];
+	#endif
 
 	[Crashlytics startWithAPIKey:kCrashlyticsAPIKey];
 	

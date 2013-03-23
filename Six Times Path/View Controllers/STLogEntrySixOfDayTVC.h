@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *positiveActionTextView;
 @property (weak, nonatomic) IBOutlet UITextView *negativeActionTextView;
 
-@property BOOL *showHints;
+@property BOOL showHints;
 
 - (IBAction)greatHighwayExplorerFeedback:(id)sender;
 - (void)saveEntry;

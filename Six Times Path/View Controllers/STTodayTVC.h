@@ -28,6 +28,7 @@
 @property (nonatomic, strong) NSMutableArray *tableViewSections;
 @property BOOL showRemainingScheduledEntries;
 @property BOOL showUpdatedEntries;
+@property BOOL noSetsOfGuidelinesBeingFollowed;
 
 
 #pragma mark - Setup and Manage Data
