@@ -90,10 +90,14 @@
 
 		[self resetCountOfTheSixWithoutUserEntries];
 
-		if (self.countOfTheSixWithoutUserEntries <= 1)
+		if ([self.allAdviceFollowedByUser count] == 0) {
+			[tmpSectionArray removeObjectIdenticalTo:@"Remaining Scheduled Entries"];
+			[tmpSectionArray removeObjectIdenticalTo:@"Updated Entries"];
+		} else if (self.countOfTheSixWithoutUserEntries <= 1)
 			[tmpSectionArray removeObjectIdenticalTo:@"Remaining Scheduled Entries"];
 		else if (self.countOfTheSixWithoutUserEntries == 6)
 			[tmpSectionArray removeObjectIdenticalTo:@"Updated Entries"];
+		
 		
 		_tableViewSections	= tmpSectionArray;
 	}
@@ -420,8 +424,10 @@
 	if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
 		
 		guidelineLabel.font				= [UIFont fontWithName:@"Palatino Bold" size:17]; // [UIFont boldSystemFontOfSize:17];
-
-		if (self.countOfTheSixWithoutUserEntries > 0)
+		
+		if ([self.allAdviceFollowedByUser count] == 0)
+			guidelineLabel.text			= @"You are currently not following any guidelines. Choose 1 or more sets of guidelines to follow.";
+		else if (self.countOfTheSixWithoutUserEntries > 0)
 			guidelineLabel.text			= self.nextEntry.advice.name;
 		else
 			guidelineLabel.text			= @"You've made entries for all 6 guidelines. Be happy over what you've done well to day, and regret the mistaken actions.";
@@ -496,7 +502,9 @@
 		
 			NSString *timeEntryTextPrefix;
 			
-			if (self.countOfTheSixWithoutUserEntries == 0) {
+			if ([self.allAdviceFollowedByUser count] == 0) {
+				timeEntryTextPrefix = @"Choose The Guidelines You Follow";
+			} else if (self.countOfTheSixWithoutUserEntries == 0) {
 				timeEntryTextPrefix	= @"Excellent!";
 			} else if (self.countOfTheSixWithoutUserEntries == 1) {
 				timeEntryTextPrefix	= @"Last Entry - ";
@@ -508,7 +516,13 @@
 
 		
 		
-			if (self.countOfTheSixWithoutUserEntries > 0) {
+			if ([self.allAdviceFollowedByUser count] == 0){
+				timeLabel.text							= timeEntryTextPrefix;
+				guidelineLabel.text						= @"You are currently not following any guidelines. Choose 1 or more sets of guidelines to follow.";
+
+				guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
+				guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
+			} else if (self.countOfTheSixWithoutUserEntries > 0) {
 				timeLabel.text							= [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.nextEntry.timeScheduled.time];
 				guidelineLabel.text						= self.nextEntry.advice.name;
 				
@@ -664,7 +678,9 @@
 {
     if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
 	
-			if (self.countOfTheSixWithoutUserEntries > 0) {
+			if ([self.allAdviceFollowedByUser count] == 0) {
+				[self performSegueWithIdentifier:@"Guidelines Followed" sender:self];
+			} else if (self.countOfTheSixWithoutUserEntries > 0) {
 				[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
 			}
 			
