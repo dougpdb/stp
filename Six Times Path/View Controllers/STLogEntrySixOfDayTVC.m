@@ -325,7 +325,7 @@
 		UIApplication *SixTimeApp	= [UIApplication sharedApplication];
 		
 		if ([[NSDate date] isLaterThanDate:self.leSixOfDay.timeScheduled] && self.leSixOfDay.timeScheduled) {
-			SixTimeApp.applicationIconBadgeNumber	= SixTimeApp.applicationIconBadgeNumber - 1;
+			SixTimeApp.applicationIconBadgeNumber	= -1;
 			[TestFlight passCheckpoint:@"LOG ENTRY COMPLETED AFTER SCHEDULED TIME"];
 		} else {
 			for (UILocalNotification *notification in SixTimeApp.scheduledLocalNotifications) {

@@ -23,6 +23,7 @@
 @property (nonatomic) NSArray *allSetsOfAdvice;
 @property (nonatomic) NSMutableArray *selectedSetsOfAdvice;
 @property (nonatomic) NSArray *followingSetsOfAdvice;
+@property (nonatomic) NSArray *preEditFollowingSetsOfAdvice;
 @property (nonatomic) NSArray *notFollowingSetsOfAdvice;
 @property (nonatomic) NSArray *allAdviceBeingFollowed;
 
@@ -42,6 +43,8 @@
 	self.allSetsOfAdvice		= self.fetchedResultsController.fetchedObjects;
 	
 	[self refreshFollowingSetsOfAdvice];
+
+	self.preEditFollowingSetsOfAdvice		= [self.followingSetsOfAdvice copy];
 	
 	[self initSetOfAdviceSegmentedControlFilter];
 	[self setViewFollowingSetsOfAdviceButtons];
@@ -112,7 +115,6 @@
 			[allAdvice addObjectsFromArray:sortedAdvice];
 		}
 		_allAdviceBeingFollowed				= [NSArray arrayWithArray:allAdvice];
-		NSLog(@"The count of all advice being followed is %i", [_allAdviceBeingFollowed count]);
 	}
 	return _allAdviceBeingFollowed;
 }
@@ -129,7 +131,6 @@
 	self.navigationItem.rightBarButtonItem	= [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
 																						   target:self
 																						   action:@selector(editFollowingSetsOfGuidelines:)];
-	
 }
 
 -(void)setEditFollowingSetsOfAdviceButtons
@@ -138,7 +139,7 @@
 	self.navigationItem.rightBarButtonItem	= [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 																						   target:self
 																						   action:@selector(endEditFollowingSetsOfGuidelines:)];
-	
+		
 	[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:YES];
 }
 
@@ -159,67 +160,83 @@
 	
 }
 
--(BOOL)currentlyFollowingAdvice:(Advice *)advice
-{
-	return ([self.allAdviceBeingFollowed indexOfObject:advice] == NSNotFound) ? NO : YES;
-}
--(BOOL)notCurrentlyBeingFollowed:(Advice *)advice
-{
-	return ([self.allAdviceBeingFollowed indexOfObject:advice] == NSNotFound);
-}
 -(void)returnToDay:(id)sender
 {
+	if (![self.followingSetsOfAdvice isEqualToArray:self.preEditFollowingSetsOfAdvice])
+		[self resetFollowedEntries];
 	
-	NSArray *remainingScheduledEntries		= [self.currentDay getTheSixWithoutUserEntriesSorted];
-	NSMutableArray *newFollowedEntries		= [[NSMutableArray alloc] init];
-	[newFollowedEntries addObjectsFromArray:[self.currentDay getTheSixThatHaveUserEntriesSorted]];
-	for (LESixOfDay *remainingEntry in remainingScheduledEntries) {
-		
-		if ([self currentlyFollowingAdvice:remainingEntry.advice])
-			[newFollowedEntries addObject:remainingEntry];
-		
-		if ([self notCurrentlyBeingFollowed:remainingEntry.advice]) {
-			NSInteger indexOfFirstRemainingEntryNoLongerBeingFollowed	= [remainingScheduledEntries indexOfObject:remainingEntry];
-			
-			NSRange rangeOfScheduledEntriesNotBeingFollowed;
-			rangeOfScheduledEntriesNotBeingFollowed.location			= indexOfFirstRemainingEntryNoLongerBeingFollowed;
-			rangeOfScheduledEntriesNotBeingFollowed.length				= [remainingScheduledEntries count] - indexOfFirstRemainingEntryNoLongerBeingFollowed;
-			
-			NSArray *remainingScheduledEntriesNoLongerBeingFollowed		= [remainingScheduledEntries subarrayWithRange:rangeOfScheduledEntriesNotBeingFollowed];
-
-			[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
-
-			for (LESixOfDay *entryNoLogerBeingFollowed in remainingScheduledEntriesNoLongerBeingFollowed) {
-				[self.currentDay removeTheSixObject:entryNoLogerBeingFollowed];
-				entryNoLogerBeingFollowed.dayOfSix						= nil;
-			}
-			
-			NSInteger indexOfFollowedAdviceForTheDay		= 0;
-			NSInteger orderNumber							= 0;
-
-			for (LESixOfDay *entryStillBeingFollowed in newFollowedEntries)
-				entryStillBeingFollowed.orderNumberForType	= [NSNumber numberWithInteger:++orderNumber];
-			
-			do {
-				Advice *advice			= [self.allAdviceBeingFollowed objectAtIndex:indexOfFollowedAdviceForTheDay++];
-				LESixOfDay *newEntry	= [LESixOfDay logEntryWithAdvice:advice
-													  withOrderNumber:++orderNumber
-																onDay:self.currentDay
-											   inManagedObjectContext:self.managedObjectContext];
-				[self.currentDay addTheSixObject:newEntry];
-				
-			} while (orderNumber < 6);
-			
-			[self.managedObjectContext save:nil];
-			
-			break;
-		}
-	}
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self.tableView setEditing:NO animated:YES];
 }
 
 
+#pragma mark - Resetting Advice Being Followed
+
+-(BOOL)currentlyFollowingAdvice:(Advice *)advice
+{
+	return ([self.allAdviceBeingFollowed indexOfObject:advice] == NSNotFound) ? NO : YES;
+}
+
+-(void)resetFollowedEntries
+{
+
+	NSArray *remainingScheduledEntries			= [self.currentDay getTheSixWithoutUserEntriesSorted];
+	
+	if ([remainingScheduledEntries count] > 0) {
+		
+		NSMutableArray *newFollowedEntries		= [[NSMutableArray alloc] init];
+		[newFollowedEntries addObjectsFromArray:[self.currentDay getTheSixThatHaveUserEntriesSorted]];
+		
+		for (LESixOfDay *remainingEntry in remainingScheduledEntries) {
+			if ([self currentlyFollowingAdvice:remainingEntry.advice])
+				[newFollowedEntries addObject:remainingEntry];
+			
+			else {
+				[self.currentDay removeTheSixObject:remainingEntry];
+				remainingEntry.dayOfSix			= nil;
+			}
+		}
+		
+		if ([newFollowedEntries count] < 6) {
+			[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
+			NSInteger indexOfNewlyFollowedAdviceForTheDay;
+			NSInteger orderNumber							= 0;
+			
+			if ([newFollowedEntries count] > [[self.currentDay getTheSixThatHaveUserEntriesSorted] count]) {
+				LESixOfDay *lastEntryStillBeingFollowed		= [newFollowedEntries lastObject];
+				Advice *lastAdviceStillBeingFollowed		= lastEntryStillBeingFollowed.advice;
+				
+				indexOfNewlyFollowedAdviceForTheDay			= [self.allAdviceBeingFollowed indexOfObject:lastAdviceStillBeingFollowed] + 1;
+			} else {
+				indexOfNewlyFollowedAdviceForTheDay			= 0;
+			}
+			
+
+			NSMutableArray *newFollowedAdvice				= [[NSMutableArray alloc] init];
+			
+			for (LESixOfDay *entryStillBeingFollowed in newFollowedEntries) {
+				entryStillBeingFollowed.orderNumberForType	= [NSNumber numberWithInteger:++orderNumber];
+				[newFollowedAdvice addObject:entryStillBeingFollowed.advice];
+			}
+			
+			do {
+				if (indexOfNewlyFollowedAdviceForTheDay == [self.allAdviceBeingFollowed count])
+					indexOfNewlyFollowedAdviceForTheDay		= 0;
+				
+				Advice *advice								= [self.allAdviceBeingFollowed objectAtIndex:indexOfNewlyFollowedAdviceForTheDay++];
+				
+				if (![newFollowedAdvice containsObject:advice]){
+					LESixOfDay *newEntry					= [LESixOfDay logEntryWithAdvice:advice
+																		   withOrderNumber:++orderNumber
+																					 onDay:self.currentDay
+																	inManagedObjectContext:self.managedObjectContext];
+					[self.currentDay addTheSixObject:newEntry];
+				}
+			} while (orderNumber < 6);
+		}
+		[self.managedObjectContext save:nil];
+	}
+}
 
 
 #pragma mark - Editing rows
@@ -285,6 +302,7 @@
 	[self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:animationStyle];
 }
 
+
 #pragma mark Remove Set
 
 -(void)removeFollowingSetsOfAdviceAtIndexPath:(NSIndexPath *)indexPath
@@ -306,6 +324,7 @@
 	UITableViewRowAnimation animationStyle			= UITableViewRowAnimationFade;
 	[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:animationStyle];
 }
+
 
 #pragma mark Reorder Set
 
