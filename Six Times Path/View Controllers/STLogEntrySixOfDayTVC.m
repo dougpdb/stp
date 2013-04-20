@@ -16,6 +16,7 @@
 #import "NSDate+ST.h"
 #import "NSDate+ES.h"
 #import "TestFlight.h"
+#import "STNotificationController.h"
 
 #import "BSKeyboardControls.h"
 
@@ -50,6 +51,8 @@
 @property (nonatomic, strong) NSString *updatedNegativeActionTakenDescription;
 @property (nonatomic, strong) NSString *updatedToDoText;
 
+@property (nonatomic, strong) STNotificationController *notificationController;
+
 
 @end
 
@@ -75,6 +78,7 @@
 	self.showHints	= YES;
 	self.debug		= YES;
 	
+	self.notificationController			= [STNotificationController new];
 	
 	/*	There should only be one postive and one negative action associated with the log entry type SixOfDay
 		Therefore, get the set of actions (there should only be one in the set at most) for each type of action
@@ -322,22 +326,7 @@
 						}
 	*/
 			
-		UIApplication *SixTimeApp	= [UIApplication sharedApplication];
-		
-		if ([[NSDate date] isLaterThanDate:self.leSixOfDay.timeScheduled] && self.leSixOfDay.timeScheduled) {
-			SixTimeApp.applicationIconBadgeNumber	= -1;
-			[TestFlight passCheckpoint:@"LOG ENTRY COMPLETED AFTER SCHEDULED TIME"];
-		} else {
-			for (UILocalNotification *notification in SixTimeApp.scheduledLocalNotifications) {
-				if ([notification.fireDate.timeAndDate isEqualToString:self.leSixOfDay.timeScheduled.timeAndDate]) {
-					[SixTimeApp cancelLocalNotification:notification];
-					
-					[TestFlight passCheckpoint:@"LOG ENTRY COMPLETED BEFORE TIME AND NOTIFICATION CANCELLED"];
-					break;
-				}
-			}
-		}
-		
+		[self.notificationController cancelNotificationFor:self.leSixOfDay];
 		
 		NSArray *allRemainingEntriesWithMostRecentlyUpdatedEntry	= [self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted];
 		NSInteger indexOfMostRecentlyUpdatedEntry					= [allRemainingEntriesWithMostRecentlyUpdatedEntry indexOfObject:self.leSixOfDay];

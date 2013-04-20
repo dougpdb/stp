@@ -15,6 +15,7 @@
 #import "LESixOfDay+ST.h"
 #import "TestFlight.h"
 #import "SetOfAdvice.h"
+#import "STNotificationController.h"
 
 @interface STSetsOfAdviceTVC ()
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -27,6 +28,8 @@
 @property (nonatomic) NSArray *notFollowingSetsOfAdvice;
 @property (nonatomic) NSArray *allAdviceBeingFollowed;
 
+@property (nonatomic, strong) STNotificationController *notificationController;
+
 @end
 
 @implementation STSetsOfAdviceTVC
@@ -38,9 +41,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	self.notificationController				= [STNotificationController new];
 
 	[self setupAllSetsOfAdviceFetchedResultsController];
-	self.allSetsOfAdvice		= self.fetchedResultsController.fetchedObjects;
+	self.allSetsOfAdvice					= self.fetchedResultsController.fetchedObjects;
 	
 	[self refreshFollowingSetsOfAdvice];
 
@@ -184,6 +189,8 @@
 	
 	if ([remainingScheduledEntries count] > 0) {
 		
+		[self.notificationController cancelAllNotifications];
+		
 		NSMutableArray *newFollowedEntries		= [[NSMutableArray alloc] init];
 		[newFollowedEntries addObjectsFromArray:[self.currentDay getTheSixThatHaveUserEntriesSorted]];
 		
@@ -233,6 +240,8 @@
 					[self.currentDay addTheSixObject:newEntry];
 				}
 			} while (orderNumber < 6);
+			
+			[self.notificationController addNotifications:[self.currentDay getTheSixSorted]];
 		}
 		[self.managedObjectContext save:nil];
 	}

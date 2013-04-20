@@ -39,8 +39,10 @@
 -(void)setTheSixFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 -(void)resetTheSixToBeShown;
 
+/*
 #pragma mark - Managing Notifications
 -(void)addNotification:(LESixOfDay *)sixOfDayLogEntry;
+*/
 
 #pragma mark - Managing Cell and Label Heights
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth;

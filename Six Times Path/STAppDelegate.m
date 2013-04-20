@@ -19,6 +19,8 @@
 #import "STLogEntrySixOfDayTVC.h"
 #import "NSDate+ST.h"
 
+#import "STNotificationController.h"
+
 
 #import "Advice.h"
 
@@ -283,12 +285,10 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
     // Override point for customization after application launch.
     UILocalNotification *notification			=	[launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (notification) {
-		NSString *NotificationValue = [notification.userInfo objectForKey:@"logEntryTimeScheduled"];
-		NSString *fireDate			= notification.fireDate.timeAndDate;
+		STNotificationController *notificationController	= [STNotificationController new];
 		
-		NSLog(@"LOCAL NOTIFICATION RECEVIED, value: %@", NotificationValue);
-		NSLog(@"LOCAL NOTIFICATION RECEVIED, fireDate: %@", fireDate);
-        application.applicationIconBadgeNumber	= notification.applicationIconBadgeNumber-1;
+		[notificationController descriptionOfNotification:notification];
+		
 		[TestFlight passCheckpoint:@"LAUNCH APP WITH NOTIFICATION"];
 
     }
@@ -304,8 +304,11 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 		controller.managedObjectContext						= self.managedObjectContext;
 	} else {
 */		UINavigationController *navigationController		= (UINavigationController *)self.window.rootViewController;
-		STTodayTVC *controller								= (STTodayTVC *)navigationController.topViewController;
-		controller.managedObjectContext						= self.managedObjectContext;
+		STTodayTVC *todayTVC								= (STTodayTVC *)navigationController.topViewController;
+		todayTVC.managedObjectContext						= self.managedObjectContext;
+	
+		if (notification)
+			[self navigateToLogEntryFromNotification:notification forToday:todayTVC];
 	//	}
     return YES;
 }
@@ -352,53 +355,49 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
 	
-    //----- GET THE LOCAL NOTIFICATION INFORMATION IF WE HAVE BEEN RUN FROM THE USER PRESSING THE ACTION BUTTON OF ONE OF OUR NOTIFICATIONS -----
-	NSString *NotificationValue			= [notification.userInfo objectForKey:@"logEntryTimeScheduled"];
-	NSString *fireDate					= notification.fireDate.timeAndDate;
-	NSNumber *orderNumberInSetOfEntries	= [notification.userInfo objectForKey:@"logEntryOrderNumberInSetOfEntries"];
+    STNotificationController *notificationController	= [STNotificationController new];
 	
-    NSLog(@"LOCAL NOTIFICATION RECEVIED, value: %@", NotificationValue);
-    NSLog(@"LOCAL NOTIFICATION RECEVIED, fireDate: %@", fireDate);
+	[notificationController descriptionOfNotification:notification];
 	
-    if (NotificationValue)
-    {
-        //----- VIEW NOTIFICATION -----
-        UIApplicationState state = [application applicationState];
-        if (state == UIApplicationStateInactive)
-        {
-            //----- APPLICATION WAS IN BACKGROUND - USER HAS SEEN NOTIFICATION AND PRESSED THE ACTION BUTTON -----
-            NSLog(@"Local noticiation - App was in background and user pressed action button");
-			
-			UINavigationController *navigationController	= (UINavigationController *)self.window.rootViewController;
+	//----- VIEW NOTIFICATION -----
+	UIApplicationState state = [application applicationState];
+	if (state == UIApplicationStateInactive)
+	{
+		//----- APPLICATION WAS IN BACKGROUND - USER HAS SEEN NOTIFICATION AND PRESSED THE ACTION BUTTON -----
+		NSLog(@"Local noticiation - App was in background and user pressed action button");
+		
+		UINavigationController *navigationController	= (UINavigationController *)self.window.rootViewController;
 
-			if ([navigationController.visibleViewController isMemberOfClass:[STLogEntrySixOfDayTVC class]]) {
-				[(STLogEntrySixOfDayTVC *)navigationController.visibleViewController saveEntry];
-			}
-			
-			[navigationController popToRootViewControllerAnimated:NO];
-			
-			STTodayTVC *todayTVC							= (STTodayTVC *)navigationController.topViewController;
-			
-			if ([todayTVC isTimeToAddDay]) {
-				// do nothing
-			} else {
-				[todayTVC setupDaysFetchedResultsController];
-				todayTVC.entryFromNotification				= (LESixOfDay *)[todayTVC.thisDay entrySixOfDay:orderNumberInSetOfEntries];
-				[todayTVC performSegueWithIdentifier:@"Guideline Entry" sender:self];
-			}
-			
-			
-			[application cancelLocalNotification:notification];
-			application.applicationIconBadgeNumber = application.applicationIconBadgeNumber - 1;
-			[TestFlight passCheckpoint:@"LAUNCH FROM BACKGROUND FROM NOTIFICATION"];
-        }
-        else
-        {
-            //----- APPLICATION IS IN FOREGROUND - USER HAS NOT BEEN PRESENTED WITH THE NOTIFICATION -----
-            NSLog(@"Local noticiation - App was in foreground");
-			
-        }
-    }
+		if ([navigationController.visibleViewController isMemberOfClass:[STLogEntrySixOfDayTVC class]]) {
+			[(STLogEntrySixOfDayTVC *)navigationController.visibleViewController saveEntry];
+		}
+		
+		[navigationController popToRootViewControllerAnimated:NO];
+		
+		STTodayTVC *todayTVC							= (STTodayTVC *)navigationController.topViewController;
+		
+		if (![todayTVC isTimeToAddDay]) {
+			[self navigateToLogEntryFromNotification:notification forToday:todayTVC];
+		}
+		
+		[notificationController cancelNotification:notification];
+
+		[TestFlight passCheckpoint:@"LAUNCH FROM BACKGROUND FROM NOTIFICATION"];
+	}
+	else
+	{
+		//----- APPLICATION IS IN FOREGROUND - USER HAS NOT BEEN PRESENTED WITH THE NOTIFICATION -----
+		NSLog(@"Local noticiation - App was in foreground");
+		
+	}
+}
+
+- (void)navigateToLogEntryFromNotification:(UILocalNotification *)notification forToday:(STTodayTVC *)todayTVC
+{
+    STNotificationController *notificationController	= [STNotificationController new];
+	[todayTVC setupDaysFetchedResultsController];
+	todayTVC.entryFromNotification						= [notificationController entryFromNotification:notification forDay:todayTVC.thisDay];
+	[todayTVC performSegueWithIdentifier:@"Guideline Entry" sender:self];
 }
 
 - (void)saveContext

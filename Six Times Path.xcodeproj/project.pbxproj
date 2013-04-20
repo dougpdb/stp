@@ -43,6 +43,7 @@
 		91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 91573F091629E6E300914D3E /* UITextView+Placeholder.m */; };
 		915E3FE315CFD37A0036C6FE /* prog journal.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 915E3FE215CFD37A0036C6FE /* prog journal.rtf */; };
 		9164B88016A9911200002B76 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9164B87F16A9911200002B76 /* Crashlytics.framework */; };
+		917E07A9171C151300DE3D01 /* STNotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 917E07A8171C151300DE3D01 /* STNotificationController.m */; };
 		918D4133168F3036007501DD /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 918D4132168F3035007501DD /* Day.m */; };
 		918EA1EF169703FF001FCFDA /* STPreviousDaysTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 918EA1EE169703FF001FCFDA /* STPreviousDaysTVC.m */; };
 		91A9692616AAE1D700085EC5 /* BSKeyboardControls.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A9692216AAE1D700085EC5 /* BSKeyboardControls.m */; };
@@ -125,6 +126,8 @@
 		91573F091629E6E300914D3E /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		915E3FE215CFD37A0036C6FE /* prog journal.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "prog journal.rtf"; sourceTree = SOURCE_ROOT; };
 		9164B87F16A9911200002B76 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		917E07A7171C151300DE3D01 /* STNotificationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STNotificationController.h; path = "Data Controllers/STNotificationController.h"; sourceTree = "<group>"; };
+		917E07A8171C151300DE3D01 /* STNotificationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STNotificationController.m; path = "Data Controllers/STNotificationController.m"; sourceTree = "<group>"; };
 		918D4131168F3035007501DD /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Day.h; path = "Data Classes/Managed Object Classes/Day.h"; sourceTree = "<group>"; };
 		918D4132168F3035007501DD /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Day.m; path = "Data Classes/Managed Object Classes/Day.m"; sourceTree = "<group>"; };
 		918EA1ED169703FF001FCFDA /* STPreviousDaysTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STPreviousDaysTVC.h; path = "View Controllers/STPreviousDaysTVC.h"; sourceTree = "<group>"; };
@@ -236,6 +239,7 @@
 				1E5523421591E2FA009114B7 /* STAppDelegate.m */,
 				9137F15D166A456800C789D2 /* Data Classes */,
 				9137F15F166A45F300C789D2 /* Storyboards and Xibs with VCs */,
+				917E07A6171C140300DE3D01 /* Data Controllers */,
 				9137F15E166A45A800C789D2 /* View Controllers */,
 				1E6B11B2159C6A600045AA42 /* Images */,
 				91A9692B16AD5E5700085EC5 /* TestFlightSDK1 */,
@@ -349,6 +353,15 @@
 				91573F091629E6E300914D3E /* UITextView+Placeholder.m */,
 			);
 			name = "Entry TVCs";
+			sourceTree = "<group>";
+		};
+		917E07A6171C140300DE3D01 /* Data Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				917E07A7171C151300DE3D01 /* STNotificationController.h */,
+				917E07A8171C151300DE3D01 /* STNotificationController.m */,
+			);
+			name = "Data Controllers";
 			sourceTree = "<group>";
 		};
 		91A9692016AAE1D700085EC5 /* BSKeyboardControls */ = {
@@ -527,6 +540,7 @@
 				91A9693716AE1C9600085EC5 /* NSDate+ES.m in Sources */,
 				91C68E9E16C12CCB00F91420 /* STSetOfAdviceTVC.m in Sources */,
 				91C68EA216C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.m in Sources */,
+				917E07A9171C151300DE3D01 /* STNotificationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,7 @@
 #import "STLogEntrySixOfDayTVC.h"
 #import "STPreviousDaysTVC.h"
 #import "STSetsOfAdviceTVC.h"
+#import "STNotificationController.h"
 #import "Advice.h"
 #import "Day+ST.h"
 #import "LESixOfDay+ST.h"
@@ -32,6 +33,8 @@
 
 @property (nonatomic, weak) NSArray *dataArray;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+
+@property (nonatomic, strong) STNotificationController *notificationController;
 
 - (IBAction)greatHighwayExplorerFeedback:(id)sender;
 
@@ -118,6 +121,8 @@
     [super viewDidLoad];
 	
 	self.debug	= YES;
+	
+	self.notificationController	= [[STNotificationController alloc] init];
 	
 	self.dateFormatter = [[NSDateFormatter alloc] init];
 	[self.dateFormatter setDateFormat:@"h:mm a"];
@@ -276,7 +281,7 @@
 	if ([self isTimeToAddDay]) {
 		NSLog(@"Now [%@] is later in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, mostRecentDate.timeAndDate);
 		
-		[self cancelAllRemainingNotifications];
+		[self.notificationController cancelAllNotifications];
 		
 		Day *newDay					= [NSEntityDescription insertNewObjectForEntityForName:@"Day"
 																	inManagedObjectContext:self.managedObjectContext];
@@ -350,9 +355,11 @@
 	
 	self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay++;
 	
-	for (LESixOfDay *logEntry in day.theSix) {
-		[self addNotification:logEntry];
-	}
+//	for (LESixOfDay *logEntry in day.theSix) {
+//		[self addNotification:logEntry];
+//	}
+	
+	[self.notificationController addNotifications:[day getTheSixSorted]];
 }
 
 -(void)resetTheSixToBeShown
@@ -782,30 +789,31 @@
 	[self.pickerView removeFromSuperview];
 }
 
--(void)cancelAllRemainingNotifications
-{
-	UIApplication *STPapp				= [UIApplication sharedApplication];
-	STPapp.applicationIconBadgeNumber	= 0;
-	[STPapp cancelAllLocalNotifications];
-}
+//-(void)cancelAllRemainingNotifications
+//{
+//	UIApplication *STPapp				= [UIApplication sharedApplication];
+//	STPapp.applicationIconBadgeNumber	= 0;
+//	[STPapp cancelAllLocalNotifications];
+//}
 
 - (IBAction)doneAction:(id)sender
 {
 	
 	self.thisDay.startHour				= [NSNumber numberWithInt:[self.pickerView.date hour]];
 	self.thisDay.startMinute			= [NSNumber numberWithInt:[self.pickerView.date minute]];
-	[self cancelAllRemainingNotifications];
+	[self.notificationController cancelAllNotifications];
 	
 	// Reset scheduled times for log entries
 	NSArray *allRemainingEntries		= [self.thisDay getTheSixWithoutUserEntriesSorted];
 	NSInteger countOfCompletedEntries	= [[self.thisDay getTheSixThatHaveUserEntriesSorted] count];
+	NSInteger badgeNumber				= 0;
 	
 	for (LESixOfDay *remainingEntry in allRemainingEntries) {
 		[remainingEntry resetScheduledTimeAtHourInterval:countOfCompletedEntries + [allRemainingEntries indexOfObject:remainingEntry] + 1
 											   startHour:[self.thisDay.startHour intValue]
 											 startMinute:[self.thisDay.startMinute intValue]];
 		
-		[self addNotification:remainingEntry];
+		[self.notificationController addNotification:remainingEntry withApplicationIconBadgeNumber:++badgeNumber];
 	}
 
 	// save to store!
@@ -903,7 +911,7 @@
 	[TestFlight openFeedbackView];
 }
 
-
+/*
 #pragma mark - Managing Notifications
 
 - (void)addNotification:(LESixOfDay *)sixOfDayLogEntry {
@@ -927,7 +935,7 @@
 																					 //    [alertNotification setHidden:NO]; //Set the alertNotification to be shown showing the user that the application has registered the local notification
 }
 
-
+*/
 
 
 - (void)didReceiveMemoryWarning
