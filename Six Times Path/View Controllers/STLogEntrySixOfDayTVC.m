@@ -286,6 +286,8 @@
 		[TestFlight passCheckpoint:@"LEAVE LOG ENTRY WITHOUT SAVING"];
 
 	} else {
+		BOOL entryHasBeenPreviouslyUpdated	= [self.leSixOfDay.timeLastUpdated isKindOfClass:[NSDate class]];
+		
 		// Add or update objects
 		if (self.aPositiveActionTaken) {
 			[self.aPositiveActionTaken updateText:self.updatedPositiveActionTakenDescription
@@ -326,23 +328,32 @@
 						}
 	*/
 			
-		[self.notificationController cancelNotificationFor:self.leSixOfDay];
-		
-		NSArray *allRemainingEntriesWithMostRecentlyUpdatedEntry	= [self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted];
-		NSInteger indexOfMostRecentlyUpdatedEntry					= [allRemainingEntriesWithMostRecentlyUpdatedEntry indexOfObject:self.leSixOfDay];
-		
-		self.leSixOfDay.timeLastUpdated		= [NSDate date];
-		
-		NSArray *allRemainingEntries		= [self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted];
-		NSInteger countOfCompletedEntries	= 6 - [allRemainingEntries count];
-		
-		for (LESixOfDay *remainingEntry in allRemainingEntries) {
-			if ([allRemainingEntries indexOfObject:remainingEntry] < indexOfMostRecentlyUpdatedEntry) {
-				[remainingEntry resetScheduledTimeAtHourInterval:countOfCompletedEntries + [allRemainingEntries indexOfObject:remainingEntry] + 1];
-			} else {
-				break;
+		if (!entryHasBeenPreviouslyUpdated){
+			
+			NSDate *now													= [NSDate date];
+			NSArray *allRemainingEntriesWithMostRecentlyUpdatedEntry	= [self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted];
+			NSInteger indexOfMostRecentlyUpdatedEntry					= [allRemainingEntriesWithMostRecentlyUpdatedEntry indexOfObject:self.leSixOfDay];
+						
+			NSInteger countOfCompletedEntries							= 6 - [allRemainingEntriesWithMostRecentlyUpdatedEntry count];
+			
+			[self.notificationController cancelAllNotifications];
+						
+			for (LESixOfDay *remainingEntry in allRemainingEntriesWithMostRecentlyUpdatedEntry) {
+				NSInteger indexOfRemainingEntry							= [allRemainingEntriesWithMostRecentlyUpdatedEntry indexOfObject:remainingEntry];
+				
+				if (indexOfRemainingEntry < indexOfMostRecentlyUpdatedEntry) {
+					NSInteger currentScheduledTimeHourInterval			= countOfCompletedEntries + indexOfRemainingEntry + 1;
+					NSInteger newScheduledTimeHourInterval				= currentScheduledTimeHourInterval;
+
+					[remainingEntry resetScheduledTimeAtHourInterval:newScheduledTimeHourInterval];
+				}
 			}
 		}
+		
+		[self.leSixOfDay setTimeUpdatedToNow];
+		
+		if (!entryHasBeenPreviouslyUpdated)
+			[self.notificationController addNotifications:[self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted]];
 				
 		// save to store!
 		NSError *error;

@@ -6,6 +6,10 @@
 //  Copyright (c) 2012 6000 American Family Dr. All rights reserved.
 //
 
+#import <TextExpander/SMTEDelegateController.h>
+
+
+
 #import "LESixOfDay+ST.h"
 #import "NSDate+ST.h"
 #import "NSDate+ES.h"
@@ -88,6 +92,17 @@
 	NSLog(@"The new timeScheduled: %@", self.timeScheduled.timeAndDate);
 		
 }
+
+-(void)setTimeUpdatedToNow
+{
+	NSDate *now	= [NSDate date];
+	
+	if (self.timeFirstUpdated == nil)
+		self.timeFirstUpdated	= now;
+	
+	self.timeLastUpdated		= now;
+}
+
 
 #pragma mark - Actions Taken
 

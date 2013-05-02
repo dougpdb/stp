@@ -307,8 +307,9 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 		STTodayTVC *todayTVC								= (STTodayTVC *)navigationController.topViewController;
 		todayTVC.managedObjectContext						= self.managedObjectContext;
 	
-		if (notification)
+	if (notification) {
 			[self navigateToLogEntryFromNotification:notification forToday:todayTVC];
+	}
 	//	}
     return YES;
 }
@@ -358,13 +359,14 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
     STNotificationController *notificationController	= [STNotificationController new];
 	
 	[notificationController descriptionOfNotification:notification];
-	
+
 	//----- VIEW NOTIFICATION -----
 	UIApplicationState state = [application applicationState];
 	if (state == UIApplicationStateInactive)
 	{
 		//----- APPLICATION WAS IN BACKGROUND - USER HAS SEEN NOTIFICATION AND PRESSED THE ACTION BUTTON -----
-		NSLog(@"Local noticiation - App was in background and user pressed action button");
+		NSLog(@"Local noticiation - App was in background and user pressed action button - \n\"%@\" scheduled at %@", [notificationController adviceTextForNotification:notification], [notificationController timeScheduledForNotification:notification]);
+		
 		
 		UINavigationController *navigationController	= (UINavigationController *)self.window.rootViewController;
 
@@ -397,7 +399,8 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
     STNotificationController *notificationController	= [STNotificationController new];
 	[todayTVC setupDaysFetchedResultsController];
 	todayTVC.entryFromNotification						= [notificationController entryFromNotification:notification forDay:todayTVC.thisDay];
-	[todayTVC performSegueWithIdentifier:@"Guideline Entry" sender:self];
+	if (todayTVC.entryFromNotification != [NSNull null])
+		[todayTVC performSegueWithIdentifier:@"Guideline Entry" sender:self];
 }
 
 - (void)saveContext

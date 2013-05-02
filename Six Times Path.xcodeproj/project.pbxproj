@@ -18,9 +18,15 @@
 		1E55235F1591E3A4009114B7 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1E55235D1591E3A4009114B7 /* Model.xcdatamodeld */; };
 		1E6B11B0159C62980045AA42 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E6B11AF159C62980045AA42 /* CoreData.framework */; };
 		1EAA7EBD15BEAC320052F489 /* Default144.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EBC15BEAC320052F489 /* Default144.png */; };
-		1EAA7EBF15BEAC3C0052F489 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EBE15BEAC3C0052F489 /* Default@2x.png */; };
-		1EAA7EC115BEAC790052F489 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EC015BEAC790052F489 /* Default.png */; };
 		1EAA7EC315BEB07A0052F489 /* Launch2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EC215BEB07A0052F489 /* Launch2x.png */; };
+		91115C6E172FDD46006BB2E9 /* TextExpander.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91115C6D172FDD46006BB2E9 /* TextExpander.framework */; };
+		91115C70172FDD73006BB2E9 /* Default.textexpander in Resources */ = {isa = PBXBuildFile; fileRef = 91115C6F172FDD73006BB2E9 /* Default.textexpander */; };
+		91115C72172FE199006BB2E9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91115C71172FE199006BB2E9 /* AudioToolbox.framework */; };
+		91119C1117241A3600F88FC7 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 91119C1017241A3600F88FC7 /* default.png */; };
+		91119C1217241A9E00F88FC7 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EC015BEAC790052F489 /* Default.png */; };
+		91119C1417241AC400F88FC7 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91119C1317241AC400F88FC7 /* Default@2x.png */; };
+		91119C1517241BAC00F88FC7 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA7EBE15BEAC3C0052F489 /* Default@2x.png */; };
+		91119C1717241BCA00F88FC7 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91119C1617241BCA00F88FC7 /* Default-568h@2x.png */; };
 		911BC009164499F900586524 /* appIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 911BC008164499F900586524 /* appIcon@2x.png */; };
 		911FE97F166F6BC4006BF9CD /* ToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = 911FE97E166F6BC4006BF9CD /* ToDo.m */; };
 		911FE982166F7009006BF9CD /* STTodayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 911FE981166F7009006BF9CD /* STTodayTVC.m */; };
@@ -84,6 +90,12 @@
 		1EAA7EC215BEB07A0052F489 /* Launch2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Launch2x.png; path = Images/Launch2x.png; sourceTree = "<group>"; };
 		1EAB9F7415AC37A6001A6540 /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
 		1EAEC6D915BFFB9900DF538B /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
+		91115C6D172FDD46006BB2E9 /* TextExpander.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TextExpander.framework; path = ../../Downloads/teTouchSDK/TextExpander.framework; sourceTree = "<group>"; };
+		91115C6F172FDD73006BB2E9 /* Default.textexpander */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Default.textexpander; sourceTree = "<group>"; };
+		91115C71172FE199006BB2E9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		91119C1017241A3600F88FC7 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
+		91119C1317241AC400F88FC7 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		91119C1617241BCA00F88FC7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		911BC008164499F900586524 /* appIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "appIcon@2x.png"; path = "Images/appIcon@2x.png"; sourceTree = "<group>"; };
 		911BC00A16449A6C00586524 /* appIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "appIcon@2x.png"; path = "Images/appIcon@2x.png"; sourceTree = "<group>"; };
 		911FE97D166F6BC4006BF9CD /* ToDo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDo.h; sourceTree = "<group>"; };
@@ -166,6 +178,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91115C72172FE199006BB2E9 /* AudioToolbox.framework in Frameworks */,
+				91115C6E172FDD46006BB2E9 /* TextExpander.framework in Frameworks */,
 				91A9693416AD5EE300085EC5 /* libz.dylib in Frameworks */,
 				1E6B11B0159C62980045AA42 /* CoreData.framework in Frameworks */,
 				1E5523331591E2F9009114B7 /* UIKit.framework in Frameworks */,
@@ -205,6 +219,12 @@
 		1E5523231591E2F9009114B7 = {
 			isa = PBXGroup;
 			children = (
+				91115C71172FE199006BB2E9 /* AudioToolbox.framework */,
+				91115C6D172FDD46006BB2E9 /* TextExpander.framework */,
+				91119C1617241BCA00F88FC7 /* Default-568h@2x.png */,
+				91119C1317241AC400F88FC7 /* Default@2x.png */,
+				91115C6F172FDD73006BB2E9 /* Default.textexpander */,
+				91119C1017241A3600F88FC7 /* default.png */,
 				91A9693316AD5EE200085EC5 /* libz.dylib */,
 				1E5523381591E2FA009114B7 /* Six Times Path */,
 				1E5523311591E2F9009114B7 /* Frameworks */,
@@ -472,8 +492,6 @@
 				1E5523461591E2FA009114B7 /* MainStoryboard_iPhone.storyboard in Resources */,
 				1E5523491591E2FA009114B7 /* MainStoryboard_iPad.storyboard in Resources */,
 				1EAA7EBD15BEAC320052F489 /* Default144.png in Resources */,
-				1EAA7EBF15BEAC3C0052F489 /* Default@2x.png in Resources */,
-				1EAA7EC115BEAC790052F489 /* Default.png in Resources */,
 				1EAA7EC315BEB07A0052F489 /* Launch2x.png in Resources */,
 				915E3FE315CFD37A0036C6FE /* prog journal.rtf in Resources */,
 				911BC009164499F900586524 /* appIcon@2x.png in Resources */,
@@ -481,6 +499,12 @@
 				91A9692A16AAE20B00085EC5 /* License.txt in Resources */,
 				91A9693116AD5E5700085EC5 /* README.md in Resources */,
 				91A9693216AD5E5700085EC5 /* release_notes.md in Resources */,
+				91119C1117241A3600F88FC7 /* default.png in Resources */,
+				91119C1217241A9E00F88FC7 /* Default.png in Resources */,
+				91119C1417241AC400F88FC7 /* Default@2x.png in Resources */,
+				91119C1517241BAC00F88FC7 /* Default@2x.png in Resources */,
+				91119C1717241BCA00F88FC7 /* Default-568h@2x.png in Resources */,
+				91115C70172FDD73006BB2E9 /* Default.textexpander in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -646,6 +670,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../Downloads/teTouchSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Six Times Path/Six Times Path-Prefix.pch";
@@ -672,6 +697,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../Downloads/teTouchSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Six Times Path/Six Times Path-Prefix.pch";

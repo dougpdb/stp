@@ -115,6 +115,27 @@
 	return nil;
 }
 
+-(LESixOfDay *)entrySixOfDayWithAdviceName:(NSString *)adviceName
+{
+	for (LESixOfDay *entry in [self.theSix allObjects]) {
+		if ([entry.advice.name isEqual:adviceName]) {
+			return entry;
+			break;
+		}
+	}
+	return nil;
+}
+
+-(LESixOfDay *)entrySixOfDayFromTimeScheduled:(NSDate *)timeScheduled
+{
+	for (LESixOfDay *entry in [self.theSix allObjects]) {
+		if ([entry.timeScheduled isEqual:timeScheduled]) {
+			return entry;
+			break;
+		}
+	}
+	
+}
 #pragma mark - Private Sort
 
 -(NSArray *)sortByOrderNumberForType:(NSArray *)unsortedArray

@@ -20,7 +20,9 @@
 - (void)cancelNotification:(UILocalNotification *)notification;
 - (void)cancelNotificationFor:(LESixOfDay *)sixOfDayLogEntry;
 - (void)cancelAllNotifications;
+- (void)decrementApplicationIconBadgeNumber;
 - (void)descriptionOfNotification:(UILocalNotification *)notification;
+- (void)descriptionOfAllNotifications;
 - (LESixOfDay *)entryFromNotification:(UILocalNotification *)notification forDay:(Day *)day;
 - (BOOL)notificationHasFired:(UILocalNotification *)notifcation;
 - (void)setApplicationIconBadgeNumbersForAllNotifications;

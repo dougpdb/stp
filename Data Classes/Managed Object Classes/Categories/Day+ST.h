@@ -23,6 +23,7 @@
 -(NSArray *)getWorstOfDaySorted;
 
 -(LESixOfDay *)entrySixOfDay:(NSNumber *)orderNumberInSetOfEntries;
-
+-(LESixOfDay *)entrySixOfDayWithAdviceName:(NSString *)adviceName;
+-(LESixOfDay *)entrySixOfDayFromTimeScheduled:(NSDate *)timeScheduled;
 
 @end
