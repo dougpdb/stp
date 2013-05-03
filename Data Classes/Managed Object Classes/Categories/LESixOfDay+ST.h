@@ -7,13 +7,11 @@
 //
 
 #import "LESixOfDay.h"
-#import <TextExpander/SMTEDelegateController.h>
 
 
 
 @interface LESixOfDay (ST)
 
-@property (nonatomic) SMTEDelegateController *textExpander;
 
 +(id)logEntryWithAdvice:(Advice *)advice withOrderNumber:(NSInteger)orderNumberForType onDay:(Day *)day inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 

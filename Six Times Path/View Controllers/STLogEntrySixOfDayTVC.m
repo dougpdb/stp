@@ -122,7 +122,18 @@
     [self.keyboardControls setDelegate:self];
 	
 	self.navigationController.title		= self.leSixOfDay.advice.name;		// not working for some reason.
+	
+	self.textExpander = [[SMTEDelegateController alloc] init];
+	[self.positiveActionTextView setDelegate:self.textExpander];
+	[self.negativeActionTextView setDelegate:self.textExpander];
+	[self.textExpander setNextDelegate:self];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:@"UIApplicationWillEnterForegroundNotification" object:nil];
 }
+
+- (void)willEnterForeground:(NSNotification*)notification {
+	[self.textExpander willEnterForeground];
+}
+
 
 -(void)viewWillDisappear:(BOOL)animated
 {

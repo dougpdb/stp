@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CoreDataTableViewController.h"
 #import "BSKeyboardControls.h"
+#import <TextExpander/SMTEDelegateController.h>
 
 @class LESixOfDay, ActionTaken, ToDo;
 
@@ -26,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *guidelineText;
 @property (weak, nonatomic) IBOutlet UITextView *positiveActionTextView;
 @property (weak, nonatomic) IBOutlet UITextView *negativeActionTextView;
+@property (nonatomic) SMTEDelegateController *textExpander;
+
 
 @property BOOL showHints;
 

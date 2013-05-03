@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 6000 American Family Dr. All rights reserved.
 //
 
-#import <TextExpander/SMTEDelegateController.h>
 
 
 
