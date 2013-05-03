@@ -399,7 +399,7 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
     STNotificationController *notificationController	= [STNotificationController new];
 	[todayTVC setupDaysFetchedResultsController];
 	todayTVC.entryFromNotification						= [notificationController entryFromNotification:notification forDay:todayTVC.thisDay];
-	if (todayTVC.entryFromNotification != [NSNull null])
+	if (todayTVC.entryFromNotification != (LESixOfDay *)[NSNull null])
 		[todayTVC performSegueWithIdentifier:@"Guideline Entry" sender:self];
 }
 
