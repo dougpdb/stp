@@ -15,6 +15,11 @@
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
+//@property BOOL firstDayOfUse;
+@property BOOL thereAreCoreDataRecordsForDay;
+@property BOOL databaseWasJustCreatedForFirstTime;
+@property BOOL setsOfGuidelinesHaveBeenSelected;
+
 @property (strong, nonatomic) Day *thisDay;
 @property (strong, nonatomic) LESixOfDay *nextEntry;
 @property (strong, nonatomic) LESixOfDay *entryFromNotification;

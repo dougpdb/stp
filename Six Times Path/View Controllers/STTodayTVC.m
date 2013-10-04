@@ -25,6 +25,17 @@
 #define GUIDELINE_LABEL_WIDTH	268
 #define ACTION_LABEL_WIDTH		245
 
+NSString *kNextEntry					= @"Next Entry";
+NSString *kWelcomeIntroduction			= @"Welcome Introduction";
+NSString *kNoSetsOfGuidelinesSelected	= @"No Sets of Guidelines Selected";
+NSString *kRemainingScheduledEntries	= @"Remaining Scheduled Entries";
+NSString *kUpdatedEntries				= @"Updated Entries";
+NSString *kSetupForDay					= @"Setup for Day";
+NSString *kPreviousDays					= @"Previous Days";
+NSString *kIntroductoryMessage			= @"Welcome to Six Times Path!\n\nBegin by selecting 1 or more sets of ethical guidelines that you want to observe.\n\nFrom those, Six Times Path will daily select 6 guidelines, rotating through the guidelines you selected.\n\nYou can then consider and record how you have or haven't been following each guideline.\n\nBy checking in throughout the day, you strengthen your ability to live your life according to the principles that are important to you.";
+NSString *kSelectGuidelinesMessage		= @"You do not have any sets of ethical guidelines selected to observe from day to day.\n\nSelect guidelines to resume using Six Times.";
+NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines. Be happy over what you've done well to day, and regret the mistaken actions.";
+
 @interface STTodayTVC ()
 
 @property (nonatomic, retain) IBOutlet UIDatePicker *pickerView;
@@ -69,7 +80,9 @@
 
 -(NSInteger)countOfTheSixWithoutUserEntries
 {
-	if (_countOfTheSixWithoutUserEntries == -1) {
+	if (self.databaseWasJustCreatedForFirstTime && !self.setsOfGuidelinesHaveBeenSelected) {
+		_countOfTheSixWithoutUserEntries	= 0;
+	} else if (_countOfTheSixWithoutUserEntries == -1) {
 		_countOfTheSixWithoutUserEntries	= [[self.thisDay getTheSixWithoutUserEntriesSorted] count];
 	}
 	
@@ -84,24 +97,43 @@
 -(NSMutableArray *)tableViewSections
 {
 	if (_tableViewSections == nil) {
-		NSMutableArray *tmpSectionArray	= [NSMutableArray arrayWithObjects:@"Next Entry",
-																		   @"Remaining Scheduled Entries",
-																		   @"Updated Entries",
-																		   @"Setup for Day",
-																		   @"Previous Days",
-																		   nil];
+		NSMutableArray *tmpSectionArray	= [NSMutableArray arrayWithObjects:kNextEntry,
+																		   kWelcomeIntroduction,
+																		   kNoSetsOfGuidelinesSelected,
+																		   kRemainingScheduledEntries,
+																		   kUpdatedEntries,
+																		   kSetupForDay,
+																		   kPreviousDays,
+																			nil];
 
 		[self resetCountOfTheSixWithoutUserEntries];
 
-		if ([self.allAdviceFollowedByUser count] == 0) {
-			[tmpSectionArray removeObjectIdenticalTo:@"Remaining Scheduled Entries"];
-			[tmpSectionArray removeObjectIdenticalTo:@"Updated Entries"];
-		} else if (self.countOfTheSixWithoutUserEntries <= 1)
-			[tmpSectionArray removeObjectIdenticalTo:@"Remaining Scheduled Entries"];
-		else if (self.countOfTheSixWithoutUserEntries == 6)
-			[tmpSectionArray removeObjectIdenticalTo:@"Updated Entries"];
-		
-		
+		if (self.databaseWasJustCreatedForFirstTime && !self.setsOfGuidelinesHaveBeenSelected) {
+			[tmpSectionArray removeObjectIdenticalTo:kNextEntry];
+			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
+			[tmpSectionArray removeObjectIdenticalTo:kRemainingScheduledEntries];
+			[tmpSectionArray removeObjectIdenticalTo:kUpdatedEntries];
+			[tmpSectionArray removeObjectIdenticalTo:kPreviousDays];
+		} else if (!self.setsOfGuidelinesHaveBeenSelected) {
+			[tmpSectionArray removeObjectIdenticalTo:kNextEntry];
+			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
+			[tmpSectionArray removeObjectIdenticalTo:kRemainingScheduledEntries];
+			[tmpSectionArray removeObjectIdenticalTo:kUpdatedEntries];
+		} else if ([self.allAdviceFollowedByUser count] == 0) {
+			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
+			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
+			[tmpSectionArray removeObjectIdenticalTo:kRemainingScheduledEntries];
+			[tmpSectionArray removeObjectIdenticalTo:kUpdatedEntries];
+		} else if (self.countOfTheSixWithoutUserEntries <= 1) {
+			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
+			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
+			[tmpSectionArray removeObjectIdenticalTo:kRemainingScheduledEntries];
+		} else if (self.countOfTheSixWithoutUserEntries == 6) {
+			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
+			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
+			[tmpSectionArray removeObjectIdenticalTo:kUpdatedEntries];
+		}
+
 		_tableViewSections	= tmpSectionArray;
 	}
 	
@@ -120,16 +152,23 @@
 {
     [super viewDidLoad];
 	
-	self.debug	= YES;
+	self.debug					= YES;
 	
 	self.notificationController	= [[STNotificationController alloc] init];
 	
-	self.dateFormatter = [[NSDateFormatter alloc] init];
+	self.dateFormatter			= [[NSDateFormatter alloc] init];
 	[self.dateFormatter setDateFormat:@"h:mm a"];
 
 	if ([self isMemberOfClass:[STTodayTVC class]])
 		self.navigationItem.leftBarButtonItem	= self.feedbackButton;
 
+	if (self.databaseWasJustCreatedForFirstTime)
+		self.setsOfGuidelinesHaveBeenSelected	= NO;
+	
+	if (self.databaseWasJustCreatedForFirstTime)
+		NSLog(@"first day of use.");
+	else
+		NSLog(@"not the first day of use.");
 }
 
 - (void)viewDidUnload
@@ -182,45 +221,121 @@
 
 
 #pragma mark - Set Data for the Table View Controller
+//-(void)setup
+//{
+//	
+//}
+//
+//-(void)setupSecond
 
 -(void)setupDayAndAdviceData
 {
-	[self setupAdviceFetchedResultsController];
-    self.allAdviceFollowedByUser				= [NSMutableArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
-	
-	[self setupDaysFetchedResultsController];
-	
-	if ([self.fetchedResultsController.fetchedObjects count] == 0) {
-		self.mostRecentlyAddedDate				= [NSDate dateYesterday];
-		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = 0;
-		self.thisDay							= nil;
+	if (self.databaseWasJustCreatedForFirstTime) {
+		self.setsOfGuidelinesHaveBeenSelected	= NO;
 	} else {
-		Day *mostRecentDay						= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
-		LESixOfDay *lastTheSixOfMostRecentDay	= [[mostRecentDay getTheSixSorted] lastObject];
-		self.mostRecentlyAddedDate				= mostRecentDay.date;
-		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
-		self.thisDay							= mostRecentDay;
+		[self setupAdviceFetchedResultsController];
+		self.allAdviceFollowedByUser			= [NSMutableArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
+		self.setsOfGuidelinesHaveBeenSelected	= ([self.allAdviceFollowedByUser count] > 0) ? YES : NO;
+
+		if (self.setsOfGuidelinesHaveBeenSelected)
+			NSLog(@"Guidelines have been selected.");
+		else
+			NSLog(@"Guidelines have NOT been selected.");
 	}
+	
+	if (self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay) {
+		// This should be the typical use case -- where the user had already selected a set of guidelines
+		// and has also set up a day of entries in Six Times
 		
-	[self addDay];
+		[self setupDaysFetchedResultsController];
+		Day *mostRecentDay							= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
+		LESixOfDay *lastTheSixOfMostRecentDay		= [[mostRecentDay getTheSixSorted] lastObject];
+		self.mostRecentlyAddedDate					= mostRecentDay.date;
+		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
+		self.thisDay								= mostRecentDay;
+		
+		[self addDay];
+		
+		NSArray *allRemainingEntries				= [self.thisDay getTheSixWithoutUserEntriesSorted];
+		
+		NSRange rangeRemainingScheduledEntries;
+		rangeRemainingScheduledEntries.location		= 1;
+		rangeRemainingScheduledEntries.length		= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? 0 : [allRemainingEntries count] - 1;
+		
+		if ([allRemainingEntries count] > 0)
+			self.nextEntry							= [allRemainingEntries objectAtIndex:0];
+		
+		self.remainingScheduledEntries				= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? allRemainingEntries : [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
+		
+		self.showRemainingScheduledEntries			= NO;
+		
+		self.updatedEntries							= [self.thisDay getTheSixThatHaveUserEntriesSorted];
+		self.showUpdatedEntries						= NO;
+		
+		[self resetCountOfTheSixWithoutUserEntries];
+	} else if (self.thereAreCoreDataRecordsForDay) {
+		// Here might be a more common edge case -- the user has already has a day of entries set up in Six Times
+		// but does not have a set of guidelines set up
 	
-	NSArray *allRemainingEntries				= [self.thisDay getTheSixWithoutUserEntriesSorted];
-	
-	NSRange rangeRemainingScheduledEntries;
-	rangeRemainingScheduledEntries.location		= 1;
-	rangeRemainingScheduledEntries.length		= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? 0 : [allRemainingEntries count] - 1;
-	
-	if ([allRemainingEntries count] > 0)
-		self.nextEntry							= [allRemainingEntries objectAtIndex:0];
-	
-	self.remainingScheduledEntries				= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? allRemainingEntries : [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
-	
-	self.showRemainingScheduledEntries			= NO;
-	
-	self.updatedEntries							= [self.thisDay getTheSixThatHaveUserEntriesSorted];
-	self.showUpdatedEntries						= NO;
-	
-	[self resetCountOfTheSixWithoutUserEntries];
+		[self setupDaysFetchedResultsController];
+		Day *mostRecentDay							= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
+		LESixOfDay *lastTheSixOfMostRecentDay		= [[mostRecentDay getTheSixSorted] lastObject];
+		self.mostRecentlyAddedDate					= mostRecentDay.date;
+		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
+		self.thisDay								= mostRecentDay;
+		
+		[self addDay];
+		
+		NSArray *allRemainingEntries				= [self.thisDay getTheSixWithoutUserEntriesSorted];
+		
+		NSRange rangeRemainingScheduledEntries;
+		rangeRemainingScheduledEntries.location		= 1;
+		rangeRemainingScheduledEntries.length		= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? 0 : [allRemainingEntries count] - 1;
+		
+		if ([allRemainingEntries count] > 0)
+			self.nextEntry							= [allRemainingEntries objectAtIndex:0];
+		
+		self.remainingScheduledEntries				= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? allRemainingEntries : [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
+		
+		self.showRemainingScheduledEntries			= NO;
+		
+		self.updatedEntries							= [self.thisDay getTheSixThatHaveUserEntriesSorted];
+		self.showUpdatedEntries						= NO;
+		
+		[self resetCountOfTheSixWithoutUserEntries];
+		
+	} else if (self.setsOfGuidelinesHaveBeenSelected && !self.thereAreCoreDataRecordsForDay) {
+		// The rare edge case for when the user is has started to used the app after installing it, but it will happen at least once -- the user has
+		// selected a set of guidelines but a day of entries has not yet been set up. This will occur after going through the following use case.
+		self.mostRecentlyAddedDate					= [NSDate dateYesterday];
+		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = 0;
+		self.thisDay								= nil;
+		
+		[self addDay];
+		
+		NSArray *allRemainingEntries				= [self.thisDay getTheSixWithoutUserEntriesSorted];
+		
+		NSRange rangeRemainingScheduledEntries;
+		rangeRemainingScheduledEntries.location		= 1;
+		rangeRemainingScheduledEntries.length		= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? 0 : [allRemainingEntries count] - 1;
+		
+		if ([allRemainingEntries count] > 0)
+			self.nextEntry							= [allRemainingEntries objectAtIndex:0];
+		
+		self.remainingScheduledEntries				= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? allRemainingEntries : [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
+		
+		self.showRemainingScheduledEntries			= NO;
+		
+		self.updatedEntries							= [self.thisDay getTheSixThatHaveUserEntriesSorted];
+		self.showUpdatedEntries						= NO;
+		
+		[self resetCountOfTheSixWithoutUserEntries];
+
+	} else {
+		// This is the use case of when a user 1st runs Six Times app after it has been installed. The user hasn't selected any sets of guidelines
+		// and a day of entries has not yet been set up. This use case will definitely run once, but if the user opens the app reads the welcome
+		// message and closes it, then this use case would run again.l
+	}
 }
 
 
@@ -392,22 +507,25 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if (section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
+	if (section == [self.tableViewSections indexOfObject:kNextEntry]) {
 		return 1;
-	} else if (section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
+	} else if (section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries]) {
 		if (self.showRemainingScheduledEntries)
 			return [self.remainingScheduledEntries count] + 1;
 		else
 			return 1;		
-	} else if (section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
+	} else if (section == [self.tableViewSections indexOfObject:kUpdatedEntries]) {
 		if (self.countOfTheSixWithoutUserEntries == 0)
 			self.showUpdatedEntries	= YES;
 		if (self.showUpdatedEntries)
 			return [self.updatedEntries count] + 1;
 		else
 			return 1;
-	} else if (section == [self.tableViewSections indexOfObject:@"Setup for Day"]) {
-		return 2;
+	} else if (section == [self.tableViewSections indexOfObject:kSetupForDay]) {
+		if (self.setsOfGuidelinesHaveBeenSelected)
+			return 2;
+		else
+			return 1;
 	} else {
 		return 1;
 	}
@@ -415,9 +533,9 @@
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	if (section == [self.tableViewSections indexOfObject:@"Next Entry"])
+	if (section == [self.tableViewSections indexOfObject:kNextEntry])
 		return @"Today's Guidelines";
-	else if (section == [self.tableViewSections indexOfObject:@"Setup for Day"])
+	else if (section == [self.tableViewSections indexOfObject:kSetupForDay])
 		return @"Setup for Today";
 	else
 		return nil;
@@ -428,22 +546,24 @@
 	UILabel *guidelineLabel			= [UILabel new];
 	guidelineLabel.lineBreakMode	= NSLineBreakByWordWrapping;
 
-	if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
+	if (indexPath.section == [self.tableViewSections indexOfObject:kNextEntry]) {
 		
 		guidelineLabel.font				= [UIFont fontWithName:@"Palatino Bold" size:17]; // [UIFont boldSystemFontOfSize:17];
 		
-		if ([self.allAdviceFollowedByUser count] == 0)
-			guidelineLabel.text			= @"You are currently not following any guidelines. Choose 1 or more sets of guidelines to follow.";
-		else if (self.countOfTheSixWithoutUserEntries > 0)
+		if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries > 0)
 			guidelineLabel.text			= self.nextEntry.advice.name;
-		else
-			guidelineLabel.text			= @"You've made entries for all 6 guidelines. Be happy over what you've done well to day, and regret the mistaken actions.";
+		else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 0)
+			guidelineLabel.text			= kCongratulationsMessage;
+		else if (!self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay)
+			guidelineLabel.text			= kSelectGuidelinesMessage;
+		else if (!self.setsOfGuidelinesHaveBeenSelected)
+			guidelineLabel.text			= kIntroductoryMessage;
 		
 		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
 		
 		return 36 + guidelineLabelHeight + 8;		// change for landscape orientation?
 		
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"] && indexPath.row > 0) {
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries] && indexPath.row > 0) {
 		
 		guidelineLabel.font				= [UIFont boldSystemFontOfSize:15];
 		guidelineLabel.text				= [[[self.remainingScheduledEntries objectAtIndex:indexPath.row - 1] valueForKey:@"advice"] valueForKey:@"name"];
@@ -452,7 +572,7 @@
 
 		return 30 + guidelineLabelHeight + 10;
 		
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"] && indexPath.row > 0) {
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries] && indexPath.row > 0) {
 		
 		guidelineLabel.font				= [UIFont boldSystemFontOfSize:15];
 		guidelineLabel.text				= [[[self.updatedEntries objectAtIndex:indexPath.row - 1] valueForKey:@"advice"] valueForKey:@"name"];
@@ -473,13 +593,18 @@
 #pragma mark - Managing Cell and Label Heights
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
 {
-	CGSize maximumLabelSize		= CGSizeMake(labelWidth, FLT_MAX);
-	
-	CGSize expectedLabelSize	= [text sizeWithFont:label.font
-								constrainedToSize:maximumLabelSize
-									lineBreakMode:label.lineBreakMode];
-
-	return expectedLabelSize.height;
+	UIFont *font	= label.font;
+	NSAttributedString *attributedText = [ [NSAttributedString alloc]
+										  initWithString:text
+										  attributes: @{NSFontAttributeName: font}
+										  ];
+	CGRect rect		= [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
+											   options:NSStringDrawingUsesLineFragmentOrigin
+											   context:nil];
+	CGSize size		= rect.size;
+	CGFloat height	= ceilf(size.height);
+	//	CGFloat width  = ceilf(size.width);
+	return height;
 }
 
 -(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth
@@ -499,61 +624,54 @@
 	static NSString *guidelineSummaryEntryCellIdentifier	= @"GuidelineSummaryEntryCell";
 	static NSString *summaryOrSetupCellIdentifier			= @"SummaryOrSetupCell";
 		
-    if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
+    if (indexPath.section == [self.tableViewSections indexOfObject:kNextEntry]) {
 		
 			UITableViewCell *guidelineNextEntryCell		= [tableView dequeueReusableCellWithIdentifier:guidelineNextEntryCellIdentifier];
 			
 			UILabel *timeLabel							= (UILabel *)[guidelineNextEntryCell viewWithTag:10];
 			UILabel *guidelineLabel						= (UILabel *)[guidelineNextEntryCell viewWithTag:11];
-
+		
 		
 			NSString *timeEntryTextPrefix;
 			
-			if ([self.allAdviceFollowedByUser count] == 0) {
-				timeEntryTextPrefix = @"Choose The Guidelines You Follow";
-			} else if (self.countOfTheSixWithoutUserEntries == 0) {
+			if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 0) {
 				timeEntryTextPrefix	= @"Excellent!";
-			} else if (self.countOfTheSixWithoutUserEntries == 1) {
+			} else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 1) {
 				timeEntryTextPrefix	= @"Last Entry - ";
-			} else if (self.countOfTheSixWithoutUserEntries < 6) {
-				timeEntryTextPrefix	= @"Next Entry - ";
-			} else {
+			} else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 6) {
 				timeEntryTextPrefix	= @"First Entry - ";
+			} else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries < 6) {
+				timeEntryTextPrefix	= @"Next Entry - ";
+			} else if (!self.setsOfGuidelinesHaveBeenSelected) {
+				timeEntryTextPrefix = @"Choose Guidelines To Follow";
 			}
 
+			guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleNone;
+			guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryNone;
 		
-		
-			if ([self.allAdviceFollowedByUser count] == 0){
-				timeLabel.text							= timeEntryTextPrefix;
-				guidelineLabel.text						= @"You are currently not following any guidelines. Choose 1 or more sets of guidelines to follow.";
-
-				guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
-				guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
-			} else if (self.countOfTheSixWithoutUserEntries > 0) {
+			if (self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay && self.countOfTheSixWithoutUserEntries > 0) {
 				timeLabel.text							= [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.nextEntry.timeScheduled.time];
 				guidelineLabel.text						= self.nextEntry.advice.name;
 				
-				[self resizeHeightToFitForLabel:guidelineLabel
-									 labelWidth:GUIDELINE_LABEL_WIDTH];
-
 				guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
 				guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
-			} else {
+			} else if (self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay && self.countOfTheSixWithoutUserEntries == 0) {
 				timeLabel.text							= timeEntryTextPrefix;
-				guidelineLabel.text						= @"You've made entries for all 6 guidelines. Be happy over what you've done well to day, and regret the mistaken actions.";
-				
-				[self resizeHeightToFitForLabel:guidelineLabel
-									 labelWidth:GUIDELINE_LABEL_WIDTH];
-				
-				guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleNone;
-				guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryNone;
-				
-				//	guidelineNextEntryCell.hidden	= YES;
-			}
+				guidelineLabel.text						= kCongratulationsMessage;
+			} else if (!self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay) {
+				timeLabel.text							= timeEntryTextPrefix;
+				guidelineLabel.text						= kSelectGuidelinesMessage;
+			} else if (!self.setsOfGuidelinesHaveBeenSelected) {
+				timeLabel.text							= timeEntryTextPrefix;
+				guidelineLabel.text						= kIntroductoryMessage;
+			} 
+		
+			[self resizeHeightToFitForLabel:guidelineLabel
+								 labelWidth:GUIDELINE_LABEL_WIDTH];
 		
 			return guidelineNextEntryCell;
 		
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries]) {
 	
 			if (self.showRemainingScheduledEntries && indexPath.row > 0) {
 				UITableViewCell *guidelineOtherEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineOtherEntryCellIdentifier];
@@ -585,7 +703,7 @@
 				return summaryOrSetupCell;
 			}
 
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries]) {
 
 			if (self.showUpdatedEntries && indexPath.row > 0) {
 				UITableViewCell *guidelineSummaryEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineSummaryEntryCellIdentifier];
@@ -638,40 +756,28 @@
 				return summaryOrSetupCell;
 			}
 		
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Setup for Day"]) {
-		
-			switch (indexPath.row) {
-				case 0:
-				{
-					UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
-					
-					summaryOrSetupCell.textLabel.text		= @"Wake Up Time";
-					NSInteger countOfEntriesCompleted		= [[self.thisDay getTheSixThatHaveUserEntriesSorted] count];
-					NSDate *wakeUpAt						= [self.nextEntry.timeScheduled dateByAddingTimeInterval:-2*(1+countOfEntriesCompleted)*60*60];	// this will need to be fixed
-					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", wakeUpAt.time];
-					summaryOrSetupCell.detailTextLabel.tag	= 10001;
-					return summaryOrSetupCell;
-					break;
-				}
-				case 1:
-				{
-					UITableViewCell *summaryOrSetupCell					= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
-					
-					summaryOrSetupCell.textLabel.text		= @"Guidelines Being Followed";
-					summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%i", [self.allAdviceFollowedByUser count]];
-					return summaryOrSetupCell;
-					break;
-				}
-				default:
-					break;
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:kSetupForDay]) {
+			UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+			if (indexPath.row == 0 && self.setsOfGuidelinesHaveBeenSelected) {
+				summaryOrSetupCell.textLabel.text		= @"Wake Up Time";
+				NSInteger countOfEntriesCompleted		= [[self.thisDay getTheSixThatHaveUserEntriesSorted] count];
+				NSDate *wakeUpAt						= [self.nextEntry.timeScheduled dateByAddingTimeInterval:-2*(1+countOfEntriesCompleted)*60*60];	// this will need to be fixed
+				summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", wakeUpAt.time];
+				summaryOrSetupCell.detailTextLabel.tag	= 10001;
+			} else {
+				summaryOrSetupCell.textLabel.text		= (self.setsOfGuidelinesHaveBeenSelected) ? @"Guidelines Being Followed" : @"Select Guidelines to Follow";
+				summaryOrSetupCell.detailTextLabel.text = (self.setsOfGuidelinesHaveBeenSelected) ? [NSString stringWithFormat:@"%i", [self.allAdviceFollowedByUser count]] : @"";
 			}
+			return summaryOrSetupCell;
 			
 	} else { // Previous Days
 
-			UITableViewCell *summaryOrSetupCell				= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+			UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 			
-			summaryOrSetupCell.textLabel.text				= @"Previous Days";
-			summaryOrSetupCell.detailTextLabel.text			= @"";
+			summaryOrSetupCell.textLabel.text		= @"Previous Days";
+			summaryOrSetupCell.detailTextLabel.text	= @"";
+			summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleBlue;
+			summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryDisclosureIndicator;
 			return summaryOrSetupCell;
 
 	}
@@ -683,7 +789,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == [self.tableViewSections indexOfObject:@"Next Entry"]) {
+    if (indexPath.section == [self.tableViewSections indexOfObject:kNextEntry]) {
 	
 			if ([self.allAdviceFollowedByUser count] == 0) {
 				[self performSegueWithIdentifier:@"Guidelines Followed" sender:self];
@@ -691,7 +797,7 @@
 				[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
 			}
 			
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries]) {
 		
 			if ([self.remainingScheduledEntries count] > 0) {
 				if (indexPath.row > 0) {
@@ -703,7 +809,7 @@
 				}
 			}
 		
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries]) {
 
 			if ([self.updatedEntries count] > 0) {
 				if (indexPath.row > 0) {
@@ -715,18 +821,13 @@
 				}
 			}
 
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Setup for Day"]) {
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:kSetupForDay]) {
 
-			switch (indexPath.row) {
-				case 0:
-					NSLog(@"Going to trigger -showDatePicker");
-					[self showDatePicker];
-					break;
-				case 1:
-					[self performSegueWithIdentifier:@"Guidelines Followed" sender:self];
-					break;
-				default:
-					break;
+			if (indexPath.row == 0 && self.setsOfGuidelinesHaveBeenSelected) {
+				NSLog(@"Going to trigger -showDatePicker");
+				[self showDatePicker];
+			} else {
+				[self performSegueWithIdentifier:@"Guidelines Followed" sender:self];
 			}
 	
 	} else {

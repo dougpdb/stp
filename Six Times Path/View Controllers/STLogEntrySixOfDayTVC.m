@@ -228,6 +228,8 @@
 }
 
 
+
+
 #pragma mark - Keyboard Controls Delegate
 
 - (void)keyboardControls:(BSKeyboardControls *)keyboardControls selectedField:(UIView *)field inDirection:(BSKeyboardControlsDirection)direction
@@ -246,13 +248,18 @@
 
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
 {
-	CGSize maximumLabelSize		= CGSizeMake(labelWidth, FLT_MAX);
-	
-	CGSize expectedLabelSize	= [text sizeWithFont:label.font
-								constrainedToSize:maximumLabelSize
-									lineBreakMode:label.lineBreakMode];
-	
-	return expectedLabelSize.height;
+	UIFont *font = label.font;
+	NSAttributedString *attributedText = [ [NSAttributedString alloc]
+										  initWithString:text
+										  attributes: @{NSFontAttributeName: font}
+										  ];
+	CGRect rect = [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
+											   options:NSStringDrawingUsesLineFragmentOrigin
+											   context:nil];
+	CGSize size = rect.size;
+	CGFloat height = ceilf(size.height);
+	//	CGFloat width  = ceilf(size.width);
+	return height;
 }
 
 -(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth
@@ -341,7 +348,7 @@
 			
 		if (!entryHasBeenPreviouslyUpdated){
 			
-			NSDate *now													= [NSDate date];
+			// NSDate *now													= [NSDate date];
 			NSArray *allRemainingEntriesWithMostRecentlyUpdatedEntry	= [self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted];
 			NSInteger indexOfMostRecentlyUpdatedEntry					= [allRemainingEntriesWithMostRecentlyUpdatedEntry indexOfObject:self.leSixOfDay];
 						

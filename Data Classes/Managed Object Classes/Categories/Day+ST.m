@@ -134,7 +134,7 @@
 			break;
 		}
 	}
-	
+	return nil;
 }
 #pragma mark - Private Sort
 

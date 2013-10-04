@@ -14,6 +14,7 @@
 #import "Day+ST.h"
 
 
+
 static NSString *kLogEntryTimeScheduled				= @"logEntryTimeScheduled";
 static NSString *kLogEntryAdviceText				= @"logEntryAdviceText";
 static NSString *kLogEntryOrderNumberInSetOfEntries	= @"logEntryOrderNumberInSetOfEntries";
@@ -40,8 +41,9 @@ static NSString *kLogEntryOrderNumberInSetOfEntries	= @"logEntryOrderNumberInSet
     localNotification.alertAction			= @"OK";							//The button's text that launches the application and is shown in the alert
 	localNotification.alertBody				= sixOfDayLogEntry.advice.name;		//Set the message in the notification from the textField's text
     localNotification.hasAction				= YES;								//Set that pushing the button will launch the application
-	localNotification.soundName				= UILocalNotificationDefaultSoundName;
 	localNotification.userInfo				= userInfo;
+	if ([localNotification.fireDate isLaterThanDate:[NSDate date]])
+		localNotification.soundName			= UILocalNotificationDefaultSoundName;
 	
 	return localNotification;
 }

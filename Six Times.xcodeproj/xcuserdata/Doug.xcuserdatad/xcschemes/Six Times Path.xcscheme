@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0460"
+   LastUpgradeVersion = "0500"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1E55232D1591E2F9009114B7"
-               BuildableName = "Six Times Path.app"
-               BlueprintName = "Six Times Path"
-               ReferencedContainer = "container:Six Times Path.xcodeproj">
+               BuildableName = "Six Times.app"
+               BlueprintName = "Six Times"
+               ReferencedContainer = "container:Six Times.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1E55232D1591E2F9009114B7"
-            BuildableName = "Six Times Path.app"
-            BlueprintName = "Six Times Path"
-            ReferencedContainer = "container:Six Times Path.xcodeproj">
+            BuildableName = "Six Times.app"
+            BlueprintName = "Six Times"
+            ReferencedContainer = "container:Six Times.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1E55232D1591E2F9009114B7"
-            BuildableName = "Six Times Path.app"
-            BlueprintName = "Six Times Path"
-            ReferencedContainer = "container:Six Times Path.xcodeproj">
+            BuildableName = "Six Times.app"
+            BlueprintName = "Six Times"
+            ReferencedContainer = "container:Six Times.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1E55232D1591E2F9009114B7"
-            BuildableName = "Six Times Path.app"
-            BlueprintName = "Six Times Path"
-            ReferencedContainer = "container:Six Times Path.xcodeproj">
+            BuildableName = "Six Times.app"
+            BlueprintName = "Six Times"
+            ReferencedContainer = "container:Six Times.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

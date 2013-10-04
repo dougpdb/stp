@@ -160,13 +160,18 @@
 #pragma mark - Managing Cell and Label Heights
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
 {
-	CGSize maximumLabelSize		= CGSizeMake(labelWidth, FLT_MAX);
-	
-	CGSize expectedLabelSize	= [text sizeWithFont:label.font
-								constrainedToSize:maximumLabelSize
-									lineBreakMode:label.lineBreakMode];
-	
-	return expectedLabelSize.height;
+	UIFont *font	= label.font;
+	NSAttributedString *attributedText = [ [NSAttributedString alloc]
+										  initWithString:text
+										  attributes: @{NSFontAttributeName: font}
+										  ];
+	CGRect rect		= [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
+												options:NSStringDrawingUsesLineFragmentOrigin
+												context:nil];
+	CGSize size		= rect.size;
+	CGFloat height	= ceilf(size.height);
+	//	CGFloat width  = ceilf(size.width);
+	return height;
 }
 
 -(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth

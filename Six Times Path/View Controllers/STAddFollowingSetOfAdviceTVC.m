@@ -9,6 +9,11 @@
 #import "STAddFollowingSetOfAdviceTVC.h"
 #import "STSetsOfAdviceTVC.h"
 #import "SetOfAdvice.h"
+#import "SpiritualTradtion.h"
+
+#define SET_OF_ADVICE_LABEL_WIDTH	274
+#define GUIDELINE_LABEL_WIDTH		264
+
 
 @interface STAddFollowingSetOfAdviceTVC ()
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -57,18 +62,69 @@
 {
 	return [self.notFollowingSetsOfAdvice count];
 }
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	SetOfAdvice	*setOfAdvice;
+	UILabel *setOfAdviceLabel		= [UILabel new];
+	setOfAdviceLabel.lineBreakMode	= NSLineBreakByWordWrapping;
+	setOfAdviceLabel.font			= [UIFont boldSystemFontOfSize:17];
+	
+	setOfAdvice									= [self.notFollowingSetsOfAdvice objectAtIndex:indexPath.row];
+	
+	setOfAdviceLabel.text			= setOfAdvice.practicedWithinTradition.name;
+	
+	CGFloat guidelineLabelHeight	= [self heightForLabel:setOfAdviceLabel
+											   withText:setOfAdviceLabel.text
+											 labelWidth:SET_OF_ADVICE_LABEL_WIDTH];
+	
+	return 32 + guidelineLabelHeight + 8;		// change for landscape orientation?
+}
+
+#pragma mark Managing Cell and Label Heights
+-(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
+{
+	UIFont *font	= label.font;
+	NSAttributedString *attributedText = [ [NSAttributedString alloc]
+										  initWithString:text
+										  attributes: @{NSFontAttributeName: font}
+										  ];
+	CGRect rect		= [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
+												options:NSStringDrawingUsesLineFragmentOrigin
+												context:nil];
+	CGSize size		= rect.size;
+	CGFloat height	= ceilf(size.height);
+	//	CGFloat width  = ceilf(size.width);
+	return height;
+}
+
+-(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth
+{
+	CGRect newFrame			= label.frame;
+	newFrame.size.height	= [self heightForLabel:label withText:label.text labelWidth:labelWidth];
+	label.frame				= newFrame;
+}
+
+
+#pragma mark - Table view data source
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
 	SetOfAdvice	*setOfAdvice;
-	static NSString *setOfAdviceCellIdentifier	= @"setOfAdviceName";
+	static NSString *setOfAdviceCellIdentifier	= @"setOfAdviceCell";
 	UITableViewCell *setOfAdviceCell			= [tableView dequeueReusableCellWithIdentifier:setOfAdviceCellIdentifier];
 	
+	UILabel *nameOfTraditionLabel				= (UILabel *)[setOfAdviceCell viewWithTag:10];
+	UILabel *nameOfSetOfAdviceLabel				= (UILabel *)[setOfAdviceCell viewWithTag:11];
+		
 	setOfAdvice									= [self.notFollowingSetsOfAdvice objectAtIndex:indexPath.row];
-	setOfAdviceCell.textLabel.text				= setOfAdvice.name;
+		
+	nameOfTraditionLabel.text					= setOfAdvice.practicedWithinTradition.name;
+	nameOfSetOfAdviceLabel.text					= setOfAdvice.name;
 	
 	return setOfAdviceCell;
 }
+
 
 #pragma mark - Table view delegate
 

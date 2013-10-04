@@ -1,4 +1,4 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf340
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;\f2\fswiss\fcharset0 ArialMT;
 \f3\fnil\fcharset0 Consolas;\f4\fnil\fcharset0 Menlo-Bold;}
 {\colortbl;\red255\green255\blue255;\red0\green116\blue0;\red24\green126\blue162;\red234\green234\blue234;
@@ -393,4 +393,30 @@ STTodayTVC \
 - I believe I finally fixed the issue of when a new day is added and the app is coming out of the background. In this situation, the app isn't starting out "cold" -- meaning that it has to fetch all the data, and sets up the tableViewSections. During that process, the properties tableViewSections and 
 \f1\fs22 \CocoaLigature0 countOfTheSixWithoutUserEntries
 \f0\fs24 \CocoaLigature1 . When these are set, they will not be reset until the user leaves the page and returns to the page. In the normal use case, it those properties won't change while on the page, because I had thought that they can only be changed when a scheduled entry is updated. I did this for performance reasons -- wanting to keep the fetch of the count lively. The properties can be access multiple times, especially during the set up of the table. I thought I had fixed this problem earlier, but I had only reset the tableViewSections array. I stepped through the code today and saw that  I also needed to reset countOfTheSixWithoutUserEntries. So I'll run a test today/tomorrow to see if this finally takes care of it. Excited to see! \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f4\b\fs22 \cf0 May 24, 2013\
+\pard\tx560\tx1120\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\b0\fs24 \cf0 test of the first day shouldn't ONLY be if data hasn't been imported. because the data could be imp\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f4\b\fs22 \cf0 May 30, 2013\
+\pard\tx560\tx1120\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\b0\fs24 \cf0 running into the following error when I remove the Prayer of St. Francis of Assissi\
+\pard\tx529\pardeftab529\pardirnatural
+
+\f4\b\fs22 \cf0 \CocoaLigature0 Six Times(16393,0xacb81a28) malloc: *** error for object 0x908edb4: incorrect checksum for freed object - object was probably modified after being freed.\
+*** set a breakpoint in malloc_error_break to debug\
+2013-05-30 06:15:25.226 Six Times[16393:c07] *** Assertion failure in -[UITableView _endCellAnimationsWithContext:], /SourceCache/UIKit_Sim/UIKit-2380.17/UITableView.m:1070\
+2013-05-30 06:15:25.227 Six Times[16393:c07] CoreData: error: Serious application error.  An exception was caught from the delegate of NSFetchedResultsController during a call to -controllerDidChangeContent:.  Invalid update: invalid number of rows in section 1.  The number of rows contained in an existing section after the update (1) must be equal to the number of rows contained in that section before the update (6), plus or minus the number of rows inserted or deleted from that section (0 inserted, 0 deleted) and plus or minus the number of rows moved into or out of that section (0 moved in, 0 moved out). with userInfo (null)\
+\pard\tx560\tx1120\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\b0\fs24 \cf0 \CocoaLigature1 \
+\
+\
 }
