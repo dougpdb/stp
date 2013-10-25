@@ -25,6 +25,23 @@
 #define GUIDELINE_LABEL_WIDTH	268
 #define ACTION_LABEL_WIDTH		245
 
+//	http://developer.apple.com/library/ios/samplecode/DateCell/Listings/MyTableViewController_m.html#//apple_ref/doc/uid/DTS40008866-MyTableViewController_m-DontLinkElementID_6
+
+#define kPickerAnimationDuration    0.40   // duration for the animation to slide the date picker into view
+#define kDatePickerTag              99     // view tag identifiying the date picker view
+
+#define kTitleKey       @"title"   // key for obtaining the data source item's title
+#define kDateKey        @"date"    // key for obtaining the data source item's date value
+
+// keep track of which rows have date cells
+#define kDateStartRow   0
+// #define kDateEndRow     1
+
+static NSString *kDateCellID = @"dateCell";     // the cells with the start or end date
+static NSString *kDatePickerID = @"datePickerCell"; // the cell containing the date picker
+static NSString *kOtherCell = @"otherCell";     // the remaining cells at the end
+
+
 NSString *kNextEntry					= @"Next Entry";
 NSString *kWelcomeIntroduction			= @"Welcome Introduction";
 NSString *kNoSetsOfGuidelinesSelected	= @"No Sets of Guidelines Selected";
@@ -44,6 +61,11 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 
 @property (nonatomic, weak) NSArray *dataArray;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+
+// keep track which indexPath points to the cell with UIDatePicker
+@property (nonatomic, strong) NSIndexPath *datePickerIndexPath;
+
+@property (assign) NSInteger pickerCellRowHeight;
 
 @property (nonatomic, strong) STNotificationController *notificationController;
 
@@ -158,6 +180,10 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	
 	self.dateFormatter			= [[NSDateFormatter alloc] init];
 	[self.dateFormatter setDateFormat:@"h:mm a"];
+	// obtain the picker view cell's height, works because the cell was pre-defined in our storyboard
+    UITableViewCell *pickerViewCellToCheck = [self.tableView dequeueReusableCellWithIdentifier:kDatePickerID];
+    self.pickerCellRowHeight = pickerViewCellToCheck.frame.size.height;
+
 
 	if ([self isMemberOfClass:[STTodayTVC class]])
 		self.navigationItem.leftBarButtonItem	= self.feedbackButton;
@@ -523,13 +549,27 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 			return 1;
 	} else if (section == [self.tableViewSections indexOfObject:kSetupForDay]) {
 		if (self.setsOfGuidelinesHaveBeenSelected)
-			return 2;
+			return ([self hasInlineDatePicker]) ? 3 : 2;
 		else
 			return 1;
 	} else {
 		return 1;
 	}
 }
+
+/*	PROCESSED
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	if ([self hasInlineDatePicker])
+	{
+		// we have a date picker, so allow for it in the number of rows in this section
+		NSInteger numRows = self.dataArray.count;
+		return ++numRows;
+	}
+	
+	return self.dataArray.count;
+}
+*/
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -581,6 +621,10 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		
 		return 30 + guidelineLabelHeight + 65;
 		
+	} else if ([self indexPathHasPicker:indexPath]) {
+		
+		return self.pickerCellRowHeight;
+
 	} else {
 		
 		return 35;
@@ -588,6 +632,10 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	}
 }
 
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//	return ([self indexPathHasPicker:indexPath] ? self.pickerCellRowHeight : self.tableView.rowHeight);
+//}
 
 
 #pragma mark - Managing Cell and Label Heights
@@ -623,6 +671,8 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	static NSString *guidelineOtherEntryCellIdentifier		= @"GuidelineOtherEntryCell";
 	static NSString *guidelineSummaryEntryCellIdentifier	= @"GuidelineSummaryEntryCell";
 	static NSString *summaryOrSetupCellIdentifier			= @"SummaryOrSetupCell";
+	static NSString *dateCellIdentifier						= @"dateCell";
+	static NSString *datePickerCellIdentifier				= @"datePickerCell";
 		
     if (indexPath.section == [self.tableViewSections indexOfObject:kNextEntry]) {
 		
@@ -703,9 +753,12 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 				return summaryOrSetupCell;
 			}
 
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries]) {
+	}
+	else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries])
+	{
 
-			if (self.showUpdatedEntries && indexPath.row > 0) {
+			if (self.showUpdatedEntries && indexPath.row > 0)
+			{
 				UITableViewCell *guidelineSummaryEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineSummaryEntryCellIdentifier];
 				UILabel *timeLabel							= (UILabel *)[guidelineSummaryEntryCell viewWithTag:10];
 				UILabel *guidelineLabel						= (UILabel *)[guidelineSummaryEntryCell viewWithTag:11];
@@ -739,16 +792,21 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 				negativeActionLabel.frame					= negativeActionLabelFrame;
 				
 				return guidelineSummaryEntryCell;
-			} else {
+			}
+			else
+			{
 				UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 			
 				summaryOrSetupCell.textLabel.text		= @"Guidelines with Entries";
 				summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [self.updatedEntries count]];
 				
-				if (self.showUpdatedEntries) {
+				if (self.showUpdatedEntries)
+				{
 					summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleNone;
 					summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryNone;
-				} else {
+				}
+				else
+				{
 					summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
 					summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
 				}
@@ -756,21 +814,33 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 				return summaryOrSetupCell;
 			}
 		
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:kSetupForDay]) {
-			UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
-			if (indexPath.row == 0 && self.setsOfGuidelinesHaveBeenSelected) {
-				summaryOrSetupCell.textLabel.text		= @"Wake Up Time";
-				NSInteger countOfEntriesCompleted		= [[self.thisDay getTheSixThatHaveUserEntriesSorted] count];
-				NSDate *wakeUpAt						= [self.nextEntry.timeScheduled dateByAddingTimeInterval:-2*(1+countOfEntriesCompleted)*60*60];	// this will need to be fixed
-				summaryOrSetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", wakeUpAt.time];
-				summaryOrSetupCell.detailTextLabel.tag	= 10001;
-			} else {
-				summaryOrSetupCell.textLabel.text		= (self.setsOfGuidelinesHaveBeenSelected) ? @"Guidelines Being Followed" : @"Select Guidelines to Follow";
-				summaryOrSetupCell.detailTextLabel.text = (self.setsOfGuidelinesHaveBeenSelected) ? [NSString stringWithFormat:@"%i", [self.allAdviceFollowedByUser count]] : @"";
-			}
-			return summaryOrSetupCell;
+	}
+	else if (indexPath.section == [self.tableViewSections indexOfObject:kSetupForDay])
+	{
+			UITableViewCell *daySetupCell;
 			
-	} else { // Previous Days
+			if (self.setsOfGuidelinesHaveBeenSelected && [self indexPathHasPicker:indexPath])
+			{
+				daySetupCell						= [tableView dequeueReusableCellWithIdentifier:datePickerCellIdentifier];
+			}
+			else if (self.setsOfGuidelinesHaveBeenSelected && [self indexPathHasDate:indexPath])
+			{
+				daySetupCell						= [tableView dequeueReusableCellWithIdentifier:dateCellIdentifier];
+				daySetupCell.textLabel.text			= @"Start of Day";
+				daySetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%@", [self wakeUpAtTime]];
+				daySetupCell.detailTextLabel.tag	= 10001;
+			}
+			else
+			{
+				daySetupCell						= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+				daySetupCell.textLabel.text			= (self.setsOfGuidelinesHaveBeenSelected) ? @"Guidelines Being Followed" : @"Select Guidelines to Follow";
+				daySetupCell.detailTextLabel.text	= (self.setsOfGuidelinesHaveBeenSelected) ? [NSString stringWithFormat:@"%i", [self.allAdviceFollowedByUser count]] : @"";
+			}
+			return daySetupCell;
+			
+	}
+	else	// Previous Days
+	{
 
 			UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 			
@@ -784,6 +854,181 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	return nil;
 }
 
+		//	NEW
+
+- (NSString *)wakeUpAtTime
+{
+	NSInteger countOfEntriesCompleted	= [[self.thisDay getTheSixThatHaveUserEntriesSorted] count];
+	NSDate *wakeUpAt					= [self.nextEntry.timeScheduled dateByAddingTimeInterval:-2*(1+countOfEntriesCompleted)*60*60];
+	return wakeUpAt.time;
+}
+
+
+/*		PROCESSED
+		- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+		{
+			UITableViewCell *cell = nil;
+			
+			NSString *cellID = kOtherCell;
+			
+			if ([self indexPathHasPicker:indexPath])
+			{
+				// the indexPath is the one containing the inline date picker
+				cellID = kDatePickerID;     // the current/opened date picker cell
+			}
+			else if ([self indexPathHasDate:indexPath])
+			{
+				// the indexPath is one that contains the date information
+				cellID = kDateCellID;       // the start/end date cells
+			}
+			
+			cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+			
+//			if (indexPath.row == 0)
+//			{
+//				// we decide here that first cell in the table is not selectable (it's just an indicator)
+//				cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//			}
+			
+//			// if we have a date picker open whose cell is above the cell we want to update,
+//			// then we have one more cell than the model allows
+//			//
+//			NSInteger modelRow = indexPath.row;
+//			if (self.datePickerIndexPath != nil && self.datePickerIndexPath.row < indexPath.row)
+//			{
+//				modelRow--;
+//			}
+			
+//			NSDictionary *itemData = self.dataArray[modelRow];
+			
+			// proceed to configure our cell
+			if ([cellID isEqualToString:kDateCellID])
+			{
+				// we have either start or end date cells, populate their date field
+				//
+				cell.textLabel.text = [itemData valueForKey:kTitleKey];
+				cell.detailTextLabel.text = [self.dateFormatter stringFromDate:[itemData valueForKey:kDateKey]];
+			}
+			else if ([cellID isEqualToString:kOtherCell])
+			{
+				// this cell is a non-date cell, just assign it's text label
+				//
+				cell.textLabel.text = [itemData valueForKey:kTitleKey];
+			}
+			
+			return cell;
+		}
+*/
+/*! Adds or removes a UIDatePicker cell below the given indexPath.
+ 
+ @param indexPath The indexPath to reveal the UIDatePicker.
+ */
+- (void)toggleDatePickerForSelectedIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tableView beginUpdates];
+    
+    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:[self.tableViewSections indexOfObject:kSetupForDay]]];
+	
+    // check if 'indexPath' has an attached date picker below it
+    if ([self hasPickerForIndexPath:indexPath])
+    {
+        // found a picker below it, so remove it
+        [self.tableView deleteRowsAtIndexPaths:indexPaths
+                              withRowAnimation:UITableViewRowAnimationFade];
+    }
+    else
+    {
+        // didn't find a picker below it, so we should insert it
+        [self.tableView insertRowsAtIndexPaths:indexPaths
+                              withRowAnimation:UITableViewRowAnimationFade];
+    }
+    
+    [self.tableView endUpdates];
+}
+
+/*! Reveals the date picker inline for the given indexPath, called by "didSelectRowAtIndexPath".
+ 
+ @param indexPath The indexPath to reveal the UIDatePicker.
+ */
+- (void)displayInlineDatePickerForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // display the date picker inline with the table content
+    [self.tableView beginUpdates];
+    
+    BOOL before = NO;   // indicates if the date picker is below "indexPath", help us determine which row to reveal
+    if ([self hasInlineDatePicker])
+    {
+        before = self.datePickerIndexPath.row < indexPath.row;
+    }
+    
+    BOOL sameCellClicked = (self.datePickerIndexPath.row - 1 == indexPath.row);
+    
+    // remove any date picker cell if it exists
+    if ([self hasInlineDatePicker])
+    {
+        [self doneAction:Nil];
+		[self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.datePickerIndexPath.row
+																	inSection:[self.tableViewSections indexOfObject:kSetupForDay]]]
+                              withRowAnimation:UITableViewRowAnimationFade];
+        self.datePickerIndexPath = nil;
+    }
+    
+    if (!sameCellClicked)
+    {
+        // hide the old date picker and display the new one
+        NSInteger rowToReveal = (before ? indexPath.row - 1 : indexPath.row);
+        NSIndexPath *indexPathToReveal = [NSIndexPath indexPathForRow:rowToReveal
+															inSection:[self.tableViewSections indexOfObject:kSetupForDay]];
+        
+        [self toggleDatePickerForSelectedIndexPath:indexPathToReveal];
+        self.datePickerIndexPath = [NSIndexPath indexPathForRow:indexPathToReveal.row + 1
+													  inSection:[self.tableViewSections indexOfObject:kSetupForDay]];
+    }
+    
+    // always deselect the row containing the start or end date
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [self.tableView endUpdates];
+    
+    // inform our date picker of the current date to match the current cell
+    [self updateDatePicker];
+}
+
+/*! Reveals the UIDatePicker as an external slide-in view, iOS 6.1.x and earlier, called by "didSelectRowAtIndexPath".
+ 
+ @param indexPath The indexPath used to display the UIDatePicker.
+
+- (void)displayExternalDatePickerForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // first update the date picker's date value according to our model
+    NSDictionary *itemData = self.dataArray[indexPath.row];
+    [self.pickerView setDate:[itemData valueForKey:kDateKey] animated:YES];
+    
+    // the date picker might already be showing, so don't add it to our view
+    if (self.pickerView.superview == nil)
+    {
+        CGRect startFrame = self.pickerView.frame;
+        CGRect endFrame = self.pickerView.frame;
+        
+        // the start position is below the bottom of the visible frame
+        startFrame.origin.y = self.view.frame.size.height;
+        
+        // the end position is slid up by the height of the view
+        endFrame.origin.y = startFrame.origin.y - endFrame.size.height;
+        
+        self.pickerView.frame = startFrame;
+        
+        [self.view addSubview:self.pickerView];
+        
+        // animate the date picker into view
+        [UIView animateWithDuration:kPickerAnimationDuration animations: ^{ self.pickerView.frame = endFrame; }
+                         completion:^(BOOL finished) {
+                             // add the "Done" button to the nav bar
+                             self.navigationItem.rightBarButtonItem = self.doneButton;
+                         }];
+    }
+}
+ */
 
 #pragma mark - Table view delegate
 
@@ -809,34 +1054,177 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 				}
 			}
 		
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries]) {
-
-			if ([self.updatedEntries count] > 0) {
-				if (indexPath.row > 0) {
+	}
+	else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries])
+	{
+			if ([self.updatedEntries count] > 0)
+			{
+				if (indexPath.row > 0)
+				{
 					[self performSegueWithIdentifier:@"Guideline Entry" sender:self];					
-				} else if (indexPath.row < 6) {
+				}
+				else if (indexPath.row < 6)
+				{
 					self.showUpdatedEntries = (self.showUpdatedEntries) ? NO : YES;
 					[tableView reloadSections:[NSIndexSet indexSetWithIndex:[self.tableViewSections indexOfObject:@"Updated Entries"]]
 							 withRowAnimation:YES];
 				}
 			}
-
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:kSetupForDay]) {
-
-			if (indexPath.row == 0 && self.setsOfGuidelinesHaveBeenSelected) {
+	}
+	else if (indexPath.section == [self.tableViewSections indexOfObject:kSetupForDay])
+	{
+			if (indexPath.row == 0 && self.setsOfGuidelinesHaveBeenSelected)
+			{
 				NSLog(@"Going to trigger -showDatePicker");
-				[self showDatePicker];
-			} else {
+				//	[self showDatePicker];
+				[self displayInlineDatePickerForRowAtIndexPath:indexPath];
+			}
+			else
+			{
 				[self performSegueWithIdentifier:@"Guidelines Followed" sender:self];
 			}
-	
-	} else {
+	}
+	else
+	{
 			[self performSegueWithIdentifier:@"Previous Days" sender:self];
 	}
 }
-
+		//	NEW
+		//	Processed
+/*
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+		{
+			UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+			if (cell.reuseIdentifier == kDateCellID)
+			{
+				if (EMBEDDED_DATE_PICKER)
+				else
+					[self displayExternalDatePickerForRowAtIndexPath:indexPath];
+			}
+			else
+			{
+				[tableView deselectRowAtIndexPath:indexPath animated:YES];
+			}
+		}
+*/
 
 #pragma mark - Managing the Start of the Day
+/*! Determines if the given indexPath has a cell below it with a UIDatePicker.
+ 
+ @param indexPath The indexPath to check if its cell has a UIDatePicker below it.
+ */
+- (BOOL)hasPickerForIndexPath:(NSIndexPath *)indexPath
+{
+    BOOL hasDatePicker = NO;
+    
+    NSInteger targetedRow = indexPath.row;
+    targetedRow++;
+    
+    UITableViewCell *checkDatePickerCell =
+	[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:targetedRow inSection:0]];
+    UIDatePicker *checkDatePicker = (UIDatePicker *)[checkDatePickerCell viewWithTag:kDatePickerTag];
+    
+    hasDatePicker = (checkDatePicker != nil);
+    return hasDatePicker;
+}
+
+/*! Updates the UIDatePicker's value to match with the date of the cell above it.
+ */
+- (void)updateDatePicker
+{
+    if (self.datePickerIndexPath != nil)
+    {
+        UITableViewCell *associatedDatePickerCell = [self.tableView cellForRowAtIndexPath:self.datePickerIndexPath];
+        
+        UIDatePicker *targetedDatePicker = (UIDatePicker *)[associatedDatePickerCell viewWithTag:kDatePickerTag];
+        if (targetedDatePicker != nil)
+        {
+            // we found a UIDatePicker in this cell, so update its date value
+			[targetedDatePicker	setDate:[self.dateFormatter dateFromString:[self wakeUpAtTime]]];
+        }
+    }
+}
+
+- (NSDate *)dateFromDatePicker
+{
+	if (self.datePickerIndexPath != nil)
+    {
+        UITableViewCell *associatedDatePickerCell = [self.tableView cellForRowAtIndexPath:self.datePickerIndexPath];
+        
+        UIDatePicker *targetedDatePicker = (UIDatePicker *)[associatedDatePickerCell viewWithTag:kDatePickerTag];
+
+        if (targetedDatePicker != nil)
+			return targetedDatePicker.date;
+    }
+	return nil;
+}
+
+/*! Determines if the UITableViewController has a UIDatePicker in any of its cells.
+ */
+- (BOOL)hasInlineDatePicker
+{
+    return (self.datePickerIndexPath != nil);
+}
+
+/*! Determines if the given indexPath points to a cell that contains the UIDatePicker.
+ 
+ @param indexPath The indexPath to check if it represents a cell with the UIDatePicker.
+ */
+- (BOOL)indexPathHasPicker:(NSIndexPath *)indexPath
+{
+    return ([self hasInlineDatePicker] && self.datePickerIndexPath.row == indexPath.row);
+}
+
+/*! Determines if the given indexPath points to a cell that contains the start/end dates.
+ 
+ @param indexPath The indexPath to check if it represents start/end date cell.
+ */
+- (BOOL)indexPathHasDate:(NSIndexPath *)indexPath
+{
+    BOOL hasDate = NO;
+    
+    if ((indexPath.row == kDateStartRow) || ([self hasInlineDatePicker]  && (indexPath.row == kDateStartRow + 1)))
+    {
+        hasDate = YES;
+    }
+    
+    return hasDate;
+}
+#pragma mark - Actions
+
+/*! User chose to change the date by changing the values inside the UIDatePicker.
+ 
+ @param sender The sender for this action: UIDatePicker.
+ */
+- (IBAction)dateAction:(id)sender
+{
+    NSIndexPath *targetedCellIndexPath = nil;
+    
+    if ([self hasInlineDatePicker])
+    {
+        // inline date picker: update the cell's date "above" the date picker cell
+        //
+        targetedCellIndexPath = [NSIndexPath indexPathForRow:self.datePickerIndexPath.row - 1 inSection:0];
+    }
+    else
+    {
+        // external date picker: update the current "selected" cell's date
+        targetedCellIndexPath = [self.tableView indexPathForSelectedRow];
+    }
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:targetedCellIndexPath];
+    UIDatePicker *targetedDatePicker = sender;
+    
+    // update our data model
+    NSMutableDictionary *itemData = self.dataArray[targetedCellIndexPath.row];
+    [itemData setValue:targetedDatePicker.date forKey:kDateKey];
+    
+    // update the cell's date string
+    cell.detailTextLabel.text = [self.dateFormatter stringFromDate:targetedDatePicker.date];
+}
+
+
+
 -(void)showDatePicker
 {
 	NSIndexPath *indexPath		= [self.tableView indexPathForSelectedRow];
@@ -899,9 +1287,9 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 
 - (IBAction)doneAction:(id)sender
 {
-	
-	self.thisDay.startHour				= [NSNumber numberWithInt:[self.pickerView.date hour]];
-	self.thisDay.startMinute			= [NSNumber numberWithInt:[self.pickerView.date minute]];
+	NSDate *updatedWakeUpTime			= [self dateFromDatePicker];
+	self.thisDay.startHour				= [NSNumber numberWithInteger:[updatedWakeUpTime hour]];	//[NSNumber numberWithInt:[self.pickerView.date hour]];
+	self.thisDay.startMinute			= [NSNumber numberWithInteger:[updatedWakeUpTime minute]]; // [NSNumber numberWithInt:[self.pickerView.date minute]];
 	[self.notificationController cancelAllNotifications];
 	
 	// Reset scheduled times for log entries
@@ -927,10 +1315,10 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	}
 
 	UILabel *wakeUpTimeTextLabel	= (UILabel *)[self.tableView viewWithTag:10001];
-	wakeUpTimeTextLabel.text		= [self.pickerView.date time]; //  [self.dateFormatter stringFromDate:self.pickerView.date];
+	wakeUpTimeTextLabel.text		= [updatedWakeUpTime time]; //  [self.dateFormatter stringFromDate:self.pickerView.date];
 	
 	[TestFlight passCheckpoint:@"RESET WAKEUP TIME"];
-
+/*
 	CGRect screenRect				= [[UIScreen mainScreen] applicationFrame];
 	CGRect endFrame					= self.pickerView.frame;
 	endFrame.origin.y				= screenRect.origin.y + screenRect.size.height;
@@ -958,6 +1346,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	NSIndexPath *indexPath			= [self.tableView indexPathForSelectedRow];
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 	[self.tableView reloadData];
+ */
 }
 
 
