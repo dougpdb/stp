@@ -496,10 +496,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	
 	self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay++;
 	
-//	for (LESixOfDay *logEntry in day.theSix) {
-//		[self addNotification:logEntry];
-//	}
-	
 	[self.notificationController addNotifications:[day getTheSixSorted]];
 }
 
@@ -557,19 +553,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	}
 }
 
-/*	PROCESSED
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-	if ([self hasInlineDatePicker])
-	{
-		// we have a date picker, so allow for it in the number of rows in this section
-		NSInteger numRows = self.dataArray.count;
-		return ++numRows;
-	}
-	
-	return self.dataArray.count;
-}
-*/
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -632,11 +615,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	}
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//	return ([self indexPathHasPicker:indexPath] ? self.pickerCellRowHeight : self.tableView.rowHeight);
-//}
-
 
 #pragma mark - Managing Cell and Label Heights
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
@@ -651,7 +629,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 											   context:nil];
 	CGSize size		= rect.size;
 	CGFloat height	= ceilf(size.height);
-	//	CGFloat width  = ceilf(size.width);
 	return height;
 }
 
@@ -864,61 +841,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 }
 
 
-/*		PROCESSED
-		- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-		{
-			UITableViewCell *cell = nil;
-			
-			NSString *cellID = kOtherCell;
-			
-			if ([self indexPathHasPicker:indexPath])
-			{
-				// the indexPath is the one containing the inline date picker
-				cellID = kDatePickerID;     // the current/opened date picker cell
-			}
-			else if ([self indexPathHasDate:indexPath])
-			{
-				// the indexPath is one that contains the date information
-				cellID = kDateCellID;       // the start/end date cells
-			}
-			
-			cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-			
-//			if (indexPath.row == 0)
-//			{
-//				// we decide here that first cell in the table is not selectable (it's just an indicator)
-//				cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//			}
-			
-//			// if we have a date picker open whose cell is above the cell we want to update,
-//			// then we have one more cell than the model allows
-//			//
-//			NSInteger modelRow = indexPath.row;
-//			if (self.datePickerIndexPath != nil && self.datePickerIndexPath.row < indexPath.row)
-//			{
-//				modelRow--;
-//			}
-			
-//			NSDictionary *itemData = self.dataArray[modelRow];
-			
-			// proceed to configure our cell
-			if ([cellID isEqualToString:kDateCellID])
-			{
-				// we have either start or end date cells, populate their date field
-				//
-				cell.textLabel.text = [itemData valueForKey:kTitleKey];
-				cell.detailTextLabel.text = [self.dateFormatter stringFromDate:[itemData valueForKey:kDateKey]];
-			}
-			else if ([cellID isEqualToString:kOtherCell])
-			{
-				// this cell is a non-date cell, just assign it's text label
-				//
-				cell.textLabel.text = [itemData valueForKey:kTitleKey];
-			}
-			
-			return cell;
-		}
-*/
 /*! Adds or removes a UIDatePicker cell below the given indexPath.
  
  @param indexPath The indexPath to reveal the UIDatePicker.
@@ -994,41 +916,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
     [self updateDatePicker];
 }
 
-/*! Reveals the UIDatePicker as an external slide-in view, iOS 6.1.x and earlier, called by "didSelectRowAtIndexPath".
- 
- @param indexPath The indexPath used to display the UIDatePicker.
-
-- (void)displayExternalDatePickerForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // first update the date picker's date value according to our model
-    NSDictionary *itemData = self.dataArray[indexPath.row];
-    [self.pickerView setDate:[itemData valueForKey:kDateKey] animated:YES];
-    
-    // the date picker might already be showing, so don't add it to our view
-    if (self.pickerView.superview == nil)
-    {
-        CGRect startFrame = self.pickerView.frame;
-        CGRect endFrame = self.pickerView.frame;
-        
-        // the start position is below the bottom of the visible frame
-        startFrame.origin.y = self.view.frame.size.height;
-        
-        // the end position is slid up by the height of the view
-        endFrame.origin.y = startFrame.origin.y - endFrame.size.height;
-        
-        self.pickerView.frame = startFrame;
-        
-        [self.view addSubview:self.pickerView];
-        
-        // animate the date picker into view
-        [UIView animateWithDuration:kPickerAnimationDuration animations: ^{ self.pickerView.frame = endFrame; }
-                         completion:^(BOOL finished) {
-                             // add the "Done" button to the nav bar
-                             self.navigationItem.rightBarButtonItem = self.doneButton;
-                         }];
-    }
-}
- */
 
 #pragma mark - Table view delegate
 
@@ -1089,24 +976,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 			[self performSegueWithIdentifier:@"Previous Days" sender:self];
 	}
 }
-		//	NEW
-		//	Processed
-/*
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-		{
-			UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-			if (cell.reuseIdentifier == kDateCellID)
-			{
-				if (EMBEDDED_DATE_PICKER)
-				else
-					[self displayExternalDatePickerForRowAtIndexPath:indexPath];
-			}
-			else
-			{
-				[tableView deselectRowAtIndexPath:indexPath animated:YES];
-			}
-		}
-*/
+
 
 #pragma mark - Managing the Start of the Day
 /*! Determines if the given indexPath has a cell below it with a UIDatePicker.
@@ -1278,12 +1148,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	[self.pickerView removeFromSuperview];
 }
 
-//-(void)cancelAllRemainingNotifications
-//{
-//	UIApplication *STPapp				= [UIApplication sharedApplication];
-//	STPapp.applicationIconBadgeNumber	= 0;
-//	[STPapp cancelAllLocalNotifications];
-//}
+
 
 - (IBAction)doneAction:(id)sender
 {
@@ -1318,35 +1183,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	wakeUpTimeTextLabel.text		= [updatedWakeUpTime time]; //  [self.dateFormatter stringFromDate:self.pickerView.date];
 	
 	[TestFlight passCheckpoint:@"RESET WAKEUP TIME"];
-/*
-	CGRect screenRect				= [[UIScreen mainScreen] applicationFrame];
-	CGRect endFrame					= self.pickerView.frame;
-	endFrame.origin.y				= screenRect.origin.y + screenRect.size.height;
-	
-	// start the slide down animation
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.3];
-	
-	// we need to perform some post operations after the animation is complete
-	[UIView setAnimationDelegate:self];
-	[UIView setAnimationDidStopSelector:@selector(slideDownDidStop)];
-	
-	self.pickerView.frame			= endFrame;
-	[UIView commitAnimations];
-	
-	// grow the table back again in vertical size to make room for the date picker
-	CGRect newFrame					= self.tableView.frame;
-	newFrame.size.height			+= self.pickerView.frame.size.height;
-	self.tableView.frame			= newFrame;
-	
-	// remove the "Done" button in the nav bar
-	self.navigationItem.rightBarButtonItem = nil;
-	
-	// deselect the current table row
-	NSIndexPath *indexPath			= [self.tableView indexPathForSelectedRow];
-	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-	[self.tableView reloadData];
- */
+
 }
 
 
@@ -1401,31 +1238,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	[TestFlight openFeedbackView];
 }
 
-/*
-#pragma mark - Managing Notifications
-
-- (void)addNotification:(LESixOfDay *)sixOfDayLogEntry {
-	NSDictionary *userInfo	= @{
-		@"logEntryTimeScheduled"				: sixOfDayLogEntry.timeScheduled.timeAndDate,
-		@"logEntryAdviceText"					: sixOfDayLogEntry.advice.name,
-		@"logEntryOrderNumberInSetOfEntries"	: sixOfDayLogEntry.orderNumberForType
-	};
-		
-    UILocalNotification *localNotification = [[UILocalNotification alloc] init]; //Create the localNotification object
-    
-	localNotification.fireDate						= sixOfDayLogEntry.timeScheduled; //Set the date when the alert will be launched using the date adding the time the user selected on the timer
-    localNotification.alertAction					= @"OK";							//The button's text that launches the application and is shown in the alert
-	localNotification.alertBody						= sixOfDayLogEntry.advice.name;		//Set the message in the notification from the textField's text
-    localNotification.hasAction						= YES;								//Set that pushing the button will launch the application
-    localNotification.applicationIconBadgeNumber	= 1; //Set the Application Icon Badge Number of the application's icon to the current Application Icon Badge Number plus 1
-	localNotification.soundName						= UILocalNotificationDefaultSoundName;
-	localNotification.userInfo						= userInfo;
-	
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification]; //Schedule the notification with the system
-																					 //    [alertNotification setHidden:NO]; //Set the alertNotification to be shown showing the user that the application has registered the local notification
-}
-
-*/
 
 
 - (void)didReceiveMemoryWarning
