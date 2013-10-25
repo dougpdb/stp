@@ -130,30 +130,44 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 
 		[self resetCountOfTheSixWithoutUserEntries];
 
-		if (self.databaseWasJustCreatedForFirstTime && !self.setsOfGuidelinesHaveBeenSelected) {
+		if (self.databaseWasJustCreatedForFirstTime && !self.setsOfGuidelinesHaveBeenSelected)
+		{
 			[tmpSectionArray removeObjectIdenticalTo:kNextEntry];
 			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
 			[tmpSectionArray removeObjectIdenticalTo:kRemainingScheduledEntries];
 			[tmpSectionArray removeObjectIdenticalTo:kUpdatedEntries];
 			[tmpSectionArray removeObjectIdenticalTo:kPreviousDays];
-		} else if (!self.setsOfGuidelinesHaveBeenSelected) {
+		}
+		else if (!self.setsOfGuidelinesHaveBeenSelected)
+		{
 			[tmpSectionArray removeObjectIdenticalTo:kNextEntry];
 			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
 			[tmpSectionArray removeObjectIdenticalTo:kRemainingScheduledEntries];
 			[tmpSectionArray removeObjectIdenticalTo:kUpdatedEntries];
-		} else if ([self.allAdviceFollowedByUser count] == 0) {
+		}
+		else if ([self.allAdviceFollowedByUser count] == 0)
+		{
 			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
 			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
 			[tmpSectionArray removeObjectIdenticalTo:kRemainingScheduledEntries];
 			[tmpSectionArray removeObjectIdenticalTo:kUpdatedEntries];
-		} else if (self.countOfTheSixWithoutUserEntries <= 1) {
+		}
+		else if (self.countOfTheSixWithoutUserEntries <= 1)
+		{
 			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
 			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
 			[tmpSectionArray removeObjectIdenticalTo:kRemainingScheduledEntries];
-		} else if (self.countOfTheSixWithoutUserEntries == 6) {
+		}
+		else if (self.countOfTheSixWithoutUserEntries == 6)
+		{
 			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
 			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
 			[tmpSectionArray removeObjectIdenticalTo:kUpdatedEntries];
+		}
+		else
+		{
+			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
+			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
 		}
 
 		_tableViewSections	= tmpSectionArray;
@@ -529,26 +543,35 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if (section == [self.tableViewSections indexOfObject:kNextEntry]) {
+	if (section == [self.tableViewSections indexOfObject:kNextEntry])
+	{
 		return 1;
-	} else if (section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries]) {
+	}
+	else if (section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries])
+	{
 		if (self.showRemainingScheduledEntries)
 			return [self.remainingScheduledEntries count] + 1;
 		else
 			return 1;		
-	} else if (section == [self.tableViewSections indexOfObject:kUpdatedEntries]) {
+	}
+	else if (section == [self.tableViewSections indexOfObject:kUpdatedEntries])
+	{
 		if (self.countOfTheSixWithoutUserEntries == 0)
 			self.showUpdatedEntries	= YES;
 		if (self.showUpdatedEntries)
 			return [self.updatedEntries count] + 1;
 		else
 			return 1;
-	} else if (section == [self.tableViewSections indexOfObject:kSetupForDay]) {
+	}
+	else if (section == [self.tableViewSections indexOfObject:kSetupForDay])
+	{
 		if (self.setsOfGuidelinesHaveBeenSelected)
 			return ([self hasInlineDatePicker]) ? 3 : 2;
 		else
 			return 1;
-	} else {
+	}
+	else
+	{
 		return 1;
 	}
 }
@@ -569,8 +592,8 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	UILabel *guidelineLabel			= [UILabel new];
 	guidelineLabel.lineBreakMode	= NSLineBreakByWordWrapping;
 
-	if (indexPath.section == [self.tableViewSections indexOfObject:kNextEntry]) {
-		
+	if (indexPath.section == [self.tableViewSections indexOfObject:kNextEntry])
+	{
 		guidelineLabel.font				= [UIFont fontWithName:@"Palatino Bold" size:17]; // [UIFont boldSystemFontOfSize:17];
 		
 		if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries > 0)
@@ -585,33 +608,32 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
 		
 		return 30 + guidelineLabelHeight + 8;		// change for landscape orientation?
-		
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries] && indexPath.row > 0) {
-		
+	}
+	else if (indexPath.section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries] && indexPath.row > 0)
+	{
 		guidelineLabel.font				= [UIFont fontWithName:@"Palatino Bold" size:15];
 		guidelineLabel.text				= [[[self.remainingScheduledEntries objectAtIndex:indexPath.row - 1] valueForKey:@"advice"] valueForKey:@"name"];
 		
 		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
 
 		return 30 + guidelineLabelHeight + 8;
-		
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries] && indexPath.row > 0) {
-		
+	}
+	else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries] && indexPath.row > 0)
+	{
 		guidelineLabel.font				= [UIFont fontWithName:@"Palatino Bold" size:15];
 		guidelineLabel.text				= [[[self.updatedEntries objectAtIndex:indexPath.row - 1] valueForKey:@"advice"] valueForKey:@"name"];
 		
 		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
 		
-		return 30 + guidelineLabelHeight + 65;
-		
-	} else if ([self indexPathHasPicker:indexPath]) {
-		
+		return 30 + guidelineLabelHeight + 40;
+	}
+	else if ([self indexPathHasPicker:indexPath])
+	{
 		return self.pickerCellRowHeight;
-
-	} else {
-		
+	}
+	else
+	{
 		return 35;
-		
 	}
 }
 
@@ -661,15 +683,24 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		
 			NSString *timeEntryTextPrefix;
 			
-			if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 0) {
+			if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 0)
+			{
 				timeEntryTextPrefix	= @"Excellent!";
-			} else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 1) {
+			}
+			else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 1)
+			{
 				timeEntryTextPrefix	= @"Last Entry - ";
-			} else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 6) {
+			}
+			else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 6)
+			{
 				timeEntryTextPrefix	= @"First Entry - ";
-			} else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries < 6) {
+			}
+			else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries < 6)
+			{
 				timeEntryTextPrefix	= @"Next Entry - ";
-			} else if (!self.setsOfGuidelinesHaveBeenSelected) {
+			}
+			else if (!self.setsOfGuidelinesHaveBeenSelected)
+			{
 				timeEntryTextPrefix = @"Choose Guidelines To Follow";
 			}
 
@@ -739,8 +770,8 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 				UITableViewCell *guidelineSummaryEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineSummaryEntryCellIdentifier];
 				UILabel *timeLabel							= (UILabel *)[guidelineSummaryEntryCell viewWithTag:10];
 				UILabel *guidelineLabel						= (UILabel *)[guidelineSummaryEntryCell viewWithTag:11];
-				UILabel *positiveIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:15];
-				UILabel *negativeIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:16];
+//				UILabel *positiveIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:15];
+//				UILabel *negativeIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:16];
 				UILabel *positiveActionLabel				= (UILabel *)[guidelineSummaryEntryCell viewWithTag:20];
 				UILabel *negativeActionLabel				= (UILabel *)[guidelineSummaryEntryCell viewWithTag:21];
 				
@@ -751,22 +782,25 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 				positiveActionLabel.text					= [[updatedEntry.getPositiveActionsTaken anyObject] valueForKey:@"text"];
 				negativeActionLabel.text					= [[updatedEntry.getNegativeActionsTaken anyObject] valueForKey:@"text"];
 				
-				[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
+				[self resizeHeightToFitForLabel:guidelineLabel
+									 labelWidth:GUIDELINE_LABEL_WIDTH];
 				
-				CGFloat	guidelineLabelHeight				= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
+//				CGFloat	guidelineLabelHeight				= [self heightForLabel:guidelineLabel
+//																		  withText:guidelineLabel.text
+//																		labelWidth:GUIDELINE_LABEL_WIDTH];
 
-				CGRect positiveIconLabelFrame				= positiveIconLabel.frame;
-				CGRect negativeIconLabelFrame				= negativeIconLabel.frame;
-				CGRect positiveActionLabelFrame				= positiveActionLabel.frame;
-				CGRect negativeActionLabelFrame				= negativeActionLabel.frame;
-				positiveIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 5;
-				negativeIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 31;
-				positiveActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 10;
-				negativeActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 35;
-				positiveIconLabel.frame						= positiveIconLabelFrame;
-				negativeIconLabel.frame						= negativeIconLabelFrame;
-				positiveActionLabel.frame					= positiveActionLabelFrame;
-				negativeActionLabel.frame					= negativeActionLabelFrame;
+//				CGRect positiveIconLabelFrame				= positiveIconLabel.frame;
+//				CGRect negativeIconLabelFrame				= negativeIconLabel.frame;
+//				CGRect positiveActionLabelFrame				= positiveActionLabel.frame;
+//				CGRect negativeActionLabelFrame				= negativeActionLabel.frame;
+//				positiveIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 5;
+//				negativeIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 31;
+//				positiveActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 10;
+//				negativeActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 35;
+//				positiveIconLabel.frame						= positiveIconLabelFrame;
+//				negativeIconLabel.frame						= negativeIconLabelFrame;
+//				positiveActionLabel.frame					= positiveActionLabelFrame;
+//				negativeActionLabel.frame					= negativeActionLabelFrame;
 				
 				return guidelineSummaryEntryCell;
 			}
@@ -794,39 +828,36 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	}
 	else if (indexPath.section == [self.tableViewSections indexOfObject:kSetupForDay])
 	{
-			UITableViewCell *daySetupCell;
-			
-			if (self.setsOfGuidelinesHaveBeenSelected && [self indexPathHasPicker:indexPath])
-			{
-				daySetupCell						= [tableView dequeueReusableCellWithIdentifier:datePickerCellIdentifier];
-			}
-			else if (self.setsOfGuidelinesHaveBeenSelected && [self indexPathHasDate:indexPath])
-			{
-				daySetupCell						= [tableView dequeueReusableCellWithIdentifier:dateCellIdentifier];
-				daySetupCell.textLabel.text			= @"Start of Day";
-				daySetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%@", [self wakeUpAtTime]];
-				daySetupCell.detailTextLabel.tag	= 10001;
-			}
-			else
-			{
-				daySetupCell						= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
-				daySetupCell.textLabel.text			= (self.setsOfGuidelinesHaveBeenSelected) ? @"Guidelines Being Followed" : @"Select Guidelines to Follow";
-				daySetupCell.detailTextLabel.text	= (self.setsOfGuidelinesHaveBeenSelected) ? [NSString stringWithFormat:@"%i", [self.allAdviceFollowedByUser count]] : @"";
-			}
-			return daySetupCell;
-			
+		UITableViewCell *daySetupCell;
+		
+		if (self.setsOfGuidelinesHaveBeenSelected && [self indexPathHasPicker:indexPath])
+		{
+			daySetupCell						= [tableView dequeueReusableCellWithIdentifier:datePickerCellIdentifier];
+		}
+		else if (self.setsOfGuidelinesHaveBeenSelected && [self indexPathHasDate:indexPath])
+		{
+			daySetupCell						= [tableView dequeueReusableCellWithIdentifier:dateCellIdentifier];
+			daySetupCell.textLabel.text			= @"Start of Day";
+			daySetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%@", [self wakeUpAtTime]];
+			daySetupCell.detailTextLabel.tag	= 10001;
+		}
+		else
+		{
+			daySetupCell						= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+			daySetupCell.textLabel.text			= (self.setsOfGuidelinesHaveBeenSelected) ? @"Guidelines Being Followed" : @"Select Guidelines to Follow";
+			daySetupCell.detailTextLabel.text	= (self.setsOfGuidelinesHaveBeenSelected) ? [NSString stringWithFormat:@"%i", [self.allAdviceFollowedByUser count]] : @"";
+		}
+		return daySetupCell;
 	}
 	else	// Previous Days
 	{
-
-			UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
-			
-			summaryOrSetupCell.textLabel.text		= @"Previous Days";
-			summaryOrSetupCell.detailTextLabel.text	= @"";
-			summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleBlue;
-			summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryDisclosureIndicator;
-			return summaryOrSetupCell;
-
+		UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+		
+		summaryOrSetupCell.textLabel.text		= @"Previous Days";
+		summaryOrSetupCell.detailTextLabel.text	= @"";
+		summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleBlue;
+		summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryDisclosureIndicator;
+		return summaryOrSetupCell;
 	}
 	return nil;
 }

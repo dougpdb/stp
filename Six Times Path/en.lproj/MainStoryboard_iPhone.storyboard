@@ -360,8 +360,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="77"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" misplaced="YES" text="This is an upcoming guideline to be considered and reflected upon in deeds past, positive and negative." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="272" translatesAutoresizingMaskIntoConstraints="NO" id="7M0-A9-9eO" userLabel="Guideline">
-                                            <rect key="frame" x="15" y="10" width="272" height="36"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" text="This is an upcoming guideline to be considered and reflected upon in deeds past, positive and negative." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="272" translatesAutoresizingMaskIntoConstraints="NO" id="7M0-A9-9eO" userLabel="Guideline">
+                                            <rect key="frame" x="15" y="10" width="272" height="34"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="Palatino-Bold" family="Palatino" pointSize="15"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -393,27 +393,27 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" text="This is a previous guideline to be considered and reflected upon in deeds past, positive and negative." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="272" translatesAutoresizingMaskIntoConstraints="NO" id="iWt-Vg-BKJ" userLabel="Guideline">
-                                            <rect key="frame" x="15" y="12" width="272" height="34"/>
+                                            <rect key="frame" x="15" y="10" width="272" height="34"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="Palatino-Bold" family="Palatino" pointSize="15"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="20" contentMode="top" text="The + of the guideline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nUt-5e-0cR" userLabel="Summary of Positive Action">
-                                            <rect key="frame" x="37" y="52" width="250" height="16"/>
+                                            <rect key="frame" x="37" y="50" width="250" height="18"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="16" id="0Gx-E6-7Ub"/>
+                                                <constraint firstAttribute="height" constant="18" id="0Gx-E6-7Ub"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="21" contentMode="top" text="The - of the guideline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P8T-h5-pIZ" userLabel="Summary of Negative Action">
-                                            <rect key="frame" x="37" y="74" width="250" height="16"/>
+                                            <rect key="frame" x="37" y="72" width="250" height="18"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="16" id="nSg-Qc-Gjs"/>
+                                                <constraint firstAttribute="height" constant="18" id="nSg-Qc-Gjs"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -430,40 +430,42 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <rect key="frame" x="15" y="47" width="15" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="3yg-hT-nkc"/>
                                                 <constraint firstAttribute="width" constant="15" id="gT0-ff-TVF"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="16" contentMode="left" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Toe-Fa-6Dh" userLabel="Minus icon">
-                                            <rect key="frame" x="15" y="68" width="15" height="23"/>
+                                            <rect key="frame" x="15" y="72" width="15" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="18" id="Qp6-uM-s5Q"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="Toe-Fa-6Dh" firstAttribute="centerY" secondItem="P8T-h5-pIZ" secondAttribute="centerY" constant="-2.5" id="2jU-yM-kap"/>
                                         <constraint firstAttribute="bottom" secondItem="U61-BO-EgV" secondAttribute="bottom" constant="9" id="7TU-2P-UwU"/>
                                         <constraint firstItem="nUt-5e-0cR" firstAttribute="leading" secondItem="QXf-NR-Kgs" secondAttribute="trailing" constant="7" id="8M7-JU-20G"/>
                                         <constraint firstItem="Toe-Fa-6Dh" firstAttribute="leading" secondItem="U61-BO-EgV" secondAttribute="leading" id="8gV-rF-Fw5"/>
                                         <constraint firstItem="QXf-NR-Kgs" firstAttribute="bottom" secondItem="nUt-5e-0cR" secondAttribute="bottom" id="AKA-ml-VLi"/>
                                         <constraint firstItem="QXf-NR-Kgs" firstAttribute="trailing" secondItem="Toe-Fa-6Dh" secondAttribute="trailing" id="AaV-51-3h9"/>
                                         <constraint firstAttribute="trailing" secondItem="P8T-h5-pIZ" secondAttribute="trailing" id="Diu-Iw-wKK"/>
-                                        <constraint firstItem="iWt-Vg-BKJ" firstAttribute="top" secondItem="xmr-9B-h0q" secondAttribute="top" constant="12" id="Fyi-Iy-MA4"/>
+                                        <constraint firstItem="iWt-Vg-BKJ" firstAttribute="top" secondItem="xmr-9B-h0q" secondAttribute="top" constant="10" id="Fyi-Iy-MA4"/>
                                         <constraint firstItem="P8T-h5-pIZ" firstAttribute="leading" secondItem="nUt-5e-0cR" secondAttribute="leading" id="Jyq-Y1-oM6"/>
                                         <constraint firstItem="QXf-NR-Kgs" firstAttribute="leading" secondItem="iWt-Vg-BKJ" secondAttribute="leading" id="Q9l-VO-MhJ"/>
                                         <constraint firstItem="QXf-NR-Kgs" firstAttribute="leading" secondItem="Toe-Fa-6Dh" secondAttribute="leading" id="R0G-PV-CQ3"/>
                                         <constraint firstAttribute="trailing" secondItem="iWt-Vg-BKJ" secondAttribute="trailing" id="VFR-A3-LOC"/>
                                         <constraint firstItem="iWt-Vg-BKJ" firstAttribute="leading" secondItem="xmr-9B-h0q" secondAttribute="leading" constant="15" id="W0v-2b-ZcS"/>
                                         <constraint firstItem="iWt-Vg-BKJ" firstAttribute="width" secondItem="U61-BO-EgV" secondAttribute="width" id="atM-TK-43H"/>
-                                        <constraint firstItem="QXf-NR-Kgs" firstAttribute="top" secondItem="iWt-Vg-BKJ" secondAttribute="bottom" constant="1" id="m6A-0s-6vP"/>
                                         <constraint firstItem="nUt-5e-0cR" firstAttribute="top" secondItem="iWt-Vg-BKJ" secondAttribute="bottom" constant="6" id="uEu-7h-v2l"/>
-                                        <constraint firstItem="U61-BO-EgV" firstAttribute="top" secondItem="Toe-Fa-6Dh" secondAttribute="bottom" constant="9" id="uWa-L8-dBb"/>
                                         <constraint firstItem="P8T-h5-pIZ" firstAttribute="trailing" secondItem="nUt-5e-0cR" secondAttribute="trailing" id="x6F-EI-nKU"/>
                                         <constraint firstItem="U61-BO-EgV" firstAttribute="top" secondItem="P8T-h5-pIZ" secondAttribute="bottom" constant="10" id="xi6-tn-1YT"/>
+                                        <constraint firstItem="P8T-h5-pIZ" firstAttribute="bottom" secondItem="Toe-Fa-6Dh" secondAttribute="bottom" id="xnc-6a-Bj9"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
