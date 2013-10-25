@@ -605,7 +605,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries] && indexPath.row > 0) {
 		
-		guidelineLabel.font				= [UIFont boldSystemFontOfSize:15];
+		guidelineLabel.font				= [UIFont fontWithName:@"Palatino Bold" size:15];
 		guidelineLabel.text				= [[[self.remainingScheduledEntries objectAtIndex:indexPath.row - 1] valueForKey:@"advice"] valueForKey:@"name"];
 		
 		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
@@ -614,7 +614,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries] && indexPath.row > 0) {
 		
-		guidelineLabel.font				= [UIFont boldSystemFontOfSize:15];
+		guidelineLabel.font				= [UIFont fontWithName:@"Palatino Bold" size:15];
 		guidelineLabel.text				= [[[self.updatedEntries objectAtIndex:indexPath.row - 1] valueForKey:@"advice"] valueForKey:@"name"];
 		
 		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];

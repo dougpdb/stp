@@ -174,8 +174,7 @@
 							   @"Grant that I may not so much seek to be loved as to love.",
 							   @"May I act with the understanding that it is in giving that we receive.",
 							   @"May I act with the understanding that it is in pardoning that we are pardoned.",
-							   @"May I act with the understanding that it is in pardoning that we are pardoned.",
-							   @"Reflect upon how I find the prayer of St. Francis to be true (\"Amen]\") based upon my direct experience of engaging it. Consider how that differs from assumptions I may have made in the past about the prayer."];
+							   @"Contemplate upon how the prayer of St. Francis to be true based upon my direct experience of engaging it."];
 	
     // Civic/secular Tradition
     NSArray *adviceBoyScoutOath     = [NSArray arrayWithObjects:@"Do my duty to God",
