@@ -601,7 +601,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		
 		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
 		
-		return 36 + guidelineLabelHeight + 8;		// change for landscape orientation?
+		return 30 + guidelineLabelHeight + 8;		// change for landscape orientation?
 		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries] && indexPath.row > 0) {
 		
@@ -610,7 +610,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		
 		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
 
-		return 30 + guidelineLabelHeight + 10;
+		return 30 + guidelineLabelHeight + 8;
 		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries] && indexPath.row > 0) {
 		

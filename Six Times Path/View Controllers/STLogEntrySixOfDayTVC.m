@@ -281,7 +281,7 @@
 		
 		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
 		
-		return 36 + guidelineLabelHeight + 8;		// change for landscape orientation?
+		return 30 + guidelineLabelHeight + 8;		// change for landscape orientation?
 		
 	} else {
 		
