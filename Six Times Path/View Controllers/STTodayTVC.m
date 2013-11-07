@@ -466,6 +466,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		
 		[self resetTableViewSections];
 		[self.tableView reloadData];
+		self.title					= self.mostRecentlyAddedDate.weekdayMonthAndDay;
 
 		[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %i", [self.fetchedResultsController.fetchedObjects count]]];
 	}
