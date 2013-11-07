@@ -123,6 +123,21 @@
 }
 
 
+-(BOOL)hasPositiveActionWithText
+{
+	ActionTaken *action		= [[self getPositiveActionsTaken] anyObject];
+	NSInteger lengthOfText	= [[action.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length];
+	BOOL hasText			= (lengthOfText > 0) ? YES : NO;
+	return hasText;
+}
+
+-(BOOL)hasNegativeActionWithText{
+	ActionTaken *action		= [[self getNegativeActionsTaken] anyObject];
+	NSInteger lengthOfText	= [[action.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length];
+	BOOL hasText			= (lengthOfText > 0) ? YES : NO;
+	return hasText;
+}
+
 #pragma mark - Logging in Console
 
 -(void)logValuesOfLogEntry

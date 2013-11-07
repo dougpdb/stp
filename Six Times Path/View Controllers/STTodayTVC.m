@@ -22,7 +22,7 @@
 #define IS_IPAD	(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_PORTRAIT 
 
-#define GUIDELINE_LABEL_WIDTH	268
+#define GUIDELINE_LABEL_WIDTH	273
 #define ACTION_LABEL_WIDTH		245
 
 //	http://developer.apple.com/library/ios/samplecode/DateCell/Listings/MyTableViewController_m.html#//apple_ref/doc/uid/DTS40008866-MyTableViewController_m-DontLinkElementID_6
@@ -40,6 +40,12 @@
 static NSString *kDateCellID = @"dateCell";     // the cells with the start or end date
 static NSString *kDatePickerID = @"datePickerCell"; // the cell containing the date picker
 static NSString *kOtherCell = @"otherCell";     // the remaining cells at the end
+
+static NSString *kFontNameGuideline			= @"Palatino Bold";
+static NSInteger kFontSizeGuidelineNext		= 17;
+static NSInteger kFontSizeGuidelineOther	= 15;
+
+
 
 
 NSString *kNextEntry					= @"Next Entry";
@@ -558,6 +564,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	{
 		if (self.countOfTheSixWithoutUserEntries == 0)
 			self.showUpdatedEntries	= YES;
+
 		if (self.showUpdatedEntries)
 			return [self.updatedEntries count] + 1;
 		else
@@ -594,7 +601,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 
 	if (indexPath.section == [self.tableViewSections indexOfObject:kNextEntry])
 	{
-		guidelineLabel.font				= [UIFont fontWithName:@"Palatino Bold" size:17]; // [UIFont boldSystemFontOfSize:17];
+		guidelineLabel.font				= [UIFont fontWithName:kFontNameGuideline size:kFontSizeGuidelineNext];
 		
 		if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries > 0)
 			guidelineLabel.text			= self.nextEntry.advice.name;
@@ -607,11 +614,11 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		
 		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
 		
-		return 30 + guidelineLabelHeight + 8;		// change for landscape orientation?
+		return guidelineLabelHeight + 46;		// change for landscape orientation?
 	}
 	else if (indexPath.section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries] && indexPath.row > 0)
 	{
-		guidelineLabel.font				= [UIFont fontWithName:@"Palatino Bold" size:15];
+		guidelineLabel.font				= [UIFont fontWithName:kFontNameGuideline size:kFontSizeGuidelineOther];
 		guidelineLabel.text				= [[[self.remainingScheduledEntries objectAtIndex:indexPath.row - 1] valueForKey:@"advice"] valueForKey:@"name"];
 		
 		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
@@ -620,12 +627,21 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	}
 	else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries] && indexPath.row > 0)
 	{
-		guidelineLabel.font				= [UIFont fontWithName:@"Palatino Bold" size:15];
+		LESixOfDay *updatedEntry		= [self.updatedEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
+		guidelineLabel.font				= [UIFont fontWithName:kFontNameGuideline size:kFontSizeGuidelineOther];
 		guidelineLabel.text				= [[[self.updatedEntries objectAtIndex:indexPath.row - 1] valueForKey:@"advice"] valueForKey:@"name"];
 		
-		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
+		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel
+												   withText:guidelineLabel.text
+												 labelWidth:GUIDELINE_LABEL_WIDTH];
 		
-		return 30 + guidelineLabelHeight + 40;
+		NSInteger actionHeight			= 23;
+		NSInteger positiveActionHeight	= 0;
+		NSInteger negativeActionHeight	= 0;
+		positiveActionHeight			= ([updatedEntry hasPositiveActionWithText]) ? actionHeight : 0;
+		negativeActionHeight			= ([updatedEntry hasNegativeActionWithText]) ? actionHeight : 0;
+		NSInteger cellHeight			= guidelineLabelHeight + positiveActionHeight + negativeActionHeight + 42;
+		return cellHeight;
 	}
 	else if ([self indexPathHasPicker:indexPath])
 	{
@@ -641,17 +657,23 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 #pragma mark - Managing Cell and Label Heights
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
 {
-	UIFont *font	= label.font;
-	NSAttributedString *attributedText = [ [NSAttributedString alloc]
-										  initWithString:text
-										  attributes: @{NSFontAttributeName: font}
-										  ];
-	CGRect rect		= [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
-											   options:NSStringDrawingUsesLineFragmentOrigin
-											   context:nil];
-	CGSize size		= rect.size;
-	CGFloat height	= ceilf(size.height);
-	return height;
+	if (text != nil)
+	{
+		UIFont *font	= label.font;
+		NSAttributedString *attributedText = [ [NSAttributedString alloc]
+											  initWithString:text
+											  attributes: @{NSFontAttributeName: font}
+											  ];
+		CGRect rect		= [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
+													options:NSStringDrawingUsesLineFragmentOrigin
+													context:nil];
+		CGSize size		= rect.size;
+		CGFloat height	= ceilf(size.height);
+		return height;
+	}
+	else
+		return 0;
+	
 }
 
 -(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth
@@ -681,9 +703,9 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 			UILabel *guidelineLabel						= (UILabel *)[guidelineNextEntryCell viewWithTag:11];
 		
 		
-			NSString *timeEntryTextPrefix;
+			NSString *timeEntryTextPrefix				= @"";
 			
-			if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 0)
+/*			if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 0)
 			{
 				timeEntryTextPrefix	= @"Excellent!";
 			}
@@ -703,7 +725,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 			{
 				timeEntryTextPrefix = @"Choose Guidelines To Follow";
 			}
-
+*/
 			guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleNone;
 			guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryNone;
 		
@@ -738,7 +760,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 				
 				LESixOfDay *scheduledEntry					= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
 
-				timeLabel.text								= [NSString stringWithFormat:@"Scheduled - %@", scheduledEntry.timeScheduled.time];
+				timeLabel.text								= [NSString stringWithFormat:@"%@", scheduledEntry.timeScheduled.time];
 				guidelineLabel.text							= scheduledEntry.advice.name;
 				
 				[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
@@ -770,8 +792,8 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 				UITableViewCell *guidelineSummaryEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineSummaryEntryCellIdentifier];
 				UILabel *timeLabel							= (UILabel *)[guidelineSummaryEntryCell viewWithTag:10];
 				UILabel *guidelineLabel						= (UILabel *)[guidelineSummaryEntryCell viewWithTag:11];
-//				UILabel *positiveIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:15];
-//				UILabel *negativeIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:16];
+				UILabel *positiveIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:15];
+				UILabel *negativeIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:16];
 				UILabel *positiveActionLabel				= (UILabel *)[guidelineSummaryEntryCell viewWithTag:20];
 				UILabel *negativeActionLabel				= (UILabel *)[guidelineSummaryEntryCell viewWithTag:21];
 				
@@ -782,26 +804,16 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 				positiveActionLabel.text					= [[updatedEntry.getPositiveActionsTaken anyObject] valueForKey:@"text"];
 				negativeActionLabel.text					= [[updatedEntry.getNegativeActionsTaken anyObject] valueForKey:@"text"];
 				
+				positiveActionLabel.hidden				= ([positiveActionLabel.text isEqualToString:@""]);
+				positiveIconLabel.hidden				= ([positiveActionLabel.text isEqualToString:@""]);
+				
+				negativeActionLabel.hidden				= ([negativeActionLabel.text isEqualToString:@""]);
+				negativeIconLabel.hidden				= ([negativeActionLabel.text isEqualToString:@""]);
+				
+				
 				[self resizeHeightToFitForLabel:guidelineLabel
 									 labelWidth:GUIDELINE_LABEL_WIDTH];
-				
-//				CGFloat	guidelineLabelHeight				= [self heightForLabel:guidelineLabel
-//																		  withText:guidelineLabel.text
-//																		labelWidth:GUIDELINE_LABEL_WIDTH];
-
-//				CGRect positiveIconLabelFrame				= positiveIconLabel.frame;
-//				CGRect negativeIconLabelFrame				= negativeIconLabel.frame;
-//				CGRect positiveActionLabelFrame				= positiveActionLabel.frame;
-//				CGRect negativeActionLabelFrame				= negativeActionLabel.frame;
-//				positiveIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 5;
-//				negativeIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 31;
-//				positiveActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 10;
-//				negativeActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 35;
-//				positiveIconLabel.frame						= positiveIconLabelFrame;
-//				negativeIconLabel.frame						= negativeIconLabelFrame;
-//				positiveActionLabel.frame					= positiveActionLabelFrame;
-//				negativeActionLabel.frame					= negativeActionLabelFrame;
-				
+								
 				return guidelineSummaryEntryCell;
 			}
 			else
@@ -954,11 +966,10 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 {
     if (indexPath.section == [self.tableViewSections indexOfObject:kNextEntry]) {
 	
-			if ([self.allAdviceFollowedByUser count] == 0) {
+			if ([self.allAdviceFollowedByUser count] == 0)
 				[self performSegueWithIdentifier:@"Guidelines Followed" sender:self];
-			} else if (self.countOfTheSixWithoutUserEntries > 0) {
+			else if (self.countOfTheSixWithoutUserEntries > 0)
 				[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
-			}
 			
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries]) {
 		
@@ -992,15 +1003,9 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	else if (indexPath.section == [self.tableViewSections indexOfObject:kSetupForDay])
 	{
 			if (indexPath.row == 0 && self.setsOfGuidelinesHaveBeenSelected)
-			{
-				NSLog(@"Going to trigger -showDatePicker");
-				//	[self showDatePicker];
 				[self displayInlineDatePickerForRowAtIndexPath:indexPath];
-			}
 			else
-			{
 				[self performSegueWithIdentifier:@"Guidelines Followed" sender:self];
-			}
 	}
 	else
 	{
@@ -1125,67 +1130,11 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 }
 
 
-
--(void)showDatePicker
-{
-	NSIndexPath *indexPath		= [self.tableView indexPathForSelectedRow];
-	UITableViewCell *targetCell = [self.tableView cellForRowAtIndexPath:indexPath];
-	self.pickerView.date		= [self.dateFormatter dateFromString:targetCell.detailTextLabel.text];
-	
-	// check if our date picker is already on screen
-	if (self.pickerView.superview == nil)
-	{
-		[self.view.window addSubview: self.pickerView];
-		
-		// size up the picker view to our screen and compute the start/end frame origin for our slide up animation
-		//
-		// compute the start frame
-		CGRect screenRect		= [[UIScreen mainScreen] applicationFrame];
-		CGSize pickerSize		= [self.pickerView sizeThatFits:CGSizeZero];
-		CGRect startRect		= CGRectMake(0.0,
-									  screenRect.origin.y + screenRect.size.height,
-									  pickerSize.width, pickerSize.height);
-		self.pickerView.frame = startRect;
-		
-		// compute the end frame
-		CGRect pickerRect		= CGRectMake(0.0,
-									   screenRect.origin.y + screenRect.size.height - pickerSize.height,
-									   pickerSize.width,
-									   pickerSize.height);
-		// start the slide up animation
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:0.3];
-		
-		// we need to perform some post operations after the animation is complete
-		[UIView setAnimationDelegate:self];
-		
-		self.pickerView.frame	= pickerRect;
-		
-		// shrink the table vertical size to make room for the date picker
-		CGRect newFrame			= self.tableView.frame;
-		newFrame.size.height	-= self.pickerView.frame.size.height;
-		self.tableView.frame	= newFrame;
-		[UIView commitAnimations];
-		
-		// add the "Done" button to the nav bar
-		self.navigationItem.rightBarButtonItem = self.doneButton;
-	}
-}
-
-
-- (void)slideDownDidStop
-{
-	// the date picker has finished sliding downwards, so remove it
-	[self.pickerView removeFromSuperview];
-}
-
-
-
 - (IBAction)doneAction:(id)sender
 {
 	NSDate *updatedWakeUpTime			= [self dateFromDatePicker];
-	self.thisDay.startHour				= [NSNumber numberWithInteger:[updatedWakeUpTime hour]];	//[NSNumber numberWithInt:[self.pickerView.date hour]];
-	self.thisDay.startMinute			= [NSNumber numberWithInteger:[updatedWakeUpTime minute]]; // [NSNumber numberWithInt:[self.pickerView.date minute]];
+	self.thisDay.startHour				= [NSNumber numberWithInteger:[updatedWakeUpTime hour]];
+	self.thisDay.startMinute			= [NSNumber numberWithInteger:[updatedWakeUpTime minute]];
 	[self.notificationController cancelAllNotifications];
 	
 	// Reset scheduled times for log entries
@@ -1211,7 +1160,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	}
 
 	UILabel *wakeUpTimeTextLabel	= (UILabel *)[self.tableView viewWithTag:10001];
-	wakeUpTimeTextLabel.text		= [updatedWakeUpTime time]; //  [self.dateFormatter stringFromDate:self.pickerView.date];
+	wakeUpTimeTextLabel.text		= [updatedWakeUpTime time];
 	
 	[TestFlight passCheckpoint:@"RESET WAKEUP TIME"];
 

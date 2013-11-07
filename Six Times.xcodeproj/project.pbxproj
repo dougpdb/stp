@@ -469,6 +469,11 @@
 				CLASSPREFIX = ST;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "A Great Highway";
+				TargetAttributes = {
+					1E55232D1591E2F9009114B7 = {
+						DevelopmentTeam = 7G9EEUZE83;
+					};
+				};
 			};
 			buildConfigurationList = 1E5523281591E2F9009114B7 /* Build configuration list for PBXProject "Six Times" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -682,8 +687,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Paul Baker (982EGMKQZT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Paul Baker (982EGMKQZT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -699,8 +704,8 @@
 					"\"$(SRCROOT)/Six Times Path/TestFlightSDK1\"",
 				);
 				PRODUCT_NAME = "Six Times";
-				PROVISIONING_PROFILE = "8B7E2A69-F6F4-4166-A045-05892C990FAA";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B7E2A69-F6F4-4166-A045-05892C990FAA";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0EC2F642-01D0-4393-8C5E-6F889BE0ED2C";
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -712,8 +717,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Paul Baker";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Paul Baker";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -729,7 +734,7 @@
 					"\"$(SRCROOT)/Six Times Path/TestFlightSDK1\"",
 				);
 				PRODUCT_NAME = "Six Times";
-				PROVISIONING_PROFILE = "266344AF-F408-4136-A2DA-FB66065E445C";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "266344AF-F408-4136-A2DA-FB66065E445C";
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";

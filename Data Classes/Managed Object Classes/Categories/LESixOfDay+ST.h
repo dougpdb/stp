@@ -21,6 +21,9 @@
 -(NSSet *)getPositiveActionsTaken;
 -(NSSet *)getNegativeActionsTaken;
 
+-(BOOL)hasPositiveActionWithText;
+-(BOOL)hasNegativeActionWithText;
+
 -(void)resetScheduledTime;
 -(void)resetScheduledTimeAtHourInterval:(NSInteger)orderNumber;
 -(void)resetScheduledTimeAtHourInterval:(NSInteger)orderNumber startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute;
