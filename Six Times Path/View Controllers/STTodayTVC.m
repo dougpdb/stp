@@ -707,19 +707,26 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 			guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleNone;
 			guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryNone;
 		
-			if (self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay && self.countOfTheSixWithoutUserEntries > 0) {
+			if (self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay && self.countOfTheSixWithoutUserEntries > 0)
+			{
 				timeLabel.text							= [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.nextEntry.timeScheduled.time];
 				guidelineLabel.text						= self.nextEntry.advice.name;
 				
 				guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
 				guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
-			} else if (self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay && self.countOfTheSixWithoutUserEntries == 0) {
+			}
+			else if (self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay && self.countOfTheSixWithoutUserEntries == 0)
+			{
 				timeLabel.text							= timeEntryTextPrefix;
 				guidelineLabel.text						= kCongratulationsMessage;
-			} else if (!self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay) {
+			}
+			else if (!self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay)
+			{
 				timeLabel.text							= timeEntryTextPrefix;
 				guidelineLabel.text						= kSelectGuidelinesMessage;
-			} else if (!self.setsOfGuidelinesHaveBeenSelected) {
+			}
+			else if (!self.setsOfGuidelinesHaveBeenSelected)
+			{
 				timeLabel.text							= timeEntryTextPrefix;
 				guidelineLabel.text						= kIntroductoryMessage;
 			} 
@@ -731,7 +738,8 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries]) {
 	
-			if (self.showRemainingScheduledEntries && indexPath.row > 0) {
+			if (self.showRemainingScheduledEntries && indexPath.row > 0)
+			{
 				UITableViewCell *guidelineOtherEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineOtherEntryCellIdentifier];
 				UILabel *timeLabel							= (UILabel *)[guidelineOtherEntryCell viewWithTag:10];
 				UILabel *guidelineLabel						= (UILabel *)[guidelineOtherEntryCell viewWithTag:11];
@@ -744,16 +752,21 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 				[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
 				
 				return guidelineOtherEntryCell;
-			} else {
+			}
+			else
+			{
 				UITableViewCell *summaryOrSetupCell			= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 				
 				summaryOrSetupCell.textLabel.text			= @"Remaining Guidelines";
 				summaryOrSetupCell.detailTextLabel.text		= [NSString stringWithFormat:@"%i", [self.remainingScheduledEntries count]];
 				
-				if (self.showRemainingScheduledEntries) {
+				if (self.showRemainingScheduledEntries)
+				{
 					summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleNone;
 					summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryNone;
-				} else {
+				}
+				else
+				{
 					summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleBlue;
 					summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryDisclosureIndicator;
 				}
