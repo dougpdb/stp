@@ -20,10 +20,8 @@
 #import "TestFlight.h"
 
 #define IS_IPAD	(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-#define IS_PORTRAIT 
 
-#define GUIDELINE_LABEL_WIDTH	273
-#define ACTION_LABEL_WIDTH		245
+#define GUIDELINE_LABEL_WIDTH 274 // 520
 
 //	http://developer.apple.com/library/ios/samplecode/DateCell/Listings/MyTableViewController_m.html#//apple_ref/doc/uid/DTS40008866-MyTableViewController_m-DontLinkElementID_6
 
@@ -706,27 +704,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		
 			NSString *timeEntryTextPrefix				= @"";
 			
-/*			if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 0)
-			{
-				timeEntryTextPrefix	= @"Excellent!";
-			}
-			else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 1)
-			{
-				timeEntryTextPrefix	= @"Last Entry - ";
-			}
-			else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries == 6)
-			{
-				timeEntryTextPrefix	= @"First Entry - ";
-			}
-			else if (self.setsOfGuidelinesHaveBeenSelected && self.countOfTheSixWithoutUserEntries < 6)
-			{
-				timeEntryTextPrefix	= @"Next Entry - ";
-			}
-			else if (!self.setsOfGuidelinesHaveBeenSelected)
-			{
-				timeEntryTextPrefix = @"Choose Guidelines To Follow";
-			}
-*/
 			guidelineNextEntryCell.selectionStyle	= UITableViewCellSelectionStyleNone;
 			guidelineNextEntryCell.accessoryType	= UITableViewCellAccessoryNone;
 		

@@ -32,9 +32,9 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 
 @implementation STAppDelegate
 
-@synthesize window						= _window;
-@synthesize debug						= debug;
-@synthesize baseDataController			= _baseDataController;
+@synthesize window					= _window;
+@synthesize debug					= debug;
+@synthesize baseDataController		= _baseDataController;
 
 
 
