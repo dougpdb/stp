@@ -162,6 +162,33 @@
 									   @"Blessed are you when people insult you, persecute you and falsely say all kinds of evil against you because of me.  Rejoice and be glad, because great is your reward in heaven. ",
 									   nil];
     
+	NSArray *adviceSermonOnTheMount		= @[@"Shine your light for all, uncovered and unobstructed, so that all may see the good things you do and that can be done, and so that all may praise God in heaven.",
+										  @"Do not reject and trivialize the commands meant to bring you closer to God, as doing so will hold yourself apart from the kingdom God has meant for you.",
+										  @"Engage, practice, and teach the commands meant to bring you closer to God and to discover a greatness of spirit worthy of the kingdom of heaven.",
+										  @"Don't insult others.",
+										  @"Make peace with another who has a grudge against you before you come the altar and offer a gift, or before you end up before the judge in court.",
+										  @"When you look upon or touch anything with an intense desire for pleasure at the expense of another, then stop. Turn away from that which you think you need. Instead, look upon the desire that would lead you astray and grab ahold of it, so that you may root it out and throw it away, as if you were to pluck out an eye.",
+										  @"Do not invoke heaven, earth, great works of man, or even your own head in an effort to make yourself seem more sincere. Just say simply ‘Yes’ or ‘No’.",
+										  @"Instead of hating your enemies, seek to love them. Pray for them and yourself, so that you each may be the best persons you can be in the eyes of God.",
+										  @"When someone strikes, sues, or makes unfair demands of you, giving willingly beyond what has been demanded of you rather than returning harm to the person who harmed you.",
+										@"Reject any motives to do good actions in order to attract attention so that others will think more highly of you.",
+										@"Give quietly to those in need, without announcing that you are doing so—even to those closest to you.",
+										@"Pray apart from others, content that God alone will see you.",
+										@"Pray simply and make your words count.",
+										@"Turn your attention to God in prayer with the faith that already God knows what is in your heart. Avoid saying a lot in the hope that God will pay more attention to your prayer.",
+										@"Pray that God’s name may be honored.",
+										@"Pray that God’s kingdom may be experienced by all.",
+										@"Pray that you and and others act in accordance with God’s will.",
+										@"Pray that all people’s basic needs are met.",
+										@"Pray for forgiveness and forgive those who you feel have wronged you.",
+										@"Pray to be kept from doing the things which hurt yourself, others, and your relationship with God.",
+										@"Pray to stop doing the things which hurt yourself, others, and your relationship with God.",
+										@"When you suspend indulging your physical appetites in an effort to better concentrate on God, also keep from indulging in the desire of pride to be seen and praised as someone who undertakes difficult religious practices.",
+										@"When you choose to go without food, keep yourself neat and clean as you otherwise would."];
+
+
+
+	
 	NSArray *prayerStFrancis		= @[@"Seek to be an instrument of the Lord’s peace.",
 							   @"Where there is hatred, let me sow love.",
 							   @"Where there is injury, let me sow pardon.",
@@ -251,10 +278,15 @@
 													 andArrayOfGuidelineNames:prayerStFrancis
 																intoTradition:traditionChristianity];
 	
+	SetOfAdvice *sermonOnTheMount				= [self insertSetOfAdviceWithAdviceName:@"Based on Sermon on the Mount"
+													andArrayOfGuidelineNames:adviceSermonOnTheMount
+															   intoTradition:traditionChristianity];
+	
     
 	tenCommandments.orderNumberInFollowedSets	= [NSNumber numberWithInt:0];
 	beatitudes.orderNumberInFollowedSets        = [NSNumber numberWithInt:0];
 	prayerOfStFrancis.orderNumberInFollowedSets	= [NSNumber numberWithInt:0];
+	sermonOnTheMount.orderNumberInFollowedSets	= [NSNumber numberWithInt:0];
     
     // Set up Civic guidelines
     SpiritualTradtion *civicTradition           = [self insertSpiritualTraditionWithName:@"Civic"];
