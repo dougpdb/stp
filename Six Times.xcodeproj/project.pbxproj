@@ -46,6 +46,7 @@
 		9137F1A2166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F19A166A4C1400C789D2 /* STLogEntrySixOfDayTVC.m */; };
 		9137F1A7166A4C7C00C789D2 /* NSDate+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F1A6166A4C7C00C789D2 /* NSDate+ST.m */; };
 		9137F1AA166A4C9000C789D2 /* Day+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F1A9166A4C9000C789D2 /* Day+ST.m */; };
+		914012BB18364D0F00743D12 /* GHUIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 914012BA18364D0F00743D12 /* GHUIPlaceHolderTextView.m */; };
 		914DBDF2173BB61F00EFC223 /* STApplicationBaseDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914DBDF1173BB61F00EFC223 /* STApplicationBaseDataController.m */; };
 		91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 91573F091629E6E300914D3E /* UITextView+Placeholder.m */; };
 		915E3FE315CFD37A0036C6FE /* prog journal.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 915E3FE215CFD37A0036C6FE /* prog journal.rtf */; };
@@ -135,6 +136,8 @@
 		9137F1A6166A4C7C00C789D2 /* NSDate+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+ST.m"; path = "Data Classes/Categories/NSDate+ST.m"; sourceTree = SOURCE_ROOT; };
 		9137F1A8166A4C9000C789D2 /* Day+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Day+ST.h"; path = "Data Classes/Managed Object Classes/Categories/Day+ST.h"; sourceTree = "<group>"; };
 		9137F1A9166A4C9000C789D2 /* Day+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Day+ST.m"; path = "Data Classes/Managed Object Classes/Categories/Day+ST.m"; sourceTree = "<group>"; };
+		914012B918364D0F00743D12 /* GHUIPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHUIPlaceHolderTextView.h; sourceTree = "<group>"; };
+		914012BA18364D0F00743D12 /* GHUIPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHUIPlaceHolderTextView.m; sourceTree = "<group>"; };
 		914DBDF0173BB61F00EFC223 /* STApplicationBaseDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STApplicationBaseDataController.h; path = "Data Controllers/STApplicationBaseDataController.h"; sourceTree = "<group>"; };
 		914DBDF1173BB61F00EFC223 /* STApplicationBaseDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STApplicationBaseDataController.m; path = "Data Controllers/STApplicationBaseDataController.m"; sourceTree = "<group>"; };
 		91573F081629E6E300914D3E /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
@@ -361,6 +364,8 @@
 		9137F15F166A45F300C789D2 /* Storyboards and Xibs with VCs */ = {
 			isa = PBXGroup;
 			children = (
+				914012B918364D0F00743D12 /* GHUIPlaceHolderTextView.h */,
+				914012BA18364D0F00743D12 /* GHUIPlaceHolderTextView.m */,
 				1E5523441591E2FA009114B7 /* MainStoryboard_iPhone.storyboard */,
 				1E5523471591E2FA009114B7 /* MainStoryboard_iPad.storyboard */,
 			);
@@ -541,6 +546,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				914012BB18364D0F00743D12 /* GHUIPlaceHolderTextView.m in Sources */,
 				1E55233F1591E2FA009114B7 /* main.m in Sources */,
 				1E5523431591E2FA009114B7 /* STAppDelegate.m in Sources */,
 				1E55235F1591E3A4009114B7 /* Model.xcdatamodeld in Sources */,
@@ -705,7 +711,7 @@
 				);
 				PRODUCT_NAME = "Six Times";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0EC2F642-01D0-4393-8C5E-6F889BE0ED2C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A9C1A540-111B-4824-A99E-777BE4A2839B";
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
@@ -735,7 +741,7 @@
 				);
 				PRODUCT_NAME = "Six Times";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "266344AF-F408-4136-A2DA-FB66065E445C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E5F3796D-8F08-4772-9B3A-4FD0A7950CA3";
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
