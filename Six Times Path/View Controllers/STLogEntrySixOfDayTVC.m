@@ -8,6 +8,9 @@
 //
 
 #import "STLogEntrySixOfDayTVC.h"
+#import "GHUIPlaceHolderTextView.h"
+
+
 #import "LESixOfDay+ST.h"
 #import "Day+ST.h"
 #import "Advice.h"
@@ -15,6 +18,8 @@
 #import "ToDo+ST.h"
 #import "NSDate+ST.h"
 #import "NSDate+ES.h"
+
+
 #import "TestFlight.h"
 #import "STNotificationController.h"
 
@@ -25,10 +30,11 @@
 //#import "STLogEntryTimedCell.h"
 //#import "STLogEntryBestWorstOrToDoTextEntryCell.h"
 
-#define OVERVIEW_SECTION_NUMBER	0
-#define BEST_SECTION_NUMBER		1
-#define WORST_SECTION_NUMBER	2
-#define TO_DO_SECTION_NUMBER	3
+#define OVERVIEW_SECTION_NUMBER			0
+#define BEST_AND_WORST_SECTION_NUMBER	1
+#define BEST_SECTION_NUMBER				1
+#define WORST_SECTION_NUMBER			2
+#define TO_DO_SECTION_NUMBER			3
 
 #define TAG_PREFIX_UITEXTVIEW	100
 
@@ -37,8 +43,13 @@
 #define CELL_CONTENT_LEFT_MARGIN		8.0f
 #define FONT_SIZE						15.0f
 
-#define GUIDELINE_LABEL_WIDTH	276
+#define GUIDELINE_LABEL_WIDTH	290
 
+#define kFontSize	15.0
+#define kTextViewWidth 268.0
+
+static NSString *kFontNameGuideline			= @"Palatino";
+static NSInteger kFontSizeGuidelineNext		= 19;
 
 
 @interface STLogEntrySixOfDayTVC ()
@@ -94,27 +105,71 @@
 	self.mostRecentlySavedNegativeActionTakenDescription	= (self.aNegativeActionTaken) ? self.aNegativeActionTaken.text : @"";
 	self.updatedNegativeActionTakenDescription				= self.mostRecentlySavedNegativeActionTakenDescription;
 
-	if (self.leSixOfDay.timeLastUpdated) {
+	// Set up Guideline Cell
+	self.guidelineText.text				= self.leSixOfDay.advice.name;
+	[self resizeHeightToFitForLabel:self.guidelineText labelWidth:GUIDELINE_LABEL_WIDTH];
+
+	if (self.leSixOfDay.timeLastUpdated)
+	{
 		self.guidelineTime.text	= [NSString stringWithFormat:@"Updated %@", self.leSixOfDay.timeLastUpdated.time];
 		self.guidelineTime.font	= [UIFont italicSystemFontOfSize:13.0];
-	} else {
-		NSString *timeEntryTextPrefix;
-		
-		if ([self.leSixOfDay.dayOfSix.getTheSixWithoutUserEntriesSorted count] < 6) {
-			timeEntryTextPrefix	= @"Next Entry - ";
-		} else if ([self.leSixOfDay.dayOfSix.getTheSixWithoutUserEntriesSorted count] == 6) {
-			timeEntryTextPrefix	= @"First Entry - ";
-		} else {
-			timeEntryTextPrefix	= @"Last Entry - ";
-		}
+	}
+	else
+	{
+		NSString *timeEntryTextPrefix	= @"";
+//		
+//		if ([self.leSixOfDay.dayOfSix.getTheSixWithoutUserEntriesSorted count] < 6) {
+//			timeEntryTextPrefix	= @"Next Entry - ";
+//		} else if ([self.leSixOfDay.dayOfSix.getTheSixWithoutUserEntriesSorted count] == 6) {
+//			timeEntryTextPrefix	= @"First Entry - ";
+//		} else {
+//			timeEntryTextPrefix	= @"Last Entry - ";
+//		}
 		self.guidelineTime.text	= [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.leSixOfDay.timeScheduled.time];
 	}
 	
-	self.guidelineText.text				= self.leSixOfDay.advice.name;
+	// Set delegate for text views
+	self.positiveActionTextView.delegate = self;
+	self.negativeActionTextView.delegate = self;
+	
+    // set the model
+	//    self.updatedPositiveActionTakenDescription = @"The arc of the moral universe is long, but it bends towards justice.";
+    // self.updatedNegativeActionTakenDescription = @"";
+	
+	// set placeholder label text
+	self.positiveActionTextView.placeholder	= @"Add a recent positive action";
+	self.negativeActionTextView.placeholder = @"Add a recent negative action";
+	
+    // create a rect for the text view so it's the right size coming out of IB. Size it to something that is form fitting to the string in the model.
+    float height = [self heightForTextView:self.positiveActionTextView
+						  containingString:self.updatedPositiveActionTakenDescription];
+	float negativeHeight = [self heightForTextView:self.negativeActionTextView
+								  containingString:self.updatedNegativeActionTakenDescription];
+    CGRect textViewRect = CGRectMake(16, 4, kTextViewWidth, height);
+	CGRect negativeTextViewRect = CGRectMake(16, 4, kTextViewWidth, negativeHeight);
+	
+    self.positiveActionTextView.frame = textViewRect;
+	self.negativeActionTextView.frame = negativeTextViewRect;
+	
+    // now that we've resized the frame properly, let's run this through again to get proper dimensions for the contentSize.
+	
+    self.positiveActionTextView.contentSize = CGSizeMake(kTextViewWidth, [self heightForTextView:self.positiveActionTextView
+																		containingString:self.updatedPositiveActionTakenDescription]);
+	
+    self.positiveActionTextView.text = self.updatedPositiveActionTakenDescription;
+	
+	
+	self.negativeActionTextView.contentSize = CGSizeMake(kTextViewWidth, [self heightForTextView:self.negativeActionTextView
+																		containingString:self.updatedNegativeActionTakenDescription]);
+	self.negativeActionTextView.text = self.updatedNegativeActionTakenDescription;
+
+	[self.positiveActionTextView updateShouldShowPlaceholder];
+	[self.negativeActionTextView updateShouldShowPlaceholder];
+	
+	// OLD
 	self.positiveActionTextView.text	= self.updatedPositiveActionTakenDescription;
 	self.negativeActionTextView.text	= self.updatedNegativeActionTakenDescription;
 	
-	[self resizeHeightToFitForLabel:self.guidelineText labelWidth:GUIDELINE_LABEL_WIDTH];
 	
 	NSArray *fields						= @[self.positiveActionTextView, self.negativeActionTextView];
     
@@ -122,13 +177,14 @@
     [self.keyboardControls setDelegate:self];
 	
 	self.navigationController.title		= self.leSixOfDay.advice.name;		// not working for some reason.
-	
+/*
 	self.textExpander = [[SMTEDelegateController alloc] init];
 	[self.positiveActionTextView setDelegate:self.textExpander];
 	[self.negativeActionTextView setDelegate:self.textExpander];
 	[self.textExpander setNextDelegate:self];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:@"UIApplicationWillEnterForegroundNotification" object:nil];
-}
+*/
+ }
 
 - (void)willEnterForeground:(NSNotification*)notification {
 	[self.textExpander willEnterForeground];
@@ -156,39 +212,60 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+
+
+
 #pragma mark - Table view configure
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;		// 3 for Name of Guideline and Best and Worst, 4 for To Do
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 1;
+	return 3;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-	if (section == 2)
-		return @"Reflect and the ethical guideline and how you've acted and spoken on the past 24 or 48 hours.\n\nEnter a short, simple, and specific description of a recent postive action(+). Do the same with a recent negative action (-).";
+	if (section == 0)
+		return @"Reflect on ethical guideline and how you've acted and spoken in the past 24 or 48 hours.\n\nEnter a short, simple, and specific description of a recent postive action(+). Do the same with a recent negative action (-).";
 	else
 		return nil;
 }
 
+- (CGFloat)heightForTextView:(UITextView*)textView containingString:(NSString*)string
+{
+    string	= (string.length > 0) ? string : @"ipsum for height";
+	float horizontalPadding = 0;
+    float verticalPadding = 4;
+    float widthOfTextView = textView.contentSize.width - horizontalPadding;
+	float height = [string sizeWithFont:[UIFont systemFontOfSize:kFontSize]
+					  constrainedToSize:CGSizeMake(widthOfTextView, 999999.0f)
+						  lineBreakMode:NSLineBreakByWordWrapping].height + verticalPadding;
+	
+    return height;
+}
+
+
 #pragma mark - Table view delegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	switch (indexPath.section) {
-		case 1:
-			[(UILabel *)[tableView viewWithTag:101] becomeFirstResponder];
-			break;
-		case 2:
-			[(UILabel *)[tableView viewWithTag:102] becomeFirstResponder];
-			break;
-			
-		default:
-			break;
+	if (indexPath.section == 0)
+	{
+		switch (indexPath.row)
+		{
+			case 1:
+				[(UILabel *)[tableView viewWithTag:101] becomeFirstResponder];
+				break;
+			case 2:
+				[(UILabel *)[tableView viewWithTag:102] becomeFirstResponder];
+				break;
+				
+			default:
+				break;
+		}
 	}
 
 }
@@ -208,23 +285,52 @@
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [self.keyboardControls setActiveField:textView];
+
+	GHUIPlaceHolderTextView *placeholderTextView	= (GHUIPlaceHolderTextView *)textView;
+	
+	if ([placeholderTextView isPlaceholderShowing])
+		[placeholderTextView moveCursorToBeginningOfContent];
 }
 
 -(void)textViewDidChange:(UITextView *)textView
 {
-	switch (textView.tag) {
-		case TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER:
-			self.updatedPositiveActionTakenDescription	= textView.text;
-			break;
-		case TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER:
-			self.updatedNegativeActionTakenDescription	= textView.text;
-			break;
-		case TAG_PREFIX_UITEXTVIEW + TO_DO_SECTION_NUMBER:
-			self.updatedToDoText						= textView.text;
-			break;
-		default:
-			break;
+	GHUIPlaceHolderTextView *placeholderTextView	= (GHUIPlaceHolderTextView *)textView;
+	if ([placeholderTextView isPlaceholderShowing])
+	{
+		[placeholderTextView moveCursorToBeginningOfContent];
+		[placeholderTextView updateShouldShowPlaceholder];
+		NSLog(@"Placeholder is showing.");
 	}
+	else
+	{
+		switch (textView.tag)
+		{
+			case TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER:
+				self.updatedPositiveActionTakenDescription	= textView.text;
+				break;
+			case TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER:
+				self.updatedNegativeActionTakenDescription	= textView.text;
+				break;
+			case TAG_PREFIX_UITEXTVIEW + TO_DO_SECTION_NUMBER:
+				self.updatedToDoText						= textView.text;
+				break;
+			default:
+				break;
+		}
+		[placeholderTextView updateShouldShowPlaceholder];
+		
+		[self.tableView beginUpdates];
+		[self.tableView endUpdates];
+	}
+}
+
+
+-(void)textViewDidEndEditing:(UITextView *)textView {
+	GHUIPlaceHolderTextView *placeholderTextView	= (GHUIPlaceHolderTextView *)textView;
+	[placeholderTextView updateShouldShowPlaceholder];
+	
+	[self.tableView beginUpdates];
+    [self.tableView endUpdates];
 }
 
 
@@ -248,48 +354,81 @@
 
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
 {
-	UIFont *font = label.font;
-	NSAttributedString *attributedText = [ [NSAttributedString alloc]
-										  initWithString:text
-										  attributes: @{NSFontAttributeName: font}
-										  ];
-	CGRect rect = [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
-											   options:NSStringDrawingUsesLineFragmentOrigin
-											   context:nil];
-	CGSize size = rect.size;
-	CGFloat height = ceilf(size.height);
-	//	CGFloat width  = ceilf(size.width);
-	return height;
+	if (text != nil)
+	{
+		UIFont *font						= label.font;
+		NSAttributedString *attributedText	= [ [NSAttributedString alloc]
+											   initWithString:text
+											   attributes: @{NSFontAttributeName: font}
+											   ];
+		CGRect rect							= [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
+														 options:NSStringDrawingUsesLineFragmentOrigin
+														 context:nil];
+		CGSize size							= rect.size;
+		CGFloat height						= ceilf(size.height);
+		return height;
+	}
+	else
+		return 0;
+	
 }
 
 -(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth
 {
 	CGRect newFrame			= label.frame;
-	newFrame.size.height	= [self heightForLabel:label withText:label.text labelWidth:labelWidth];
+	newFrame.size.height	= [self heightForLabel:label
+									   withText:label.text
+									 labelWidth:labelWidth];
 	label.frame				= newFrame;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	UILabel *guidelineLabel			= [UILabel new];
-	guidelineLabel.lineBreakMode	= NSLineBreakByWordWrapping;
-	if (indexPath.section == 0) {
+	
+	if (indexPath.row == 0)
+	{
+		UILabel *guidelineLabel			= [UILabel new];
+		guidelineLabel.lineBreakMode	= NSLineBreakByWordWrapping;
 		
-		guidelineLabel.font				= [UIFont boldSystemFontOfSize:17];
-		
+		guidelineLabel.font				= [UIFont fontWithName:kFontNameGuideline
+												 size:kFontSizeGuidelineNext];
 		guidelineLabel.text				= self.leSixOfDay.advice.name;
 		
-		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
+		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel
+												   withText:guidelineLabel.text
+												 labelWidth:GUIDELINE_LABEL_WIDTH];
 		
-		return 30 + guidelineLabelHeight + 8;		// change for landscape orientation?
-		
-	} else {
-		
-		return 71;
-		
+		return guidelineLabelHeight + 46;		// change for landscape orientation?
 	}
-
+	else
+	{
+		UITextView *actionTextView;
+		NSString *descriptionModel;
+		
+		
+		if (indexPath.row == 1)
+		{
+			actionTextView		= self.positiveActionTextView;
+			descriptionModel	= self.updatedPositiveActionTakenDescription;
+		}
+		else if (indexPath.row == 2)
+		{
+			actionTextView		= self.negativeActionTextView;
+			descriptionModel	= self.updatedNegativeActionTakenDescription;
+		}
+		else
+		{
+			return self.tableView.rowHeight;
+		}
+		
+		float height = [self heightForTextView:actionTextView
+							  containingString:descriptionModel] + 4; // a little extra padding is needed
+		return height;
+	}
 }
+
+
+
 
 #pragma mark - Save
 
@@ -334,18 +473,6 @@
 			[TestFlight passCheckpoint:@"LOG ENTRY - ADDED"];
 		}
 		
-	/*
-			if (self.leSixOfDay.toDo) {
-			[self.leSixOfDay.toDo updateText:self.updatedToDoText
-						   andDueDateAndTime:[NSDate dateWithTimeIntervalSinceNow:3600]];
-		} else {
-			ToDo *aToDo							= [ToDo toDoWithText:self.updatedToDoText
-												withDueDateAndTime:[NSDate dateWithTimeIntervalSinceNow:3600]
-													   forLogEntry:self.leSixOfDay
-											inManagedObjectContext:self.managedObjectContext];
-						}
-	*/
-			
 		if (!entryHasBeenPreviouslyUpdated){
 			
 			// NSDate *now													= [NSDate date];

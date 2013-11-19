@@ -11,7 +11,7 @@
 #import "BSKeyboardControls.h"
 #import <TextExpander/SMTEDelegateController.h>
 
-@class LESixOfDay, ActionTaken, ToDo;
+@class LESixOfDay, ActionTaken, GHUIPlaceHolderTextView;
 
 @interface STLogEntrySixOfDayTVC : CoreDataTableViewController <UITextFieldDelegate, UITextViewDelegate, BSKeyboardControlsDelegate>
 
@@ -25,8 +25,8 @@
 @property (nonatomic) ActionTaken *aNegativeActionTaken;
 @property (weak, nonatomic) IBOutlet UILabel *guidelineTime;
 @property (weak, nonatomic) IBOutlet UILabel *guidelineText;
-@property (weak, nonatomic) IBOutlet UITextView *positiveActionTextView;
-@property (weak, nonatomic) IBOutlet UITextView *negativeActionTextView;
+@property (weak, nonatomic) IBOutlet GHUIPlaceHolderTextView *positiveActionTextView;
+@property (weak, nonatomic) IBOutlet GHUIPlaceHolderTextView *negativeActionTextView;
 @property (nonatomic) SMTEDelegateController *textExpander;
 
 
