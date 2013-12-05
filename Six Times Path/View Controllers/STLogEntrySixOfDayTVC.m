@@ -132,43 +132,19 @@ static NSInteger kFontSizeGuidelineNext		= 19;
 	self.positiveActionTextView.delegate = self;
 	self.negativeActionTextView.delegate = self;
 	
-    // set the model
-	//    self.updatedPositiveActionTakenDescription = @"The arc of the moral universe is long, but it bends towards justice.";
-    // self.updatedNegativeActionTakenDescription = @"";
-	
 	// set placeholder label text
 	self.positiveActionTextView.placeholder	= @"Add a recent positive action";
 	self.negativeActionTextView.placeholder = @"Add a recent negative action";
 	
-    // create a rect for the text view so it's the right size coming out of IB. Size it to something that is form fitting to the string in the model.
-    float height = [self heightForTextView:self.positiveActionTextView
-						  containingString:self.updatedPositiveActionTakenDescription];
-	float negativeHeight = [self heightForTextView:self.negativeActionTextView
-								  containingString:self.updatedNegativeActionTakenDescription];
-    CGRect textViewRect = CGRectMake(16, 4, kTextViewWidth, height);
-	CGRect negativeTextViewRect = CGRectMake(16, 4, kTextViewWidth, negativeHeight);
-	
-    self.positiveActionTextView.frame = textViewRect;
-	self.negativeActionTextView.frame = negativeTextViewRect;
-	
-    // now that we've resized the frame properly, let's run this through again to get proper dimensions for the contentSize.
-	
-    self.positiveActionTextView.contentSize = CGSizeMake(kTextViewWidth, [self heightForTextView:self.positiveActionTextView
-																		containingString:self.updatedPositiveActionTakenDescription]);
-	
-    self.positiveActionTextView.text = self.updatedPositiveActionTakenDescription;
-	
-	
-	self.negativeActionTextView.contentSize = CGSizeMake(kTextViewWidth, [self heightForTextView:self.negativeActionTextView
-																		containingString:self.updatedNegativeActionTakenDescription]);
-	self.negativeActionTextView.text = self.updatedNegativeActionTakenDescription;
+    self.positiveActionTextView.text		= self.updatedPositiveActionTakenDescription;
+	self.negativeActionTextView.text		= self.updatedNegativeActionTakenDescription;
 
 	[self.positiveActionTextView updateShouldShowPlaceholder];
 	[self.negativeActionTextView updateShouldShowPlaceholder];
 	
 	// OLD
-	self.positiveActionTextView.text	= self.updatedPositiveActionTakenDescription;
-	self.negativeActionTextView.text	= self.updatedNegativeActionTakenDescription;
+//	self.positiveActionTextView.text	= self.updatedPositiveActionTakenDescription;
+//	self.negativeActionTextView.text	= self.updatedNegativeActionTakenDescription;
 	
 	
 	NSArray *fields						= @[self.positiveActionTextView, self.negativeActionTextView];
@@ -241,11 +217,20 @@ static NSInteger kFontSizeGuidelineNext		= 19;
 	float horizontalPadding = 0;
     float verticalPadding = 4;
     float widthOfTextView = textView.contentSize.width - horizontalPadding;
-	float height = [string sizeWithFont:[UIFont systemFontOfSize:kFontSize]
-					  constrainedToSize:CGSizeMake(widthOfTextView, 999999.0f)
-						  lineBreakMode:NSLineBreakByWordWrapping].height + verticalPadding;
 	
-    return height;
+		UIFont *font						= textView.font;
+		NSAttributedString *attributedText	= [ [NSAttributedString alloc]
+											   initWithString:string
+											   attributes: @{NSFontAttributeName: font}
+											   ];
+		CGRect rect							= [attributedText boundingRectWithSize:(CGSize){widthOfTextView, CGFLOAT_MAX}
+														 options:NSStringDrawingUsesLineFragmentOrigin
+														 context:nil];
+		CGSize size							= rect.size;
+		CGFloat height						= ceilf(size.height);
+
+    
+	return height;
 }
 
 
@@ -287,6 +272,8 @@ static NSInteger kFontSizeGuidelineNext		= 19;
     [self.keyboardControls setActiveField:textView];
 
 	GHUIPlaceHolderTextView *placeholderTextView	= (GHUIPlaceHolderTextView *)textView;
+	
+	[placeholderTextView updateShouldShowPlaceholder];
 	
 	if ([placeholderTextView isPlaceholderShowing])
 		[placeholderTextView moveCursorToBeginningOfContent];
