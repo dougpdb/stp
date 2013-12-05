@@ -31,8 +31,9 @@
 @property (nonatomic) NSInteger countOfTheSixWithoutUserEntries;
 
 @property (nonatomic, strong) NSMutableArray *tableViewSections;
-@property BOOL showRemainingScheduledEntries;
-@property BOOL showUpdatedEntries;
+//@property BOOL showRemainingScheduledEntries;
+//@property BOOL showUpdatedEntries;
+@property BOOL showAllEntries;
 @property BOOL noSetsOfGuidelinesBeingFollowed;
 
 

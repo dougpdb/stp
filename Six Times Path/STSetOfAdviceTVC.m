@@ -151,7 +151,7 @@
 													  withText:adviceLabel.text
 													labelWidth:GUIDELINE_LABEL_WIDTH];
 		
-		return 10 + adviceLabelHeight + 8;		// change for landscape orientation?
+		return 10 + adviceLabelHeight + 10;		// change for landscape orientation?
 
 	}
 
