@@ -15,7 +15,7 @@
 @property (nonatomic, strong) UIColor *placeholderColor;
 @property (nonatomic, strong) UIColor *inputTextColor;
 @property BOOL placeholderIsShowing;
-
+@property BOOL shouldShowPlaceholderWhenFirstResponder;
 
 //-(void)textChanged:(NSNotification *)notification;
 -(void)updateShouldShowPlaceholder;
