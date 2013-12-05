@@ -18,6 +18,18 @@
 #define GUIDELINE_LABEL_WIDTH	264
 #define ACTION_LABEL_WIDTH		245
 
+//NSString *kNextEntry					= @"Next Entry";
+//NSString *kWelcomeIntroduction			= @"Welcome Introduction";
+//NSString *kNoSetsOfGuidelinesSelected	= @"No Sets of Guidelines Selected";
+//NSString *kAllOtherEntries				= @"All Other Entries";
+//NSString *kRemainingScheduledEntries	= @"Remaining Scheduled Entries";
+//NSString *kUpdatedEntries				= @"Updated Entries";
+//NSString *kSetupForDay					= @"Setup for Day";
+//NSString *kPreviousDays					= @"Previous Days";
+static NSInteger kFontSizeGuidelineOther	= 16;
+static NSString *kFontNameGuideline			= @"Palatino";
+static NSString *kAllOtherEntries		= @"All Other Entries";
+
 
 @interface STPreviousDayTVC ()
 
@@ -51,14 +63,13 @@
 -(NSMutableArray *)tableViewSections
 {	
 	if (_tableViewSections == nil) {
-		NSMutableArray *tmpSectionArray	= [NSMutableArray arrayWithObjects:@"Updated Entries",
-																		   @"Remaining Scheduled Entries",
+		NSMutableArray *tmpSectionArray	= [NSMutableArray arrayWithObjects:kAllOtherEntries,
 																		   nil];
 		
-		if (self.countOfTheSixWithoutUserEntries == 0)
-			[tmpSectionArray removeObjectIdenticalTo:@"Remaining Scheduled Entries"];
-		else if (self.countOfTheSixWithoutUserEntries == 6)
-			[tmpSectionArray removeObjectIdenticalTo:@"Updated Entries"];
+//		if (self.countOfTheSixWithoutUserEntries == 0)
+//			[tmpSectionArray removeObjectIdenticalTo:@"Remaining Scheduled Entries"];
+//		else if (self.countOfTheSixWithoutUserEntries == 6)
+//			[tmpSectionArray removeObjectIdenticalTo:@"Updated Entries"];
 		
 		_tableViewSections	= tmpSectionArray;
 	}
@@ -96,8 +107,9 @@
 	self.remainingScheduledEntries			= [self.thisDay getTheSixWithoutUserEntriesSorted];
 	self.updatedEntries						= [self.thisDay getTheSixThatHaveUserEntriesSorted];
 
-	self.showRemainingScheduledEntries		= YES;
-	self.showUpdatedEntries					= YES;
+//	self.showRemainingScheduledEntries		= YES;
+//	self.showUpdatedEntries					= YES;
+	self.showAllEntries						= YES;
 	
 	self.navigationItem.rightBarButtonItem	= self.feedbackButton;
 
@@ -110,8 +122,9 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-	self.showUpdatedEntries				= NO;
-	self.showRemainingScheduledEntries	= NO;
+//	self.showUpdatedEntries				= NO;
+//	self.showRemainingScheduledEntries	= NO;
+	self.showAllEntries					= NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -131,95 +144,136 @@
 {
 	static NSString *guidelineOtherEntryCellIdentifier		= @"GuidelineOtherEntryCell";
 	static NSString *guidelineSummaryEntryCellIdentifier	= @"GuidelineSummaryEntryCell";
-	static NSString *summaryOrSetupCellIdentifier			= @"SummaryOrSetupCell";
 	
-    if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
+	UITableViewCell *guidelineCell;
+	if (indexPath.row < [self.updatedEntries count])
+	{
+		guidelineCell					= [tableView dequeueReusableCellWithIdentifier:guidelineSummaryEntryCellIdentifier];
+		UILabel *timeLabel				= (UILabel *)[guidelineCell viewWithTag:10];
+		UILabel *guidelineLabel			= (UILabel *)[guidelineCell viewWithTag:11];
+		UILabel *positiveIconLabel		= (UILabel *)[guidelineCell viewWithTag:15];
+		UILabel *negativeIconLabel		= (UILabel *)[guidelineCell viewWithTag:16];
+		UILabel *positiveActionLabel	= (UILabel *)[guidelineCell viewWithTag:20];
+		UILabel *negativeActionLabel	= (UILabel *)[guidelineCell viewWithTag:21];
 		
-		if (self.showRemainingScheduledEntries && indexPath.row > 0) {
-			UITableViewCell *guidelineOtherEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineOtherEntryCellIdentifier];
-			UILabel *timeLabel							= (UILabel *)[guidelineOtherEntryCell viewWithTag:10];
-			UILabel *guidelineLabel						= (UILabel *)[guidelineOtherEntryCell viewWithTag:11];
-			
-			LESixOfDay *scheduledEntry					= [self.remainingScheduledEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
-			
-			timeLabel.text								= [NSString stringWithFormat:@"Scheduled - %@", scheduledEntry.timeScheduled.time];
-			guidelineLabel.text							= scheduledEntry.advice.name;
-			
-			[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
-			
-			return guidelineOtherEntryCell;
-		} else {
-			UITableViewCell *summaryOrSetupCell			= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
-			
-			summaryOrSetupCell.textLabel.text			= @"Remaining Guidelines";
-			summaryOrSetupCell.detailTextLabel.text		= [NSString stringWithFormat:@"%i", [self.remainingScheduledEntries count]];
-			
-			if (self.showRemainingScheduledEntries) {
-				summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleNone;
-				summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryNone;
-			} else {
-				summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleBlue;
-				summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryDisclosureIndicator;
-			}
-			
-			return summaryOrSetupCell;
-		}
+		guidelineLabel.font				= [UIFont fontWithName:kFontNameGuideline
+												 size:kFontSizeGuidelineOther];
 		
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
+		LESixOfDay *updatedEntry		= [self.updatedEntries objectAtIndex:indexPath.row];
 		
-		if (self.showUpdatedEntries && indexPath.row > 0) {
-			UITableViewCell *guidelineSummaryEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineSummaryEntryCellIdentifier];
-			UILabel *timeLabel							= (UILabel *)[guidelineSummaryEntryCell viewWithTag:10];
-			UILabel *guidelineLabel						= (UILabel *)[guidelineSummaryEntryCell viewWithTag:11];
-			UILabel *positiveIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:15];
-			UILabel *negativeIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:16];
-			UILabel *positiveActionLabel				= (UILabel *)[guidelineSummaryEntryCell viewWithTag:20];
-			UILabel *negativeActionLabel				= (UILabel *)[guidelineSummaryEntryCell viewWithTag:21];
-			
-			LESixOfDay *updatedEntry					= [self.updatedEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
-			
-			timeLabel.text								= [NSString stringWithFormat:@"Updated %@", updatedEntry.timeLastUpdated.time];
-			guidelineLabel.text							= updatedEntry.advice.name;
-			positiveActionLabel.text					= [[updatedEntry.getPositiveActionsTaken anyObject] valueForKey:@"text"];
-			negativeActionLabel.text					= [[updatedEntry.getNegativeActionsTaken anyObject] valueForKey:@"text"];
-			
-			[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
-			
-			CGFloat	guidelineLabelHeight				= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
-			
-			CGRect positiveIconLabelFrame				= positiveIconLabel.frame;
-			CGRect negativeIconLabelFrame				= negativeIconLabel.frame;
-			CGRect positiveActionLabelFrame				= positiveActionLabel.frame;
-			CGRect negativeActionLabelFrame				= negativeActionLabel.frame;
-			positiveIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 5;
-			negativeIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 31;
-			positiveActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 10;
-			negativeActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 35;
-			positiveIconLabel.frame						= positiveIconLabelFrame;
-			negativeIconLabel.frame						= negativeIconLabelFrame;
-			positiveActionLabel.frame					= positiveActionLabelFrame;
-			negativeActionLabel.frame					= negativeActionLabelFrame;
-			
-			return guidelineSummaryEntryCell;
-		} else {
-			UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
-			
-			summaryOrSetupCell.textLabel.text		= @"Guidelines with Entries";
-			summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [self.updatedEntries count]];
-			
-			if (self.showUpdatedEntries) {
-				summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleNone;
-				summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryNone;
-			} else {
-				summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
-				summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
-			}
-			
-			return summaryOrSetupCell;
-		}
+		timeLabel.text					= [NSString stringWithFormat:@"Updated %@", updatedEntry.timeLastUpdated.time];
+		guidelineLabel.text				= updatedEntry.advice.name;
+		positiveActionLabel.text		= [[updatedEntry.getPositiveActionsTaken anyObject] valueForKey:@"text"];
+		negativeActionLabel.text		= [[updatedEntry.getNegativeActionsTaken anyObject] valueForKey:@"text"];
+		
+		positiveActionLabel.hidden		= ([positiveActionLabel.text isEqualToString:@""]);
+		positiveIconLabel.hidden		= ([positiveActionLabel.text isEqualToString:@""]);
+		
+		negativeActionLabel.hidden		= ([negativeActionLabel.text isEqualToString:@""]);
+		negativeIconLabel.hidden		= ([negativeActionLabel.text isEqualToString:@""]);
+		
+		
+		[self resizeHeightToFitForLabel:guidelineLabel
+							 labelWidth:GUIDELINE_LABEL_WIDTH];
+		
+		return guidelineCell;
+	}
+	else 
+	{
+		guidelineCell					= [tableView dequeueReusableCellWithIdentifier:guidelineOtherEntryCellIdentifier];
+		UILabel *timeLabel				= (UILabel *)[guidelineCell viewWithTag:10];
+		UILabel *guidelineLabel			= (UILabel *)[guidelineCell viewWithTag:11];
+		
+		guidelineLabel.font				= [UIFont fontWithName:kFontNameGuideline
+												 size:kFontSizeGuidelineOther];
+		
+		LESixOfDay *scheduledEntry		= [self.remainingScheduledEntries objectAtIndex:indexPath.row];
+		
+		timeLabel.text					= [NSString stringWithFormat:@"%@", scheduledEntry.timeScheduled.time];
+		guidelineLabel.text				= scheduledEntry.advice.name;
+		
+		[self resizeHeightToFitForLabel:guidelineLabel
+							 labelWidth:GUIDELINE_LABEL_WIDTH];
 		
 	}
-	return nil;
+
+	return guidelineCell;
+
+	//	static NSString *summaryOrSetupCellIdentifier			= @"SummaryOrSetupCell";
+	
+//		if (indexPath.row < [self.updatedEntries count])
+//		{
+//			UITableViewCell *guidelineCell	= [tableView dequeueReusableCellWithIdentifier:guidelineOtherEntryCellIdentifier];
+//			UILabel *timeLabel				= (UILabel *)[guidelineCell viewWithTag:10];
+//			UILabel *guidelineLabel			= (UILabel *)[guidelineCell viewWithTag:11];
+//			
+////			LESixOfDay *scheduledEntry		= [self.remainingScheduledEntries objectAtIndex:indexPath.row];
+//			
+//			timeLabel.text					= [NSString stringWithFormat:@"Scheduled - %@", scheduledEntry.timeScheduled.time];
+//			guidelineLabel.text				= scheduledEntry.advice.name;
+//			
+//			[self resizeHeightToFitForLabel:guidelineLabel
+//								 labelWidth:GUIDELINE_LABEL_WIDTH];
+//			
+//			return guidelineCell;
+//		}
+//		else
+//		{
+//			UITableViewCell *guidelineSummaryEntryCell	= [tableView dequeueReusableCellWithIdentifier:guidelineSummaryEntryCellIdentifier];
+//			UILabel *timeLabel							= (UILabel *)[guidelineSummaryEntryCell viewWithTag:10];
+//			UILabel *guidelineLabel						= (UILabel *)[guidelineSummaryEntryCell viewWithTag:11];
+//			UILabel *positiveIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:15];
+//			UILabel *negativeIconLabel					= (UILabel *)[guidelineSummaryEntryCell viewWithTag:16];
+//			UILabel *positiveActionLabel				= (UILabel *)[guidelineSummaryEntryCell viewWithTag:20];
+//			UILabel *negativeActionLabel				= (UILabel *)[guidelineSummaryEntryCell viewWithTag:21];
+//			
+//			LESixOfDay *updatedEntry					= [self.updatedEntries objectAtIndex:indexPath.row - 1];		// -1 to account for "heading" row
+//			
+//			timeLabel.text								= [NSString stringWithFormat:@"Updated %@", updatedEntry.timeLastUpdated.time];
+//			guidelineLabel.text							= updatedEntry.advice.name;
+//			positiveActionLabel.text					= [[updatedEntry.getPositiveActionsTaken anyObject] valueForKey:@"text"];
+//			negativeActionLabel.text					= [[updatedEntry.getNegativeActionsTaken anyObject] valueForKey:@"text"];
+//			
+//			[self resizeHeightToFitForLabel:guidelineLabel labelWidth:GUIDELINE_LABEL_WIDTH];
+//			
+//			CGFloat	guidelineLabelHeight				= [self heightForLabel:guidelineLabel withText:guidelineLabel.text labelWidth:GUIDELINE_LABEL_WIDTH];
+//			
+//			CGRect positiveIconLabelFrame				= positiveIconLabel.frame;
+//			CGRect negativeIconLabelFrame				= negativeIconLabel.frame;
+//			CGRect positiveActionLabelFrame				= positiveActionLabel.frame;
+//			CGRect negativeActionLabelFrame				= negativeActionLabel.frame;
+//			positiveIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 5;
+//			negativeIconLabelFrame.origin.y				= 30 + guidelineLabelHeight + 31;
+//			positiveActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 10;
+//			negativeActionLabelFrame.origin.y			= 30 + guidelineLabelHeight + 35;
+//			positiveIconLabel.frame						= positiveIconLabelFrame;
+//			negativeIconLabel.frame						= negativeIconLabelFrame;
+//			positiveActionLabel.frame					= positiveActionLabelFrame;
+//			negativeActionLabel.frame					= negativeActionLabelFrame;
+//			
+//			return guidelineSummaryEntryCell;
+//		} else {
+//			UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+//			
+//			summaryOrSetupCell.textLabel.text		= @"Guidelines with Entries";
+//			summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [self.updatedEntries count]];
+//			
+//			if (self.showAllEntries)
+//			{
+//				summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleNone;
+//				summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryNone;
+//			}
+//			else
+//			{
+//				summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
+//				summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
+//			}
+//			
+//			return summaryOrSetupCell;
+//		}
+//		
+//	}
+//	return nil;
 }
 
 
@@ -227,14 +281,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	//switch (indexPath.section) {
-    if (indexPath.section == [self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]) {
-		if (indexPath.row > 0)
-			[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
-	} else if (indexPath.section == [self.tableViewSections indexOfObject:@"Updated Entries"]) {
-		if (indexPath.row > 0)
-			[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
-	}
+	[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
 }
 
 
