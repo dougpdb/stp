@@ -209,6 +209,7 @@
 		NSMutableArray *newFollowedEntries		= [[NSMutableArray alloc] init];
 		[newFollowedEntries addObjectsFromArray:[self.currentDay getTheSixThatHaveUserEntriesSorted]];
 		
+		
 		for (LESixOfDay *remainingEntry in remainingScheduledEntries) {
 			if ([self currentlyFollowingAdvice:remainingEntry.advice])
 				[newFollowedEntries addObject:remainingEntry];
@@ -219,7 +220,7 @@
 			}
 		}
 		
-		if ([newFollowedEntries count] < 6) {
+		if ([newFollowedEntries count] < 6 && [newFollowedEntries count] > 0) {
 			[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
 			NSInteger indexOfNewlyFollowedAdviceForTheDay;
 			NSInteger orderNumber							= 0;
@@ -241,22 +242,23 @@
 				[newFollowedAdvice addObject:entryStillBeingFollowed.advice];
 			}
 			
-			do {
-				if (indexOfNewlyFollowedAdviceForTheDay == [self.allAdviceBeingFollowed count])
-					indexOfNewlyFollowedAdviceForTheDay		= 0;
-				
-				Advice *advice								= [self.allAdviceBeingFollowed objectAtIndex:indexOfNewlyFollowedAdviceForTheDay++];
-				
-				if (![newFollowedAdvice containsObject:advice]){
-					LESixOfDay *newEntry					= [LESixOfDay logEntryWithAdvice:advice
-																		   withOrderNumber:++orderNumber
-																					 onDay:self.currentDay
-																	inManagedObjectContext:self.managedObjectContext];
-					[self.currentDay addTheSixObject:newEntry];
+			if ([self.allAdviceBeingFollowed count] > 0) {
+				while (orderNumber < 6) {
+					if (indexOfNewlyFollowedAdviceForTheDay == [self.allAdviceBeingFollowed count])
+						indexOfNewlyFollowedAdviceForTheDay		= 0;
+					// wont work when there is 0 advice, ie no advice object at index
+					Advice *advice								= [self.allAdviceBeingFollowed objectAtIndex:indexOfNewlyFollowedAdviceForTheDay++];
+					
+					if (![newFollowedAdvice containsObject:advice]){
+						LESixOfDay *newEntry					= [LESixOfDay logEntryWithAdvice:advice
+																			   withOrderNumber:++orderNumber
+																						 onDay:self.currentDay
+																		inManagedObjectContext:self.managedObjectContext];
+						[self.currentDay addTheSixObject:newEntry];
+					}
 				}
-			} while (orderNumber < 6);
-			
-			[self.notificationController addNotifications:[self.currentDay getTheSixSorted]];
+			}
+				[self.notificationController addNotifications:[self.currentDay getTheSixSorted]];
 		}
 		[self.managedObjectContext save:nil];
 	}
