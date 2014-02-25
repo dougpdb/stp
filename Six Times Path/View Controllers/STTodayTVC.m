@@ -41,7 +41,7 @@ static NSString *kOtherCell = @"otherCell";     // the remaining cells at the en
 
 static NSInteger kFontSizeGuidelineOther	= 16;
 static NSString *kFontNameGuideline			= @"Palatino";
-static NSInteger kFontSizeGuidelineNext		= 19;
+static NSInteger kFontSizeGuidelineNext		= 20;
 
 
 
@@ -56,7 +56,7 @@ NSString *kSetupForDay					= @"Setup for Day";
 static NSString *kPreviousDays			= @"Previous Days";
 NSString *kIntroductoryMessage			= @"Welcome to Six Times Path!\n\nBegin by selecting 1 or more sets of ethical guidelines that you want to observe.\n\nFrom those, Six Times Path will daily select 6 guidelines, rotating through the guidelines you selected.\n\nYou can then consider and record how you have or haven't been following each guideline.\n\nBy checking in throughout the day, you strengthen your ability to live your life according to the principles that are important to you.";
 NSString *kSelectGuidelinesMessage		= @"You do not have any sets of ethical guidelines selected to observe from day to day.\n\nSelect guidelines to resume using Six Times.";
-NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines. Be happy over what you've done well to day, and regret the mistaken actions.";
+NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.\n\nBe happy over what you've done well to day, and regret the mistaken actions.";
 
 @interface STTodayTVC ()
 
@@ -238,7 +238,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	self.entryFromNotification		= nil;
 	self.remainingScheduledEntries	= nil;
 	self.updatedEntries				= nil;
-	self. mostRecentlyAddedDate		= nil;
+	self.mostRecentlyAddedDate		= nil;
 	//	self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay	= nil;
 	self.allAdviceFollowedByUser	= nil;
 	//	self.countOfTheSixWithoutUserEntries	= nil;
@@ -290,14 +290,10 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		[self setupAdviceFetchedResultsController];
 		self.allAdviceFollowedByUser			= [NSMutableArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
 		self.setsOfGuidelinesHaveBeenSelected	= ([self.allAdviceFollowedByUser count] > 0) ? YES : NO;
-
-		if (self.setsOfGuidelinesHaveBeenSelected)
-			NSLog(@"Guidelines have been selected.");
-		else
-			NSLog(@"Guidelines have NOT been selected.");
+		self.dayHasGuidelines					= ([[self.thisDay getTheSixSorted] count] > 0) ? YES : NO;
 	}
 	
-	if (self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay) {
+	if (self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay) { // && self.dayHasGuidelines
 		// This should be the typical use case -- where the user had already selected a set of guidelines
 		// and has also set up a day of entries in Six Times
 		
@@ -309,6 +305,8 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		self.thisDay								= mostRecentDay;
 		
 		[self addDay];
+		if (!self.dayHasGuidelines)
+			[self addGuidelinesToThisDay];
 		
 		NSArray *allRemainingEntries				= [self.thisDay getTheSixWithoutUserEntriesSorted];
 		
@@ -321,17 +319,21 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		
 		self.remainingScheduledEntries				= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? allRemainingEntries : [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
 		
-//		self.showRemainingScheduledEntries			= NO;
 		
 		self.updatedEntries							= [self.thisDay getTheSixThatHaveUserEntriesSorted];
-//		self.showUpdatedEntries						= NO;
 		self.showAllEntries							= NO;
 		
 		[self resetCountOfTheSixWithoutUserEntries];
-	} else if (self.thereAreCoreDataRecordsForDay) {
+	} else if (self.thereAreCoreDataRecordsForDay && !self.setsOfGuidelinesHaveBeenSelected) {
 		// Here might be a more common edge case -- the user has already has a day of entries set up in Six Times
 		// but does not have a set of guidelines set up
-	
+		
+		/*
+		 
+		 BUG - GUIDELINES ARE NOT BEING ADDED AS I HAD THOUGHT...
+		 
+		 */
+		 
 		[self setupDaysFetchedResultsController];
 		Day *mostRecentDay							= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
 		LESixOfDay *lastTheSixOfMostRecentDay		= [[mostRecentDay getTheSixSorted] lastObject];
@@ -340,6 +342,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		self.thisDay								= mostRecentDay;
 		
 		[self addDay];
+//		[self addGuidelinesToThisDay];
 		
 		NSArray *allRemainingEntries				= [self.thisDay getTheSixWithoutUserEntriesSorted];
 		
@@ -369,6 +372,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		self.thisDay								= nil;
 		
 		[self addDay];
+		[self addGuidelinesToThisDay];
 		
 		NSArray *allRemainingEntries				= [self.thisDay getTheSixWithoutUserEntriesSorted];
 		
@@ -466,8 +470,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		newDay.startHour			= (self.thisDay.startHour) ? self.thisDay.startHour : [NSNumber numberWithInt:6];
 		newDay.startMinute			= (self.thisDay.startMinute) ? self.thisDay.startMinute : [NSNumber numberWithInt:0];
 		
-		[self setTheSixFor:newDay withIndexOfFirstFollowedAdvice:self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay inManagedObjectContext:self.managedObjectContext];
-
 		self.mostRecentlyAddedDate	= newDay.date;
 		self.thisDay				= newDay;
 		
@@ -476,14 +478,28 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		[self performFetch];
 		[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
 		
-		[self resetTableViewSections];
-		[self.tableView reloadData];
+//		[self resetTableViewSections];
+//		[self.tableView reloadData];
 		self.title					= self.mostRecentlyAddedDate.weekdayMonthAndDay;
 
 		[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %i", [self.fetchedResultsController.fetchedObjects count]]];
 	}
 }
 
+-(void)addGuidelinesToThisDay
+{
+	[self setTheSixFor:self.thisDay withIndexOfFirstFollowedAdvice:self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay
+inManagedObjectContext:self.managedObjectContext];
+	
+	[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:YES];
+	[self saveContext];
+	[self performFetch];
+	[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
+	
+	[self resetTableViewSections];
+	[self.tableView reloadData];
+	
+}
 -(void)setTheSixFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
 	int indexOfFollowedAdviceForTheDay;
@@ -493,8 +509,9 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	
     
     // Starting with the first advice to be followed for the day, cycle through the advice that has been
-	// selected to be followed and add 6 advices to LogEntries that will be added to a day.
-    for (int allAdviceFollowedByUserIncrement=0; allAdviceFollowedByUserIncrement<6; allAdviceFollowedByUserIncrement++) {
+	// selected to be followed and add up to 6 advices to LogEntries that will be added to a day.
+	// Almost always,
+    for (int allAdviceFollowedByUserIncrement=[[self.thisDay getTheSixSorted] count]; allAdviceFollowedByUserIncrement<6; allAdviceFollowedByUserIncrement++) {
         indexOfFollowedAdviceForTheDay = allAdviceFollowedByUserIncrement + indexOfFirstFollowedAdvice;
 		
 		if (self.debug)
@@ -568,7 +585,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	}
 	else if (section == [self.tableViewSections indexOfObject:kAllOtherEntries])
 	{
-		return (self.showAllEntries) ? 6 : 1;
+		return (self.showAllEntries) ? [[self.thisDay getTheSixSorted] count] : 1;
 	}
 /*	else if (section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries])
 	{
@@ -600,12 +617,27 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	if (section == [self.tableViewSections indexOfObject:kNextEntry])
+	/* if (section == [self.tableViewSections indexOfObject:kNextEntry])
 		return @"Today's Guidelines";
-	else if (section == [self.tableViewSections indexOfObject:kSetupForDay])
+	else*/
+	if (section == [self.tableViewSections indexOfObject:kSetupForDay])
 		return @"Setup for Today";
 	else
 		return nil;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	if (section == [self.tableViewSections indexOfObject:kSetupForDay])
+		return 75.0f;
+	else
+		return 0.1f;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+	return 0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -665,6 +697,10 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 	else if ([self indexPathHasPicker:indexPath])
 	{
 		return self.pickerCellRowHeight;
+	}
+	else if (indexPath.section == [self.tableViewSections indexOfObject:kNoSetsOfGuidelinesSelected])
+	{
+		return 129;
 	}
 	else
 	{
@@ -820,18 +856,15 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 				UITableViewCell *summaryOrSetupCell			= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 				
 				summaryOrSetupCell.textLabel.text			= @"Today's Other Guidelines";
+				summaryOrSetupCell.textLabel.textColor		= [UIColor darkGrayColor];
 				summaryOrSetupCell.detailTextLabel.text		= @"";
 				
 				if (self.showAllEntries)
-				{
 					summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleNone;
-					summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryNone;
-				}
 				else
-				{
 					summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleBlue;
-					summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryDisclosureIndicator;
-				}
+		
+				summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryNone;
 				
 				return summaryOrSetupCell;
 			}
@@ -875,6 +908,8 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		{
 			daySetupCell						= [tableView dequeueReusableCellWithIdentifier:dateCellIdentifier];
 			daySetupCell.textLabel.text			= @"Start of Day";
+			if (self.countOfTheSixWithoutUserEntries < 6)
+				daySetupCell.textLabel.textColor= [UIColor darkGrayColor];
 			daySetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%@", [self wakeUpAtTime]];
 			daySetupCell.detailTextLabel.tag	= 10001;
 		}
@@ -882,15 +917,25 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		{
 			daySetupCell						= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 			daySetupCell.textLabel.text			= (self.setsOfGuidelinesHaveBeenSelected) ? @"Guidelines Being Followed" : @"Select Guidelines to Follow";
+			if (self.setsOfGuidelinesHaveBeenSelected)
+				daySetupCell.textLabel.textColor= [UIColor darkGrayColor];
 			daySetupCell.detailTextLabel.text	= (self.setsOfGuidelinesHaveBeenSelected) ? [NSString stringWithFormat:@"%i", [self.allAdviceFollowedByUser count]] : @"";
 		}
 		return daySetupCell;
+	}
+	else if (indexPath.section == [self.tableViewSections indexOfObject:kNoSetsOfGuidelinesSelected])
+	{
+		// NoSetsOfGuidelinesSelectedCell
+		UITableViewCell *chooseGuidelinesCell;
+		chooseGuidelinesCell	= [tableView dequeueReusableCellWithIdentifier:@"NoSetsOfGuidelinesSelectedCell"];
+		return chooseGuidelinesCell;
 	}
 	else	// Previous Days
 	{
 		UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 		
 		summaryOrSetupCell.textLabel.text		= @"Previous Days";
+		summaryOrSetupCell.textLabel.textColor	= [UIColor darkGrayColor];
 		summaryOrSetupCell.detailTextLabel.text	= @"";
 		summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleBlue;
 		summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryDisclosureIndicator;

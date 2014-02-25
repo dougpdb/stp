@@ -19,6 +19,7 @@
 @property BOOL thereAreCoreDataRecordsForDay;
 @property BOOL databaseWasJustCreatedForFirstTime;
 @property BOOL setsOfGuidelinesHaveBeenSelected;
+@property BOOL dayHasGuidelines;
 
 @property (strong, nonatomic) Day *thisDay;
 @property (strong, nonatomic) LESixOfDay *nextEntry;
