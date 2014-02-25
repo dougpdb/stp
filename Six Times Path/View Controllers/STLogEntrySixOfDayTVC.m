@@ -49,8 +49,8 @@
 #define kTextViewWidth 268.0
 
 static NSString *kFontNameGuideline			= @"Palatino";
-static NSInteger kFontSizeGuidelineNext		= 19;
-
+static NSInteger kFontSizeGuidelineNext		= 22;
+static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 
 @interface STLogEntrySixOfDayTVC ()
 
@@ -189,6 +189,8 @@ static NSInteger kFontSizeGuidelineNext		= 19;
 }
 
 
+#pragma mark - Dictation
+
 
 
 #pragma mark - Table view configure
@@ -196,6 +198,11 @@ static NSInteger kFontSizeGuidelineNext		= 19;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 0.1f;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -206,30 +213,28 @@ static NSInteger kFontSizeGuidelineNext		= 19;
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
 	if (section == 0)
-		return @"Reflect on ethical guideline and how you've acted and spoken in the past 24 or 48 hours.\n\nEnter a short, simple, and specific description of a recent postive action(+). Do the same with a recent negative action (-).";
+		return @"Reflect on how you've acted recently.\n\nEnter short, simple, and specific descriptions of recent postive (+) and negative (-) actions.";
 	else
 		return nil;
 }
 
 - (CGFloat)heightForTextView:(UITextView*)textView containingString:(NSString*)string
 {
-    string	= (string.length > 0) ? string : @"ipsum for height";
-	float horizontalPadding = 0;
-    float verticalPadding = 4;
-    float widthOfTextView = textView.contentSize.width - horizontalPadding;
-	
-		UIFont *font						= textView.font;
-		NSAttributedString *attributedText	= [ [NSAttributedString alloc]
-											   initWithString:string
-											   attributes: @{NSFontAttributeName: font}
-											   ];
-		CGRect rect							= [attributedText boundingRectWithSize:(CGSize){widthOfTextView, CGFLOAT_MAX}
-														 options:NSStringDrawingUsesLineFragmentOrigin
-														 context:nil];
-		CGSize size							= rect.size;
-		CGFloat height						= ceilf(size.height);
-
     
+	string	= (string.length > 0) ? [NSString stringWithFormat:@"%@%@",string,kTrailingGhostTextToPreventDelayedTextViewResizing] : @"ipsum for height";
+    
+	float widthOfTextView = textView.contentSize.width;
+	
+	UIFont *font						= textView.font;
+	NSAttributedString *attributedText	= [ [NSAttributedString alloc]
+										   initWithString:string
+										   attributes: @{NSFontAttributeName: font}
+										   ];
+	CGRect rect							= [attributedText boundingRectWithSize:(CGSize){widthOfTextView, CGFLOAT_MAX}
+													 options:NSStringDrawingUsesLineFragmentOrigin
+													 context:nil];
+	CGSize size							= rect.size;
+	CGFloat height						= ceilf(size.height);
 	return height;
 }
 
@@ -409,7 +414,7 @@ static NSInteger kFontSizeGuidelineNext		= 19;
 		}
 		
 		float height = [self heightForTextView:actionTextView
-							  containingString:descriptionModel] + 4; // a little extra padding is needed
+							  containingString:descriptionModel] + 8; // a little extra padding is needed
 		return height;
 	}
 }
