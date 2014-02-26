@@ -32,11 +32,6 @@
 @synthesize placeholder			= _placeholder;
 @synthesize placeholderColor	= _placeholderColor;
 
-//- (void)setText:(NSString *)string {
-//    [super setText:string];
-//    [self _updateShouldDrawPlaceholder];
-//}
-
 
 - (void)setPlaceholder:(NSString *)string {
     if ([string isEqual:_placeholder]) {

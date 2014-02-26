@@ -26,10 +26,6 @@
 #import "BSKeyboardControls.h"
 
 
-
-//#import "STLogEntryTimedCell.h"
-//#import "STLogEntryBestWorstOrToDoTextEntryCell.h"
-
 #define OVERVIEW_SECTION_NUMBER			0
 #define BEST_AND_WORST_SECTION_NUMBER	1
 #define BEST_SECTION_NUMBER				1
@@ -117,14 +113,6 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 	else
 	{
 		NSString *timeEntryTextPrefix	= @"";
-//		
-//		if ([self.leSixOfDay.dayOfSix.getTheSixWithoutUserEntriesSorted count] < 6) {
-//			timeEntryTextPrefix	= @"Next Entry - ";
-//		} else if ([self.leSixOfDay.dayOfSix.getTheSixWithoutUserEntriesSorted count] == 6) {
-//			timeEntryTextPrefix	= @"First Entry - ";
-//		} else {
-//			timeEntryTextPrefix	= @"Last Entry - ";
-//		}
 		self.guidelineTime.text	= [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.leSixOfDay.timeScheduled.time];
 	}
 	
@@ -142,25 +130,13 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 	[self.positiveActionTextView updateShouldShowPlaceholder];
 	[self.negativeActionTextView updateShouldShowPlaceholder];
 	
-	// OLD
-//	self.positiveActionTextView.text	= self.updatedPositiveActionTakenDescription;
-//	self.negativeActionTextView.text	= self.updatedNegativeActionTakenDescription;
-	
-	
 	NSArray *fields						= @[self.positiveActionTextView, self.negativeActionTextView];
     
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:fields]];
     [self.keyboardControls setDelegate:self];
 	
 	self.navigationController.title		= self.leSixOfDay.advice.name;		// not working for some reason.
-/*
-	self.textExpander = [[SMTEDelegateController alloc] init];
-	[self.positiveActionTextView setDelegate:self.textExpander];
-	[self.negativeActionTextView setDelegate:self.textExpander];
-	[self.textExpander setNextDelegate:self];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:@"UIApplicationWillEnterForegroundNotification" object:nil];
-*/
- }
+}
 
 - (void)willEnterForeground:(NSNotification*)notification {
 	[self.textExpander willEnterForeground];
@@ -508,10 +484,7 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 #pragma mark - Using a Storyboard
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-	// Get the index path of the currently selected row
-	//	NSIndexPath *indexPath	= [self.tableView indexPathForSelectedRow];
-	
+{	
 	NSLog(@"Segue identifier: %@", [segue identifier]);
 }
 @end

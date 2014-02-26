@@ -413,12 +413,6 @@
 	[self.tableView reloadData];					// replace this with something more visually elegant, such as deleting last row with animation
 }
 
-//-(void)setEditing:(BOOL)editing animated:(BOOL)animated
-//{
-//	[super setEditing:editing animated:animated];
-//
-//}
-
 
 
 
@@ -610,41 +604,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSLog(@"row selected");
-//    if ([tableView isEditing] &&
-//		(
-//		 (self.isFilteredForFollowingSetsOfAdvice && indexPath.row == [self.followingSetsOfAdvice count]) ||
-//		 (!self.isFilteredForFollowingSetsOfAdvice && indexPath.row == [self.allSetsOfAdvice count])
-//		 )
-//		) {
-//		[self performSegueWithIdentifier:@"addFollowingSetsOfGuidelines" sender:self];
-//	} else {
-//		[self performSegueWithIdentifier:@"viewSetOfAdviceSegue" sender:self];
-//	}
-
-//    UITableViewCell *thisCell = [tableView cellForRowAtIndexPath:indexPath];
-//	
-//	NSLog(@"text of cell: %@", thisCell.textLabel.text);
-//    if (thisCell.accessoryType == UITableViewCellAccessoryNone) {
-//        thisCell.accessoryType = UITableViewCellAccessoryCheckmark;
-//		
-//		for (SetOfAdvice *setOfAdvice in self.allSetsOfAdvice) {
-//			if ([thisCell.textLabel.text isEqualToString:setOfAdvice.name]) {
-//				setOfAdvice.orderNumberInFollowedSets	= [NSNumber numberWithInt:[self.selectedSetsOfAdvice count] + 1];
-//				break;
-//			}
-//		}		
-//    } else {
-//    	thisCell.accessoryType = UITableViewCellAccessoryNone;
-//		
-//		for (SetOfAdvice *setOfAdvice in self.allSetsOfAdvice) {
-//			if ([thisCell.textLabel.text isEqualToString:setOfAdvice.name]) {
-//				setOfAdvice.orderNumberInFollowedSets	= [NSNumber numberWithInt:0];
-//				break;
-//			}
-//		}
-//    }
-//	
-//	[self updateSelectedSetsOfAdvice];
 }
 
 - (IBAction)greatHIghwayExplorerFeedback:(id)sender {

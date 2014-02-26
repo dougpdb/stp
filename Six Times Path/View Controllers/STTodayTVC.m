@@ -28,12 +28,10 @@
 #define kPickerAnimationDuration    0.40   // duration for the animation to slide the date picker into view
 #define kDatePickerTag              99     // view tag identifiying the date picker view
 
-//#define kTitleKey       @"title"   // key for obtaining the data source item's title
 #define kDateKey        @"date"    // key for obtaining the data source item's date value
 
 // keep track of which rows have date cells
 #define kDateStartRow   0
-// #define kDateEndRow     1
 
 static NSString *kDateCellID = @"dateCell";     // the cells with the start or end date
 static NSString *kDatePickerID = @"datePickerCell"; // the cell containing the date picker
@@ -50,8 +48,6 @@ NSString *kNextEntry					= @"Next Entry";
 NSString *kWelcomeIntroduction			= @"Welcome Introduction";
 NSString *kNoSetsOfGuidelinesSelected	= @"No Sets of Guidelines Selected";
 static NSString *kAllOtherEntries		= @"All Other Entries";
-//NSString *kRemainingScheduledEntries	= @"Remaining Scheduled Entries";
-//NSString *kUpdatedEntries				= @"Updated Entries";
 NSString *kSetupForDay					= @"Setup for Day";
 static NSString *kPreviousDays			= @"Previous Days";
 NSString *kIntroductoryMessage			= @"Welcome to Six Times Path!\n\nBegin by selecting 1 or more sets of ethical guidelines that you want to observe.\n\nFrom those, Six Times Path will daily select 6 guidelines, rotating through the guidelines you selected.\n\nYou can then consider and record how you have or haven't been following each guideline.\n\nBy checking in throughout the day, you strengthen your ability to live your life according to the principles that are important to you.";
@@ -131,8 +127,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 																		   kWelcomeIntroduction,
 																		   kNoSetsOfGuidelinesSelected,
 																		   kAllOtherEntries,
-//																		   kRemainingScheduledEntries,
-//																		   kUpdatedEntries,
 																		   kSetupForDay,
 																		   kPreviousDays,
 																			nil];
@@ -144,8 +138,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 			[tmpSectionArray removeObjectIdenticalTo:kNextEntry];
 			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
 			[tmpSectionArray removeObjectIdenticalTo:kAllOtherEntries];
-//			[tmpSectionArray removeObjectIdenticalTo:kRemainingScheduledEntries];
-//			[tmpSectionArray removeObjectIdenticalTo:kUpdatedEntries];
 			[tmpSectionArray removeObjectIdenticalTo:kPreviousDays];
 		}
 		else if (!self.setsOfGuidelinesHaveBeenSelected)
@@ -153,28 +145,23 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 			[tmpSectionArray removeObjectIdenticalTo:kNextEntry];
 			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
 			[tmpSectionArray removeObjectIdenticalTo:kAllOtherEntries];
-//			[tmpSectionArray removeObjectIdenticalTo:kRemainingScheduledEntries];
-//			[tmpSectionArray removeObjectIdenticalTo:kUpdatedEntries];
+			NSLog(@"Number of entries that have been completed for the day: %i", [[self.thisDay getTheSixThatHaveUserEntriesSorted] count]);
 		}
 		else if ([self.allAdviceFollowedByUser count] == 0)
 		{
 			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
 			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
 			[tmpSectionArray removeObjectIdenticalTo:kAllOtherEntries];
-//			[tmpSectionArray removeObjectIdenticalTo:kRemainingScheduledEntries];
-//			[tmpSectionArray removeObjectIdenticalTo:kUpdatedEntries];
 		}
 		else if (self.countOfTheSixWithoutUserEntries <= 1)
 		{
 			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
 			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
-//			[tmpSectionArray removeObjectIdenticalTo:kRemainingScheduledEntries];
 		}
 		else if (self.countOfTheSixWithoutUserEntries == 6)
 		{
 			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
 			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
-//			[tmpSectionArray removeObjectIdenticalTo:kUpdatedEntries];
 		}
 		else
 		{
@@ -228,20 +215,13 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-	
-	//	self.showRemainingScheduledEntries	= nil;
-	//	self.showUpdatedEntries				= nil;
-	
 	self.thisDay					= nil;
 	self.nextEntry					= nil;
 	self.entryFromNotification		= nil;
 	self.remainingScheduledEntries	= nil;
 	self.updatedEntries				= nil;
 	self.mostRecentlyAddedDate		= nil;
-	//	self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay	= nil;
 	self.allAdviceFollowedByUser	= nil;
-	//	self.countOfTheSixWithoutUserEntries	= nil;
 	self.tableViewSections			= nil;
 	
 	self.dataArray					= nil;
@@ -267,8 +247,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-//	self.showUpdatedEntries				= NO;
-//	self.showRemainingScheduledEntries	= NO;
 	self.showAllEntries	= NO;
 }
 
@@ -342,7 +320,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		self.thisDay								= mostRecentDay;
 		
 		[self addDay];
-//		[self addGuidelinesToThisDay];
 		
 		NSArray *allRemainingEntries				= [self.thisDay getTheSixWithoutUserEntriesSorted];
 		
@@ -355,10 +332,7 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		
 		self.remainingScheduledEntries				= ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0) ? allRemainingEntries : [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
 		
-		//		self.showRemainingScheduledEntries			= NO;
-		
 		self.updatedEntries							= [self.thisDay getTheSixThatHaveUserEntriesSorted];
-		// self.showUpdatedEntries						= NO;
 		
 		self.showAllEntries							= NO;
 		
@@ -478,8 +452,6 @@ NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.
 		[self performFetch];
 		[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
 		
-//		[self resetTableViewSections];
-//		[self.tableView reloadData];
 		self.title					= self.mostRecentlyAddedDate.weekdayMonthAndDay;
 
 		[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %i", [self.fetchedResultsController.fetchedObjects count]]];
@@ -587,24 +559,7 @@ inManagedObjectContext:self.managedObjectContext];
 	{
 		return (self.showAllEntries) ? [[self.thisDay getTheSixSorted] count] : 1;
 	}
-/*	else if (section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries])
-	{
-		if (self.showRemainingScheduledEntries)
-			return [self.remainingScheduledEntries count] + 1;
-		else
-			return 1;		
-	}
-	else if (section == [self.tableViewSections indexOfObject:kUpdatedEntries])
-	{
-		if (self.countOfTheSixWithoutUserEntries == 0)
-			self.showUpdatedEntries	= YES;
-
-		if (self.showUpdatedEntries)
-			return [self.updatedEntries count] + 1;
-		else
-			return 1;
-	}
-*/	else if (section == [self.tableViewSections indexOfObject:kSetupForDay])
+	else if (section == [self.tableViewSections indexOfObject:kSetupForDay])
 	{
 		if (self.setsOfGuidelinesHaveBeenSelected)
 			return ([self hasInlineDatePicker]) ? 3 : 2;
@@ -617,9 +572,6 @@ inManagedObjectContext:self.managedObjectContext];
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	/* if (section == [self.tableViewSections indexOfObject:kNextEntry])
-		return @"Today's Guidelines";
-	else*/
 	if (section == [self.tableViewSections indexOfObject:kSetupForDay])
 		return @"Setup for Today";
 	else
@@ -870,32 +822,6 @@ inManagedObjectContext:self.managedObjectContext];
 			}
 
 	}
-	/* else if (indexPath.section == [self.tableViewSections indexOfObject:kUpdatedEntries])
-	{
-
-			if (self.showUpdatedEntries && indexPath.row > 0)
-			else
-			{
-				UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
-			
-				summaryOrSetupCell.textLabel.text		= @"Guidelines with Entries";
-				summaryOrSetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%i", [self.updatedEntries count]];
-				
-				if (self.showUpdatedEntries)
-				{
-					summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleNone;
-					summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryNone;
-				}
-				else
-				{
-					summaryOrSetupCell.selectionStyle	= UITableViewCellSelectionStyleBlue;
-					summaryOrSetupCell.accessoryType	= UITableViewCellAccessoryDisclosureIndicator;
-				}
-
-				return summaryOrSetupCell;
-			}
-		
-	} */
 	else if (indexPath.section == [self.tableViewSections indexOfObject:kSetupForDay])
 	{
 		UITableViewCell *daySetupCell;
@@ -1044,9 +970,6 @@ inManagedObjectContext:self.managedObjectContext];
 	}
 	else if (indexPath.section == [self.tableViewSections indexOfObject:kAllOtherEntries])
 	{
-//			if ([self.updatedEntries count] > 0)
-//			{
-//			}
 		if (indexPath.row > 0) //  && indexPath.row < [self.updatedEntries count]
 				{
 					[self performSegueWithIdentifier:@"Guideline Entry" sender:self];					
@@ -1058,20 +981,6 @@ inManagedObjectContext:self.managedObjectContext];
 							 withRowAnimation:YES];
 				}
 	}
-/*	else if (indexPath.section == [self.tableViewSections indexOfObject:kRemainingScheduledEntries])
-	{
-		
-			if ([self.remainingScheduledEntries count] > 0) {
-				if (indexPath.row > 0) {
-					[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
-				} else {
-					self.showRemainingScheduledEntries	= (self.showRemainingScheduledEntries) ? NO : YES;		// toggle to other state
-					[tableView reloadSections:[NSIndexSet indexSetWithIndex:[self.tableViewSections indexOfObject:@"Remaining Scheduled Entries"]]
-							 withRowAnimation:YES];
-				}
-			}
-		
-	} */
 	else if (indexPath.section == [self.tableViewSections indexOfObject:kSetupForDay])
 	{
 			if (indexPath.row == 0 && self.setsOfGuidelinesHaveBeenSelected)
