@@ -15,7 +15,6 @@
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-//@property BOOL firstDayOfUse;
 @property BOOL thereAreCoreDataRecordsForDay;
 @property BOOL databaseWasJustCreatedForFirstTime;
 @property BOOL setsOfGuidelinesHaveBeenSelected;
@@ -32,8 +31,6 @@
 @property (nonatomic) NSInteger countOfTheSixWithoutUserEntries;
 
 @property (nonatomic, strong) NSMutableArray *tableViewSections;
-//@property BOOL showRemainingScheduledEntries;
-//@property BOOL showUpdatedEntries;
 @property BOOL showAllEntries;
 @property BOOL noSetsOfGuidelinesBeingFollowed;
 
