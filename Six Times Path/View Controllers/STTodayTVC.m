@@ -649,7 +649,7 @@ inManagedObjectContext:self.managedObjectContext];
 													   withText:guidelineLabel.text
 													 labelWidth:GUIDELINE_LABEL_WIDTH];
 			
-			return guidelineLabelHeight + 60;
+			return guidelineLabelHeight + 52;
 		
 		}
 		
