@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="4" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="12C60" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="4" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3396" systemVersion="13C64" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="ActionTaken" representedClassName="ActionTaken" syncable="YES">
         <attribute name="isPositive" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -13,6 +13,7 @@
         <attribute name="orderNumberInSet" attributeType="Integer 16" minValueString="0" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="basisForInsight" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Insight" inverseName="intoAdvice" inverseEntity="Insight" syncable="YES"/>
+        <relationship name="basisForMeditation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Meditation" inverseName="advice" inverseEntity="Meditation" syncable="YES"/>
         <relationship name="containedWithinSetOfAdvice" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="SetOfAdvice" inverseName="containsAdvice" inverseEntity="SetOfAdvice" syncable="YES"/>
         <relationship name="logEntry" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LogEntry" inverseName="advice" inverseEntity="LogEntry" syncable="YES"/>
         <relationship name="reference" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AdviceReference" inverseName="advice" inverseEntity="AdviceReference" syncable="YES"/>
@@ -42,13 +43,13 @@
     <entity name="LEBestOfDay" representedClassName="LEBestOfDay" parentEntity="LogEntry" syncable="YES">
         <relationship name="dayOfBests" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="bestOfDay" inverseEntity="Day" syncable="YES"/>
     </entity>
-    <entity name="LESixOfDay" representedClassName="LESixOfDay" isAbstract="YES" parentEntity="LogEntry" syncable="YES">
+    <entity name="LESixOfDay" representedClassName="LESixOfDay" parentEntity="LogEntry" syncable="YES">
         <relationship name="dayOfSix" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="theSix" inverseEntity="Day" syncable="YES"/>
     </entity>
-    <entity name="LESpecialFocus" representedClassName="LESpecialFocus" isAbstract="YES" parentEntity="LogEntry" syncable="YES">
+    <entity name="LESpecialFocus" representedClassName="LESpecialFocus" parentEntity="LogEntry" syncable="YES">
         <relationship name="dayOfFocus" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="specialFocus" inverseEntity="Day" syncable="YES"/>
     </entity>
-    <entity name="LEWorstOfDay" representedClassName="LEWorstOfDay" isAbstract="YES" parentEntity="LogEntry" syncable="YES">
+    <entity name="LEWorstOfDay" representedClassName="LEWorstOfDay" parentEntity="LogEntry" syncable="YES">
         <relationship name="dayOfWorsts" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="worstOfDay" inverseEntity="Day" syncable="YES"/>
     </entity>
     <entity name="LogEntry" representedClassName="LogEntry" isAbstract="YES" syncable="YES">
@@ -62,7 +63,7 @@
     </entity>
     <entity name="Meditation" representedClassName="Meditation" syncable="YES">
         <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="advice" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Advice" syncable="YES"/>
+        <relationship name="advice" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Advice" inverseName="basisForMeditation" inverseEntity="Advice" syncable="YES"/>
         <relationship name="dayOfMeditation" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="meditation" inverseEntity="Day" syncable="YES"/>
     </entity>
     <entity name="SetOfAdvice" representedClassName="SetOfAdvice" syncable="YES">
@@ -86,19 +87,19 @@
         <relationship name="logEntry" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="LogEntry" inverseName="toDo" inverseEntity="LogEntry" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ActionTaken" positionX="1078" positionY="-72" width="128" height="105"/>
-        <element name="Advice" positionX="396" positionY="-153" width="128" height="180"/>
-        <element name="AdviceReference" positionX="529" positionY="-315" width="128" height="105"/>
-        <element name="Day" positionX="133" positionY="33" width="128" height="165"/>
-        <element name="Insight" positionX="232" positionY="237" width="128" height="105"/>
-        <element name="LEBestOfDay" positionX="916" positionY="156" width="128" height="60"/>
-        <element name="LESixOfDay" positionX="799" positionY="-234" width="128" height="60"/>
-        <element name="LESpecialFocus" positionX="826" positionY="-108" width="128" height="60"/>
-        <element name="LEWorstOfDay" positionX="889" positionY="252" width="128" height="60"/>
-        <element name="LogEntry" positionX="574" positionY="9" width="128" height="150"/>
-        <element name="Meditation" positionX="-72" positionY="-144" width="128" height="90"/>
-        <element name="SetOfAdvice" positionX="180" positionY="-297" width="128" height="165"/>
-        <element name="SpiritualTradition" positionX="-0" positionY="-297" width="128" height="90"/>
-        <element name="ToDo" positionX="421" positionY="315" width="128" height="90"/>
+        <element name="ActionTaken" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Advice" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="AdviceReference" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Day" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Insight" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="LEBestOfDay" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="LESixOfDay" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="LESpecialFocus" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="LEWorstOfDay" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="LogEntry" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Meditation" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SetOfAdvice" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SpiritualTradition" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="ToDo" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>
