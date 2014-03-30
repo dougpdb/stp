@@ -11,22 +11,46 @@
 #import "Advice.h"
 
 
-#define SET_OF_ADVICE_LABEL_WIDTH	274
-#define GUIDELINE_LABEL_WIDTH		264
-
 @interface STSetOfAdviceTVC ()
+
+@property (readonly) CGFloat screenWidth;
+@property (readonly) CGFloat guidelineLabelWidth;
+@property (readonly) CGFloat setOfAdviceLabelWidth;
 
 @end
 
 @implementation STSetOfAdviceTVC
 
+#pragma mark - getters and setters
+-(CGFloat)screenWidth
+{
+	CGRect screenRect = [[UIScreen mainScreen] bounds];
+	if (
+		([[UIApplication sharedApplication] statusBarOrientation] == UIDeviceOrientationPortrait) ||
+		([[UIApplication sharedApplication] statusBarOrientation] == UIDeviceOrientationPortraitUpsideDown)
+		){
+		return screenRect.size.width;
+	} else {
+		return screenRect.size.height;
+	}
+}
+
+-(CGFloat)guidelineLabelWidth
+{
+	return self.screenWidth - 65.0; //15.0 - 25.0 - 15.0 - 10.0;
+}
+
+-(CGFloat)setOfAdviceLabelWidth
+{
+	return self.screenWidth - 30.0; //15.0 - 15.0;
+}
 
 #pragma mark - View loading and appearing
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.title	= self.selectedSetOfAdvice.name;
+	self.title = @""; // self.selectedSetOfAdvice.name;
 }
 
 - (void)viewDidUnload
@@ -59,13 +83,13 @@
 
 - (void)setupFetchedResultsController
 {
-    NSString *entityName			= @"Advice";
-    NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:entityName];
-    request.predicate				= [NSPredicate predicateWithFormat:@"ANY containedWithinSetOfAdvice.name = %@", self.selectedSetOfAdvice.name];
-	request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"orderNumberInSet"
-                                                                                     ascending:YES
-                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
-    self.fetchedResultsController	= [[NSFetchedResultsController alloc] initWithFetchRequest:request
+    NSString *entityName = @"Advice";
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    request.predicate = [NSPredicate predicateWithFormat:@"ANY containedWithinSetOfAdvice.name = %@", self.selectedSetOfAdvice.name];
+	request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"orderNumberInSet"
+															 ascending:YES
+															  selector:@selector(localizedCaseInsensitiveCompare:)]];
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                         managedObjectContext:self.managedObjectContext
                                                                           sectionNameKeyPath:nil
                                                                                    cacheName:nil];
@@ -79,35 +103,39 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-		static NSString *setOfAdviceCellIdentifier	= @"setOfAdviceCell";
-		UITableViewCell *setOfAdviceCell			= [tableView dequeueReusableCellWithIdentifier:setOfAdviceCellIdentifier];
 		
-		UILabel *nameOfTraditionLabel				= (UILabel *)[setOfAdviceCell viewWithTag:10];
-		UILabel *nameOfSetOfAdviceLabel				= (UILabel *)[setOfAdviceCell viewWithTag:11];
+		static NSString *setOfAdviceCellIdentifier = @"setOfAdviceCell";
+		UITableViewCell *setOfAdviceCell = [tableView dequeueReusableCellWithIdentifier:setOfAdviceCellIdentifier];
+		
+		UILabel *nameOfTraditionLabel = (UILabel *)[setOfAdviceCell viewWithTag:10];
+		UILabel *nameOfSetOfAdviceLabel = (UILabel *)[setOfAdviceCell viewWithTag:11];
 
-		nameOfTraditionLabel.text					= self.selectedSetOfAdvice.practicedWithinTradition.name;
-		nameOfSetOfAdviceLabel.text					= self.selectedSetOfAdvice.name;
+		nameOfTraditionLabel.text = self.selectedSetOfAdvice.practicedWithinTradition.name;
+		nameOfSetOfAdviceLabel.text = self.selectedSetOfAdvice.name;
 		
 		[self resizeHeightToFitForLabel:nameOfSetOfAdviceLabel
-							 labelWidth:SET_OF_ADVICE_LABEL_WIDTH];
+							 labelWidth:self.setOfAdviceLabelWidth];
 
 		return setOfAdviceCell;
+		
 	} else {
-		static NSString *adviceCellIdentifier		= @"adviceInASetCell";
-		UITableViewCell *adviceCell					= [tableView dequeueReusableCellWithIdentifier:adviceCellIdentifier];
 		
-		UILabel *orderNumberOfAdviceInSetLabel		= (UILabel *)[adviceCell viewWithTag:10];
-		UILabel *nameOfAdviceLabel					= (UILabel *)[adviceCell viewWithTag:11];
+		static NSString *adviceCellIdentifier = @"adviceInASetCell";
+		UITableViewCell *adviceCell = [tableView dequeueReusableCellWithIdentifier:adviceCellIdentifier];
 		
-		Advice *advice								= [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.row-1];
+		UILabel *orderNumberOfAdviceInSetLabel = (UILabel *)[adviceCell viewWithTag:10];
+		UILabel *nameOfAdviceLabel = (UILabel *)[adviceCell viewWithTag:11];
+		
+		Advice *advice = [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.row-1];
 
-		orderNumberOfAdviceInSetLabel.text			= [advice.orderNumberInSet stringValue];
-		nameOfAdviceLabel.text						= advice.name;
+		orderNumberOfAdviceInSetLabel.text = [advice.orderNumberInSet stringValue];
+		nameOfAdviceLabel.text = advice.name;
 		
 		[self resizeHeightToFitForLabel:nameOfAdviceLabel
-							 labelWidth:GUIDELINE_LABEL_WIDTH];
+							 labelWidth:self.guidelineLabelWidth];
 
 		return adviceCell;
+		
 	}
 }
 
@@ -125,60 +153,69 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
 	if (indexPath.row == 0) {
-		UILabel *setOfAdviceLabel		= [UILabel new];
-		setOfAdviceLabel.lineBreakMode	= NSLineBreakByWordWrapping;
-		setOfAdviceLabel.font			= [UIFont boldSystemFontOfSize:17]; 
 		
-		setOfAdviceLabel.text			= self.selectedSetOfAdvice.practicedWithinTradition.name;
+		UILabel *setOfAdviceLabel = [UILabel new];
+		setOfAdviceLabel.lineBreakMode = NSLineBreakByWordWrapping;
+		setOfAdviceLabel.font = [UIFont boldSystemFontOfSize:17];
+		
+		setOfAdviceLabel.text = self.selectedSetOfAdvice.practicedWithinTradition.name;
 				
-		CGFloat guidelineLabelHeight	= [self heightForLabel:setOfAdviceLabel
-													  withText:setOfAdviceLabel.text
-													labelWidth:SET_OF_ADVICE_LABEL_WIDTH];
+		CGFloat guidelineLabelHeight = [self heightForLabel:setOfAdviceLabel
+												  withText:setOfAdviceLabel.text
+												labelWidth:self.setOfAdviceLabelWidth];
 		
 		return 32 + guidelineLabelHeight + 8;		// change for landscape orientation?
 		
 	} else {
-		UILabel *adviceLabel			= [UILabel new];
-		adviceLabel.lineBreakMode		= NSLineBreakByWordWrapping;
-		adviceLabel.font				= [UIFont fontWithName:@"Palatino" size:15]; 
 		
-		Advice *advice					= [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.row-1];
-		adviceLabel.text				= advice.name;
+		UILabel *adviceLabel = [UILabel new];
+		adviceLabel.lineBreakMode = NSLineBreakByWordWrapping;
+		adviceLabel.font = [UIFont fontWithName:@"Palatino" size:15.0];
 		
-		CGFloat adviceLabelHeight		= [self heightForLabel:adviceLabel
-													  withText:adviceLabel.text
-													labelWidth:GUIDELINE_LABEL_WIDTH];
+		Advice *advice = [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.row-1];
+		adviceLabel.text = advice.name;
 		
-		return 10 + adviceLabelHeight + 10;		// change for landscape orientation?
+		CGFloat adviceLabelHeight = [self heightForLabel:adviceLabel
+											  withText:adviceLabel.text
+											labelWidth:self.guidelineLabelWidth];
+		
+		return 10.0 + adviceLabelHeight + 10.0;		// change for landscape orientation?
 
 	}
-
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 0.1f;
+}
+
+
 #pragma mark - Managing Cell and Label Heights
+
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
 {
-	UIFont *font	= label.font;
+	UIFont *font = label.font;
 	NSAttributedString *attributedText = [ [NSAttributedString alloc]
 										  initWithString:text
 										  attributes: @{NSFontAttributeName: font}
 										  ];
-	CGRect rect		= [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
+	CGRect rect = [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
 												options:NSStringDrawingUsesLineFragmentOrigin
 												context:nil];
-	CGSize size		= rect.size;
-	CGFloat height	= ceilf(size.height);
-	//	CGFloat width  = ceilf(size.width);
+	CGSize size = rect.size;
+	CGFloat height = ceilf(size.height);
+
 	return height;
 }
 
 -(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth
 {
-	CGRect newFrame			= label.frame;
-	newFrame.size.height	= [self heightForLabel:label withText:label.text labelWidth:labelWidth];
-	label.frame				= newFrame;
+	CGRect newFrame = label.frame;
+	newFrame.size.height = [self heightForLabel:label
+									   withText:label.text
+									 labelWidth:labelWidth];
+	label.frame = newFrame;
 }
 
 

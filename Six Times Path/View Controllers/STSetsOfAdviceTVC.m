@@ -13,7 +13,7 @@
 #import "Advice.h"
 #import "Day+ST.h"
 #import "LESixOfDay+ST.h"
-#import "TestFlight.h"
+//#import "TestFlight.h"
 #import "SetOfAdvice.h"
 #import "STNotificationController.h"
 
@@ -607,6 +607,6 @@
 }
 
 - (IBAction)greatHIghwayExplorerFeedback:(id)sender {
-	[TestFlight openFeedbackView];
+	//	[TestFlight openFeedbackView];
 }
 @end
