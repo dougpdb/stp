@@ -16,7 +16,6 @@
 
 //@property (nonatomic, strong) UILabel *placeHolderLabel;
 -(void)_initialize;
--(void)_textChanged:(NSNotification *)notification;
 
 @property BOOL wasPlaceholderShowing;
 @end
@@ -109,20 +108,21 @@
 
 -(void)setShowPlaceholder:(BOOL)showPlaceholder
 {
-	if (showPlaceholder)
-	{
+	if (showPlaceholder) {
+
 		self.text					= self.placeholder;
 		self.textColor				= self.placeholderColor;
 		self.wasPlaceholderShowing	= YES;
 		
 		[self moveCursorToBeginningOfContent];
-	}
-	else
-	{
+		
+	} else {
+		
 		if (self.wasPlaceholderShowing)
 			[self removePlaceholderFromContent];
 		self.textColor				= self.inputTextColor;
 		self.wasPlaceholderShowing	= NO;
+		
 	}
 	self.placeholderIsShowing		= showPlaceholder;
 }
