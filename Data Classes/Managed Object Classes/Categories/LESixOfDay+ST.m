@@ -84,12 +84,8 @@
 	NSDate *date			= [NSDate dateWithMonth:[self.dayOfSix.date month]
 											andDate:[self.dayOfSix.date day]
 											andYear:[self.dayOfSix.date year]];
-	NSLog(@"The date in resetScheduledTimeAtHourInterval is %@", date.timeAndDate);
-	NSLog(@"orderNumber, startHour, startMinute: %i, %i, %i", orderNumber, startHour, startMinute);
 	self.timeScheduled		= [date setHour:startHour + (hourInterval * orderNumber)
-								  andMinute:startMinute];
-	NSLog(@"The new timeScheduled: %@", self.timeScheduled.timeAndDate);
-		
+								  andMinute:startMinute];		
 }
 
 -(void)setTimeUpdatedToNow

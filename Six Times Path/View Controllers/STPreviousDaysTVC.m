@@ -15,6 +15,7 @@
 
 @interface STPreviousDaysTVC ()
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
+@property BOOL performFetchAfterViewDidLoad;
 
 
 -(void)setupDaysFetchedResultsController;
@@ -47,17 +48,30 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-	NSLog(@"Previous days has loaded.");
 	
 	[self setupDaysFetchedResultsController];
 	self.days	= [NSArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
-	
-	NSLog(@"There are %i previous days.", [self.days count]);
+	self.performFetchAfterViewDidLoad = NO;
 }
 
--(void)viewWillAppear
+-(void)viewWillAppear:(BOOL)animated
 {
+	NSLog(@"in viewWillAppear");
 	
+	if (self.performFetchAfterViewDidLoad) {
+		NSLog(@"going to fetch after view did load.");
+		[self performFetch];
+		self.days = [NSArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
+		[self.tableView reloadData];
+	}
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+	self.performFetchAfterViewDidLoad = YES;
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,9 +84,6 @@
 #pragma mark - Core Data Setup
 -(void)setupDaysFetchedResultsController
 {
-    
-	NSLog(@"In setupDaysFetchedResultsController");
-	
 	// Set request with sorting, then fetch
 	NSFetchRequest *request			= [NSFetchRequest fetchRequestWithEntityName:@"Day"];
     request.sortDescriptors			= @[[NSSortDescriptor sortDescriptorWithKey:@"date"
@@ -106,8 +117,8 @@
 	Day *day					= (indexPath.section == 0) ? [self.days objectAtIndex:indexPath.row + 1] : [self.fetchedResultsController  objectAtIndexPath:indexPath];										// use +1 to "skip" today
 	
 	cell.textLabel.text			= day.date.shortWeekdayAndDate;
-	cell.detailTextLabel.text	= [NSString stringWithFormat:@"%i Entries", [[day getTheSixThatHaveUserEntriesSorted] count]];
-
+	cell.detailTextLabel.text	= [NSString stringWithFormat:@"%lu Entries", (unsigned long)[[day getTheSixThatHaveUserEntriesSorted] count]];
+	NSLog(@"returning a cell");
 	return cell;
 }
 
@@ -130,6 +141,6 @@
 
 }
 - (IBAction)greatHighwayExplorerFeedback:(id)sender {
-	[TestFlight openFeedbackView];
+	//	[TestFlight openFeedbackView];
 }
 @end

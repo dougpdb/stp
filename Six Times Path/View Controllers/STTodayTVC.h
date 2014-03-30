@@ -8,7 +8,7 @@
 
 #import "CoreDataTableViewController.h"
 
-@class Day, LESixOfDay;
+@class Day, LESixOfDay, STPreviousDayTVC;
 
 @interface STTodayTVC : CoreDataTableViewController
 
@@ -33,6 +33,7 @@
 @property (nonatomic, strong) NSMutableArray *tableViewSections;
 @property BOOL showAllEntries;
 @property BOOL noSetsOfGuidelinesBeingFollowed;
+@property BOOL highlightStartOfDayLabelWithColor;
 
 
 #pragma mark - Setup and Manage Data
@@ -42,7 +43,9 @@
 -(void)addDay;
 -(void)setTheSixFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 -(void)resetTheSixToBeShown;
+-(void)setUpdatedAndRemainingScheduledEntries;
 
+-(BOOL)isAllAdviceForDayUpdated;
 /*
 #pragma mark - Managing Notifications
 -(void)addNotification:(LESixOfDay *)sixOfDayLogEntry;

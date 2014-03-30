@@ -34,19 +34,19 @@
 
 #define TAG_PREFIX_UITEXTVIEW	100
 
-#define CELL_CONTENT_WIDTH				283.0f
-#define CELL_CONTENT_VERTICAL_MARGIN	4.0f
-#define CELL_CONTENT_LEFT_MARGIN		8.0f
-#define FONT_SIZE						15.0f
+//#define CELL_CONTENT_WIDTH				283.0f
+//#define CELL_CONTENT_VERTICAL_MARGIN	4.0f
+//#define CELL_CONTENT_LEFT_MARGIN		8.0f
+//#define FONT_SIZE						15.0f
 
-#define GUIDELINE_LABEL_WIDTH	290
+//#define GUIDELINE_LABEL_WIDTH	295
 
 #define kFontSize	15.0
-#define kTextViewWidth 268.0
+#define kTextViewWidth 273.0
 
 static NSString *kFontNameGuideline			= @"Palatino";
 static NSInteger kFontSizeGuidelineNext		= 22;
-static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
+static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few abcs";
 
 @interface STLogEntrySixOfDayTVC ()
 
@@ -58,6 +58,11 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 @property (nonatomic, strong) NSString *updatedNegativeActionTakenDescription;
 @property (nonatomic, strong) NSString *updatedToDoText;
 
+
+@property (readonly) CGFloat screenWidth;
+@property (readonly) CGFloat guidelineLabelWidth;
+@property (readonly) CGFloat setOfAdviceLabelWidth;
+
 @property (nonatomic, strong) STNotificationController *notificationController;
 
 
@@ -66,6 +71,29 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 @implementation STLogEntrySixOfDayTVC
 
 
+#pragma mark - getters and setters
+-(CGFloat)screenWidth
+{
+	CGRect screenRect = [[UIScreen mainScreen] bounds];
+	if (
+		([[UIApplication sharedApplication] statusBarOrientation] == UIDeviceOrientationPortrait) ||
+		([[UIApplication sharedApplication] statusBarOrientation] == UIDeviceOrientationPortraitUpsideDown)
+		){
+		return screenRect.size.width;
+	} else {
+		return screenRect.size.height;
+	}
+}
+
+-(CGFloat)guidelineLabelWidth
+{
+	return self.screenWidth - 47.0; //15.0 - 13.0 - 4.0 - 15.0;
+}
+
+-(CGFloat)setOfAdviceLabelWidth
+{
+	return self.screenWidth - 30.0; //15.0 - 15.0;
+}
 
 #pragma mark - Lifecycle
 
@@ -91,29 +119,32 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 		Therefore, get the set of actions (there should only be one in the set at most) for each type of action
 		and assign the ActionTaken objects from that set and assign to the properties aPostiveActionTaken and aNegativeActionTaken
 	 */
-	NSSet *setOfPositiveActionsTaken						= self.leSixOfDay.getPositiveActionsTaken;
-	self.aPositiveActionTaken								= [setOfPositiveActionsTaken anyObject];
-	self.mostRecentlySavedPositiveActionTakenDescription	= (self.aPositiveActionTaken) ? self.aPositiveActionTaken.text : @"";
-	self.updatedPositiveActionTakenDescription				= self.mostRecentlySavedPositiveActionTakenDescription;
+	NSSet *setOfPositiveActionsTaken = self.leSixOfDay.getPositiveActionsTaken;
+	self.aPositiveActionTaken = [setOfPositiveActionsTaken anyObject];
+	self.mostRecentlySavedPositiveActionTakenDescription = (self.aPositiveActionTaken) ? self.aPositiveActionTaken.text : @"";
+	self.updatedPositiveActionTakenDescription = self.mostRecentlySavedPositiveActionTakenDescription;
 
-	NSSet *setOfNegativeActionsTaken						= self.leSixOfDay.getNegativeActionsTaken;
-	self.aNegativeActionTaken								= [setOfNegativeActionsTaken anyObject];
-	self.mostRecentlySavedNegativeActionTakenDescription	= (self.aNegativeActionTaken) ? self.aNegativeActionTaken.text : @"";
-	self.updatedNegativeActionTakenDescription				= self.mostRecentlySavedNegativeActionTakenDescription;
+	NSSet *setOfNegativeActionsTaken = self.leSixOfDay.getNegativeActionsTaken;
+	self.aNegativeActionTaken = [setOfNegativeActionsTaken anyObject];
+	self.mostRecentlySavedNegativeActionTakenDescription = (self.aNegativeActionTaken) ? self.aNegativeActionTaken.text : @"";
+	self.updatedNegativeActionTakenDescription = self.mostRecentlySavedNegativeActionTakenDescription;
 
 	// Set up Guideline Cell
-	self.guidelineText.text				= self.leSixOfDay.advice.name;
-	[self resizeHeightToFitForLabel:self.guidelineText labelWidth:GUIDELINE_LABEL_WIDTH];
+	self.guidelineText.text = self.leSixOfDay.advice.name;
+	[self resizeHeightToFitForLabel:self.guidelineText
+						 labelWidth:self.guidelineLabelWidth];
 
 	if (self.leSixOfDay.timeLastUpdated)
 	{
+		
 		self.guidelineTime.text	= [NSString stringWithFormat:@"Updated %@", self.leSixOfDay.timeLastUpdated.time];
 		self.guidelineTime.font	= [UIFont italicSystemFontOfSize:13.0];
-	}
-	else
-	{
+		
+	} else {
+		
 		NSString *timeEntryTextPrefix	= @"";
 		self.guidelineTime.text	= [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.leSixOfDay.timeScheduled.time];
+	
 	}
 	
 	// Set delegate for text views
@@ -124,18 +155,18 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 	self.positiveActionTextView.placeholder	= @"Add a recent positive action";
 	self.negativeActionTextView.placeholder = @"Add a recent negative action";
 	
-    self.positiveActionTextView.text		= self.updatedPositiveActionTakenDescription;
-	self.negativeActionTextView.text		= self.updatedNegativeActionTakenDescription;
+    self.positiveActionTextView.text = self.updatedPositiveActionTakenDescription;
+	self.negativeActionTextView.text = self.updatedNegativeActionTakenDescription;
 
 	[self.positiveActionTextView updateShouldShowPlaceholder];
 	[self.negativeActionTextView updateShouldShowPlaceholder];
 	
-	NSArray *fields						= @[self.positiveActionTextView, self.negativeActionTextView];
+	NSArray *fields = @[self.positiveActionTextView, self.negativeActionTextView];
     
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:fields]];
     [self.keyboardControls setDelegate:self];
 	
-	self.navigationController.title		= self.leSixOfDay.advice.name;		// not working for some reason.
+	self.navigationController.title = self.leSixOfDay.advice.name;		// not working for some reason.
 }
 
 - (void)willEnterForeground:(NSNotification*)notification {
@@ -188,10 +219,15 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-	if (section == 0)
+	if (section == 0) {
+		
 		return @"Reflect on how you've acted recently.\n\nEnter short, simple, and specific descriptions of recent postive (+) and negative (-) actions.";
-	else
+		
+	} else {
+	
 		return nil;
+		
+	}
 }
 
 - (CGFloat)heightForTextView:(UITextView*)textView containingString:(NSString*)string
@@ -201,16 +237,16 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
     
 	float widthOfTextView = textView.contentSize.width;
 	
-	UIFont *font						= textView.font;
-	NSAttributedString *attributedText	= [ [NSAttributedString alloc]
+	UIFont *font = textView.font;
+	NSAttributedString *attributedText = [ [NSAttributedString alloc]
 										   initWithString:string
 										   attributes: @{NSFontAttributeName: font}
 										   ];
-	CGRect rect							= [attributedText boundingRectWithSize:(CGSize){widthOfTextView, CGFLOAT_MAX}
-													 options:NSStringDrawingUsesLineFragmentOrigin
-													 context:nil];
-	CGSize size							= rect.size;
-	CGFloat height						= ceilf(size.height);
+	CGRect rect = [attributedText boundingRectWithSize:(CGSize){widthOfTextView, CGFLOAT_MAX}
+												 options:NSStringDrawingUsesLineFragmentOrigin
+												 context:nil];
+	CGSize size = rect.size;
+	CGFloat height = ceilf(size.height);
 	return height;
 }
 
@@ -252,35 +288,38 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 {
     [self.keyboardControls setActiveField:textView];
 
-	GHUIPlaceHolderTextView *placeholderTextView	= (GHUIPlaceHolderTextView *)textView;
+	GHUIPlaceHolderTextView *placeholderTextView = (GHUIPlaceHolderTextView *)textView;
 	
 	[placeholderTextView updateShouldShowPlaceholder];
 	
-	if ([placeholderTextView isPlaceholderShowing])
+	if ([placeholderTextView isPlaceholderShowing]) {
+	
 		[placeholderTextView moveCursorToBeginningOfContent];
+		
+	}
 }
 
 -(void)textViewDidChange:(UITextView *)textView
 {
 	GHUIPlaceHolderTextView *placeholderTextView	= (GHUIPlaceHolderTextView *)textView;
-	if ([placeholderTextView isPlaceholderShowing])
-	{
+	
+	if ([placeholderTextView isPlaceholderShowing]) {
+	
 		[placeholderTextView moveCursorToBeginningOfContent];
 		[placeholderTextView updateShouldShowPlaceholder];
-		NSLog(@"Placeholder is showing.");
-	}
-	else
-	{
+	
+	} else {
+		
 		switch (textView.tag)
 		{
 			case TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER:
-				self.updatedPositiveActionTakenDescription	= textView.text;
+				self.updatedPositiveActionTakenDescription = textView.text;
 				break;
 			case TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER:
-				self.updatedNegativeActionTakenDescription	= textView.text;
+				self.updatedNegativeActionTakenDescription = textView.text;
 				break;
 			case TAG_PREFIX_UITEXTVIEW + TO_DO_SECTION_NUMBER:
-				self.updatedToDoText						= textView.text;
+				self.updatedToDoText = textView.text;
 				break;
 			default:
 				break;
@@ -293,7 +332,8 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 }
 
 
--(void)textViewDidEndEditing:(UITextView *)textView {
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
 	GHUIPlaceHolderTextView *placeholderTextView	= (GHUIPlaceHolderTextView *)textView;
 	[placeholderTextView updateShouldShowPlaceholder];
 	
@@ -322,76 +362,81 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
 {
-	if (text != nil)
-	{
-		UIFont *font						= label.font;
-		NSAttributedString *attributedText	= [ [NSAttributedString alloc]
+	if (text != nil) {
+		
+		UIFont *font = label.font;
+		NSAttributedString *attributedText = [ [NSAttributedString alloc]
 											   initWithString:text
 											   attributes: @{NSFontAttributeName: font}
 											   ];
-		CGRect rect							= [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
-														 options:NSStringDrawingUsesLineFragmentOrigin
-														 context:nil];
-		CGSize size							= rect.size;
-		CGFloat height						= ceilf(size.height);
+		CGRect rect = [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
+													 options:NSStringDrawingUsesLineFragmentOrigin
+													 context:nil];
+		CGSize size = rect.size;
+		CGFloat height = ceilf(size.height);
 		return height;
-	}
-	else
+		
+	} else {
+		
 		return 0;
+		
+	}
 	
 }
 
 -(void)resizeHeightToFitForLabel:(UILabel *)label labelWidth:(CGFloat)labelWidth
 {
-	CGRect newFrame			= label.frame;
-	newFrame.size.height	= [self heightForLabel:label
+	CGRect newFrame = label.frame;
+	newFrame.size.height = [self heightForLabel:label
 									   withText:label.text
 									 labelWidth:labelWidth];
-	label.frame				= newFrame;
+	label.frame = newFrame;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	
-	if (indexPath.row == 0)
-	{
-		UILabel *guidelineLabel			= [UILabel new];
-		guidelineLabel.lineBreakMode	= NSLineBreakByWordWrapping;
+	if (indexPath.row == 0) {
 		
-		guidelineLabel.font				= [UIFont fontWithName:kFontNameGuideline
+		UILabel *guidelineLabel = [UILabel new];
+		guidelineLabel.lineBreakMode = NSLineBreakByWordWrapping;
+		
+		guidelineLabel.font = [UIFont fontWithName:kFontNameGuideline
 												 size:kFontSizeGuidelineNext];
-		guidelineLabel.text				= self.leSixOfDay.advice.name;
+		guidelineLabel.text = self.leSixOfDay.advice.name;
 		
-		CGFloat guidelineLabelHeight	= [self heightForLabel:guidelineLabel
+		CGFloat guidelineLabelHeight = [self heightForLabel:guidelineLabel
 												   withText:guidelineLabel.text
-												 labelWidth:GUIDELINE_LABEL_WIDTH];
+												 labelWidth:self.guidelineLabelWidth];
 		
-		return guidelineLabelHeight + 46;		// change for landscape orientation?
-	}
-	else
-	{
+		return guidelineLabelHeight + 46;
+		
+	} else {
+		
 		UITextView *actionTextView;
 		NSString *descriptionModel;
 		
 		
-		if (indexPath.row == 1)
-		{
-			actionTextView		= self.positiveActionTextView;
-			descriptionModel	= self.updatedPositiveActionTakenDescription;
-		}
-		else if (indexPath.row == 2)
-		{
-			actionTextView		= self.negativeActionTextView;
-			descriptionModel	= self.updatedNegativeActionTakenDescription;
-		}
-		else
-		{
+		if (indexPath.row == 1) {
+			
+			actionTextView = self.positiveActionTextView;
+			descriptionModel = self.updatedPositiveActionTakenDescription;
+		
+		} else if (indexPath.row == 2) {
+			
+			actionTextView = self.negativeActionTextView;
+			descriptionModel = self.updatedNegativeActionTakenDescription;
+		
+		} else {
+			
 			return self.tableView.rowHeight;
+		
 		}
 		
 		float height = [self heightForTextView:actionTextView
 							  containingString:descriptionModel] + 8; // a little extra padding is needed
 		return height;
+		
 	}
 }
 
@@ -401,24 +446,30 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 #pragma mark - Save
 
 - (IBAction)greatHighwayExplorerFeedback:(id)sender {
-	[TestFlight openFeedbackView];
+	//	[TestFlight openFeedbackView];
 }
 
 -(void)saveEntry {
+	
 	if ([self.mostRecentlySavedPositiveActionTakenDescription isEqualToString:[self.updatedPositiveActionTakenDescription stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]] &&
 		[self.mostRecentlySavedNegativeActionTakenDescription isEqualToString:[self.updatedNegativeActionTakenDescription stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]]) {
+		
 		// Do nothing, becausethe descriptions haven't changed
 		[TestFlight passCheckpoint:@"LEAVE LOG ENTRY WITHOUT SAVING"];
 
 	} else {
+		
 		BOOL entryHasBeenPreviouslyUpdated	= [self.leSixOfDay.timeLastUpdated isKindOfClass:[NSDate class]];
 		
 		// Add or update objects
 		if (self.aPositiveActionTaken) {
+			
 			[self.aPositiveActionTaken updateText:self.updatedPositiveActionTakenDescription
 										andRating:1];
 			[TestFlight passCheckpoint:@"LOG ENTRY + UPDATED"];
+			
 		} else {
+			
 			[ActionTaken actionTakenWithText:self.updatedPositiveActionTakenDescription
 								   isPositive:YES
 								   withRating:1
@@ -426,55 +477,72 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 					   inManagedObjectContext:self.managedObjectContext];
 			self.leSixOfDay.timeFirstUpdated	= [NSDate date];
 			[TestFlight passCheckpoint:@"LOG ENTRY + ADDED"];
+			
 		}
 		
 		if (self.aNegativeActionTaken) {
+			
 			[self.aNegativeActionTaken updateText:self.updatedNegativeActionTakenDescription
 										andRating:1];
 			[TestFlight passCheckpoint:@"LOG ENTRY - UPDATED"];
+			
 		} else {
+			
 			[ActionTaken actionTakenWithText:self.updatedNegativeActionTakenDescription
 								  isPositive:NO
 								  withRating:1
 								 forLogEntry:self.leSixOfDay
 					  inManagedObjectContext:self.managedObjectContext];
 			[TestFlight passCheckpoint:@"LOG ENTRY - ADDED"];
+			
 		}
 		
 		if (!entryHasBeenPreviouslyUpdated){
 			
-			// NSDate *now													= [NSDate date];
-			NSArray *allRemainingEntriesWithMostRecentlyUpdatedEntry	= [self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted];
-			NSInteger indexOfMostRecentlyUpdatedEntry					= [allRemainingEntriesWithMostRecentlyUpdatedEntry indexOfObject:self.leSixOfDay];
+			NSArray *allRemainingEntriesWithMostRecentlyUpdatedEntry = [self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted];
+			NSInteger indexOfMostRecentlyUpdatedEntry = [allRemainingEntriesWithMostRecentlyUpdatedEntry indexOfObject:self.leSixOfDay];
 						
-			NSInteger countOfCompletedEntries							= 6 - [allRemainingEntriesWithMostRecentlyUpdatedEntry count];
+			NSInteger countOfCompletedEntries = 6 - [allRemainingEntriesWithMostRecentlyUpdatedEntry count];
 			
 			[self.notificationController cancelAllNotifications];
 						
-			for (LESixOfDay *remainingEntry in allRemainingEntriesWithMostRecentlyUpdatedEntry) {
-				NSInteger indexOfRemainingEntry							= [allRemainingEntriesWithMostRecentlyUpdatedEntry indexOfObject:remainingEntry];
+			if (countOfCompletedEntries < 6) {
 				
-				if (indexOfRemainingEntry < indexOfMostRecentlyUpdatedEntry) {
-					NSInteger currentScheduledTimeHourInterval			= countOfCompletedEntries + indexOfRemainingEntry + 1;
-					NSInteger newScheduledTimeHourInterval				= currentScheduledTimeHourInterval;
-
-					[remainingEntry resetScheduledTimeAtHourInterval:newScheduledTimeHourInterval];
+				for (LESixOfDay *remainingEntry in allRemainingEntriesWithMostRecentlyUpdatedEntry) {
+					
+					NSInteger indexOfRemainingEntry = [allRemainingEntriesWithMostRecentlyUpdatedEntry indexOfObject:remainingEntry];
+					
+					if (indexOfRemainingEntry < indexOfMostRecentlyUpdatedEntry) {
+						
+						NSInteger currentScheduledTimeHourInterval = countOfCompletedEntries + indexOfRemainingEntry + 1;
+						NSInteger newScheduledTimeHourInterval = currentScheduledTimeHourInterval;
+						
+						[remainingEntry resetScheduledTimeAtHourInterval:newScheduledTimeHourInterval];
+						
+					}
+					
 				}
+				
 			}
 		}
 		
 		[self.leSixOfDay setTimeUpdatedToNow];
 		
-		if (!entryHasBeenPreviouslyUpdated)
+		if (!entryHasBeenPreviouslyUpdated) {
+		
 			[self.notificationController addNotifications:[self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted]];
+		
+		}
 				
 		// save to store!
 		NSError *error;
 		if ([self.managedObjectContext hasChanges] && ![self.managedObjectContext save:&error]) {
+			
 			/*
 			 Replace this implementation with code to handle the error appropriately.
 			*/
 			NSLog(@"Error occured when attempting to save. Error and userInfo: %@, %@", error, [error userInfo]);
+			
 		}
 		[TestFlight passCheckpoint:@"LOG ENTRY SAVED"];
 
