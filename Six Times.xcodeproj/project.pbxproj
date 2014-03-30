@@ -57,13 +57,13 @@
 		91A9692616AAE1D700085EC5 /* BSKeyboardControls.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A9692216AAE1D700085EC5 /* BSKeyboardControls.m */; };
 		91A9692716AAE1D700085EC5 /* BSKeyboardControls.strings in Resources */ = {isa = PBXBuildFile; fileRef = 91A9692316AAE1D700085EC5 /* BSKeyboardControls.strings */; };
 		91A9692A16AAE20B00085EC5 /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 91A9692916AAE20B00085EC5 /* License.txt */; };
-		91A9693016AD5E5700085EC5 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91A9692C16AD5E5700085EC5 /* libTestFlight.a */; };
-		91A9693116AD5E5700085EC5 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91A9692D16AD5E5700085EC5 /* README.md */; };
-		91A9693216AD5E5700085EC5 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 91A9692E16AD5E5700085EC5 /* release_notes.md */; };
 		91A9693416AD5EE300085EC5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91A9693316AD5EE200085EC5 /* libz.dylib */; };
 		91A9693716AE1C9600085EC5 /* NSDate+ES.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A9693616AE1C9600085EC5 /* NSDate+ES.m */; };
 		91C68E9E16C12CCB00F91420 /* STSetOfAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C68E9D16C12CCB00F91420 /* STSetOfAdviceTVC.m */; };
 		91C68EA216C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C68EA116C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.m */; };
+		91D0F50218DB039100424076 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91D0F4FC18DB039100424076 /* libTestFlight.a */; };
+		91D0F50318DB039100424076 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91D0F4FD18DB039100424076 /* README.md */; };
+		91D0F50418DB039100424076 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 91D0F4FE18DB039100424076 /* release_notes.md */; };
 		91EE793515C2A3B700D43A96 /* AdviceReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793415C2A3B700D43A96 /* AdviceReference.m */; };
 		91EE793B15C2A3B800D43A96 /* Insight.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793A15C2A3B800D43A96 /* Insight.m */; };
 		91EE793E15C2A3B800D43A96 /* LogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EE793D15C2A3B800D43A96 /* LogEntry.m */; };
@@ -106,6 +106,7 @@
 		9120B82016A4255700F53B4C /* STPreviousDayTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPreviousDayTVC.h; sourceTree = "<group>"; };
 		9120B82116A4255700F53B4C /* STPreviousDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPreviousDayTVC.m; sourceTree = "<group>"; };
 		91239F0A17FAEA8300D1D138 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Six Times/Images.xcassets"; sourceTree = "<group>"; };
+		9124904618C6065A003257DA /* Six Times Data Model 1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Six Times Data Model 1.xcdatamodel"; sourceTree = "<group>"; };
 		9137F160166A4AF900C789D2 /* LEBestOfDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEBestOfDay.h; path = "Data Classes/Managed Object Classes/LEBestOfDay.h"; sourceTree = "<group>"; };
 		9137F161166A4AF900C789D2 /* LEBestOfDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEBestOfDay.m; path = "Data Classes/Managed Object Classes/LEBestOfDay.m"; sourceTree = "<group>"; };
 		9137F162166A4AF900C789D2 /* LESixOfDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LESixOfDay.h; path = "Data Classes/Managed Object Classes/LESixOfDay.h"; sourceTree = "<group>"; };
@@ -155,10 +156,6 @@
 		91A9692416AAE1D700085EC5 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/BSKeyboardControls.strings; sourceTree = "<group>"; };
 		91A9692516AAE1D700085EC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/BSKeyboardControls.strings; sourceTree = "<group>"; };
 		91A9692916AAE20B00085EC5 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
-		91A9692C16AD5E5700085EC5 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		91A9692D16AD5E5700085EC5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		91A9692E16AD5E5700085EC5 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
-		91A9692F16AD5E5700085EC5 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		91A9693316AD5EE200085EC5 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		91A9693516AE1C9600085EC5 /* NSDate+ES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+ES.h"; path = "Data Classes/Categories/NSDate+ES.h"; sourceTree = SOURCE_ROOT; };
 		91A9693616AE1C9600085EC5 /* NSDate+ES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+ES.m"; path = "Data Classes/Categories/NSDate+ES.m"; sourceTree = SOURCE_ROOT; };
@@ -166,6 +163,12 @@
 		91C68E9D16C12CCB00F91420 /* STSetOfAdviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSetOfAdviceTVC.m; sourceTree = "<group>"; };
 		91C68EA016C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STAddFollowingSetOfAdviceTVC.h; path = "View Controllers/STAddFollowingSetOfAdviceTVC.h"; sourceTree = "<group>"; };
 		91C68EA116C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STAddFollowingSetOfAdviceTVC.m; path = "View Controllers/STAddFollowingSetOfAdviceTVC.m"; sourceTree = "<group>"; };
+		91D0F4FC18DB039100424076 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		91D0F4FD18DB039100424076 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		91D0F4FE18DB039100424076 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		91D0F4FF18DB039100424076 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		91D0F50018DB039100424076 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		91D0F50118DB039100424076 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		91EE793315C2A3B700D43A96 /* AdviceReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdviceReference.h; path = "Data Classes/Managed Object Classes/AdviceReference.h"; sourceTree = "<group>"; };
 		91EE793415C2A3B700D43A96 /* AdviceReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdviceReference.m; path = "Data Classes/Managed Object Classes/AdviceReference.m"; sourceTree = "<group>"; };
 		91EE793915C2A3B800D43A96 /* Insight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Insight.h; path = "Data Classes/Managed Object Classes/Insight.h"; sourceTree = "<group>"; };
@@ -184,6 +187,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91D0F50218DB039100424076 /* libTestFlight.a in Frameworks */,
 				91115C741733D352006BB2E9 /* TextExpander.framework in Frameworks */,
 				91115C72172FE199006BB2E9 /* AudioToolbox.framework in Frameworks */,
 				91A9693416AD5EE300085EC5 /* libz.dylib in Frameworks */,
@@ -192,7 +196,6 @@
 				1E5523351591E2F9009114B7 /* Foundation.framework in Frameworks */,
 				1E5523371591E2F9009114B7 /* CoreGraphics.framework in Frameworks */,
 				9164B88016A9911200002B76 /* Crashlytics.framework in Frameworks */,
-				91A9693016AD5E5700085EC5 /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,9 +271,9 @@
 				917E07A6171C140300DE3D01 /* Data Controllers */,
 				9137F15E166A45A800C789D2 /* View Controllers */,
 				1E6B11B2159C6A600045AA42 /* Images */,
-				91A9692B16AD5E5700085EC5 /* TestFlightSDK1 */,
 				91A9692016AAE1D700085EC5 /* BSKeyboardControls */,
 				1E5523391591E2FA009114B7 /* Supporting Files */,
+				91D0F4FB18DB039100424076 /* TestFlightSDK3 */,
 			);
 			path = "Six Times Path";
 			sourceTree = "<group>";
@@ -405,17 +408,6 @@
 			path = BSKeyboardControls;
 			sourceTree = "<group>";
 		};
-		91A9692B16AD5E5700085EC5 /* TestFlightSDK1 */ = {
-			isa = PBXGroup;
-			children = (
-				91A9692C16AD5E5700085EC5 /* libTestFlight.a */,
-				91A9692D16AD5E5700085EC5 /* README.md */,
-				91A9692E16AD5E5700085EC5 /* release_notes.md */,
-				91A9692F16AD5E5700085EC5 /* TestFlight.h */,
-			);
-			path = TestFlightSDK1;
-			sourceTree = "<group>";
-		};
 		91AD7C4B15E1114A0066B118 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -442,6 +434,20 @@
 				918EA1EE169703FF001FCFDA /* STPreviousDaysTVC.m */,
 			);
 			name = "Days TVCs";
+			sourceTree = "<group>";
+		};
+		91D0F4FB18DB039100424076 /* TestFlightSDK3 */ = {
+			isa = PBXGroup;
+			children = (
+				91D0F4FC18DB039100424076 /* libTestFlight.a */,
+				91D0F4FD18DB039100424076 /* README.md */,
+				91D0F4FE18DB039100424076 /* release_notes.md */,
+				91D0F4FF18DB039100424076 /* TestFlight+AsyncLogging.h */,
+				91D0F50018DB039100424076 /* TestFlight+ManualSessions.h */,
+				91D0F50118DB039100424076 /* TestFlight.h */,
+			);
+			name = TestFlightSDK3;
+			path = ../TestFlightSDK3;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -509,11 +515,11 @@
 				1EAA7EBD15BEAC320052F489 /* Default144.png in Resources */,
 				1EAA7EC315BEB07A0052F489 /* Launch2x.png in Resources */,
 				915E3FE315CFD37A0036C6FE /* prog journal.rtf in Resources */,
+				91D0F50318DB039100424076 /* README.md in Resources */,
 				911BC009164499F900586524 /* appIcon@2x.png in Resources */,
+				91D0F50418DB039100424076 /* release_notes.md in Resources */,
 				91A9692716AAE1D700085EC5 /* BSKeyboardControls.strings in Resources */,
 				91A9692A16AAE20B00085EC5 /* License.txt in Resources */,
-				91A9693116AD5E5700085EC5 /* README.md in Resources */,
-				91A9693216AD5E5700085EC5 /* release_notes.md in Resources */,
 				91239F0B17FAEA8300D1D138 /* Images.xcassets in Resources */,
 				91119C1117241A3600F88FC7 /* default.png in Resources */,
 				91119C1217241A9E00F88FC7 /* Default.png in Resources */,
@@ -708,6 +714,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Six Times Path/TestFlightSDK1\"",
+					"$(PROJECT_DIR)/TestFlightSDK3",
 				);
 				PRODUCT_NAME = "Six Times";
 				PROVISIONING_PROFILE = "";
@@ -738,6 +745,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Six Times Path/TestFlightSDK1\"",
+					"$(PROJECT_DIR)/TestFlightSDK3",
 				);
 				PRODUCT_NAME = "Six Times";
 				PROVISIONING_PROFILE = "";
@@ -775,12 +783,13 @@
 		1E55235D1591E3A4009114B7 /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				9124904618C6065A003257DA /* Six Times Data Model 1.xcdatamodel */,
 				1EAB9F7415AC37A6001A6540 /* Model 2.xcdatamodel */,
 				1EAEC6D915BFFB9900DF538B /* Model 3.xcdatamodel */,
 				91F1B88B164E9DEC00F9B56B /* Model 4.xcdatamodel */,
 				1E55235E1591E3A4009114B7 /* Model.xcdatamodel */,
 			);
-			currentVersion = 91F1B88B164E9DEC00F9B56B /* Model 4.xcdatamodel */;
+			currentVersion = 9124904618C6065A003257DA /* Six Times Data Model 1.xcdatamodel */;
 			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
