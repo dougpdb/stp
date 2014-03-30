@@ -45,7 +45,7 @@
 #define kTextViewWidth 273.0
 
 static NSString *kFontNameGuideline			= @"Palatino";
-static NSInteger kFontSizeGuidelineNext		= 22;
+static NSInteger kFontSizeGuidelineNext		= 20;
 static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few abcs";
 
 @interface STLogEntrySixOfDayTVC ()
@@ -61,7 +61,7 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
 
 @property (readonly) CGFloat screenWidth;
 @property (readonly) CGFloat guidelineLabelWidth;
-@property (readonly) CGFloat setOfAdviceLabelWidth;
+@property (readonly) CGFloat actionTextViewWidth;
 
 @property (nonatomic, strong) STNotificationController *notificationController;
 
@@ -87,12 +87,13 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
 
 -(CGFloat)guidelineLabelWidth
 {
-	return self.screenWidth - 47.0; //15.0 - 13.0 - 4.0 - 15.0;
+	return self.screenWidth - 30.0; //15.0 - 13.0 - 4.0 - 15.0;
 }
 
--(CGFloat)setOfAdviceLabelWidth
+-(CGFloat)actionTextViewWidth
 {
-	return self.screenWidth - 30.0; //15.0 - 15.0;
+	//	return self.screenWidth - 30.0; //15.0 - 15.0;
+	return self.screenWidth - 47.0; //15.0 - 13.0 - 4.0 - 15.0;
 }
 
 #pragma mark - Lifecycle
