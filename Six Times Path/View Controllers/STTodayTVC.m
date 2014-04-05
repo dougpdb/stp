@@ -52,9 +52,6 @@ static NSString *kSetupForDay = @"Setup for Day";
 static NSString *kPreviousDays = @"Previous Days";
 static NSString *kAboutAndSettings = @"About and Settings";
 
-//NSString *kIntroductoryMessage			= @"Welcome to Six Times Path!\n\nBegin by selecting 1 or more sets of ethical guidelines that you want to observe.\n\nFrom those, Six Times Path will daily select 6 guidelines, rotating through the guidelines you selected.\n\nYou can then consider and record how you have or haven't been following each guideline.\n\nBy checking in throughout the day, you strengthen your ability to live your life according to the principles that are important to you.";
-//NSString *kSelectGuidelinesMessage		= @"You do not have any sets of ethical guidelines selected to observe from day to day.\n\nSelect guidelines to resume using Six Times.";
-//NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.\n\nBe happy over what you've done well to day, and regret the mistaken actions.";
 
 @interface STTodayTVC ()
 
