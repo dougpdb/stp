@@ -44,15 +44,17 @@ static NSInteger kFontSizeGuidelineNext		= 20;
 
 
 
-NSString *kNextEntry					= @"Next Entry";
-NSString *kWelcomeIntroduction			= @"Welcome Introduction";
-NSString *kNoSetsOfGuidelinesSelected	= @"No Sets of Guidelines Selected";
-static NSString *kAllOtherEntries		= @"All Other Entries";
-NSString *kSetupForDay					= @"Setup for Day";
-static NSString *kPreviousDays			= @"Previous Days";
-NSString *kIntroductoryMessage			= @"Welcome to Six Times Path!\n\nBegin by selecting 1 or more sets of ethical guidelines that you want to observe.\n\nFrom those, Six Times Path will daily select 6 guidelines, rotating through the guidelines you selected.\n\nYou can then consider and record how you have or haven't been following each guideline.\n\nBy checking in throughout the day, you strengthen your ability to live your life according to the principles that are important to you.";
-NSString *kSelectGuidelinesMessage		= @"You do not have any sets of ethical guidelines selected to observe from day to day.\n\nSelect guidelines to resume using Six Times.";
-NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.\n\nBe happy over what you've done well to day, and regret the mistaken actions.";
+static NSString *kNextEntry = @"Next Entry";
+static NSString *kWelcomeIntroduction = @"Welcome Introduction";
+static NSString *kNoSetsOfGuidelinesSelected = @"No Sets of Guidelines Selected";
+static NSString *kAllOtherEntries = @"All Other Entries";
+static NSString *kSetupForDay = @"Setup for Day";
+static NSString *kPreviousDays = @"Previous Days";
+static NSString *kAboutAndSettings = @"About and Settings";
+
+//NSString *kIntroductoryMessage			= @"Welcome to Six Times Path!\n\nBegin by selecting 1 or more sets of ethical guidelines that you want to observe.\n\nFrom those, Six Times Path will daily select 6 guidelines, rotating through the guidelines you selected.\n\nYou can then consider and record how you have or haven't been following each guideline.\n\nBy checking in throughout the day, you strengthen your ability to live your life according to the principles that are important to you.";
+//NSString *kSelectGuidelinesMessage		= @"You do not have any sets of ethical guidelines selected to observe from day to day.\n\nSelect guidelines to resume using Six Times.";
+//NSString *kCongratulationsMessage		= @"You've made entries for all 6 guidelines.\n\nBe happy over what you've done well to day, and regret the mistaken actions.";
 
 @interface STTodayTVC ()
 
@@ -630,21 +632,8 @@ inManagedObjectContext:self.managedObjectContext];
 				
 			guidelineLabel.font	= [UIFont fontWithName:kFontNameGuideline
 													  size:kFontSizeGuidelineNext];
-			
-			if (self.setsOfGuidelinesHaveBeenSelected && [[self.thisDay getTheSixWithoutUserEntriesSorted] count] > 0) {
+			guidelineLabel.text = self.nextEntry.advice.name;
 
-				guidelineLabel.text = self.nextEntry.advice.name;
-
-			} else if (self.setsOfGuidelinesHaveBeenSelected && [self isAllAdviceForDayUpdated]) {
-				
-				guidelineLabel.text = kCongratulationsMessage;
-				
-			} else if (!self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay) {
-				
-				guidelineLabel.text = kSelectGuidelinesMessage;
-				
-			}
-			
 			CGFloat guidelineLabelHeight = [self heightForLabel:guidelineLabel
 													   withText:guidelineLabel.text
 													 labelWidth:GUIDELINE_LABEL_WIDTH];
@@ -842,29 +831,10 @@ inManagedObjectContext:self.managedObjectContext];
 												  size:kFontSizeGuidelineNext];
 		
 			NSString *timeEntryTextPrefix = @"";
-			
-			guidelineNextEntryCell.selectionStyle = UITableViewCellSelectionStyleNone;
-			guidelineNextEntryCell.accessoryType = UITableViewCellAccessoryNone;
-		
-			if (self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay && [[self.thisDay getTheSixWithoutUserEntriesSorted] count] > 0) {
-				
-				timeLabel.text = [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.nextEntry.timeScheduled.time];
-				guidelineLabel.text = self.nextEntry.advice.name;
-				
-				guidelineNextEntryCell.selectionStyle = UITableViewCellSelectionStyleBlue;
-				
-			} else if (!self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay) {
-				
-				timeLabel.text = timeEntryTextPrefix;
-				guidelineLabel.text = kSelectGuidelinesMessage;
-				
-			} else if (!self.setsOfGuidelinesHaveBeenSelected) {
-				
-				timeLabel.text = timeEntryTextPrefix;
-				guidelineLabel.text = kIntroductoryMessage;
-				
-			} 
-		
+					
+			timeLabel.text = [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.nextEntry.timeScheduled.time];
+			guidelineLabel.text = self.nextEntry.advice.name;
+									
 			[self resizeHeightToFitForLabel:guidelineLabel
 								 labelWidth:GUIDELINE_LABEL_WIDTH];
 		
@@ -874,7 +844,6 @@ inManagedObjectContext:self.managedObjectContext];
 		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kAllOtherEntries]) {
 	
-//		if ([self isAllAdviceForDayUpdated] || (self.showAllEntries && indexPath.row > 0 && indexPath.row < [self.updatedEntries count] + 1)) {
 		if (
 			((self.isMemberOfSTTodayTVC) && (([self isAllAdviceForDayUpdated]) || (indexPath.row > 0 && indexPath.row < [self.updatedEntries count] + 1))) ||
 			((!(self.isMemberOfSTTodayTVC) && (indexPath.row < [self.updatedEntries count])))
