@@ -11,6 +11,8 @@
 #import "STLogEntrySixOfDayTVC.h"
 #import "STPreviousDaysTVC.h"
 #import "STSetsOfAdviceTVC.h"
+#import "STSettingsTVC.h"
+#import "NSUserDefaults+ST.h"
 #import "STNotificationController.h"
 #import "Advice.h"
 #import "Day+ST.h"
@@ -55,22 +57,24 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 @interface STTodayTVC ()
 
+@property (nonatomic) NSUserDefaults *sixTimesUserDefaults;
+
+
 @property (nonatomic, retain) IBOutlet UIDatePicker *pickerView;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *feedbackButton;
+//@property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
+//@property (nonatomic, retain) IBOutlet UIBarButtonItem *feedbackButton;
 
 @property (nonatomic, weak) NSArray *dataArray;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 // keep track which indexPath points to the cell with UIDatePicker
 @property (nonatomic, strong) NSIndexPath *datePickerIndexPath;
-
 @property (assign) NSInteger pickerCellRowHeight;
 
 @property (nonatomic, strong) STNotificationController *notificationController;
 
-@property (nonatomic, readonly) BOOL isLandscape;
-@property (nonatomic, readonly) BOOL isPortrait;
+//@property (nonatomic, readonly) BOOL isLandscape;
+//@property (nonatomic, readonly) BOOL isPortrait;
 @property BOOL shouldShowWelcomeMessage;
 @property BOOL isMemberOfSTTodayTVC;
 
@@ -131,6 +135,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 																		   kAllOtherEntries,
 																		   kSetupForDay,
 																		   kPreviousDays,
+																		   kAboutAndSettings,
 																			nil];
 
 		[self resetCountOfTheSixWithoutUserEntries];
@@ -170,6 +175,12 @@ static NSString *kAboutAndSettings = @"About and Settings";
 			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
 			
 		}
+		
+		if (!self.isMemberOfSTTodayTVC) {
+			
+			[tmpSectionArray removeObjectIdenticalTo:kAboutAndSettings];
+			
+		}
 
 		_tableViewSections	= tmpSectionArray;
 		
@@ -194,6 +205,8 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	self.debug					= YES;
 	
 	self.isMemberOfSTTodayTVC = [self isMemberOfClass:[STTodayTVC class]];
+	
+	self.sixTimesUserDefaults = [NSUserDefaults standardUserDefaults];
 	
 	self.notificationController	= [[STNotificationController alloc] init];
 	
@@ -229,8 +242,8 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	
 	self.dataArray					= nil;
 	self.dateFormatter				= nil;
-	self.doneButton					= nil;
-	self.feedbackButton				= nil;
+//	self.doneButton					= nil;
+//	self.feedbackButton				= nil;
 	self.pickerView					= nil;
 	self.fetchedResultsController	= nil;
 }
@@ -242,8 +255,9 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 -(void)viewWillAppear:(BOOL)animated
 {	
+	[self.sixTimesUserDefaults showLogOfAllSettings];
 	[self setupDayAndAdviceData];
-	self.title							= self.mostRecentlyAddedDate.weekdayMonthAndDay;
+	self.title = self.mostRecentlyAddedDate.weekdayMonthAndDay;
 	[self resetTableViewSections];
 	[self.tableView reloadData];
 }
@@ -456,8 +470,8 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 -(void)addGuidelinesToThisDay
 {
-	[self setTheSixFor:self.thisDay withIndexOfFirstFollowedAdvice:self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay
-inManagedObjectContext:self.managedObjectContext];
+	NSInteger indexOfFirstFollowedAdvice = self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
+	[self setTheSixFor:self.thisDay withIndexOfFirstFollowedAdvice:indexOfFirstFollowedAdvice inManagedObjectContext:self.managedObjectContext];
 	
 	[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:YES];
 	[self saveContext];
@@ -468,48 +482,86 @@ inManagedObjectContext:self.managedObjectContext];
 	[self.tableView reloadData];
 	
 }
+
 -(void)setTheSixFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
 	NSUInteger indexOfFollowedAdviceForTheDay;
+	NSUInteger indexIntervalOfAdvice;
 	
-	if (indexOfFirstFollowedAdvice >= [self.allAdviceFollowedByUser count])
+	if (indexOfFirstFollowedAdvice >= [self.allAdviceFollowedByUser count]) {
+		
 		indexOfFirstFollowedAdvice = 0;
+		
+	}
 	
+	// set values for indexIntervalOfAdvice and indexOfFollowedAdviceForTheDay
+	if ([self.sixTimesUserDefaults isStaggerDailyGuidelinesOn]) {
+
+		NSUInteger maximumOrdinalNumberOfFirstIndex;
+		NSUInteger maximumIndexOfFirstIndex;
+
+		indexIntervalOfAdvice = [self.allAdviceFollowedByUser count] / 6;
+		
+		maximumOrdinalNumberOfFirstIndex = indexIntervalOfAdvice + [self.allAdviceFollowedByUser count] % 6;
+		maximumIndexOfFirstIndex = (maximumOrdinalNumberOfFirstIndex - 1) * [[self.thisDay getTheSixSorted] count];
+		
+		if (indexOfFirstFollowedAdvice <= maximumIndexOfFirstIndex) {
+			
+			indexOfFollowedAdviceForTheDay = indexOfFirstFollowedAdvice;
+			
+		} else {
+
+			NSUInteger numberOfThePrecedingEntry;
+			NSUInteger ordinalNumberOfFirstIndex;
+			
+			numberOfThePrecedingEntry = indexOfFirstFollowedAdvice / indexIntervalOfAdvice;
+			ordinalNumberOfFirstIndex = numberOfThePrecedingEntry % indexIntervalOfAdvice;
+			indexOfFollowedAdviceForTheDay = ordinalNumberOfFirstIndex - 1;
+			
+		}
+		
+	} else {
+		
+		indexIntervalOfAdvice = 1;
+		indexOfFollowedAdviceForTheDay = indexOfFirstFollowedAdvice;
+		
+	}
     
     // Starting with the first advice to be followed for the day, cycle through the advice that has been
 	// selected to be followed and add up to 6 advices to LogEntries that will be added to a day.
 	// Almost always,
     for (NSUInteger allAdviceFollowedByUserIncrement=[[self.thisDay getTheSixSorted] count]; allAdviceFollowedByUserIncrement<6; allAdviceFollowedByUserIncrement++) {
-        indexOfFollowedAdviceForTheDay = allAdviceFollowedByUserIncrement + indexOfFirstFollowedAdvice;
-		
-		if (self.debug)
-			NSLog(@"indexOfFollowedAdviceForTheDay: %lu", (unsigned long)indexOfFollowedAdviceForTheDay);
-        
-        if (indexOfFollowedAdviceForTheDay==[self.allAdviceFollowedByUser count] - 1)
-        {
-            // reset to the beginning
-            indexOfFirstFollowedAdvice = -1 - allAdviceFollowedByUserIncrement;
-			
-			if (self.debug)
-				NSLog(@"indexOfFirstFollowedAdvice has been reset. Value is now: %li", (long)indexOfFirstFollowedAdvice);
-        }
-        
-		Advice *advice			= [self.allAdviceFollowedByUser objectAtIndex:indexOfFollowedAdviceForTheDay];
+
+		Advice *advice = [self.allAdviceFollowedByUser objectAtIndex:indexOfFollowedAdviceForTheDay];
 		
 		// orderNumber range will be 1-6
-		NSInteger orderNumber	= allAdviceFollowedByUserIncrement+1;
+		NSInteger orderNumber = allAdviceFollowedByUserIncrement+1;
 		
-		LESixOfDay *logEntry	= [LESixOfDay logEntryWithAdvice:advice
+		LESixOfDay *logEntry = [LESixOfDay logEntryWithAdvice:advice
 											  withOrderNumber:orderNumber
 														onDay:day
 									   inManagedObjectContext:managedObjectContext];
 		
-		if (self.debug)
-			[logEntry logValuesOfLogEntry];
-		
 		[day addTheSixObject:logEntry];
 		
 		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = indexOfFollowedAdviceForTheDay;
+
+		if (self.debug) {
+			NSLog(@"indexOfFollowedAdviceForTheDay: %lu", (unsigned long)indexOfFollowedAdviceForTheDay);
+			[logEntry logValuesOfLogEntry];
+		}
+
+		indexOfFollowedAdviceForTheDay += indexIntervalOfAdvice;
+        
+		if (indexOfFollowedAdviceForTheDay==[self.allAdviceFollowedByUser count] - 1)
+        {
+            // reset to the beginning
+            indexOfFollowedAdviceForTheDay = -1;
+			
+			if (self.debug)
+				NSLog(@"indexOfFollowedAdviceForTheDay has been reset. Value is now: %li", (long)indexOfFirstFollowedAdvice);
+        }
+        
 	}
 	
 	self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay++;
@@ -517,10 +569,50 @@ inManagedObjectContext:self.managedObjectContext];
 	[self.notificationController addNotifications:[day getTheSixSorted]];
 }
 
--(void)resetTheSixToBeShown
+-(void)removeEntries:(NSArray *)arrayOfEntries fromDay:(Day *)day
 {
-	// TO BE COMPLETED
+	for (LESixOfDay *remainingEntry in arrayOfEntries) {
+		
+		[day removeTheSixObject:remainingEntry];
+		remainingEntry.dayOfSix = nil;
+		
+	}
 }
+
+
+-(void)resetFollowedEntries
+{
+	if ([self.remainingScheduledEntries count] > 0) {
+		
+		NSInteger indexOfFirstNewlyFollowedAdviceForTheDay = [self.allAdviceFollowedByUser indexOfObject:self.nextEntry.advice]; //[self.nextEntry.advice.orderNumberInSet integerValue];
+
+		[self.notificationController cancelAllNotifications];
+		
+		[self removeEntries:[self.thisDay getTheSixWithoutUserEntriesSorted]
+					fromDay:self.thisDay];
+ 		
+		[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
+		
+		NSMutableArray *newFollowedAdvice = [[NSMutableArray alloc] init];
+		NSInteger orderNumber = 0;
+		
+		
+		// Set the order numbers of the advice
+		for (LESixOfDay *entryStillBeingFollowed in [self.thisDay getTheSixThatHaveUserEntriesSorted]) {
+			
+			entryStillBeingFollowed.orderNumberForType = [NSNumber numberWithInteger:++orderNumber];
+			[newFollowedAdvice addObject:entryStillBeingFollowed.advice];
+			
+		}
+		
+		[self setTheSixFor:self.thisDay withIndexOfFirstFollowedAdvice:indexOfFirstNewlyFollowedAdviceForTheDay inManagedObjectContext:self.managedObjectContext];
+		
+		[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:YES];
+		
+		[self.managedObjectContext save:nil];
+	}
+}
+
 
 - (void)saveContext
 {
@@ -582,17 +674,32 @@ inManagedObjectContext:self.managedObjectContext];
 			return 1;
 			
 		}
+		
+	} else if (section == [self. tableViewSections indexOfObject:kPreviousDays]) {
+		
+		return 1;
+		
+	} else if (section == [self.tableViewSections indexOfObject:kAboutAndSettings]) {
+		
+		return 1;
+		
 	}
-	return 1;
+	
+	return 0;
 }
 
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	if (section == [self.tableViewSections indexOfObject:kSetupForDay])
+	if (section == [self.tableViewSections indexOfObject:kSetupForDay]) {
+		
 		return @"Setup for Today";
-	else
+
+	} else {
+		
 		return nil;
+
+	}
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -981,18 +1088,29 @@ inManagedObjectContext:self.managedObjectContext];
 		UITableViewCell *welcomeCell = [tableView dequeueReusableCellWithIdentifier:welcomeMessageCellIdentifier];
 		return welcomeCell;
 		
-	} else {
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:kPreviousDays]) {
 		
 		// Previous Days
-		UITableViewCell *summaryOrSetupCell		= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+		UITableViewCell *previousDaysCell = [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 		
-		summaryOrSetupCell.textLabel.text		= @"Previous Days";
-		summaryOrSetupCell.textLabel.textColor	= [UIColor darkGrayColor];
-		summaryOrSetupCell.detailTextLabel.text	= @"";
-		summaryOrSetupCell.selectionStyle		= UITableViewCellSelectionStyleBlue;
-		summaryOrSetupCell.accessoryType		= UITableViewCellAccessoryDisclosureIndicator;
-		return summaryOrSetupCell;
+		previousDaysCell.textLabel.text = @"Previous Days";
+		previousDaysCell.textLabel.textColor = [UIColor darkGrayColor];
+		previousDaysCell.detailTextLabel.text	= @"";
+		previousDaysCell.selectionStyle = UITableViewCellSelectionStyleBlue;
+		previousDaysCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		return previousDaysCell;
 		
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:kAboutAndSettings]) {
+		
+		UITableViewCell *settingsCell = [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+		
+		settingsCell.textLabel.text = @"Settings";
+		settingsCell.textLabel.textColor = [UIColor darkGrayColor];
+		settingsCell.detailTextLabel.text	= @"";
+//		summaryOrSetupCell.selectionStyle = UITableViewCellSelectionStyleBlue;
+//		summaryOrSetupCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+		return settingsCell;
 	}
 	return nil;
 }
@@ -1152,9 +1270,13 @@ inManagedObjectContext:self.managedObjectContext];
 			[self performSegueWithIdentifier:@"Guidelines Followed" sender:self];
 			
 		}
-	} else {
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:kPreviousDays]) {
 		
 		[self performSegueWithIdentifier:@"Previous Days" sender:self];
+		
+	} else if (indexPath.section == [self.tableViewSections indexOfObject:kAboutAndSettings]) {
+		
+		[self performSegueWithIdentifier:@"Settings" sender:self];
 		
 	}
 }
@@ -1380,6 +1502,13 @@ inManagedObjectContext:self.managedObjectContext];
 		STPreviousDaysTVC *previousDaysTVC = segue.destinationViewController;
 		previousDaysTVC.managedObjectContext = self.managedObjectContext;
 		[TestFlight passCheckpoint:@"GO TO PREVIOUS DAYS"];
+		
+	} else if ([[segue identifier] isEqualToString:@"Settings"]) {
+		
+		NSLog(@"Going to settings");
+	
+		STSettingsTVC *settingsTVC = segue.destinationViewController;
+		settingsTVC.todayTVC = self;
 		
 	}
 	

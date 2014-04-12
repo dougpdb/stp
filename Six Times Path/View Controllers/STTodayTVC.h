@@ -43,6 +43,7 @@
 -(void)addDay;
 -(void)setTheSixFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 -(void)resetTheSixToBeShown;
+-(void)resetFollowedEntries;
 -(void)setUpdatedAndRemainingScheduledEntries;
 
 -(BOOL)isAllAdviceForDayUpdated;

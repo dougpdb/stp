@@ -46,7 +46,7 @@
 
 static NSString *kFontNameGuideline			= @"Palatino";
 static NSInteger kFontSizeGuidelineNext		= 20;
-static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few abcs";
+static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few abc";
 
 @interface STLogEntrySixOfDayTVC ()
 
@@ -231,26 +231,6 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
 	}
 }
 
-- (CGFloat)heightForTextView:(UITextView*)textView containingString:(NSString*)string
-{
-    
-	string	= (string.length > 0) ? [NSString stringWithFormat:@"%@%@",string,kTrailingGhostTextToPreventDelayedTextViewResizing] : @"ipsum for height";
-    
-	float widthOfTextView = textView.contentSize.width;
-	
-	UIFont *font = textView.font;
-	NSAttributedString *attributedText = [ [NSAttributedString alloc]
-										   initWithString:string
-										   attributes: @{NSFontAttributeName: font}
-										   ];
-	CGRect rect = [attributedText boundingRectWithSize:(CGSize){widthOfTextView, CGFLOAT_MAX}
-												 options:NSStringDrawingUsesLineFragmentOrigin
-												 context:nil];
-	CGSize size = rect.size;
-	CGFloat height = ceilf(size.height);
-	return height;
-}
-
 
 #pragma mark - Table view delegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -311,17 +291,37 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
 	
 	} else {
 		
+		// In general, scrolling should be enabled for the text views. However, when a block of text is suddenly added
+		// to a text view when scrolling is enable AND the tableView updates AND autolayout resizes the UITableViewCell
+		// (and hence the UITextView), then the text isn't properly displayed in the UITextView (it's like the content area
+		// of the UITextView is lagging in its placement, and the result is that there is a gap of one or more lines after the final
+		// words shown in the UITextView. this only happnes when scrolling is enabled, so I've included a check below for cases when
+		// large amounts of text are added (defined here by 20 characters), then scrolling should turn off before the update
+		// to the UITableView. It is then turned back on after.
+		
 		switch (textView.tag)
 		{
 			case TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER:
+
+				if (labs([textView.text length] - [self.updatedPositiveActionTakenDescription length]) > 20) {
+					textView.scrollEnabled = NO;
+				}
 				self.updatedPositiveActionTakenDescription = textView.text;
 				break;
+
 			case TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER:
+
+				if (labs([textView.text length] - [self.updatedNegativeActionTakenDescription length]) > 20) {
+					textView.scrollEnabled = NO;
+				}
 				self.updatedNegativeActionTakenDescription = textView.text;
 				break;
+			
 			case TAG_PREFIX_UITEXTVIEW + TO_DO_SECTION_NUMBER:
+
 				self.updatedToDoText = textView.text;
 				break;
+			
 			default:
 				break;
 		}
@@ -329,6 +329,12 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
 		
 		[self.tableView beginUpdates];
 		[self.tableView endUpdates];
+		
+		if (!textView.scrollEnabled) {
+			
+			textView.scrollEnabled = YES;
+			
+		}
 	}
 }
 
@@ -393,6 +399,28 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
 									 labelWidth:labelWidth];
 	label.frame = newFrame;
 }
+
+
+- (CGFloat)heightForTextView:(UITextView*)textView containingString:(NSString*)string
+{
+    
+	string	= (string.length > 0) ? [NSString stringWithFormat:@"%@%@",kTrailingGhostTextToPreventDelayedTextViewResizing,string] : @"ipsum for height";
+    
+	float widthOfTextView = textView.contentSize.width;
+	
+	UIFont *font = textView.font;
+	NSAttributedString *attributedText = [ [NSAttributedString alloc]
+										  initWithString:string
+										  attributes: @{NSFontAttributeName: font}
+										  ];
+	CGRect rect = [attributedText boundingRectWithSize:(CGSize){widthOfTextView, CGFLOAT_MAX}
+											   options:NSStringDrawingUsesLineFragmentOrigin
+											   context:nil];
+	CGSize size = rect.size;
+	CGFloat height = ceilf(size.height);
+	return height;
+}
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

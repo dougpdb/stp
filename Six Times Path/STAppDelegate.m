@@ -18,6 +18,7 @@
 #import "STTodayTVC.h"
 #import "STLogEntrySixOfDayTVC.h"
 #import "NSDate+ST.h"
+#import "NSUserDefaults+ST.h"
 #import "Advice.h"
 
 #import "STNotificationController.h"
@@ -53,6 +54,15 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 	
 	BOOL spiritualTraditionsAreInCoreData	= [self.baseDataController thereAreCoreDataRecordsForEntity:@"SpiritualTradition"];
 	BOOL daysOfLogEntriesAreInCoreData		= [self.baseDataController thereAreCoreDataRecordsForEntity:@"Day"];
+	 
+	NSUserDefaults *sixTimePathSettings = [NSUserDefaults standardUserDefaults];
+	
+	if ([sixTimePathSettings noSettingValuesHaveBeenSet]) {
+		
+		[sixTimePathSettings setDefaultSettingValues];
+		
+	}
+
 	
 //	NSLog(@"the count of the objects in the fetchedResultsController is %i and that means that it is firstDayOfUse: [%@].",
 //		  [[self.baseDataController.fetchedResultsController fetchedObjects] count], [NSNumber numberWithBool:firstDayOfUse]);
