@@ -307,7 +307,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="107"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view userInteractionEnabled="NO" tag="60" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uoU-XW-XH5" userLabel="Progress Step 1">
+                                        <view userInteractionEnabled="NO" tag="60" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uoU-XW-XH5" userLabel="Progress Step 1">
                                             <rect key="frame" x="0.0" y="0.0" width="53" height="3"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="0.55294117647058827" blue="0.019607843137254902" alpha="1" colorSpace="calibratedRGB"/>
@@ -320,7 +320,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="aQU-F6-YKF"/>
                                             </constraints>
                                         </view>
-                                        <view opaque="NO" userInteractionEnabled="NO" tag="61" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Gf-Vf-rUq" userLabel="Progress Step 2">
+                                        <view opaque="NO" userInteractionEnabled="NO" tag="61" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Gf-Vf-rUq" userLabel="Progress Step 2">
                                             <rect key="frame" x="53" y="0.0" width="54" height="3"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -335,12 +335,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </view>
-                                        <view opaque="NO" userInteractionEnabled="NO" tag="64" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="apj-Hh-dby" userLabel="Progress Step 5">
+                                        <view opaque="NO" userInteractionEnabled="NO" tag="64" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="apj-Hh-dby" userLabel="Progress Step 5">
                                             <rect key="frame" x="213" y="0.0" width="54" height="3"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </view>
-                                        <view userInteractionEnabled="NO" tag="65" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fZP-fw-VR2" userLabel="Progress Step 6">
+                                        <view userInteractionEnabled="NO" tag="65" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fZP-fw-VR2" userLabel="Progress Step 6">
                                             <rect key="frame" x="267" y="0.0" width="53" height="3"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -673,12 +673,12 @@ To begin using Six Times, choose a set of ethical guidelines to observe.</string
                     </tableView>
                     <navigationItem key="navigationItem" title="Day, MMM DD" id="Bmt-xS-Od5"/>
                     <connections>
-                        <outlet property="doneButton" destination="pAS-wS-17i" id="U2n-Sx-kaX"/>
-                        <outlet property="feedbackButton" destination="GVx-WX-c7T" id="GAJ-pP-ib1"/>
                         <outlet property="pickerView" destination="twk-ag-S7j" id="P5S-dm-TqC"/>
                         <segue destination="gTE-bC-Kqu" kind="push" identifier="Guideline Entry" id="Bfh-JL-a9S"/>
                         <segue destination="vht-HB-8PU" kind="push" identifier="Guidelines Followed" id="8uf-5x-upd"/>
                         <segue destination="z96-2y-3t1" kind="push" identifier="Previous Days" id="kpG-Z3-ZZX"/>
+                        <segue destination="muj-UO-yji" kind="push" identifier="Settings" id="ecG-1a-xV2"/>
+                        <segue destination="zfl-1t-dEp" kind="modal" identifier="About Six Times" id="MfL-UI-E7v"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="whS-9p-yRa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -710,16 +710,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
 </data>
                     </timeZone>
                 </datePicker>
-                <barButtonItem style="done" systemItem="done" id="pAS-wS-17i" userLabel="Done Button">
-                    <connections>
-                        <action selector="doneAction:" destination="OYj-pl-7YY" id="vvt-fv-KtC"/>
-                    </connections>
-                </barButtonItem>
+                <barButtonItem style="done" systemItem="done" id="pAS-wS-17i" userLabel="Done Button"/>
                 <barButtonItem systemItem="reply" id="GVx-WX-c7T" userLabel="TestFlight Feedback">
                     <color key="tintColor" red="0.99607843139999996" green="0.92941176469999998" blue="0.50980392159999999" alpha="1" colorSpace="calibratedRGB"/>
-                    <connections>
-                        <action selector="greatHighwayExplorerFeedback:" destination="OYj-pl-7YY" id="MJ0-qv-oxJ"/>
-                    </connections>
                 </barButtonItem>
             </objects>
             <point key="canvasLocation" x="1490" y="4027"/>
@@ -820,6 +813,159 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Pg-Lm-r5g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2112" y="5759"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="0pP-ll-d0i">
+            <objects>
+                <tableViewController title="Settings" id="muj-UO-yji" userLabel="Settings" customClass="STSettingsTVC" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="um4-lp-xcZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="lYb-dc-Qfo" userLabel="About">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="MgL-q4-d2x" style="IBUITableViewCellStyleDefault" id="goF-Dy-wBN">
+                                        <rect key="frame" x="0.0" y="99" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="goF-Dy-wBN" id="Yfi-K6-YX2">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="About Six Times" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MgL-q4-d2x" userLabel="About Label">
+                                                    <rect key="frame" x="15" y="0.0" width="270" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="zfl-1t-dEp" kind="push" identifier="About Six Times" id="QZI-Lq-jZu"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="vfB-zs-PIh" userLabel="Notifications">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="M2x-vc-z0d">
+                                        <rect key="frame" x="0.0" y="163" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M2x-vc-z0d" id="lQo-m8-a2K">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Notify When Guideline is Due" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJr-xs-jlg" userLabel="Notifications Label">
+                                                    <rect key="frame" x="15" y="11" width="225" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bS1-fN-USm" userLabel="Notifications Switch">
+                                                    <rect key="frame" x="251" y="6" width="51" height="31"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="toggleNotificationsSetting:" destination="muj-UO-yji" eventType="valueChanged" id="oON-3b-rbU"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="IV3-xy-0aL">
+                                        <rect key="frame" x="0.0" y="207" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IV3-xy-0aL" id="4XY-jR-gbi">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Show App Badge" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xuJ-9I-SXh" userLabel="App Badge Label">
+                                                    <rect key="frame" x="15" y="11" width="225" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OPC-54-Lwf" userLabel="App Badge Switch">
+                                                    <rect key="frame" x="251" y="6" width="51" height="31"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="toggleAppBadgeSetting:" destination="muj-UO-yji" eventType="valueChanged" id="yaM-AI-5PG"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="ZeL-sZ-6sr" userLabel="Order of Guidelines">
+                                <string key="footerTitle">Each day, Six Times automatically selects 6 of your guidelines. By default, it selects guidelines from your list in order. 
+
+For example, if you are following 24 guidelines total, Six Times will select guidelines 1-6 on the first day 1,  7-12 on the second day, 13-18 on the 3rd day, and finally 19-24 on the fourth day. Then on the fifth day, Six Times will cycle back to the beginning of your list of guidelines.
+
+Turning on Stagger Daily guidelines will cause Six Times to select guidelines interspersed though your list each day. In the example above, guidelines 1, 5, 9, 13, 17, and 21 on the first day. On the second day 2, 6, 10, 18, and 22 would be selected. And so on. </string>
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="O9I-ph-2Yj">
+                                        <rect key="frame" x="0.0" y="271" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O9I-ph-2Yj" id="HHL-Ey-rqO">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Stagger Daily Guidelines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0dR-Eh-FEK" userLabel="Stagger Guidelines Label">
+                                                    <rect key="frame" x="15" y="11" width="225" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0Fd-xS-P2b" userLabel="Stagger Guidelines Switch">
+                                                    <rect key="frame" x="251" y="6" width="51" height="31"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="toggleStaggerGuidelinesSetting:" destination="muj-UO-yji" eventType="valueChanged" id="yIz-bY-XiY"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="muj-UO-yji" id="SQ0-bI-c8D"/>
+                            <outlet property="delegate" destination="muj-UO-yji" id="El5-wI-quD"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="appBadgeSwitch" destination="OPC-54-Lwf" id="r9g-By-OSm"/>
+                        <outlet property="notificationsSwitch" destination="bS1-fN-USm" id="OYU-Ye-UED"/>
+                        <outlet property="staggerGuidelinesSwitch" destination="0Fd-xS-P2b" id="gaS-sY-MUW"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NZE-hN-AoD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2112" y="6477"/>
+        </scene>
+        <!--View Controller - About Six Times-->
+        <scene sceneID="FhC-FK-JHt">
+            <objects>
+                <viewController title="About Six Times" id="zfl-1t-dEp" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="huO-v8-ivi"/>
+                        <viewControllerLayoutGuide type="bottom" id="3YH-Lp-cGL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LVn-8T-Hz9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="rP5-WM-CAp"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f9H-21-x7P" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2112" y="7181"/>
         </scene>
         <!--Sets of Guidelines Followed-->
         <scene sceneID="Qyy-9x-ic9">
@@ -1064,11 +1210,10 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                     <color key="textColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="101" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTs-Uf-6Jt" customClass="GHUIPlaceHolderTextView">
+                                                <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="101" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" text="A positive action UITextView" translatesAutoresizingMaskIntoConstraints="NO" id="DTs-Uf-6Jt" customClass="GHUIPlaceHolderTextView">
                                                     <rect key="frame" x="32" y="2" width="273" height="63"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <accessibility key="accessibilityConfiguration" label="Positive Action"/>
-                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     <connections>
@@ -1104,11 +1249,10 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                     <color key="textColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="102" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chf-dU-F29" customClass="GHUIPlaceHolderTextView">
+                                                <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="102" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" text="A negative action UITextView" translatesAutoresizingMaskIntoConstraints="NO" id="chf-dU-F29" customClass="GHUIPlaceHolderTextView">
                                                     <rect key="frame" x="32" y="0.0" width="273" height="64"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <accessibility key="accessibilityConfiguration" label="Negative Action"/>
-                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     <connections>
@@ -1156,6 +1300,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Up7-ri-eLG"/>
+        <segue reference="Bfh-JL-a9S"/>
+        <segue reference="QZI-Lq-jZu"/>
     </inferredMetricsTieBreakers>
 </document>

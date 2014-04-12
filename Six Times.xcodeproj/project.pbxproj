@@ -31,6 +31,8 @@
 		911FE982166F7009006BF9CD /* STTodayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 911FE981166F7009006BF9CD /* STTodayTVC.m */; };
 		9120B82216A4255700F53B4C /* STPreviousDayTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9120B82116A4255700F53B4C /* STPreviousDayTVC.m */; };
 		91239F0B17FAEA8300D1D138 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91239F0A17FAEA8300D1D138 /* Images.xcassets */; };
+		912B62A218F0489400C39C0B /* STSettingsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 912B62A118F0489400C39C0B /* STSettingsTVC.m */; };
+		912B62A818F2C66C00C39C0B /* NSUserDefaults+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 912B62A718F2C66C00C39C0B /* NSUserDefaults+ST.m */; };
 		9137F168166A4AF900C789D2 /* LEBestOfDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F161166A4AF900C789D2 /* LEBestOfDay.m */; };
 		9137F169166A4AF900C789D2 /* LESixOfDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F163166A4AF900C789D2 /* LESixOfDay.m */; };
 		9137F16A166A4AF900C789D2 /* LESpecialFocus.m in Sources */ = {isa = PBXBuildFile; fileRef = 9137F165166A4AF900C789D2 /* LESpecialFocus.m */; };
@@ -107,6 +109,10 @@
 		9120B82116A4255700F53B4C /* STPreviousDayTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPreviousDayTVC.m; sourceTree = "<group>"; };
 		91239F0A17FAEA8300D1D138 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Six Times/Images.xcassets"; sourceTree = "<group>"; };
 		9124904618C6065A003257DA /* Six Times Data Model 1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Six Times Data Model 1.xcdatamodel"; sourceTree = "<group>"; };
+		912B62A018F0489400C39C0B /* STSettingsTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STSettingsTVC.h; path = "View Controllers/STSettingsTVC.h"; sourceTree = "<group>"; };
+		912B62A118F0489400C39C0B /* STSettingsTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STSettingsTVC.m; path = "View Controllers/STSettingsTVC.m"; sourceTree = "<group>"; };
+		912B62A618F2C66C00C39C0B /* NSUserDefaults+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults+ST.h"; path = "Data Controllers/NSUserDefaults+ST.h"; sourceTree = "<group>"; };
+		912B62A718F2C66C00C39C0B /* NSUserDefaults+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSUserDefaults+ST.m"; path = "Data Controllers/NSUserDefaults+ST.m"; sourceTree = "<group>"; };
 		9137F160166A4AF900C789D2 /* LEBestOfDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEBestOfDay.h; path = "Data Classes/Managed Object Classes/LEBestOfDay.h"; sourceTree = "<group>"; };
 		9137F161166A4AF900C789D2 /* LEBestOfDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEBestOfDay.m; path = "Data Classes/Managed Object Classes/LEBestOfDay.m"; sourceTree = "<group>"; };
 		9137F162166A4AF900C789D2 /* LESixOfDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LESixOfDay.h; path = "Data Classes/Managed Object Classes/LESixOfDay.h"; sourceTree = "<group>"; };
@@ -341,6 +347,15 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		912B629F18F03F4800C39C0B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				912B62A018F0489400C39C0B /* STSettingsTVC.h */,
+				912B62A118F0489400C39C0B /* STSettingsTVC.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		9137F15D166A456800C789D2 /* Data Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,6 +371,7 @@
 		9137F15E166A45A800C789D2 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				912B629F18F03F4800C39C0B /* Settings */,
 				1E0BEE0615AEDE6F002E19F4 /* Advice TVCs */,
 				91C68E9F16C7511600F91420 /* Days TVCs */,
 				916322E315D1257800AA94D6 /* Entry TVCs */,
@@ -393,6 +409,8 @@
 				917E07A8171C151300DE3D01 /* STNotificationController.m */,
 				914DBDF0173BB61F00EFC223 /* STApplicationBaseDataController.h */,
 				914DBDF1173BB61F00EFC223 /* STApplicationBaseDataController.m */,
+				912B62A618F2C66C00C39C0B /* NSUserDefaults+ST.h */,
+				912B62A718F2C66C00C39C0B /* NSUserDefaults+ST.m */,
 			);
 			name = "Data Controllers";
 			sourceTree = "<group>";
@@ -557,8 +575,10 @@
 				1E5523431591E2FA009114B7 /* STAppDelegate.m in Sources */,
 				1E55235F1591E3A4009114B7 /* Model.xcdatamodeld in Sources */,
 				91EE793515C2A3B700D43A96 /* AdviceReference.m in Sources */,
+				912B62A818F2C66C00C39C0B /* NSUserDefaults+ST.m in Sources */,
 				91EE793B15C2A3B800D43A96 /* Insight.m in Sources */,
 				91EE793E15C2A3B800D43A96 /* LogEntry.m in Sources */,
+				912B62A218F0489400C39C0B /* STSettingsTVC.m in Sources */,
 				91EE794115C2A3B900D43A96 /* ActionTaken.m in Sources */,
 				91EE794A15C2A3B900D43A96 /* Advice.m in Sources */,
 				91573F0A1629E6E300914D3E /* UITextView+Placeholder.m in Sources */,
