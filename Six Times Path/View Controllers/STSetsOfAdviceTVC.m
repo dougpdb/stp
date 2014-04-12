@@ -182,8 +182,11 @@
 
 -(void)returnToDay:(id)sender
 {
-	if (![self.followingSetsOfAdvice isEqualToArray:self.preEditFollowingSetsOfAdvice])
+	if (![self.followingSetsOfAdvice isEqualToArray:self.preEditFollowingSetsOfAdvice]) {
+	
 		[self resetFollowedEntries];
+	
+	}
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self.tableView setEditing:NO animated:YES];
@@ -200,67 +203,109 @@
 -(void)resetFollowedEntries
 {
 
-	NSArray *remainingScheduledEntries			= [self.currentDay getTheSixWithoutUserEntriesSorted];
+	NSArray *currentlyRemainingScheduledEntries = [self.currentDay getTheSixWithoutUserEntriesSorted];
 	
-	if ([remainingScheduledEntries count] > 0) {
+	if ([currentlyRemainingScheduledEntries count] > 0) {
 		
 		[self.notificationController cancelAllNotifications];
 		
 		NSMutableArray *newFollowedEntries		= [[NSMutableArray alloc] init];
+		
+		// First add all entries into which the user has already entered information for the day
 		[newFollowedEntries addObjectsFromArray:[self.currentDay getTheSixThatHaveUserEntriesSorted]];
 		
-		
-		for (LESixOfDay *remainingEntry in remainingScheduledEntries) {
-			if ([self currentlyFollowingAdvice:remainingEntry.advice])
+		// Next, add the remaining entries which don't have information entered AND are still being followed
+		// (after the Sets of Advice have been changed)
+		for (LESixOfDay *remainingEntry in currentlyRemainingScheduledEntries) {
+			
+			if ([self currentlyFollowingAdvice:remainingEntry.advice]) {
+
 				[newFollowedEntries addObject:remainingEntry];
 			
-			else {
+			} else {
+			
 				[self.currentDay removeTheSixObject:remainingEntry];
 				remainingEntry.dayOfSix			= nil;
+				
 			}
 		}
 		
+		// Only enter the next block when it turns out that at least 1 Set of Advice
+		// has been selected, which will be true when [newFollowedEntries count] > 0,
+		// AND there is a need to add at least 1 new advice/guideline (because
+		// one of the previous entries which hadn't yet been entered was removed)
+		// -- this will be true when [newFollowedEntries count] < 6
 		if ([newFollowedEntries count] < 6 && [newFollowedEntries count] > 0) {
+			
 			[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
-			NSInteger indexOfNewlyFollowedAdviceForTheDay;
-			NSInteger orderNumber							= 0;
+			
+			NSInteger indexOfFirstNewlyFollowedAdviceForTheDay;
+			
 			
 			if ([newFollowedEntries count] > [[self.currentDay getTheSixThatHaveUserEntriesSorted] count]) {
-				LESixOfDay *lastEntryStillBeingFollowed		= [newFollowedEntries lastObject];
-				Advice *lastAdviceStillBeingFollowed		= lastEntryStillBeingFollowed.advice;
+				// When the some of the remaining entries for which the user had not yet entered information
+				// are still being followed after the Sets of Data have been changed, then determine the index
+				// of the index of the first newly followed advice to be added to the day.
 				
-				indexOfNewlyFollowedAdviceForTheDay			= [self.allAdviceBeingFollowed indexOfObject:lastAdviceStillBeingFollowed] + 1;
+				LESixOfDay *lastEntryStillBeingFollowed = [newFollowedEntries lastObject];
+				Advice *lastAdviceStillBeingFollowed = lastEntryStillBeingFollowed.advice;
+				
+				indexOfFirstNewlyFollowedAdviceForTheDay = [self.allAdviceBeingFollowed indexOfObject:lastAdviceStillBeingFollowed] + 1;
+				
 			} else {
-				indexOfNewlyFollowedAdviceForTheDay			= 0;
+				// None of the remaining entries for which the user had not yet entered information
+				// are still being followed after the Sets of Data have been changed, so the first
+				// newly followed advice can come from the beginning of the list of the
+				// newly changed Sets of Advice
+				
+				indexOfFirstNewlyFollowedAdviceForTheDay = 0;
+			
 			}
 			
-
-			NSMutableArray *newFollowedAdvice				= [[NSMutableArray alloc] init];
+			NSMutableArray *newFollowedAdvice = [[NSMutableArray alloc] init];
+			NSInteger orderNumber = 0;
 			
+			
+			// Set the order numbers of the advice
 			for (LESixOfDay *entryStillBeingFollowed in newFollowedEntries) {
-				entryStillBeingFollowed.orderNumberForType	= [NSNumber numberWithInteger:++orderNumber];
+				
+				entryStillBeingFollowed.orderNumberForType = [NSNumber numberWithInteger:++orderNumber];
 				[newFollowedAdvice addObject:entryStillBeingFollowed.advice];
+			
 			}
 			
 			if ([self.allAdviceBeingFollowed count] > 0) {
+				
 				while (orderNumber < 6) {
-					if (indexOfNewlyFollowedAdviceForTheDay == [self.allAdviceBeingFollowed count])
-						indexOfNewlyFollowedAdviceForTheDay		= 0;
+					
+					if (indexOfFirstNewlyFollowedAdviceForTheDay == [self.allAdviceBeingFollowed count]) {
+						// the index now exceeds the range of indicies for the advice being followed,
+						// so it is necessary to return to beginning of the list
+					
+						indexOfFirstNewlyFollowedAdviceForTheDay		= 0;
+					
+					}
+					
 					// wont work when there is 0 advice, ie no advice object at index
-					Advice *advice								= [self.allAdviceBeingFollowed objectAtIndex:indexOfNewlyFollowedAdviceForTheDay++];
+					Advice *advice								= [self.allAdviceBeingFollowed objectAtIndex:indexOfFirstNewlyFollowedAdviceForTheDay++];
 					
 					if (![newFollowedAdvice containsObject:advice]){
+						
 						LESixOfDay *newEntry					= [LESixOfDay logEntryWithAdvice:advice
 																			   withOrderNumber:++orderNumber
 																						 onDay:self.currentDay
 																		inManagedObjectContext:self.managedObjectContext];
 						[self.currentDay addTheSixObject:newEntry];
+						
 					}
 				}
 			}
-				[self.notificationController addNotifications:[self.currentDay getTheSixSorted]];
+			[self.notificationController addNotifications:[self.currentDay getTheSixSorted]];
+			
 		}
+		
 		[self.managedObjectContext save:nil];
+		
 	}
 }
 
@@ -341,7 +386,9 @@
 	[tempFollowingSetsOfAdviceArray removeObjectIdenticalTo:setOfAdviceToRemove];
 	
 	for (SetOfAdvice *setOfAdvice in tempFollowingSetsOfAdviceArray) {
+		
 		setOfAdvice.orderNumberInFollowedSets		= [NSNumber numberWithInt:[tempFollowingSetsOfAdviceArray indexOfObject:setOfAdvice] + 1];
+		
 	}
 	
 	[self.managedObjectContext save:nil];
@@ -356,10 +403,15 @@
 
 -(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (self.isFilteredForFollowingSetsOfAdvice && (indexPath.row < [self.followingSetsOfAdvice count]))
+	if (self.isFilteredForFollowingSetsOfAdvice && (indexPath.row < [self.followingSetsOfAdvice count])) {
+		
 		return YES;
-	else
+		
+	} else {
+		
 		return NO;
+		
+	}
 }
 
 -(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
@@ -372,7 +424,9 @@
 	
 	[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
 	for (SetOfAdvice *setOfAdvice in tempFollowingSetsOfAdviceArray) {
+		
 		setOfAdvice.orderNumberInFollowedSets		= [NSNumber numberWithInt:[tempFollowingSetsOfAdviceArray indexOfObject:setOfAdvice] + 1];
+		
 	}
 	[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:YES];
 	[self refreshFollowingSetsOfAdvice];
@@ -381,10 +435,15 @@
 
 -(NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
 {
-	if (proposedDestinationIndexPath.row >= [self.followingSetsOfAdvice count] - 1)
+	if (proposedDestinationIndexPath.row >= [self.followingSetsOfAdvice count] - 1) {
+		
 		return [NSIndexPath indexPathForRow:[self.followingSetsOfAdvice count] - 1 inSection:sourceIndexPath.section];
-	else
+		
+	} else {
+		
 		return proposedDestinationIndexPath;
+		
+	}
 }
 
 
@@ -436,11 +495,15 @@
 -(void)setSetOfAdviceViewFilter:(UISegmentedControl *)segmentedControl
 {
 	if (segmentedControl.selectedSegmentIndex == 0) {
+		
 		self.isFilteredForFollowingSetsOfAdvice	= YES;
 		[self setViewFollowingSetsOfAdviceButtons];
+		
 	} else {
+		
 		self.isFilteredForFollowingSetsOfAdvice = NO;
 		[self setViewAllSetsOfAdviceButtons];
+		
 	}
 
 	[self.tableView reloadData];
@@ -454,24 +517,28 @@
 	NSLog(@"-prepareForSegue:sender triggered.");
 	if ([segue.identifier isEqualToString:@"addFollowingSetsOfGuidelines"]) {
 		
-		STAddFollowingSetOfAdviceTVC *addFollowingSetOfAdviceTVC	= [[segue.destinationViewController viewControllers] objectAtIndex:0];
-		addFollowingSetOfAdviceTVC.delegate							= self;
-		addFollowingSetOfAdviceTVC.managedObjectContext				= self.managedObjectContext;
-		addFollowingSetOfAdviceTVC.notFollowingSetsOfAdvice			= self.notFollowingSetsOfAdvice;
+		STAddFollowingSetOfAdviceTVC *addFollowingSetOfAdviceTVC = [[segue.destinationViewController viewControllers] objectAtIndex:0];
+		addFollowingSetOfAdviceTVC.delegate = self;
+		addFollowingSetOfAdviceTVC.managedObjectContext = self.managedObjectContext;
+		addFollowingSetOfAdviceTVC.notFollowingSetsOfAdvice = self.notFollowingSetsOfAdvice;
 			
 	} else {
 		
-		NSIndexPath *indexPath					= [self.tableView indexPathForSelectedRow];
+		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		
-		STSetOfAdviceTVC *setOfAdviceTVC		= segue.destinationViewController;
+		STSetOfAdviceTVC *setOfAdviceTVC = segue.destinationViewController;
 		
-		setOfAdviceTVC.managedObjectContext		= self.managedObjectContext;
+		setOfAdviceTVC.managedObjectContext = self.managedObjectContext;
 		
-		if (self.isFilteredForFollowingSetsOfAdvice)
+		if (self.isFilteredForFollowingSetsOfAdvice) {
+			
 			setOfAdviceTVC.selectedSetOfAdvice	= [self.followingSetsOfAdvice objectAtIndex:indexPath.row];
-		else
+			
+		} else {
+			
 			setOfAdviceTVC.selectedSetOfAdvice	= [self.allSetsOfAdvice objectAtIndex:indexPath.row];
 		
+		}
 	}
 }
 
