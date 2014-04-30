@@ -18,6 +18,7 @@
 #import "ToDo+ST.h"
 #import "NSDate+ST.h"
 #import "NSDate+ES.h"
+#import "UIFont+ST.h"
 
 
 #import "TestFlight.h"
@@ -44,9 +45,9 @@
 #define kFontSize	15.0
 #define kTextViewWidth 273.0
 
-static NSString *kFontNameGuideline			= @"Palatino";
-static NSInteger kFontSizeGuidelineNext		= 20;
-static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few abc";
+//static NSString *kFontNameGuideline			= @"Palatino";
+//static NSInteger kFontSizeGuidelineNext		= 20;
+static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 
 @interface STLogEntrySixOfDayTVC ()
 
@@ -131,20 +132,19 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
 	self.updatedNegativeActionTakenDescription = self.mostRecentlySavedNegativeActionTakenDescription;
 
 	// Set up Guideline Cell
+	[self setPreferredContentSizes];
+	
 	self.guidelineText.text = self.leSixOfDay.advice.name;
 	[self resizeHeightToFitForLabel:self.guidelineText
 						 labelWidth:self.guidelineLabelWidth];
 
-	if (self.leSixOfDay.timeLastUpdated)
-	{
+	if (self.leSixOfDay.timeLastUpdated) {
 		
 		self.guidelineTime.text	= [NSString stringWithFormat:@"Updated %@", self.leSixOfDay.timeLastUpdated.time];
-		self.guidelineTime.font	= [UIFont italicSystemFontOfSize:13.0];
 		
 	} else {
 		
-		NSString *timeEntryTextPrefix	= @"";
-		self.guidelineTime.text	= [NSString stringWithFormat:@"%@%@", timeEntryTextPrefix, self.leSixOfDay.timeScheduled.time];
+		self.guidelineTime.text	= [NSString stringWithFormat:@"%@", self.leSixOfDay.timeScheduled.time];
 	
 	}
 	
@@ -168,7 +168,36 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
     [self.keyboardControls setDelegate:self];
 	
 	self.navigationController.title = self.leSixOfDay.advice.name;		// not working for some reason.
+	
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(preferredContentSizeChanged:)
+												 name:UIContentSizeCategoryDidChangeNotification
+											   object:nil];
 }
+
+- (void)setPreferredContentSizes
+{
+	self.guidelineText.font = [UIFont preferredFontForAdviceNameInEntry];
+	
+	self.positiveActionTextView.font = [UIFont preferredFontForMainMessageBody];
+	self.negativeActionTextView.font = [UIFont preferredFontForMainMessageBody];
+	
+	if (self.leSixOfDay.timeLastUpdated) {
+
+		self.guidelineTime.font = [UIFont preferredFontForTimeForUpdatedEntry];
+
+	} else {
+	
+		self.guidelineTime.font = [UIFont preferredFontForTimeForNextEntry];
+	
+	}
+}
+
+ - (void)preferredContentSizeChanged:(NSNotification *)notification {
+	 [self setPreferredContentSizes];
+	 [self.tableView reloadData];
+ }
 
 - (void)willEnterForeground:(NSNotification*)notification {
 	[self.textExpander willEnterForeground];
@@ -303,17 +332,17 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
 		{
 			case TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER:
 
-				if (labs([textView.text length] - [self.updatedPositiveActionTakenDescription length]) > 20) {
-					textView.scrollEnabled = NO;
-				}
+//				if (labs([textView.text length] - [self.updatedPositiveActionTakenDescription length]) > 20) {
+//					textView.scrollEnabled = NO;
+//				}
 				self.updatedPositiveActionTakenDescription = textView.text;
 				break;
 
 			case TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER:
 
-				if (labs([textView.text length] - [self.updatedNegativeActionTakenDescription length]) > 20) {
-					textView.scrollEnabled = NO;
-				}
+//				if (labs([textView.text length] - [self.updatedNegativeActionTakenDescription length]) > 20) {
+//					textView.scrollEnabled = NO;
+//				}
 				self.updatedNegativeActionTakenDescription = textView.text;
 				break;
 			
@@ -330,11 +359,11 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
 		[self.tableView beginUpdates];
 		[self.tableView endUpdates];
 		
-		if (!textView.scrollEnabled) {
-			
-			textView.scrollEnabled = YES;
-			
-		}
+//		if (!textView.scrollEnabled) {
+//			
+//			textView.scrollEnabled = YES;
+//			
+//		}
 	}
 }
 
@@ -404,11 +433,16 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
 - (CGFloat)heightForTextView:(UITextView*)textView containingString:(NSString*)string
 {
     
-	string	= (string.length > 0) ? [NSString stringWithFormat:@"%@%@",kTrailingGhostTextToPreventDelayedTextViewResizing,string] : @"ipsum for height";
-    
-	float widthOfTextView = textView.contentSize.width;
+	if (string.length == 0) {
 	
-	UIFont *font = textView.font;
+		string = @"ipsum for height";
+		
+	}
+    
+	float widthOfTextView = textView.contentSize.width - 15;
+	
+	UIFont *font = [UIFont preferredFontForMainMessageBody];
+	
 	NSAttributedString *attributedText = [ [NSAttributedString alloc]
 										  initWithString:string
 										  attributes: @{NSFontAttributeName: font}
@@ -429,16 +463,22 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
 		
 		UILabel *guidelineLabel = [UILabel new];
 		guidelineLabel.lineBreakMode = NSLineBreakByWordWrapping;
+		UILabel *timeLabel = [UILabel new];
 		
-		guidelineLabel.font = [UIFont fontWithName:kFontNameGuideline
-												 size:kFontSizeGuidelineNext];
+		guidelineLabel.font = [UIFont preferredFontForAdviceNameInEntry];
 		guidelineLabel.text = self.leSixOfDay.advice.name;
+		
+		timeLabel.font = [UIFont preferredFontForTimeForNextEntry];
 		
 		CGFloat guidelineLabelHeight = [self heightForLabel:guidelineLabel
 												   withText:guidelineLabel.text
 												 labelWidth:self.guidelineLabelWidth];
 		
-		return guidelineLabelHeight + 46;
+		CGFloat timeLabelHeight = [self heightForLabel:timeLabel
+											  withText:timeLabel.text
+											labelWidth:self.guidelineLabelWidth];
+		
+		return guidelineLabelHeight + timeLabelHeight + 46;
 		
 	} else {
 		
@@ -582,6 +622,6 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few ab
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {	
-	NSLog(@"Segue identifier: %@", [segue identifier]);
+	//
 }
 @end

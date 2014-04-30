@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="pCE-SW-QV2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="pCE-SW-QV2">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -212,17 +212,17 @@
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="34"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Remaining Entries" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DMf-OO-DHZ">
-                                            <rect key="frame" x="15" y="8" width="124" height="18"/>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1000" contentMode="left" text="Remaining Entries" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DMf-OO-DHZ">
+                                            <rect key="frame" x="15" y="7" width="132" height="20"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" red="0.94901960780000005" green="0.50980392159999999" blue="0.027450980390000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dRB-LV-Jcl">
-                                            <rect key="frame" x="246" y="8" width="39" height="18"/>
+                                            <rect key="frame" x="243" y="7" width="42" height="20"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
@@ -237,16 +237,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Start of Day" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Mh9-vz-oWn">
-                                            <rect key="frame" x="15" y="8" width="82" height="18"/>
+                                            <rect key="frame" x="15" y="7" width="87" height="20"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" red="0.94901960780000005" green="0.50980392159999999" blue="0.027450980390000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="8:00 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="z4S-rF-kCh">
-                                            <rect key="frame" x="247" y="8" width="58" height="18"/>
+                                            <rect key="frame" x="244" y="7" width="61" height="20"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
@@ -320,7 +320,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="aQU-F6-YKF"/>
                                             </constraints>
                                         </view>
-                                        <view opaque="NO" userInteractionEnabled="NO" tag="61" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Gf-Vf-rUq" userLabel="Progress Step 2">
+                                        <view opaque="NO" userInteractionEnabled="NO" tag="61" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Gf-Vf-rUq" userLabel="Progress Step 2">
                                             <rect key="frame" x="53" y="0.0" width="54" height="3"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -335,7 +335,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </view>
-                                        <view opaque="NO" userInteractionEnabled="NO" tag="64" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="apj-Hh-dby" userLabel="Progress Step 5">
+                                        <view opaque="NO" userInteractionEnabled="NO" tag="64" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="apj-Hh-dby" userLabel="Progress Step 5">
                                             <rect key="frame" x="213" y="0.0" width="54" height="3"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -420,7 +420,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                 <constraint firstAttribute="height" constant="4" id="1i4-sm-3dZ"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="fqa-4H-oCI" userLabel="Instruction Detail">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1000" contentMode="top" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="fqa-4H-oCI" userLabel="Instruction Detail">
                                             <rect key="frame" x="15" y="18" width="290" height="137"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <constraints>
@@ -500,45 +500,45 @@ Rejoice for what you've done well. Regret the mistakes. Resolve to stay mindful.
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="20" contentMode="top" text="The + of the guideline" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="252" translatesAutoresizingMaskIntoConstraints="NO" id="nUt-5e-0cR" userLabel="Summary of Positive Action">
-                                            <rect key="frame" x="35" y="66" width="252" height="17"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="20" contentMode="top" text="The + of the guideline" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="247" translatesAutoresizingMaskIntoConstraints="NO" id="nUt-5e-0cR" userLabel="Summary of Positive Action">
+                                            <rect key="frame" x="40" y="66" width="247" height="20"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="21" contentMode="top" text="The - of the guideline" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="252" translatesAutoresizingMaskIntoConstraints="NO" id="P8T-h5-pIZ" userLabel="Summary of Negative Action">
-                                            <rect key="frame" x="35" y="89" width="252" height="17"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="21" contentMode="top" text="The - of the guideline" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="247" translatesAutoresizingMaskIntoConstraints="NO" id="P8T-h5-pIZ" userLabel="Summary of Negative Action">
+                                            <rect key="frame" x="40" y="86" width="247" height="20"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="Other Entry - HH:MM AP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U61-BO-EgV" userLabel="Scheduled Time">
                                             <rect key="frame" x="15" y="119" width="272" height="15"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="15" contentMode="left" text="＋" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QXf-NR-Kgs" userLabel="Plus icon">
-                                            <rect key="frame" x="15" y="66" width="13" height="17"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="15" contentMode="left" text="＋" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QXf-NR-Kgs" userLabel="Plus icon">
+                                            <rect key="frame" x="15" y="66" width="18" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="17" id="3yg-hT-nkc"/>
-                                                <constraint firstAttribute="width" constant="13" id="gT0-ff-TVF"/>
+                                                <constraint firstAttribute="height" constant="19" id="3yg-hT-nkc"/>
+                                                <constraint firstAttribute="width" constant="18" id="gT0-ff-TVF"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="16" contentMode="left" text="－" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Toe-Fa-6Dh" userLabel="Minus icon">
-                                            <rect key="frame" x="15" y="89" width="13" height="17"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="16" contentMode="left" text="－" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Toe-Fa-6Dh" userLabel="Minus icon">
+                                            <rect key="frame" x="15" y="86" width="18" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="17" id="Qp6-uM-s5Q"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
@@ -580,14 +580,14 @@ Rejoice for what you've done well. Regret the mistakes. Resolve to stay mindful.
                                                 <constraint firstAttribute="height" constant="4" id="NGX-xc-OWC"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" text="Welcome to Six Times!" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="XoX-Ed-9Nx" userLabel="Welcome">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1000" contentMode="top" text="Welcome to Six Times!" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="XoX-Ed-9Nx" userLabel="Welcome">
                                             <rect key="frame" x="15" y="18" width="290" height="19"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="Palatino-Bold" family="Palatino" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="oxW-3f-dRG" userLabel="Instruction Detail">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1001" contentMode="top" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="oxW-3f-dRG" userLabel="Instruction Detail">
                                             <rect key="frame" x="15" y="46" width="290" height="113"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <string key="text">Six Times each day, reflect on how you are living according to principles that matter to you.
@@ -638,15 +638,15 @@ To begin using Six Times, choose a set of ethical guidelines to observe.</string
                                                 <constraint firstAttribute="height" constant="4" id="4TK-0g-wMy"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" misplaced="YES" text="How do you want to live your life?" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="FF9-i8-gnA" userLabel="Welcome">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1000" contentMode="top" misplaced="YES" text="How do you want to live your life?" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="FF9-i8-gnA" userLabel="Welcome">
                                             <rect key="frame" x="15" y="20" width="290" height="19"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="Palatino-Bold" family="Palatino" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" text="Select at least 1 set of guidelines to resume your Six Times." lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="mcx-Rq-Sue" userLabel="Instruction Detail">
-                                            <rect key="frame" x="16" y="47" width="290" height="36"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1001" contentMode="top" misplaced="YES" text="Select at least 1 set of guidelines to resume your Six Times." lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="mcx-Rq-Sue" userLabel="Instruction Detail">
+                                            <rect key="frame" x="16" y="47" width="290" height="41"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -759,28 +759,36 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="setOfAdviceCell" rowHeight="62" id="LTz-HL-9NT" userLabel="Name of Tradition Cell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="setOfAdviceCell" rowHeight="62" id="kbo-I4-TX7" userLabel="Name of Tradition Cell">
                                 <rect key="frame" x="0.0" y="130" width="320" height="62"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LTz-HL-9NT" id="Bzg-rM-LQc">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kbo-I4-TX7" id="ilB-MV-Yfx">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="61"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" fixedFrame="YES" text="Name of the set of guidelines" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="296" translatesAutoresizingMaskIntoConstraints="NO" id="sBF-0e-d1a" userLabel="Set of Guidelines Name">
-                                            <rect key="frame" x="11" y="32" width="296" height="20"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" text="Name of the set of guidelines" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="272" translatesAutoresizingMaskIntoConstraints="NO" id="ARu-o8-HGz" userLabel="Set of Guidelines Name">
+                                            <rect key="frame" x="15" y="30" width="272" height="21"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" fixedFrame="YES" text="Name of the Tradition" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ir1-sK-JKf" userLabel="Name of Tradition">
-                                            <rect key="frame" x="11" y="9" width="248" height="21"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="Name of the Tradition" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUK-iw-tTq" userLabel="Name of Tradition">
+                                            <rect key="frame" x="15" y="10" width="272" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="ARu-o8-HGz" firstAttribute="top" secondItem="aUK-iw-tTq" secondAttribute="bottom" constant="2" id="12w-wo-GyM"/>
+                                        <constraint firstAttribute="trailing" secondItem="aUK-iw-tTq" secondAttribute="trailing" id="DRE-b3-kVv"/>
+                                        <constraint firstItem="ARu-o8-HGz" firstAttribute="leading" secondItem="aUK-iw-tTq" secondAttribute="leading" id="Kcx-uv-ekK"/>
+                                        <constraint firstItem="aUK-iw-tTq" firstAttribute="top" secondItem="ilB-MV-Yfx" secondAttribute="top" constant="10" id="NUQ-BU-g45"/>
+                                        <constraint firstItem="aUK-iw-tTq" firstAttribute="leading" secondItem="ilB-MV-Yfx" secondAttribute="leading" constant="15" id="eAF-eh-cir"/>
+                                        <constraint firstAttribute="trailing" secondItem="ARu-o8-HGz" secondAttribute="trailing" id="mXH-hC-iub"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -856,14 +864,14 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Notify When Guideline is Due" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJr-xs-jlg" userLabel="Notifications Label">
-                                                    <rect key="frame" x="15" y="11" width="225" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notify When Guideline is Due" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJr-xs-jlg" userLabel="Notifications Label">
+                                                    <rect key="frame" x="15" y="11" width="224" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bS1-fN-USm" userLabel="Notifications Switch">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bS1-fN-USm" userLabel="Notifications Switch">
                                                     <rect key="frame" x="251" y="6" width="51" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
@@ -871,6 +879,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                     </connections>
                                                 </switch>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerY" secondItem="bJr-xs-jlg" secondAttribute="centerY" id="Bga-rg-T5a"/>
+                                                <constraint firstItem="bJr-xs-jlg" firstAttribute="leading" secondItem="lQo-m8-a2K" secondAttribute="leading" constant="15" id="GKw-Se-R2h"/>
+                                                <constraint firstAttribute="trailing" secondItem="bS1-fN-USm" secondAttribute="trailing" constant="20" id="JeQ-UC-tNa"/>
+                                                <constraint firstAttribute="centerY" secondItem="bS1-fN-USm" secondAttribute="centerY" id="TFG-Sn-sKY"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="IV3-xy-0aL">
@@ -880,14 +894,14 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Show App Badge" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xuJ-9I-SXh" userLabel="App Badge Label">
-                                                    <rect key="frame" x="15" y="11" width="225" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show App Badge" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xuJ-9I-SXh" userLabel="App Badge Label">
+                                                    <rect key="frame" x="15" y="11" width="135" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OPC-54-Lwf" userLabel="App Badge Switch">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OPC-54-Lwf" userLabel="App Badge Switch">
                                                     <rect key="frame" x="251" y="6" width="51" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
@@ -895,6 +909,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                     </connections>
                                                 </switch>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerY" secondItem="xuJ-9I-SXh" secondAttribute="centerY" id="4i5-lT-g7Z"/>
+                                                <constraint firstAttribute="trailing" secondItem="OPC-54-Lwf" secondAttribute="trailing" constant="20" id="B7h-WS-P7L"/>
+                                                <constraint firstItem="xuJ-9I-SXh" firstAttribute="leading" secondItem="4XY-jR-gbi" secondAttribute="leading" constant="15" id="bTM-4u-RtG"/>
+                                                <constraint firstAttribute="centerY" secondItem="OPC-54-Lwf" secondAttribute="centerY" id="ds9-eU-uie"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -913,14 +933,14 @@ Turning on Stagger Daily guidelines will cause Six Times to select guidelines in
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Stagger Daily Guidelines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0dR-Eh-FEK" userLabel="Stagger Guidelines Label">
-                                                    <rect key="frame" x="15" y="11" width="225" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stagger Daily Guidelines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0dR-Eh-FEK" userLabel="Stagger Guidelines Label">
+                                                    <rect key="frame" x="15" y="11" width="189" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0Fd-xS-P2b" userLabel="Stagger Guidelines Switch">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0Fd-xS-P2b" userLabel="Stagger Guidelines Switch">
                                                     <rect key="frame" x="251" y="6" width="51" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
@@ -928,6 +948,12 @@ Turning on Stagger Daily guidelines will cause Six Times to select guidelines in
                                                     </connections>
                                                 </switch>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="0dR-Eh-FEK" firstAttribute="leading" secondItem="HHL-Ey-rqO" secondAttribute="leading" constant="15" id="B8H-tx-97P"/>
+                                                <constraint firstAttribute="trailing" secondItem="0Fd-xS-P2b" secondAttribute="trailing" constant="20" id="Iqr-tN-a2B"/>
+                                                <constraint firstAttribute="centerY" secondItem="0dR-Eh-FEK" secondAttribute="centerY" id="d6y-it-LPq"/>
+                                                <constraint firstAttribute="centerY" secondItem="0Fd-xS-P2b" secondAttribute="centerY" id="ha3-dn-vz4"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -939,8 +965,12 @@ Turning on Stagger Daily guidelines will cause Six Times to select guidelines in
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="aboutSixTimesLabel" destination="MgL-q4-d2x" id="43a-Sb-eNe"/>
                         <outlet property="appBadgeSwitch" destination="OPC-54-Lwf" id="r9g-By-OSm"/>
                         <outlet property="notificationsSwitch" destination="bS1-fN-USm" id="OYU-Ye-UED"/>
+                        <outlet property="notifyWhenGuidelineIsDueLabel" destination="bJr-xs-jlg" id="Ait-np-XKS"/>
+                        <outlet property="showAppBadgeLabel" destination="xuJ-9I-SXh" id="fpo-17-He3"/>
+                        <outlet property="staggerDailyGuidelinesLabel" destination="0dR-Eh-FEK" id="fot-Pr-8Wb"/>
                         <outlet property="staggerGuidelinesSwitch" destination="0Fd-xS-P2b" id="gaS-sY-MUW"/>
                     </connections>
                 </tableViewController>
@@ -1017,21 +1047,29 @@ Turning on Stagger Daily guidelines will cause Six Times to select guidelines in
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="61"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" fixedFrame="YES" text="Name of the set of guidelines" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="264" translatesAutoresizingMaskIntoConstraints="NO" id="ATs-eC-3yo" userLabel="Set of Guidelines Name">
-                                            <rect key="frame" x="15" y="32" width="264" height="20"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="top" text="Name of the set of guidelines" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="272" translatesAutoresizingMaskIntoConstraints="NO" id="ATs-eC-3yo" userLabel="Set of Guidelines Name">
+                                            <rect key="frame" x="15" y="30" width="272" height="21"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" fixedFrame="YES" text="Name of the Tradition" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WeL-Oc-GAn" userLabel="Name of Tradition">
-                                            <rect key="frame" x="15" y="9" width="248" height="21"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="Name of the Tradition" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WeL-Oc-GAn" userLabel="Name of Tradition">
+                                            <rect key="frame" x="15" y="10" width="272" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="ATs-eC-3yo" secondAttribute="trailing" id="8g1-e6-jp6"/>
+                                        <constraint firstItem="WeL-Oc-GAn" firstAttribute="top" secondItem="rFv-rv-2H8" secondAttribute="top" constant="10" id="DYq-Wd-bch"/>
+                                        <constraint firstItem="WeL-Oc-GAn" firstAttribute="leading" secondItem="rFv-rv-2H8" secondAttribute="leading" constant="15" id="YqE-ly-c6I"/>
+                                        <constraint firstAttribute="trailing" secondItem="WeL-Oc-GAn" secondAttribute="trailing" id="iUI-Aw-JXA"/>
+                                        <constraint firstItem="ATs-eC-3yo" firstAttribute="top" secondItem="WeL-Oc-GAn" secondAttribute="bottom" constant="2" id="oqR-a4-dcn"/>
+                                        <constraint firstItem="ATs-eC-3yo" firstAttribute="leading" secondItem="WeL-Oc-GAn" secondAttribute="leading" id="y40-hr-zxW"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <segue destination="5at-s1-Gy4" kind="push" identifier="viewSetOfAdviceSegue" id="hDC-wJ-1KP"/>
@@ -1175,9 +1213,9 @@ Turning on Stagger Daily guidelines will cause Six Times to select guidelines in
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="Next Entry - HH:MM AP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sBq-wR-WmG" userLabel="Scheduled Time">
-                                                    <rect key="frame" x="15" y="116" width="290" height="15"/>
+                                                    <rect key="frame" x="15" y="117" width="290" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
@@ -1199,22 +1237,22 @@ Turning on Stagger Daily guidelines will cause Six Times to select guidelines in
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="71"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="＋" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="knA-4F-iEl" userLabel="Plus icon">
-                                                    <rect key="frame" x="15" y="2" width="13" height="17"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="＋" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="knA-4F-iEl" userLabel="Plus icon">
+                                                    <rect key="frame" x="15" y="4" width="18" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="Dbs-SP-rCh"/>
-                                                        <constraint firstAttribute="width" constant="13" id="Y4b-Bp-4ZI"/>
+                                                        <constraint firstAttribute="width" constant="18" id="Y4b-Bp-4ZI"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="101" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" text="A positive action UITextView" translatesAutoresizingMaskIntoConstraints="NO" id="DTs-Uf-6Jt" customClass="GHUIPlaceHolderTextView">
-                                                    <rect key="frame" x="32" y="2" width="273" height="63"/>
+                                                <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="101" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="A positive action UITextView" translatesAutoresizingMaskIntoConstraints="NO" id="DTs-Uf-6Jt" customClass="GHUIPlaceHolderTextView">
+                                                    <rect key="frame" x="37" y="2" width="268" height="63"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <accessibility key="accessibilityConfiguration" label="Positive Action"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="gTE-bC-Kqu" id="2oc-YL-Tz4"/>
@@ -1223,7 +1261,7 @@ Turning on Stagger Daily guidelines will cause Six Times to select guidelines in
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="DTs-Uf-6Jt" firstAttribute="leading" secondItem="knA-4F-iEl" secondAttribute="trailing" constant="4" id="1fW-qS-oX5"/>
-                                                <constraint firstItem="DTs-Uf-6Jt" firstAttribute="top" secondItem="knA-4F-iEl" secondAttribute="top" id="W08-ts-9Yc"/>
+                                                <constraint firstItem="DTs-Uf-6Jt" firstAttribute="top" secondItem="knA-4F-iEl" secondAttribute="top" constant="-2" id="W08-ts-9Yc"/>
                                                 <constraint firstAttribute="bottom" secondItem="DTs-Uf-6Jt" secondAttribute="bottom" constant="6" id="XsS-ap-FIf"/>
                                                 <constraint firstItem="knA-4F-iEl" firstAttribute="leading" secondItem="Vox-bQ-MUI" secondAttribute="leading" constant="15" id="Z7W-wn-ENC"/>
                                                 <constraint firstAttribute="trailing" secondItem="DTs-Uf-6Jt" secondAttribute="trailing" constant="15" id="pgk-OM-xQe"/>
@@ -1238,22 +1276,22 @@ Turning on Stagger Daily guidelines will cause Six Times to select guidelines in
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="72"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="－" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="THL-hD-BJf" userLabel="Minus icon">
-                                                    <rect key="frame" x="15" y="0.0" width="13" height="17"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" text="－" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="THL-hD-BJf" userLabel="Minus icon">
+                                                    <rect key="frame" x="15" y="2" width="18" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="Kes-fY-zfw"/>
-                                                        <constraint firstAttribute="width" constant="13" id="y0g-1G-aaa"/>
+                                                        <constraint firstAttribute="width" constant="18" id="y0g-1G-aaa"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="102" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" text="A negative action UITextView" translatesAutoresizingMaskIntoConstraints="NO" id="chf-dU-F29" customClass="GHUIPlaceHolderTextView">
-                                                    <rect key="frame" x="32" y="0.0" width="273" height="64"/>
+                                                <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="102" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="A negative action UITextView" translatesAutoresizingMaskIntoConstraints="NO" id="chf-dU-F29" customClass="GHUIPlaceHolderTextView">
+                                                    <rect key="frame" x="37" y="0.0" width="268" height="64"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <accessibility key="accessibilityConfiguration" label="Negative Action"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="gTE-bC-Kqu" id="oel-Qy-fb9"/>
@@ -1266,7 +1304,7 @@ Turning on Stagger Daily guidelines will cause Six Times to select guidelines in
                                                 <constraint firstItem="chf-dU-F29" firstAttribute="leading" secondItem="THL-hD-BJf" secondAttribute="trailing" constant="4" id="Qk5-iT-zJo"/>
                                                 <constraint firstAttribute="trailing" secondItem="chf-dU-F29" secondAttribute="trailing" constant="15" id="Zag-Z0-xwY"/>
                                                 <constraint firstAttribute="bottom" secondItem="chf-dU-F29" secondAttribute="bottom" constant="8" id="pM5-g2-IVk"/>
-                                                <constraint firstItem="THL-hD-BJf" firstAttribute="top" secondItem="chf-dU-F29" secondAttribute="top" id="sFX-nh-CoH"/>
+                                                <constraint firstItem="THL-hD-BJf" firstAttribute="top" secondItem="chf-dU-F29" secondAttribute="top" constant="2" id="sFX-nh-CoH"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

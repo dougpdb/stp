@@ -8,7 +8,9 @@
 
 #import "STSettingsTVC.h"
 #import "STTodayTVC.h"
+#import "STNotificationController.h"
 #import "NSUserDefaults+ST.h"
+#import "UIFont+ST.h"
 
 @interface STSettingsTVC ()
 
@@ -36,8 +38,27 @@
 
 	self.sixTimesUserDefaults = [NSUserDefaults standardUserDefaults];
 	
+	[self setPreferredContentSizes];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(preferredContentSizeChanged:)
+												 name:UIContentSizeCategoryDidChangeNotification
+											   object:nil];
+	
 }
 
+-(void)setPreferredContentSizes
+{
+	self.aboutSixTimesLabel.font = [UIFont preferredFontForUILabel];
+	self.notifyWhenGuidelineIsDueLabel.font = [UIFont preferredFontForUILabel];
+	self.showAppBadgeLabel.font = [UIFont preferredFontForUILabel];
+	self.staggerDailyGuidelinesLabel.font = [UIFont preferredFontForUILabel];
+}
+
+- (void)preferredContentSizeChanged:(NSNotification *)aNotification {
+    [self setPreferredContentSizes];
+	[self.tableView reloadData];
+}
 -(void)viewWillAppear:(BOOL)animated
 {
 	[self.sixTimesUserDefaults showLogOfAllSettings];
@@ -57,6 +78,22 @@
 	if (self.originalStaggerGuidelinesSetting != [self.sixTimesUserDefaults isStaggerDailyGuidelinesOn]) {
 	
 		[self.todayTVC resetFollowedEntries];
+		
+	}
+	
+	if (self.originalAppBadgeSetting != [self.sixTimesUserDefaults isAppBadgeOn]) {
+		
+		STNotificationController *notificationController = [STNotificationController new];
+		if ([self.sixTimesUserDefaults isAppBadgeOn]) {
+			
+			[notificationController setApplicationIconBadgeNumbersForAllNotifications];
+			[notificationController setApplicationIconBadgeNumberForPastDueEntries:self.todayTVC.thisDay];
+			
+		} else {
+		
+			[notificationController hideApplicationIconBadgeNumbers];
+			
+		}
 		
 	}
 }
@@ -79,17 +116,46 @@
 }
 
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+	UILabel *placeholderLabel = [UILabel new];
+	placeholderLabel.font = [UIFont preferredFontForUILabel];
+	
+	if (placeholderLabel.font.pointSize < 15) {
+		return 44.0;
+	}
+	
+	return placeholderLabel.font.pointSize * 1.3 + 24;
 }
-*/
+
+#pragma mark - Managing Cell and Label Heights
+-(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
+{
+	if (text != nil) {
+		
+		UIFont *font = label.font;
+		NSAttributedString *attributedText	= [ [NSAttributedString alloc]
+											   initWithString:text
+											   attributes: @{NSFontAttributeName: font}
+											   ];
+		CGRect rect = [attributedText boundingRectWithSize:(CGSize){labelWidth, CGFLOAT_MAX}
+												   options:NSStringDrawingUsesLineFragmentOrigin
+												   context:nil];
+		CGSize size = rect.size;
+		CGFloat height = ceilf(size.height);
+		return height;
+		
+	} else {
+		
+		return 0;
+		
+	}
+}
+
+
+/**/
+
+#pragma mark - Toggle Settings
 
 - (IBAction)toggleAppBadgeSetting:(id)sender {
 	UISwitch *switchControl = (UISwitch *)sender;

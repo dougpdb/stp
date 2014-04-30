@@ -7,6 +7,7 @@
 //
 
 #import "STNotificationController.h"
+#import "NSUserDefaults+ST.h"
 #import "LESixOfDay+ST.h"
 #import "Advice.h"
 #import "NSDate+ST.h"
@@ -18,6 +19,12 @@
 static NSString *kLogEntryTimeScheduled				= @"logEntryTimeScheduled";
 static NSString *kLogEntryAdviceText				= @"logEntryAdviceText";
 static NSString *kLogEntryOrderNumberInSetOfEntries	= @"logEntryOrderNumberInSetOfEntries";
+
+@interface STNotificationController ()
+
+- (void)decrementApplicationIconBadgeNumber;
+
+@end
 
 @implementation STNotificationController
 
@@ -77,9 +84,21 @@ static NSString *kLogEntryOrderNumberInSetOfEntries	= @"logEntryOrderNumberInSet
 
 -(void)addNotifications:(NSArray *)remainingSixOfDayLogEntries
 {
-	NSInteger badgeNumber						= 0;
-	for (LESixOfDay *remainingEntry in remainingSixOfDayLogEntries)
-		[self addNotification:remainingEntry withApplicationIconBadgeNumber:++badgeNumber];
+	NSUserDefaults *sixTimesSettings = [NSUserDefaults standardUserDefaults];
+	
+	NSInteger badgeNumber = 0;
+	for (LESixOfDay *remainingEntry in remainingSixOfDayLogEntries) {
+		
+		if ([sixTimesSettings isAppBadgeOn]) {
+			
+			[self addNotification:remainingEntry withApplicationIconBadgeNumber:++badgeNumber];
+			
+		} else {
+			
+			[self addNotification:remainingEntry withApplicationIconBadgeNumber:0];
+			
+		}
+	}
 }
 
 -(void)cancelNotification:(UILocalNotification *)notification
@@ -144,8 +163,11 @@ static NSString *kLogEntryOrderNumberInSetOfEntries	= @"logEntryOrderNumberInSet
 {
 	UIApplication *STApplication			= [UIApplication sharedApplication];
 
-	for (UILocalNotification *notification in STApplication.scheduledLocalNotifications)
+	for (UILocalNotification *notification in STApplication.scheduledLocalNotifications) {
+	
 		[self descriptionOfNotification:notification];
+	
+	}
 }
 
 -(LESixOfDay *)entryFromNotification:(UILocalNotification *)notification forDay:(Day *)day
@@ -162,21 +184,55 @@ static NSString *kLogEntryOrderNumberInSetOfEntries	= @"logEntryOrderNumberInSet
 	return ([[NSDate date] isLaterThanDate:notifcation.fireDate]);
 }
 
+-(void)hideApplicationIconBadgeNumbers
+{
+	UIApplication *STApplication = [UIApplication sharedApplication];
+	STApplication.applicationIconBadgeNumber = 0;
+	[self setApplicationIconBadgeNumbersForAllNotifications];
+}
+
+-(void)setApplicationIconBadgeNumberForPastDueEntries:(Day *)day
+{
+	NSArray *scheduledEntries = [day getTheSixWithoutUserEntriesSorted];
+	NSUInteger newApplicationBadgeNumber = 0;
+	NSDate *now = [NSDate date];
+
+	for (LESixOfDay *entry in scheduledEntries) {
+		
+		if ([entry.timeScheduled isEarlierThanDate:now]) {
+			
+			newApplicationBadgeNumber++;
+			
+		}
+		
+	}
+	
+	UIApplication *STApplication = [UIApplication sharedApplication];
+	STApplication.applicationIconBadgeNumber = newApplicationBadgeNumber;
+}
+
+
 -(void)setApplicationIconBadgeNumbersForAllNotifications
 {
+	NSUserDefaults *sixTimesSettings = [NSUserDefaults standardUserDefaults];
+		
 	UIApplication *STApplication				= [UIApplication sharedApplication];
 	NSDate *now									= [NSDate date];
 
-	NSInteger applicationIconBadgeNumber		= 0; // STApplication.applicationIconBadgeNumber;
+	NSInteger futureApplicationIconBadgeNumber = 0; // STApplication.applicationIconBadgeNumber;
 
-	NSArray *allSTScheduledNotifications		= STApplication.scheduledLocalNotifications;
+	NSArray *allSTScheduledNotifications = STApplication.scheduledLocalNotifications;
+	
+	NSLog(@"There are %li scheduled local notifications.", (long)[allSTScheduledNotifications count]);
 
 	for (UILocalNotification *notification in allSTScheduledNotifications) {
+		
 		if ([notification.fireDate isLaterThanDate:now]) {
-			notification.applicationIconBadgeNumber	= ++applicationIconBadgeNumber;
+			notification.applicationIconBadgeNumber	= ([sixTimesSettings isAppBadgeOn]) ? ++futureApplicationIconBadgeNumber : 0;
 		
 			NSLog(@"The applicationIconBadgeNumber for \"%@\" is %i.", [self adviceTextForNotification:notification], notification.applicationIconBadgeNumber);
 		}
+
 	}
 
 }

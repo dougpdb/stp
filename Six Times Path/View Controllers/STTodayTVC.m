@@ -1,4 +1,4 @@
-//
+		//
 //  STTodayTVC.m
 //  Six Times Path
 //
@@ -19,6 +19,7 @@
 #import "LESixOfDay+ST.h"
 #import "NSDate+ST.h"
 #import "NSDate+ES.h"
+#import "UIFont+ST.h"
 #import "TestFlight.h"
 
 #define IS_IPAD	(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -39,9 +40,7 @@ static NSString *kDateCellID = @"dateCell";     // the cells with the start or e
 static NSString *kDatePickerID = @"datePickerCell"; // the cell containing the date picker
 static NSString *kOtherCell = @"otherCell";     // the remaining cells at the end
 
-static NSInteger kFontSizeGuidelineOther	= 17;
 static NSString *kFontNameGuideline			= @"Palatino";
-static NSInteger kFontSizeGuidelineNext		= 20;
 
 
 
@@ -225,8 +224,18 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		self.shouldShowWelcomeMessage = YES;
 		NSLog(@"first day of use.");
 	}
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(preferredContentSizeChanged:)
+												 name:UIContentSizeCategoryDidChangeNotification
+											   object:nil];
+
 }
 
+- (void)preferredContentSizeChanged:(NSNotification *)aNotification {
+    [self.tableView reloadData];
+	
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -291,52 +300,59 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	} else {
 		
 		[self setupAdviceFetchedResultsController];
-		self.allAdviceFollowedByUser			= [NSMutableArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
-		self.setsOfGuidelinesHaveBeenSelected	= ([self.allAdviceFollowedByUser count] > 0) ? YES : NO;
-		self.dayHasGuidelines					= ([[self.thisDay getTheSixSorted] count] > 0) ? YES : NO;
+		self.allAdviceFollowedByUser = [NSMutableArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
+		self.setsOfGuidelinesHaveBeenSelected = ([self.allAdviceFollowedByUser count] > 0) ? YES : NO;
+		self.dayHasGuidelines = ([[self.thisDay getTheSixSorted] count] > 0) ? YES : NO;
 		
 	}
 	
-	if (self.setsOfGuidelinesHaveBeenSelected && self.thereAreCoreDataRecordsForDay) {
-		
-		// && self.dayHasGuidelines
-		// This should be the typical use case -- where the user had already selected a set of guidelines
-		// and has also set up a day of entries in Six Times
+	if (self.thereAreCoreDataRecordsForDay) {
 		
 		[self setupDaysFetchedResultsController];
-		Day *mostRecentDay							= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
-		LESixOfDay *lastTheSixOfMostRecentDay		= [[mostRecentDay getTheSixSorted] lastObject];
-		self.mostRecentlyAddedDate					= mostRecentDay.date;
-		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
-		self.thisDay								= mostRecentDay;
-		
+		Day *mostRecentDay = [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
+		self.mostRecentlyAddedDate = mostRecentDay.date;
+		self.thisDay = mostRecentDay;
 		[self addDay];
-		if (!self.dayHasGuidelines)
+
+		LESixOfDay *lastTheSixOfMostRecentDay;
+		if ([self.sixTimesUserDefaults isStaggerDailyGuidelinesOn]) {
+		
+			lastTheSixOfMostRecentDay = [[mostRecentDay getTheSixSorted] firstObject];
+		
+		} else {
+		
+			lastTheSixOfMostRecentDay = [[mostRecentDay getTheSixSorted] lastObject];
+		
+		}
+
+		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
+				
+		if (self.setsOfGuidelinesHaveBeenSelected && !self.dayHasGuidelines) {
+			// This should be the typical use case -- where the user had already selected a set of guidelines
+			// and has also set up at least one day of entries in Six Times
+			
 			[self addGuidelinesToThisDay];
+			
+		}
+		
 		[self setUpdatedAndRemainingScheduledEntries];
 		
-	} else if (self.thereAreCoreDataRecordsForDay && !self.setsOfGuidelinesHaveBeenSelected) {
+//	} else if (self.thereAreCoreDataRecordsForDay && !self.setsOfGuidelinesHaveBeenSelected) {
+//		
+//		// Here might be a more common edge case -- the user has already has a day of entries set up in Six Times
+//		// but does not have a set of guidelines set up
+//		
+//		[self setupDaysFetchedResultsController];
+//		Day *mostRecentDay							= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
+//		LESixOfDay *lastTheSixOfMostRecentDay		= [[mostRecentDay getTheSixSorted] lastObject];
+//		self.mostRecentlyAddedDate					= mostRecentDay.date;
+//		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
+//		self.thisDay								= mostRecentDay;
+//		
+//		[self addDay];
+//		[self setUpdatedAndRemainingScheduledEntries];
 		
-		// Here might be a more common edge case -- the user has already has a day of entries set up in Six Times
-		// but does not have a set of guidelines set up
-		
-		/*
-		 
-		 BUG - GUIDELINES ARE NOT BEING ADDED AS I HAD THOUGHT...
-		 
-		 */
-		 
-		[self setupDaysFetchedResultsController];
-		Day *mostRecentDay							= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
-		LESixOfDay *lastTheSixOfMostRecentDay		= [[mostRecentDay getTheSixSorted] lastObject];
-		self.mostRecentlyAddedDate					= mostRecentDay.date;
-		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
-		self.thisDay								= mostRecentDay;
-		
-		[self addDay];
-		[self setUpdatedAndRemainingScheduledEntries];
-		
-	} else if (self.setsOfGuidelinesHaveBeenSelected && !self.thereAreCoreDataRecordsForDay) {
+	} else if (self.setsOfGuidelinesHaveBeenSelected) {
 		
 		// The rare edge case for when the user is has started to used the app after installing it, but it will happen at least once -- the user has
 		// selected a set of guidelines but a day of entries has not yet been set up. This will occur after going through the following use case.
@@ -411,37 +427,42 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 -(BOOL)isTimeToAddDay
 {
-	NSDate *now						= [NSDate date];
-	NSDate *mostRecentDate			= [self.mostRecentlyAddedDate setHour:[self.thisDay.startHour intValue]
-														 andMinute:[self.thisDay.startMinute intValue]];
-	
-	NSTimeInterval eighteenHours	= 18*60*60;
 
-	if (self.mostRecentlyAddedDate)
-		return ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending);
-	else
-		return false;
+//	static BOOL timeToAddDayForTestingPurposes = NO;
+//	
+//	if (timeToAddDayForTestingPurposes) {
+//		return YES;
+//	} else {
+//		timeToAddDayForTestingPurposes = NO;
+		NSDate *now						= [NSDate date];
+		NSDate *mostRecentDate			= [self.mostRecentlyAddedDate setHour:[self.thisDay.startHour intValue]
+															 andMinute:[self.thisDay.startMinute intValue]];
+		
+		NSTimeInterval eighteenHours	= 18*60*60;
+		
+		if (self.mostRecentlyAddedDate)
+			return ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending);
+		else
+			return NO;
+//	}
 }
 
 -(void)addDay
 {
-	NSDate *now						= [NSDate date];
-	NSDate *mostRecentDate			= [self.mostRecentlyAddedDate setHour:[self.thisDay.startHour intValue]
-																andMinute:[self.thisDay.startMinute intValue]];
-	
-	NSTimeInterval eighteenHours	= 18*60*60;
-	NSTimeInterval twentyFourHours	= 24*60*60;
-	
 	if ([self isTimeToAddDay]) {
-		
-		NSLog(@"Now [%@] is later in time than 18 Hours after start of Most Recent Date [%@].", now.timeAndDate, mostRecentDate.timeAndDate);
 		
 		[self.notificationController cancelAllNotifications];
 		
 		Day *newDay = [NSEntityDescription insertNewObjectForEntityForName:@"Day"
 													inManagedObjectContext:self.managedObjectContext];
+
+		NSDate *now						= [NSDate date];
 		
-		BOOL nowIsOnSameDateAsMostRecentDateButAfterEntryLogging = ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending && [now compare:[mostRecentDate dateByAddingTimeInterval:twentyFourHours]] == NSOrderedAscending);
+		NSDate *mostRecentDate			= [self.mostRecentlyAddedDate setHour:[self.thisDay.startHour intValue]
+															 andMinute:[self.thisDay.startMinute intValue]];
+		NSTimeInterval twentyFourHours	= 24*60*60;
+		
+		BOOL nowIsOnSameDateAsMostRecentDateButAfterEntryLogging = ([now compare:[mostRecentDate dateByAddingTimeInterval:twentyFourHours]] == NSOrderedAscending);
 		
 		newDay.date = (nowIsOnSameDateAsMostRecentDateButAfterEntryLogging) ? [mostRecentDate dateByAddingTimeInterval:twentyFourHours] : now;
 		
@@ -471,7 +492,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 -(void)addGuidelinesToThisDay
 {
 	NSInteger indexOfFirstFollowedAdvice = self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
-	[self setTheSixFor:self.thisDay withIndexOfFirstFollowedAdvice:indexOfFirstFollowedAdvice inManagedObjectContext:self.managedObjectContext];
+	[self setTheSixForDay:self.thisDay withIndexOfFirstFollowedAdvice:indexOfFirstFollowedAdvice inManagedObjectContext:self.managedObjectContext];
 	
 	[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:YES];
 	[self saveContext];
@@ -483,10 +504,10 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	
 }
 
--(void)setTheSixFor:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+-(void)setTheSixForDay:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
-	NSUInteger indexOfFollowedAdviceForTheDay;
-	NSUInteger indexIntervalOfAdvice;
+	NSInteger indexOfFollowedAdviceForTheDay = 0;
+	NSInteger indexIntervalOfAdvice = 0;
 	
 	if (indexOfFirstFollowedAdvice >= [self.allAdviceFollowedByUser count]) {
 		
@@ -497,16 +518,24 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	// set values for indexIntervalOfAdvice and indexOfFollowedAdviceForTheDay
 	if ([self.sixTimesUserDefaults isStaggerDailyGuidelinesOn]) {
 
-		NSUInteger maximumOrdinalNumberOfFirstIndex;
-		NSUInteger maximumIndexOfFirstIndex;
+		NSUInteger maximumOrdinalNumberOfFirstIndex = 0;
+		NSUInteger maximumIndexOfFirstIndex = 0;
+		NSUInteger countOfAdviceEntriesAlreadyAdded = [[self.thisDay getTheSixSorted] count];
+		NSString *debugText;
 
 		indexIntervalOfAdvice = [self.allAdviceFollowedByUser count] / 6;
 		
 		maximumOrdinalNumberOfFirstIndex = indexIntervalOfAdvice + [self.allAdviceFollowedByUser count] % 6;
-		maximumIndexOfFirstIndex = (maximumOrdinalNumberOfFirstIndex - 1) * [[self.thisDay getTheSixSorted] count];
+		maximumIndexOfFirstIndex = (maximumOrdinalNumberOfFirstIndex - 1);
+		if (countOfAdviceEntriesAlreadyAdded > 0) {
+		
+			maximumIndexOfFirstIndex *= countOfAdviceEntriesAlreadyAdded;
+			
+		}
 		
 		if (indexOfFirstFollowedAdvice <= maximumIndexOfFirstIndex) {
 			
+			debugText = @"the index of the first followed advice is less than or equal to the maximum index of the first advice";
 			indexOfFollowedAdviceForTheDay = indexOfFirstFollowedAdvice;
 			
 		} else {
@@ -605,7 +634,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 			
 		}
 		
-		[self setTheSixFor:self.thisDay withIndexOfFirstFollowedAdvice:indexOfFirstNewlyFollowedAdviceForTheDay inManagedObjectContext:self.managedObjectContext];
+		[self setTheSixForDay:self.thisDay withIndexOfFirstFollowedAdvice:indexOfFirstNewlyFollowedAdviceForTheDay inManagedObjectContext:self.managedObjectContext];
 		
 		[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:YES];
 		
@@ -724,6 +753,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UILabel *guidelineLabel = [UILabel new];
+	UILabel *timeLabel = [UILabel new];
 	guidelineLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
 	if (indexPath.section == [self.tableViewSections indexOfObject:kNextEntry]) {
@@ -734,15 +764,20 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 		} else {
 				
-			guidelineLabel.font	= [UIFont fontWithName:kFontNameGuideline
-													  size:kFontSizeGuidelineNext];
+			guidelineLabel.font	= [UIFont preferredFontForAdviceNameInEntry];
 			guidelineLabel.text = self.nextEntry.advice.name;
+			
+			timeLabel.font = [UIFont preferredFontForTimeForNextEntry];
+			timeLabel.text = @"8:00 placeholder";
 
 			CGFloat guidelineLabelHeight = [self heightForLabel:guidelineLabel
 													   withText:guidelineLabel.text
 													 labelWidth:GUIDELINE_LABEL_WIDTH];
+			CGFloat timeLabelHeight = [self heightForLabel:timeLabel
+												  withText:timeLabel.text
+												labelWidth:GUIDELINE_LABEL_WIDTH];
 			
-			return guidelineLabelHeight + 52;
+			return guidelineLabelHeight + 12 + timeLabelHeight + guidelineLabel.font.pointSize * 1.2;
 		
 		}
 		
@@ -759,8 +794,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 			
 			LESixOfDay *updatedEntry = [self.updatedEntries objectAtIndex:indexForUpdatedEntry];
 			
-			guidelineLabel.font = [UIFont fontWithName:kFontNameGuideline
-													 size:kFontSizeGuidelineOther];
+			guidelineLabel.font = [UIFont preferredFontForAdviceNameInEntry];
 			guidelineLabel.text = [[updatedEntry valueForKey:@"advice"] valueForKey:@"name"];
 			
 			CGFloat guidelineLabelHeight = [self heightForLabel:guidelineLabel
@@ -769,7 +803,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 			
 			UILabel *actionLabel = [UILabel new];
 			actionLabel.lineBreakMode = NSLineBreakByWordWrapping;
-			actionLabel.font = [UIFont systemFontOfSize:14];
+			actionLabel.font = [UIFont preferredFontForActionText];
 			
 			NSInteger positiveActionHeight = 0;
 			NSInteger negativeActionHeight = 0;
@@ -794,14 +828,13 @@ static NSString *kAboutAndSettings = @"About and Settings";
 				
 			}
 						
-			NSInteger cellHeight = guidelineLabelHeight + positiveActionHeight + negativeActionHeight + 46;
+			NSInteger cellHeight = guidelineLabelHeight + positiveActionHeight + negativeActionHeight + 40;
 			
 			return cellHeight;
 		
 		} else if (!self.isMemberOfSTTodayTVC || (indexPath.row > 0)) {
 			
-			guidelineLabel.font = [UIFont fontWithName:kFontNameGuideline
-												size:kFontSizeGuidelineOther];
+			guidelineLabel.font = [UIFont preferredFontForAdviceNameInSetOfAdviceListing];
 			
 			NSInteger indexOfScheduledEntry = [self indexOfEntryAt:indexPath
 											   whichHasBeenUpdated:NO];
@@ -816,7 +849,13 @@ static NSString *kAboutAndSettings = @"About and Settings";
 			
 		} else {
 			
-			return 35;
+			UILabel	*label = [UILabel new];
+			label.font = [UIFont preferredFontForUILabel];
+			label.text = @"placeholder text";
+			CGFloat labelHeight = [self heightForLabel:label
+											  withText:label.text
+											labelWidth:150.0];
+			return labelHeight + label.font.pointSize * 1.3;
 			
 		}
 		
@@ -834,7 +873,13 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 	} else {
 
-		return 35;
+		UILabel	*label = [UILabel new];
+		label.font = [UIFont preferredFontForUILabel];
+		label.text = @"placeholder text";
+		CGFloat labelHeight = [self heightForLabel:label
+										  withText:label.text
+										labelWidth:150.0];
+		return labelHeight + label.font.pointSize * 1.3;
 	
 	}
 }
@@ -931,8 +976,8 @@ static NSString *kAboutAndSettings = @"About and Settings";
 				
 			}
 		
-			guidelineLabel.font = [UIFont fontWithName:kFontNameGuideline
-												  size:kFontSizeGuidelineNext];
+			guidelineLabel.font = [UIFont preferredFontForAdviceNameInEntry];
+			timeLabel.font = [UIFont preferredFontForTimeForNextEntry];
 		
 			NSString *timeEntryTextPrefix = @"";
 					
@@ -964,13 +1009,17 @@ static NSString *kAboutAndSettings = @"About and Settings";
 			UILabel *positiveActionLabel	= (UILabel *)[guidelineCell viewWithTag:20];
 			UILabel *negativeActionLabel	= (UILabel *)[guidelineCell viewWithTag:21];
 			
-			guidelineLabel.font				= [UIFont fontWithName:kFontNameGuideline
-															size:kFontSizeGuidelineOther];
+			guidelineLabel.font = [UIFont preferredFontForAdviceNameInSetOfAdviceListing];
+			timeLabel.font = [UIFont preferredFontForTimeForUpdatedEntry];
 			
 			LESixOfDay *updatedEntry		= [self.updatedEntries objectAtIndex:indexForUpdatedEntry];
 			
 			timeLabel.text					= [NSString stringWithFormat:@"Updated %@", updatedEntry.timeLastUpdated.time];
 			guidelineLabel.text				= updatedEntry.advice.name;
+			
+			positiveActionLabel.font = [UIFont preferredFontForActionText];
+			negativeActionLabel.font = [UIFont preferredFontForActionText];
+			
 			positiveActionLabel.text		= [[updatedEntry.getPositiveActionsTaken anyObject] valueForKey:@"text"];
 			negativeActionLabel.text		= [[updatedEntry.getNegativeActionsTaken anyObject] valueForKey:@"text"];
 			
@@ -1006,8 +1055,8 @@ static NSString *kAboutAndSettings = @"About and Settings";
 			UILabel *timeLabel				= (UILabel *)[guidelineCell viewWithTag:10];
 			UILabel *guidelineLabel			= (UILabel *)[guidelineCell viewWithTag:11];
 			
-			guidelineLabel.font				= [UIFont fontWithName:kFontNameGuideline
-																		size:kFontSizeGuidelineOther];
+			guidelineLabel.font = [UIFont preferredFontForAdviceNameInSetOfAdviceListing];
+			timeLabel.font = [UIFont preferredFontForTimeForRemaingScheduledEntry];
 
 			NSInteger indexOfScheduledEntry = [self indexOfEntryAt:indexPath
 											   whichHasBeenUpdated:NO];
@@ -1026,6 +1075,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 			
 			UITableViewCell *summaryOrSetupCell = [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 			
+			summaryOrSetupCell.textLabel.font = [UIFont preferredFontForUILabel];
 			summaryOrSetupCell.textLabel.text = @"Today's Other Guidelines";
 			summaryOrSetupCell.textLabel.textColor = [UIColor darkGrayColor];
 			summaryOrSetupCell.detailTextLabel.text = @"";
@@ -1052,24 +1102,31 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 		if (self.setsOfGuidelinesHaveBeenSelected && [self indexPathHasPicker:indexPath]){
 			
-			daySetupCell						= [tableView dequeueReusableCellWithIdentifier:datePickerCellIdentifier];
+			daySetupCell = [tableView dequeueReusableCellWithIdentifier:datePickerCellIdentifier];
 			
 		} else if (self.setsOfGuidelinesHaveBeenSelected && [self indexPathHasDate:indexPath]) {
 			
-			daySetupCell						= [tableView dequeueReusableCellWithIdentifier:dateCellIdentifier];
-			daySetupCell.textLabel.text			= @"Start of Day";
-			if (!self.highlightStartOfDayLabelWithColor)
-				daySetupCell.textLabel.textColor= [UIColor darkGrayColor];
-			daySetupCell.detailTextLabel.text	= [NSString stringWithFormat:@"%@", [self wakeUpAtTime]];
-			daySetupCell.detailTextLabel.tag	= 10001;
+			daySetupCell = [tableView dequeueReusableCellWithIdentifier:dateCellIdentifier];
+			daySetupCell.textLabel.font = [UIFont preferredFontForUILabel];
+			daySetupCell.textLabel.text = @"Start of Day";
+			if (!self.highlightStartOfDayLabelWithColor) {
+			
+				daySetupCell.textLabel.textColor = [UIColor darkGrayColor];
+			
+			}
+			daySetupCell.detailTextLabel.font = [UIFont preferredFontForUILabel];
+			daySetupCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [self wakeUpAtTime]];
+			daySetupCell.detailTextLabel.tag = 10001;
 			
 		} else {
 			
-			daySetupCell						= [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
-			daySetupCell.textLabel.text			= (self.setsOfGuidelinesHaveBeenSelected) ? @"Guidelines Being Followed" : @"Select Guidelines to Follow";
+			daySetupCell = [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
+			daySetupCell.textLabel.font = [UIFont preferredFontForUILabel];
+			daySetupCell.textLabel.text = (self.setsOfGuidelinesHaveBeenSelected) ? @"Guidelines Being Followed" : @"Select Guidelines to Follow";
 			if (self.setsOfGuidelinesHaveBeenSelected)
-				daySetupCell.textLabel.textColor= [UIColor darkGrayColor];
-			daySetupCell.detailTextLabel.text	= (self.setsOfGuidelinesHaveBeenSelected) ? [NSString stringWithFormat:@"%lu", (unsigned long)[self.allAdviceFollowedByUser count]] : @"";
+				daySetupCell.textLabel.textColor = [UIColor darkGrayColor];
+			daySetupCell.detailTextLabel.font = [UIFont preferredFontForUILabel];
+			daySetupCell.detailTextLabel.text = (self.setsOfGuidelinesHaveBeenSelected) ? [NSString stringWithFormat:@"%lu", (unsigned long)[self.allAdviceFollowedByUser count]] : @"";
 			
 		}
 		
@@ -1093,8 +1150,10 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		// Previous Days
 		UITableViewCell *previousDaysCell = [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 		
+		previousDaysCell.textLabel.font = [UIFont preferredFontForUILabel];
 		previousDaysCell.textLabel.text = @"Previous Days";
 		previousDaysCell.textLabel.textColor = [UIColor darkGrayColor];
+		previousDaysCell.detailTextLabel.font = [UIFont preferredFontForUILabel];
 		previousDaysCell.detailTextLabel.text	= @"";
 		previousDaysCell.selectionStyle = UITableViewCellSelectionStyleBlue;
 		previousDaysCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -1104,6 +1163,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 		UITableViewCell *settingsCell = [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 		
+		settingsCell.textLabel.font = [UIFont preferredFontForUILabel];
 		settingsCell.textLabel.text = @"Settings";
 		settingsCell.textLabel.textColor = [UIColor darkGrayColor];
 		settingsCell.detailTextLabel.text	= @"";
@@ -1508,7 +1568,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		NSLog(@"Going to settings");
 	
 		STSettingsTVC *settingsTVC = segue.destinationViewController;
-		settingsTVC.todayTVC = self;
+			settingsTVC.todayTVC = self;
 		
 	}
 	

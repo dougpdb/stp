@@ -17,15 +17,22 @@
 - (void)addNotification:(LESixOfDay *)sixOfDayLogEntry;
 - (void)addNotification:(LESixOfDay *)sixOfDayLogEntry withApplicationIconBadgeNumber:(NSInteger)badgeNumber;
 - (void)addNotifications:(NSArray *)remainingSixOfDayLogEntries;
+
 - (void)cancelNotification:(UILocalNotification *)notification;
 - (void)cancelNotificationFor:(LESixOfDay *)sixOfDayLogEntry;
 - (void)cancelAllNotifications;
-- (void)decrementApplicationIconBadgeNumber;
+
 - (void)descriptionOfNotification:(UILocalNotification *)notification;
 - (void)descriptionOfAllNotifications;
+
 - (LESixOfDay *)entryFromNotification:(UILocalNotification *)notification forDay:(Day *)day;
+
 - (BOOL)notificationHasFired:(UILocalNotification *)notifcation;
-- (void)setApplicationIconBadgeNumbersForAllNotifications;
+
+-(void)hideApplicationIconBadgeNumbers;
+-(void)setApplicationIconBadgeNumberForPastDueEntries:(Day *)day;
+-(void)setApplicationIconBadgeNumbersForAllNotifications;
+
 
 - (NSString *)adviceTextForNotification:(UILocalNotification *)notification;
 - (NSString *)timeScheduledForNotification:(UILocalNotification *)notification;

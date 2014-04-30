@@ -10,9 +10,10 @@
 #import "STSetsOfAdviceTVC.h"
 #import "SetOfAdvice.h"
 #import "SpiritualTradtion.h"
+#import "UIFont+ST.h"
 
-#define SET_OF_ADVICE_LABEL_WIDTH	274
-#define GUIDELINE_LABEL_WIDTH		264
+#define SET_OF_ADVICE_LABEL_WIDTH	272
+#define GUIDELINE_LABEL_WIDTH		272
 
 
 @interface STAddFollowingSetOfAdviceTVC ()
@@ -35,6 +36,16 @@
     [super viewDidLoad];
 		
 	// Do any additional setup after loading the view.
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(preferredContentSizeChanged:)
+												 name:UIContentSizeCategoryDidChangeNotification
+											   object:nil];
+	
+}
+
+
+- (void)preferredContentSizeChanged:(NSNotification *)aNotification {
+    [self.tableView reloadData];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -62,22 +73,31 @@
 {
 	return [self.notFollowingSetsOfAdvice count];
 }
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	SetOfAdvice	*setOfAdvice;
+	UILabel *traditionNameLabel = [UILabel new];
+	traditionNameLabel.font = [UIFont preferredFontForTraditionName];
+	traditionNameLabel.text = @"placeholder name";
+	
 	UILabel *setOfAdviceLabel		= [UILabel new];
 	setOfAdviceLabel.lineBreakMode	= NSLineBreakByWordWrapping;
-	setOfAdviceLabel.font			= [UIFont boldSystemFontOfSize:17];
+	setOfAdviceLabel.font			= [UIFont preferredFontForSetOfAdviceName];
 	
-	setOfAdvice									= [self.notFollowingSetsOfAdvice objectAtIndex:indexPath.row];
+	setOfAdvice = [self.notFollowingSetsOfAdvice objectAtIndex:indexPath.row];
+		
+	setOfAdviceLabel.text = setOfAdvice.name;
 	
-	setOfAdviceLabel.text			= setOfAdvice.practicedWithinTradition.name;
-	
-	CGFloat guidelineLabelHeight	= [self heightForLabel:setOfAdviceLabel
-											   withText:setOfAdviceLabel.text
+	CGFloat traditionLabelHeight = [self heightForLabel:traditionNameLabel
+											   withText:traditionNameLabel.text
 											 labelWidth:SET_OF_ADVICE_LABEL_WIDTH];
 	
-	return 32 + guidelineLabelHeight + 8;		// change for landscape orientation?
+	CGFloat setOfAdviceLabelHeight = [self heightForLabel:setOfAdviceLabel
+												 withText:setOfAdviceLabel.text
+											   labelWidth:SET_OF_ADVICE_LABEL_WIDTH];
+	
+	return traditionLabelHeight + 4 + setOfAdviceLabelHeight + setOfAdviceLabel.font.pointSize * 1.2;		// change for landscape orientation?
 }
 
 #pragma mark Managing Cell and Label Heights
@@ -119,6 +139,9 @@
 		
 	setOfAdvice									= [self.notFollowingSetsOfAdvice objectAtIndex:indexPath.row];
 		
+	nameOfTraditionLabel.font = [UIFont preferredFontForTraditionName];
+	nameOfSetOfAdviceLabel.font = [UIFont preferredFontForSetOfAdviceName];
+	
 	nameOfTraditionLabel.text					= setOfAdvice.practicedWithinTradition.name;
 	nameOfSetOfAdviceLabel.text					= setOfAdvice.name;
 	

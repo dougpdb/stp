@@ -16,6 +16,10 @@
 @property (weak, nonatomic) IBOutlet UISwitch *appBadgeSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationsSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *staggerGuidelinesSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *aboutSixTimesLabel;
+@property (weak, nonatomic) IBOutlet UILabel *notifyWhenGuidelineIsDueLabel;
+@property (weak, nonatomic) IBOutlet UILabel *showAppBadgeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *staggerDailyGuidelinesLabel;
 
 - (IBAction)toggleAppBadgeSetting:(id)sender;
 - (IBAction)toggleNotificationsSetting:(id)sender;

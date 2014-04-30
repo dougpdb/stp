@@ -9,7 +9,7 @@
 #import "STSetOfAdviceTVC.h"
 #import "SetOfAdvice.h"
 #import "Advice.h"
-
+#import "UIFont+ST.h"
 
 @interface STSetOfAdviceTVC ()
 
@@ -51,6 +51,16 @@
 {
     [super viewDidLoad];
 	self.title = @""; // self.selectedSetOfAdvice.name;
+
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(preferredContentSizeChanged:)
+												 name:UIContentSizeCategoryDidChangeNotification
+											   object:nil];
+}
+
+
+- (void)preferredContentSizeChanged:(NSNotification *)aNotification {
+    [self.tableView reloadData];
 }
 
 - (void)viewDidUnload
@@ -110,6 +120,9 @@
 		UILabel *nameOfTraditionLabel = (UILabel *)[setOfAdviceCell viewWithTag:10];
 		UILabel *nameOfSetOfAdviceLabel = (UILabel *)[setOfAdviceCell viewWithTag:11];
 
+		nameOfTraditionLabel.font = [UIFont preferredFontForTraditionName];
+		nameOfSetOfAdviceLabel.font = [UIFont preferredFontForSetOfAdviceName];
+		
 		nameOfTraditionLabel.text = self.selectedSetOfAdvice.practicedWithinTradition.name;
 		nameOfSetOfAdviceLabel.text = self.selectedSetOfAdvice.name;
 		
@@ -128,6 +141,8 @@
 		
 		Advice *advice = [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.row-1];
 
+		nameOfAdviceLabel.font = [UIFont preferredFontForAdviceNameInSetOfAdviceListing];
+		
 		orderNumberOfAdviceInSetLabel.text = [advice.orderNumberInSet stringValue];
 		nameOfAdviceLabel.text = advice.name;
 		
@@ -155,32 +170,42 @@
 {
 	if (indexPath.row == 0) {
 		
-		UILabel *setOfAdviceLabel = [UILabel new];
-		setOfAdviceLabel.lineBreakMode = NSLineBreakByWordWrapping;
-		setOfAdviceLabel.font = [UIFont boldSystemFontOfSize:17];
 		
-		setOfAdviceLabel.text = self.selectedSetOfAdvice.practicedWithinTradition.name;
+		UILabel *traditionNameLabel = [UILabel new];
+		UILabel *setOfAdviceNameLabel = [UILabel new];
+		
+		setOfAdviceNameLabel.lineBreakMode = NSLineBreakByWordWrapping;
+		
+		traditionNameLabel.font = [UIFont preferredFontForTraditionName];
+		setOfAdviceNameLabel.font = [UIFont preferredFontForSetOfAdviceName];
+		
+		traditionNameLabel.text = @"placeholder name";
+		setOfAdviceNameLabel.text = self.selectedSetOfAdvice.practicedWithinTradition.name;
 				
-		CGFloat guidelineLabelHeight = [self heightForLabel:setOfAdviceLabel
-												  withText:setOfAdviceLabel.text
+		CGFloat traditionNameLabelHeight = [self heightForLabel:traditionNameLabel
+													   withText:traditionNameLabel.text
+													 labelWidth:self.setOfAdviceLabelWidth];
+		
+		CGFloat setOfAdviceNameLabelHeight = [self heightForLabel:setOfAdviceNameLabel
+												  withText:setOfAdviceNameLabel.text
 												labelWidth:self.setOfAdviceLabelWidth];
 		
-		return 32 + guidelineLabelHeight + 8;		// change for landscape orientation?
+		return traditionNameLabelHeight + setOfAdviceNameLabelHeight + setOfAdviceNameLabel.font.pointSize * 1.2;
 		
 	} else {
 		
-		UILabel *adviceLabel = [UILabel new];
-		adviceLabel.lineBreakMode = NSLineBreakByWordWrapping;
-		adviceLabel.font = [UIFont fontWithName:@"Palatino" size:15.0];
+		UILabel *adviceNameLabel = [UILabel new];
+		adviceNameLabel.lineBreakMode = NSLineBreakByWordWrapping;
+		adviceNameLabel.font = [UIFont preferredFontForAdviceNameInSetOfAdviceListing];
 		
 		Advice *advice = [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.row-1];
-		adviceLabel.text = advice.name;
+		adviceNameLabel.text = advice.name;
 		
-		CGFloat adviceLabelHeight = [self heightForLabel:adviceLabel
-											  withText:adviceLabel.text
+		CGFloat adviceNameLabelHeight = [self heightForLabel:adviceNameLabel
+											  withText:adviceNameLabel.text
 											labelWidth:self.guidelineLabelWidth];
 		
-		return 10.0 + adviceLabelHeight + 10.0;		// change for landscape orientation?
+		return adviceNameLabelHeight + adviceNameLabel.font.pointSize * 1.2;
 
 	}
 }

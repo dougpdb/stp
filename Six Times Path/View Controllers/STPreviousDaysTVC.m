@@ -11,6 +11,7 @@
 #import "STPreviousDayTVC.h"
 #import "Day+ST.h"
 #import "NSDate+ST.h"
+#import "UIFont+ST.h"
 #import "TestFlight.h"
 
 @interface STPreviousDaysTVC ()
@@ -52,6 +53,17 @@
 	[self setupDaysFetchedResultsController];
 	self.days	= [NSArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
 	self.performFetchAfterViewDidLoad = NO;
+
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(preferredContentSizeChanged:)
+												 name:UIContentSizeCategoryDidChangeNotification
+											   object:nil];
+	
+}
+
+
+- (void)preferredContentSizeChanged:(NSNotification *)aNotification {
+    [self.tableView reloadData];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -106,6 +118,13 @@
 	}
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	UILabel *placeholderLabel = [UILabel new];
+	placeholderLabel.font = [UIFont preferredFontForUILabel];
+	
+	return placeholderLabel.font.pointSize * 1.3 + 22;
+}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -116,9 +135,12 @@
 	
 	Day *day					= (indexPath.section == 0) ? [self.days objectAtIndex:indexPath.row + 1] : [self.fetchedResultsController  objectAtIndexPath:indexPath];										// use +1 to "skip" today
 	
+	cell.textLabel.font = [UIFont preferredFontForUILabel];
+	cell.detailTextLabel.font = [UIFont preferredFontForUILabel];
+	
 	cell.textLabel.text			= day.date.shortWeekdayAndDate;
 	cell.detailTextLabel.text	= [NSString stringWithFormat:@"%lu Entries", (unsigned long)[[day getTheSixThatHaveUserEntriesSorted] count]];
-	NSLog(@"returning a cell");
+
 	return cell;
 }
 

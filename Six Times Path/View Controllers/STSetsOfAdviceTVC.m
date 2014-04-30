@@ -12,14 +12,15 @@
 #import "SpiritualTradtion.h"
 #import "Advice.h"
 #import "Day+ST.h"
+#import "UIFont+ST.h"
 #import "LESixOfDay+ST.h"
 //#import "TestFlight.h"
 #import "SetOfAdvice.h"
 #import "STNotificationController.h"
 
 
-#define SET_OF_ADVICE_LABEL_WIDTH	274
-#define GUIDELINE_LABEL_WIDTH		264
+#define SET_OF_ADVICE_LABEL_WIDTH	272
+#define GUIDELINE_LABEL_WIDTH		272
 
 @interface STSetsOfAdviceTVC ()
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -70,6 +71,16 @@
 		[self editFollowingSetsOfGuidelines:nil];
 	}
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(preferredContentSizeChanged:)
+												 name:UIContentSizeCategoryDidChangeNotification
+											   object:nil];
+	
+}
+
+
+- (void)preferredContentSizeChanged:(NSNotification *)aNotification {
+    [self.tableView reloadData];
 }
 
 - (void)viewDidUnload
@@ -574,25 +585,44 @@
 		 (!self.isFilteredForFollowingSetsOfAdvice && indexPath.row == [self.allSetsOfAdvice count])
 		 )
 		) {
-		return 44;
+		
+		UILabel *placeholderLabel = [UILabel new];
+		placeholderLabel.font = [UIFont preferredFontBoldForUILabel];
+		
+		CGFloat placeholderLabelHeight = [self heightForLabel:placeholderLabel
+													 withText:@"Choose a set of guidelines..."
+												   labelWidth:SET_OF_ADVICE_LABEL_WIDTH];
+		
+		return placeholderLabelHeight + placeholderLabel.font.pointSize * 1.3;
+		
 	} else {
+		
 		SetOfAdvice	*setOfAdvice;
+		UILabel *traditionNameLabel = [UILabel new];
+		traditionNameLabel.font = [UIFont preferredFontForTraditionName];
+		traditionNameLabel.text = @"placeholder name";
+		
 		UILabel *setOfAdviceLabel		= [UILabel new];
 		setOfAdviceLabel.lineBreakMode	= NSLineBreakByWordWrapping;
-		setOfAdviceLabel.font			= [UIFont boldSystemFontOfSize:17];
+		setOfAdviceLabel.font			= [UIFont preferredFontForSetOfAdviceName];
 		
-		if (self.isFilteredForFollowingSetsOfAdvice)
-			setOfAdvice								= [self.followingSetsOfAdvice objectAtIndex:indexPath.row];
-		else
-			setOfAdvice								= [self.allSetsOfAdvice objectAtIndex:indexPath.row];
+		if (self.isFilteredForFollowingSetsOfAdvice) {
+			setOfAdvice = [self.followingSetsOfAdvice objectAtIndex:indexPath.row];
+		} else {
+			setOfAdvice = [self.allSetsOfAdvice objectAtIndex:indexPath.row];
+		}
 
-		setOfAdviceLabel.text			= setOfAdvice.practicedWithinTradition.name;
+		setOfAdviceLabel.text = setOfAdvice.name;
 		
-		CGFloat guidelineLabelHeight	= [self heightForLabel:setOfAdviceLabel
-												   withText:setOfAdviceLabel.text
+		CGFloat traditionLabelHeight = [self heightForLabel:traditionNameLabel
+												   withText:traditionNameLabel.text
 												 labelWidth:SET_OF_ADVICE_LABEL_WIDTH];
 		
-		return 32 + guidelineLabelHeight + 8;		// change for landscape orientation?
+		CGFloat setOfAdviceLabelHeight = [self heightForLabel:setOfAdviceLabel
+													 withText:setOfAdviceLabel.text
+												   labelWidth:SET_OF_ADVICE_LABEL_WIDTH];
+		
+		return traditionLabelHeight + 10 + setOfAdviceLabelHeight + 12;		// change for landscape orientation?
 		
 	}
 	
@@ -633,30 +663,47 @@
 		 (!self.isFilteredForFollowingSetsOfAdvice && indexPath.row == [self.allSetsOfAdvice count])
 		 )
 		) {
-		static NSString *addCellIdentifier	= @"addSetOfGuidelines";
-		UITableViewCell *addCell			= [tableView dequeueReusableCellWithIdentifier:addCellIdentifier];
+		static NSString *addCellIdentifier = @"addSetOfGuidelines";
+		UITableViewCell *addCell = [tableView dequeueReusableCellWithIdentifier:addCellIdentifier];
 		
-		if (self.isFilteredForFollowingSetsOfAdvice && indexPath.row == [self.followingSetsOfAdvice count])
-			addCell.textLabel.text			= @"Choose Set of Guidelines...";
-		else
-			addCell.textLabel.text			= @"Add New Set of Guidelines...";
+		if (self.isFilteredForFollowingSetsOfAdvice && indexPath.row == [self.followingSetsOfAdvice count]) {
+			
+			addCell.textLabel.text = @"Choose Set of Guidelines...";
+					
+		} else {
+		
+			addCell.textLabel.text = @"Add New Set of Guidelines...";
+		
+		}
+
+		addCell.textLabel.font = [UIFont preferredFontBoldForUILabel];
 		
 		return addCell;
+		
 	} else {
+		
 		SetOfAdvice	*setOfAdvice;
-		static NSString *setOfAdviceCellIdentifier	= @"setOfAdviceCell";
-		UITableViewCell *setOfAdviceCell			= [tableView dequeueReusableCellWithIdentifier:setOfAdviceCellIdentifier];
+		static NSString *setOfAdviceCellIdentifier = @"setOfAdviceCell";
+		UITableViewCell *setOfAdviceCell = [tableView dequeueReusableCellWithIdentifier:setOfAdviceCellIdentifier];
 		   
-		UILabel *nameOfTraditionLabel				= (UILabel *)[setOfAdviceCell viewWithTag:10];
-		UILabel *nameOfSetOfAdviceLabel				= (UILabel *)[setOfAdviceCell viewWithTag:11];
+		UILabel *nameOfTraditionLabel = (UILabel *)[setOfAdviceCell viewWithTag:10];
+		UILabel *nameOfSetOfAdviceLabel = (UILabel *)[setOfAdviceCell viewWithTag:11];
 
-		if (self.isFilteredForFollowingSetsOfAdvice)
-			setOfAdvice								= [self.followingSetsOfAdvice objectAtIndex:indexPath.row];
-		else
-			setOfAdvice								= [self.allSetsOfAdvice objectAtIndex:indexPath.row];
+		if (self.isFilteredForFollowingSetsOfAdvice) {
+			
+			setOfAdvice = [self.followingSetsOfAdvice objectAtIndex:indexPath.row];
+		
+		} else {
+		
+			setOfAdvice = [self.allSetsOfAdvice objectAtIndex:indexPath.row];
+			
+		}
 
-		nameOfTraditionLabel.text					= setOfAdvice.practicedWithinTradition.name;
-		nameOfSetOfAdviceLabel.text					= setOfAdvice.name;
+		nameOfTraditionLabel.text = setOfAdvice.practicedWithinTradition.name;
+		nameOfSetOfAdviceLabel.text = setOfAdvice.name;
+		
+		nameOfTraditionLabel.font = [UIFont preferredFontForTraditionName];
+		nameOfSetOfAdviceLabel.font = [UIFont preferredFontForSetOfAdviceName];
 					
 		return setOfAdviceCell;
 	}
