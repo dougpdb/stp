@@ -63,6 +63,7 @@
 		91A9693716AE1C9600085EC5 /* NSDate+ES.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A9693616AE1C9600085EC5 /* NSDate+ES.m */; };
 		91C68E9E16C12CCB00F91420 /* STSetOfAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C68E9D16C12CCB00F91420 /* STSetOfAdviceTVC.m */; };
 		91C68EA216C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C68EA116C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.m */; };
+		91C6DBF718FD57DF00D36097 /* UIFont+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C6DBF618FD57DF00D36097 /* UIFont+ST.m */; };
 		91D0F50218DB039100424076 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91D0F4FC18DB039100424076 /* libTestFlight.a */; };
 		91D0F50318DB039100424076 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91D0F4FD18DB039100424076 /* README.md */; };
 		91D0F50418DB039100424076 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 91D0F4FE18DB039100424076 /* release_notes.md */; };
@@ -169,6 +170,8 @@
 		91C68E9D16C12CCB00F91420 /* STSetOfAdviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSetOfAdviceTVC.m; sourceTree = "<group>"; };
 		91C68EA016C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STAddFollowingSetOfAdviceTVC.h; path = "View Controllers/STAddFollowingSetOfAdviceTVC.h"; sourceTree = "<group>"; };
 		91C68EA116C7519F00F91420 /* STAddFollowingSetOfAdviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STAddFollowingSetOfAdviceTVC.m; path = "View Controllers/STAddFollowingSetOfAdviceTVC.m"; sourceTree = "<group>"; };
+		91C6DBF518FD57DF00D36097 /* UIFont+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIFont+ST.h"; path = "Data Controllers/UIFont+ST.h"; sourceTree = "<group>"; };
+		91C6DBF618FD57DF00D36097 /* UIFont+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFont+ST.m"; path = "Data Controllers/UIFont+ST.m"; sourceTree = "<group>"; };
 		91D0F4FC18DB039100424076 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		91D0F4FD18DB039100424076 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		91D0F4FE18DB039100424076 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
@@ -364,6 +367,8 @@
 				1EA5067A1594895B0075BC91 /* Managed Object Classes */,
 				91A9693516AE1C9600085EC5 /* NSDate+ES.h */,
 				91A9693616AE1C9600085EC5 /* NSDate+ES.m */,
+				91C6DBF518FD57DF00D36097 /* UIFont+ST.h */,
+				91C6DBF618FD57DF00D36097 /* UIFont+ST.m */,
 			);
 			name = "Data Classes";
 			sourceTree = "<group>";
@@ -602,6 +607,7 @@
 				918D4133168F3036007501DD /* Day.m in Sources */,
 				918EA1EF169703FF001FCFDA /* STPreviousDaysTVC.m in Sources */,
 				9120B82216A4255700F53B4C /* STPreviousDayTVC.m in Sources */,
+				91C6DBF718FD57DF00D36097 /* UIFont+ST.m in Sources */,
 				91A9692616AAE1D700085EC5 /* BSKeyboardControls.m in Sources */,
 				91A9693716AE1C9600085EC5 /* NSDate+ES.m in Sources */,
 				91C68E9E16C12CCB00F91420 /* STSetOfAdviceTVC.m in Sources */,
