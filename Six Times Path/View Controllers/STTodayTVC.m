@@ -60,8 +60,6 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 
 @property (nonatomic, retain) IBOutlet UIDatePicker *pickerView;
-//@property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
-//@property (nonatomic, retain) IBOutlet UIBarButtonItem *feedbackButton;
 
 @property (nonatomic, weak) NSArray *dataArray;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
@@ -72,8 +70,6 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 @property (nonatomic, strong) STNotificationController *notificationController;
 
-//@property (nonatomic, readonly) BOOL isLandscape;
-//@property (nonatomic, readonly) BOOL isPortrait;
 @property BOOL shouldShowWelcomeMessage;
 @property BOOL isMemberOfSTTodayTVC;
 
@@ -215,10 +211,6 @@ static NSString *kAboutAndSettings = @"About and Settings";
     UITableViewCell *pickerViewCellToCheck = [self.tableView dequeueReusableCellWithIdentifier:kDatePickerID];
     self.pickerCellRowHeight = pickerViewCellToCheck.frame.size.height;
 
-
-//	if ([self isMemberOfClass:[STTodayTVC class]])
-//		self.navigationItem.leftBarButtonItem	= self.feedbackButton;
-
 	if (self.databaseWasJustCreatedForFirstTime) {
 		self.setsOfGuidelinesHaveBeenSelected = NO;
 		self.shouldShowWelcomeMessage = YES;
@@ -251,8 +243,6 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	
 	self.dataArray					= nil;
 	self.dateFormatter				= nil;
-//	self.doneButton					= nil;
-//	self.feedbackButton				= nil;
 	self.pickerView					= nil;
 	self.fetchedResultsController	= nil;
 }
@@ -336,22 +326,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		}
 		
 		[self setUpdatedAndRemainingScheduledEntries];
-		
-//	} else if (self.thereAreCoreDataRecordsForDay && !self.setsOfGuidelinesHaveBeenSelected) {
-//		
-//		// Here might be a more common edge case -- the user has already has a day of entries set up in Six Times
-//		// but does not have a set of guidelines set up
-//		
-//		[self setupDaysFetchedResultsController];
-//		Day *mostRecentDay							= [self.fetchedResultsController.fetchedObjects objectAtIndex:0];
-//		LESixOfDay *lastTheSixOfMostRecentDay		= [[mostRecentDay getTheSixSorted] lastObject];
-//		self.mostRecentlyAddedDate					= mostRecentDay.date;
-//		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
-//		self.thisDay								= mostRecentDay;
-//		
-//		[self addDay];
-//		[self setUpdatedAndRemainingScheduledEntries];
-		
+				
 	} else if (self.setsOfGuidelinesHaveBeenSelected) {
 		
 		// The rare edge case for when the user is has started to used the app after installing it, but it will happen at least once -- the user has
@@ -427,24 +402,21 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 -(BOOL)isTimeToAddDay
 {
-
-//	static BOOL timeToAddDayForTestingPurposes = NO;
-//	
-//	if (timeToAddDayForTestingPurposes) {
-//		return YES;
-//	} else {
-//		timeToAddDayForTestingPurposes = NO;
 		NSDate *now						= [NSDate date];
 		NSDate *mostRecentDate			= [self.mostRecentlyAddedDate setHour:[self.thisDay.startHour intValue]
 															 andMinute:[self.thisDay.startMinute intValue]];
 		
 		NSTimeInterval eighteenHours	= 18*60*60;
 		
-		if (self.mostRecentlyAddedDate)
-			return ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending);
-		else
-			return NO;
-//	}
+	if (self.mostRecentlyAddedDate) {
+		
+		return ([now compare:[mostRecentDate dateByAddingTimeInterval:eighteenHours]] == NSOrderedDescending);
+		
+	} else {
+		
+		return NO;
+		
+	}
 }
 
 -(void)addDay
@@ -1167,8 +1139,6 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		settingsCell.textLabel.text = @"Settings";
 		settingsCell.textLabel.textColor = [UIColor darkGrayColor];
 		settingsCell.detailTextLabel.text	= @"";
-//		summaryOrSetupCell.selectionStyle = UITableViewCellSelectionStyleBlue;
-//		summaryOrSetupCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
 		return settingsCell;
 	}
