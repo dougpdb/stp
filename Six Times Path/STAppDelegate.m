@@ -114,18 +114,20 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+	
 	UINavigationController *navigationController	= (UINavigationController *)self.window.rootViewController;
-	
-	NSLog(@"The visibleViewController is %@", [[navigationController.visibleViewController class] description]);
-	
+		
 	if ([navigationController.visibleViewController isMemberOfClass:[STTodayTVC class]]) {
-		STTodayTVC *todayTVC						= (STTodayTVC *)navigationController.visibleViewController;
+		
+		STTodayTVC *todayTVC = (STTodayTVC *)navigationController.visibleViewController;
+		
 		if ([todayTVC isTimeToAddDay]) {
+			
 			[todayTVC setupDayAndAdviceData];
 			[todayTVC.tableView reloadData];
+			
 		}
-	}
-	
+	}	
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -142,32 +144,36 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 
 	//----- VIEW NOTIFICATION -----
 	UIApplicationState state = [application applicationState];
-	if (state == UIApplicationStateInactive)
-	{
+	if (state == UIApplicationStateInactive) {
+		
 		//----- APPLICATION WAS IN BACKGROUND - USER HAS SEEN NOTIFICATION AND PRESSED THE ACTION BUTTON -----
 		NSLog(@"Local noticiation - App was in background and user pressed action button - \n\"%@\" scheduled at %@", [notificationController adviceTextForNotification:notification], [notificationController timeScheduledForNotification:notification]);
 		
 		
-		UINavigationController *navigationController	= (UINavigationController *)self.window.rootViewController;
+		UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
 
 		if ([navigationController.visibleViewController isMemberOfClass:[STLogEntrySixOfDayTVC class]]) {
+			
 			[(STLogEntrySixOfDayTVC *)navigationController.visibleViewController saveEntry];
+			
 		}
 		
 		[navigationController popToRootViewControllerAnimated:NO];
 		
-		STTodayTVC *todayTVC							= (STTodayTVC *)navigationController.topViewController;
+		STTodayTVC *todayTVC = (STTodayTVC *)navigationController.topViewController;
 		
 		if (![todayTVC isTimeToAddDay]) {
+			
 			[self navigateToLogEntryFromNotification:notification forToday:todayTVC];
+			
 		}
 		
 		[notificationController cancelNotification:notification];
 
 		[TestFlight passCheckpoint:@"LAUNCH FROM BACKGROUND FROM NOTIFICATION"];
-	}
-	else
-	{
+	
+	} else {
+		
 		//----- APPLICATION IS IN FOREGROUND - USER HAS NOT BEEN PRESENTED WITH THE NOTIFICATION -----
 		NSLog(@"Local noticiation - App was in foreground");
 		
@@ -176,11 +182,16 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 
 - (void)navigateToLogEntryFromNotification:(UILocalNotification *)notification forToday:(STTodayTVC *)todayTVC
 {
-    STNotificationController *notificationController	= [STNotificationController new];
+    STNotificationController *notificationController = [STNotificationController new];
 	[todayTVC setupDaysFetchedResultsController];
-	todayTVC.entryFromNotification						= [notificationController entryFromNotification:notification forDay:todayTVC.thisDay];
-	if (todayTVC.entryFromNotification != (LESixOfDay *)[NSNull null])
+	
+	todayTVC.entryFromNotification = [notificationController entryFromNotification:notification forDay:todayTVC.thisDay];
+	
+	if (todayTVC.entryFromNotification != (LESixOfDay *)[NSNull null]) {
+	
 		[todayTVC performSegueWithIdentifier:@"Guideline Entry" sender:self];
+	
+	}
 }
 
 

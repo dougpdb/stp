@@ -278,7 +278,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 -(BOOL)isAllAdviceForDayUpdated
 {
-	return ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] == 0);
+	return ([[self.thisDay getTheSixThatHaveUserEntriesSorted] count] == 6);
 }
 
 -(void)setupDayAndAdviceData
@@ -351,20 +351,23 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 -(void)setUpdatedAndRemainingScheduledEntries
 {
-	NSArray *allRemainingEntries				= [self.thisDay getTheSixWithoutUserEntriesSorted];
+	NSArray *allRemainingEntries = [self.thisDay getTheSixWithoutUserEntriesSorted];
 	
 	NSRange rangeRemainingScheduledEntries;
-	rangeRemainingScheduledEntries.location		= 1;
-	rangeRemainingScheduledEntries.length		= ([self isAllAdviceForDayUpdated]) ? 0 : [allRemainingEntries count] - 1;
+	rangeRemainingScheduledEntries.location = 1;
+	rangeRemainingScheduledEntries.length = ([self isAllAdviceForDayUpdated]) ? 0 : [allRemainingEntries count] - 1;
 	
-	if ([allRemainingEntries count] > 0)
-		self.nextEntry							= [allRemainingEntries objectAtIndex:0];
+	if ([allRemainingEntries count] > 0) {
 	
-	self.remainingScheduledEntries				= (![self isMemberOfSTTodayTVC] || [self isAllAdviceForDayUpdated]) ? allRemainingEntries : [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
+		self.nextEntry = [allRemainingEntries objectAtIndex:0];
 	
-	self.updatedEntries							= [self.thisDay getTheSixThatHaveUserEntriesSorted];
+	}
 	
-	self.showAllEntries							= (![self isMemberOfSTTodayTVC]);
+	self.remainingScheduledEntries = (![self isMemberOfSTTodayTVC] || [self isAllAdviceForDayUpdated]) ? allRemainingEntries : [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
+	
+	self.updatedEntries = [self.thisDay getTheSixThatHaveUserEntriesSorted];
+	
+	self.showAllEntries = (![self isMemberOfSTTodayTVC]);
 	[self resetCountOfTheSixWithoutUserEntries];
 
 }
