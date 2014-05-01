@@ -27,14 +27,14 @@
 
 
 
-static NSString *kTestFlightAPIKey	= @"a8e8bc8c4f06c2d6ae5584599aa9a8af_MTc3NTE1MjAxMy0wMS0yMSAwNjo1Nzo1OS45NDcyOTk";
-static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf";
+static NSString *kTestFlightAPIKey = @"a8e8bc8c4f06c2d6ae5584599aa9a8af_MTc3NTE1MjAxMy0wMS0yMSAwNjo1Nzo1OS45NDcyOTk";
+static NSString *kCrashlyticsAPIKey = @"404953fc9bd6c37e14f978a53ec8dabf001f82bf";
 
 @implementation STAppDelegate
 
-@synthesize window					= _window;
-@synthesize debug					= debug;
-@synthesize baseDataController		= _baseDataController;
+@synthesize window = _window;
+@synthesize debug = debug;
+@synthesize baseDataController = _baseDataController;
 
 
 
@@ -42,12 +42,12 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 {
 	[Crashlytics startWithAPIKey:kCrashlyticsAPIKey];
 	
-	self.debug							= YES;
+	self.debug = YES;
 	
-	self.baseDataController				= [[STApplicationBaseDataController alloc] init];
+	self.baseDataController = [[STApplicationBaseDataController alloc] init];
 	
-	BOOL spiritualTraditionsAreInCoreData	= [self.baseDataController thereAreCoreDataRecordsForEntity:@"SpiritualTradition"];
-	BOOL daysOfLogEntriesAreInCoreData		= [self.baseDataController thereAreCoreDataRecordsForEntity:@"Day"];
+	BOOL spiritualTraditionsAreInCoreData = [self.baseDataController thereAreCoreDataRecordsForEntity:@"SpiritualTradition"];
+	BOOL daysOfLogEntriesAreInCoreData = [self.baseDataController thereAreCoreDataRecordsForEntity:@"Day"];
 	 
 	NSUserDefaults *sixTimePathSettings = [NSUserDefaults standardUserDefaults];
 	
@@ -58,13 +58,16 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 	}
 
 	
-    if (!spiritualTraditionsAreInCoreData)
-        [self.baseDataController importDefaultCoreData];
+    if (!spiritualTraditionsAreInCoreData) {
+     
+		[self.baseDataController importDefaultCoreData];
+		
+	}
 
     // Override point for customization after application launch.
-    UILocalNotification *notification	=	[launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    UILocalNotification *notification =	[launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (notification) {
-		STNotificationController *notificationController	= [STNotificationController new];
+		STNotificationController *notificationController = [STNotificationController new];
 		
 		[notificationController descriptionOfNotification:notification];
 		
@@ -81,14 +84,16 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 		STTodayTVC *controller								= (STTodayTVC *)masterNavigationController.topViewController;
 		controller.managedObjectContext						= self.managedObjectContext;
 	} else {
-*/		UINavigationController *navigationController		= (UINavigationController *)self.window.rootViewController;
-		STTodayTVC *todayTVC								= (STTodayTVC *)navigationController.topViewController;
-		todayTVC.managedObjectContext						= self.baseDataController.managedObjectContext;
-		todayTVC.databaseWasJustCreatedForFirstTime			= !spiritualTraditionsAreInCoreData;
-		todayTVC.thereAreCoreDataRecordsForDay				= daysOfLogEntriesAreInCoreData;
+*/		UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+		STTodayTVC *todayTVC = (STTodayTVC *)navigationController.topViewController;
+		todayTVC.managedObjectContext = self.baseDataController.managedObjectContext;
+		todayTVC.databaseWasJustCreatedForFirstTime = !spiritualTraditionsAreInCoreData;
+		todayTVC.thereAreCoreDataRecordsForDay = daysOfLogEntriesAreInCoreData;
 	
 		if (notification) {
+			
 			[self navigateToLogEntryFromNotification:notification forToday:todayTVC];
+			
 		}
 	//	}
     return YES;
@@ -127,7 +132,7 @@ static NSString *kCrashlyticsAPIKey	= @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 			[todayTVC.tableView reloadData];
 			
 		}
-	}	
+	}
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

@@ -71,6 +71,11 @@ static NSString *kAboutAndSettings = @"About and Settings";
 @property (nonatomic, strong) STNotificationController *notificationController;
 
 @property BOOL shouldShowWelcomeMessage;
+
+@property (readonly) CGFloat screenWidth;
+@property (readonly) CGFloat guidelineLabelWidth;
+@property (readonly) CGFloat actionTextViewWidth;
+
 @property BOOL isMemberOfSTTodayTVC;
 
 - (IBAction)greatHighwayExplorerFeedback:(id)sender;
@@ -189,6 +194,31 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	_tableViewSections = nil;
 }
 
+-(CGFloat)screenWidth
+{
+	CGRect screenRect = [[UIScreen mainScreen] bounds];
+	if (
+		([[UIApplication sharedApplication] statusBarOrientation] == UIDeviceOrientationPortrait) ||
+		([[UIApplication sharedApplication] statusBarOrientation] == UIDeviceOrientationPortraitUpsideDown)
+		){
+		return screenRect.size.width;
+	} else {
+		return screenRect.size.height;
+	}
+}
+
+-(CGFloat)guidelineLabelWidth
+{
+	return self.screenWidth - 30.0; //15.0 - 13.0 - 4.0 - 15.0;
+}
+
+-(CGFloat)actionTextViewWidth
+{
+	//	return self.screenWidth - 30.0; //15.0 - 15.0;
+	return self.screenWidth - 47.0; //15.0 - 13.0 - 4.0 - 15.0;
+}
+
+
 
 
 #pragma mark - View Loading and Appearing
@@ -256,7 +286,17 @@ static NSString *kAboutAndSettings = @"About and Settings";
 {	
 	[self.sixTimesUserDefaults showLogOfAllSettings];
 	[self setupDayAndAdviceData];
-	self.title = self.mostRecentlyAddedDate.weekdayMonthAndDay;
+	
+	if (self.databaseWasJustCreatedForFirstTime) {
+	
+		self.title = @"Six Times";
+	
+	} else {
+		
+		self.title = self.mostRecentlyAddedDate.weekdayMonthAndDay;
+
+	}
+	
 	[self resetTableViewSections];
 	[self.tableView reloadData];
 }
@@ -372,7 +412,9 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 }
 
-#pragma mark - Core Data Setup
+#pragma mark - Core Data 
+
+#pragma mark Setup
 
 -(void)setupDaysFetchedResultsController
 {
@@ -401,7 +443,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 }
 
 
-#pragma mark - Core Data Add and Manage Records
+#pragma mark Add Records
 
 -(BOOL)isTimeToAddDay
 {
@@ -573,6 +615,8 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	[self.notificationController addNotifications:[day getTheSixSorted]];
 }
 
+#pragma mark Remove Records
+
 -(void)removeEntries:(NSArray *)arrayOfEntries fromDay:(Day *)day
 {
 	for (LESixOfDay *remainingEntry in arrayOfEntries) {
@@ -583,6 +627,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	}
 }
 
+#pragma mark Reset Records
 
 -(void)resetFollowedEntries
 {
@@ -640,6 +685,42 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 #pragma mark - Table View Structure
 
+#pragma mark Headers and Footers
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	if (section == [self.tableViewSections indexOfObject:kSetupForDay]) {
+		
+		return @"Setup for Today";
+		
+	} else {
+		
+		return nil;
+		
+	}
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	if (section == [self.tableViewSections indexOfObject:kSetupForDay]) {
+		
+		return 75.0f;
+		
+	} else {
+		
+		return 0.1f;
+		
+	}
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+	return 0;
+}
+
+#pragma mark Sections
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return [self.tableViewSections count];
@@ -647,7 +728,9 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if (section == [self.tableViewSections indexOfObject:kNextEntry]) {
+	if (section == [self.tableViewSections indexOfObject:kNextEntry] ||
+		section == [self.tableViewSections indexOfObject:kNoSetsOfGuidelinesSelected] ||
+		section == [self.tableViewSections indexOfObject:kWelcomeIntroduction]) {
 		
 		return 1;
 	
@@ -692,38 +775,14 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	return 0;
 }
 
-
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-	if (section == [self.tableViewSections indexOfObject:kSetupForDay]) {
-		
-		return @"Setup for Today";
-
-	} else {
-		
-		return nil;
-
-	}
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-	if (section == [self.tableViewSections indexOfObject:kSetupForDay]) {
-		
-		return 75.0f;
-		
-	} else {
-		
-		return 0.1f;
-		
-	}
+	return nil;
 }
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-	return 0;
-}
+
+#pragma mark Rows
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -840,11 +899,52 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kNoSetsOfGuidelinesSelected]) {
 
-		return 100;
+		UITableViewCell *chooseGuidelinesCell;
+		chooseGuidelinesCell = [tableView dequeueReusableCellWithIdentifier:@"NoSetsOfGuidelinesSelectedCell"];
+		
+		UILabel *headlineLabel = (UILabel *)[chooseGuidelinesCell viewWithTag:1000];
+		UILabel *messageLabel = (UILabel *)[chooseGuidelinesCell viewWithTag:1001];
+		
+		headlineLabel.font = [UIFont preferredSerifFontForTextStyle:UIFontTextStyleSubheadline];
+		messageLabel.font = [UIFont preferredFontForMainMessageBody];
+		
+		CGFloat headlineLabelHeight = [self heightForLabel:headlineLabel
+												  withText:headlineLabel.text
+												labelWidth:self.screenWidth - 30];
+		
+		CGFloat messageLabelHeight = [self heightForLabel:messageLabel
+												 withText:messageLabel.text
+											   labelWidth:self.screenWidth - 30];
+		
+		CGFloat combinedTopAndBottomSpacesForLabels = 45;
+		
+		return headlineLabelHeight + messageLabelHeight + combinedTopAndBottomSpacesForLabels;
 	
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kWelcomeIntroduction]) {
 		
-		return 215;
+		
+		static NSString *welcomeMessageCellIdentifier = @"WelcomeIntroductionCell";
+		UITableViewCell *welcomeCell = [tableView dequeueReusableCellWithIdentifier:welcomeMessageCellIdentifier];
+
+		UILabel *headlineLabel = (UILabel *)[welcomeCell viewWithTag:1000];
+		UILabel *messageLabel = (UILabel *)[welcomeCell viewWithTag:1001];
+		
+		headlineLabel.font = [UIFont preferredSerifFontForTextStyle:UIFontTextStyleSubheadline];
+		messageLabel.font = [UIFont preferredSerifFontForTextStyle:UIFontTextStyleBody];
+		
+		CGFloat headlineLabelHeight = [self heightForLabel:headlineLabel
+												  withText:headlineLabel.text
+												labelWidth:self.screenWidth - 30];
+		
+		CGFloat messageLabelHeight = [self heightForLabel:messageLabel
+												 withText:messageLabel.text
+											   labelWidth:self.screenWidth - 30];
+		
+		CGFloat imageHeight = 32;
+		
+		CGFloat combinedTopAndBottomSpaceForLabelsAndHeight = 50;
+		
+		return headlineLabelHeight + messageLabelHeight + imageHeight + combinedTopAndBottomSpaceForLabelsAndHeight;
 		
 	} else {
 
@@ -884,8 +984,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	return indexOfEntry;
 }
 
-
-#pragma mark - Managing Cell and Label Heights
+#pragma mark Cell and Label Heights
 -(CGFloat)heightForLabel:(UILabel *)label withText:(NSString *)text labelWidth:(CGFloat)labelWidth
 {
 	if (text != nil) {
@@ -1111,13 +1210,39 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 		UITableViewCell *chooseGuidelinesCell;
 		chooseGuidelinesCell = [tableView dequeueReusableCellWithIdentifier:@"NoSetsOfGuidelinesSelectedCell"];
+
+		
+		UILabel *headlineLabel = (UILabel *)[chooseGuidelinesCell viewWithTag:1000];
+		UILabel *messageLabel = (UILabel *)[chooseGuidelinesCell viewWithTag:1001];
+		
+		headlineLabel.font = [UIFont preferredSerifFontForTextStyle:UIFontTextStyleSubheadline];
+		messageLabel.font = [UIFont preferredFontForMainMessageBody];
+		
+		[self resizeHeightToFitForLabel:headlineLabel
+							 labelWidth:self.screenWidth - 30];
+		
+		[self resizeHeightToFitForLabel:messageLabel
+							 labelWidth:self.screenWidth - 30];
+		
 		return chooseGuidelinesCell;
 	
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kWelcomeIntroduction]) {
 		
-		NSLog(@"Show Welcome Introduction cell");
 		static NSString *welcomeMessageCellIdentifier = @"WelcomeIntroductionCell";
 		UITableViewCell *welcomeCell = [tableView dequeueReusableCellWithIdentifier:welcomeMessageCellIdentifier];
+		
+		UILabel *headlineLabel = (UILabel *)[welcomeCell viewWithTag:1000];
+		UILabel *messageLabel = (UILabel *)[welcomeCell viewWithTag:1001];
+		
+		headlineLabel.font = [UIFont preferredSerifFontForTextStyle:UIFontTextStyleSubheadline];
+		messageLabel.font = [UIFont preferredSerifFontForTextStyle:UIFontTextStyleBody];
+		
+		[self resizeHeightToFitForLabel:headlineLabel
+							 labelWidth:self.screenWidth - 30];
+		
+		[self resizeHeightToFitForLabel:messageLabel
+							 labelWidth:self.screenWidth - 30];
+		
 		return welcomeCell;
 		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kPreviousDays]) {

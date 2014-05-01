@@ -9,6 +9,7 @@
 #import "STSetsOfAdviceTVC.h"
 #import "STSetOfAdviceTVC.h"
 #import "STAddFollowingSetOfAdviceTVC.h"
+#import "STTodayTVC.h"
 #import "SpiritualTradtion.h"
 #import "Advice.h"
 #import "Day+ST.h"
@@ -47,28 +48,32 @@
 {
     [super viewDidLoad];
 	
-	self.notificationController				= [STNotificationController new];
+	self.notificationController = [STNotificationController new];
 
 	[self setupAllSetsOfAdviceFetchedResultsController];
-	self.allSetsOfAdvice					= self.fetchedResultsController.fetchedObjects;
+	self.allSetsOfAdvice = self.fetchedResultsController.fetchedObjects;
 	
 	[self refreshFollowingSetsOfAdvice];
 	
-	NSLog(@"count of following SetOfAdvice: %i", [self.followingSetsOfAdvice count]);
-	NSLog(@"count of NOT following SetOfAdvice: %i", [self.notFollowingSetsOfAdvice	count]);
-	
 	if ([self.followingSetsOfAdvice count] == 0) {
+		
 		[self setEditFollowingSetsOfAdviceButtons];
+		
 	}
 
 	self.preEditFollowingSetsOfAdvice		= [self.followingSetsOfAdvice copy];
 	
 	[self initSetOfAdviceSegmentedControlFilter];
+	
 	if ([self.followingSetsOfAdvice count] > 0) {
+		
 		[self setViewFollowingSetsOfAdviceButtons];
 		[self.tableView reloadData];
+		
 	} else {
+		
 		[self editFollowingSetsOfGuidelines:nil];
+		
 	}
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -94,7 +99,6 @@
 {
     [super viewWillAppear:animated];
 	self.selectedSetsOfAdvice	= [[NSMutableArray alloc] init];
-	//	[self updateSelectedSetsOfAdvice];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -198,6 +202,10 @@
 		[self resetFollowedEntries];
 	
 	}
+	
+	STTodayTVC *today = (STTodayTVC *)[self.navigationController.viewControllers objectAtIndex:0];
+	
+	today.databaseWasJustCreatedForFirstTime = NO;
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self.tableView setEditing:NO animated:YES];
