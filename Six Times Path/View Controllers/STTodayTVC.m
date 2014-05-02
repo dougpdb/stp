@@ -794,8 +794,23 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 		if ([self isAllAdviceForDayUpdated]) {
 		
-			return 210;
-		
+			static NSString *congratulationsCellIdentifier = @"SixTimesCompletedCell";
+			UITableViewCell *congratulationsCell = [tableView dequeueReusableCellWithIdentifier:congratulationsCellIdentifier];
+			
+			UILabel *messageLabel = (UILabel *)[congratulationsCell viewWithTag:1000];
+			
+			messageLabel.font = [UIFont preferredSerifFontForTextStyle:UIFontTextStyleBody];
+			
+			CGFloat messageLabelHeight = [self heightForLabel:messageLabel
+													 withText:messageLabel.text
+												   labelWidth:self.screenWidth - 30];
+			
+			CGFloat imageHeight = 32;
+			
+			CGFloat combinedTopAndBottomSpaceForLabelsAndHeight = 40;
+			
+			return messageLabelHeight + imageHeight + combinedTopAndBottomSpaceForLabelsAndHeight;
+			
 		} else {
 				
 			guidelineLabel.font	= [UIFont preferredFontForAdviceNameInEntry];
@@ -1035,6 +1050,14 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		if ([self isAllAdviceForDayUpdated]) {
 			
 			UITableViewCell *congratulationsCell = [tableView dequeueReusableCellWithIdentifier:congratulationsCellIdentifier];
+			
+			UILabel *messageLabel = (UILabel *)[congratulationsCell viewWithTag:1000];
+			
+			messageLabel.font = [UIFont preferredSerifFontForTextStyle:UIFontTextStyleBody];
+						
+			[self resizeHeightToFitForLabel:messageLabel
+								 labelWidth:self.screenWidth - 30];
+			
 			return congratulationsCell;
 			
 		} else {

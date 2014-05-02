@@ -307,7 +307,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="107"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view userInteractionEnabled="NO" tag="60" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uoU-XW-XH5" userLabel="Progress Step 1">
+                                        <view userInteractionEnabled="NO" tag="60" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uoU-XW-XH5" userLabel="Progress Step 1">
                                             <rect key="frame" x="0.0" y="0.0" width="53" height="3"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="0.55294117647058827" blue="0.019607843137254902" alpha="1" colorSpace="calibratedRGB"/>
@@ -340,7 +340,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </view>
-                                        <view userInteractionEnabled="NO" tag="65" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fZP-fw-VR2" userLabel="Progress Step 6">
+                                        <view userInteractionEnabled="NO" tag="65" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fZP-fw-VR2" userLabel="Progress Step 6">
                                             <rect key="frame" x="267" y="0.0" width="53" height="3"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="0.55294117649999996" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -420,12 +420,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                 <constraint firstAttribute="height" constant="4" id="1i4-sm-3dZ"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1000" contentMode="top" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="fqa-4H-oCI" userLabel="Instruction Detail">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1000" contentMode="top" misplaced="YES" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="fqa-4H-oCI" userLabel="Message">
                                             <rect key="frame" x="15" y="18" width="290" height="137"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="137" id="WhI-Px-hvL"/>
-                                            </constraints>
                                             <string key="text">Six Times you've fixed your mind on the principles by which you guide your life.
 
 Rejoice for what you've done well. Regret the mistakes. Resolve to stay mindful.</string>
@@ -433,7 +430,7 @@ Rejoice for what you've done well. Regret the mistakes. Resolve to stay mindful.
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="6x small" translatesAutoresizingMaskIntoConstraints="NO" id="oS3-pe-nBM">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="6x small" translatesAutoresizingMaskIntoConstraints="NO" id="oS3-pe-nBM">
                                             <rect key="frame" x="150" y="165" width="20" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <constraints>
