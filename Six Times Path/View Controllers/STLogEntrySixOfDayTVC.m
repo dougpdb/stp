@@ -568,7 +568,7 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 		
 		if (!entryHasBeenPreviouslyUpdated){
 			
-			NSArray *allRemainingEntriesWithMostRecentlyUpdatedEntry = [self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted];
+			NSArray *allRemainingEntriesWithMostRecentlyUpdatedEntry = [self.leSixOfDay.dayOfSix getAdviceLogEntriesWithoutUserInputSorted];
 			NSInteger indexOfMostRecentlyUpdatedEntry = [allRemainingEntriesWithMostRecentlyUpdatedEntry indexOfObject:self.leSixOfDay];
 						
 			NSInteger countOfCompletedEntries = 6 - [allRemainingEntriesWithMostRecentlyUpdatedEntry count];
@@ -599,7 +599,7 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 		
 		if (!entryHasBeenPreviouslyUpdated) {
 		
-			[self.notificationController addNotifications:[self.leSixOfDay.dayOfSix getTheSixWithoutUserEntriesSorted]];
+			[self.notificationController addNotifications:[self.leSixOfDay.dayOfSix getAdviceLogEntriesWithoutUserInputSorted]];
 		
 		}
 				

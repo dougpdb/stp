@@ -10,17 +10,14 @@
 
 @interface Day (ST)
 
-//@property (strong, nonatomic) NSArray *theSixSorted;
-//@property (strong, nonatomic) NSArray *bestOfDaySorted;
-//@property (strong, nonatomic) NSArray *worstOfDaySorted;
-
-
-//-(id)firstGuidelineOrderNumber;
--(NSArray *)getTheSixSorted;
--(NSArray *)getTheSixThatHaveUserEntriesSorted;
--(NSArray *)getTheSixWithoutUserEntriesSorted;
+-(NSArray *)getAdviceLogEntriesSorted;
+-(NSArray *)getAdviceLogEntriesWithUserInputSorted;
+-(NSArray *)getAdviceLogEntriesWithoutUserInputSorted;
 -(NSArray *)getBestOfDaySorted;
 -(NSArray *)getWorstOfDaySorted;
+
+-(BOOL)hasAdviceLogEntries;
+-(BOOL)isAllAdviceLogEntriesWithUserInput;
 
 -(LESixOfDay *)entrySixOfDay:(NSNumber *)orderNumberInSetOfEntries;
 -(LESixOfDay *)entrySixOfDayWithAdviceName:(NSString *)adviceName;

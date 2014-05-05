@@ -68,10 +68,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-	NSLog(@"in viewWillAppear");
-	
 	if (self.performFetchAfterViewDidLoad) {
-		NSLog(@"going to fetch after view did load.");
 		[self performFetch];
 		self.days = [NSArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
 		[self.tableView reloadData];
@@ -139,7 +136,7 @@
 	cell.detailTextLabel.font = [UIFont preferredFontForUILabel];
 	
 	cell.textLabel.text			= day.date.shortWeekdayAndDate;
-	cell.detailTextLabel.text	= [NSString stringWithFormat:@"%lu Entries", (unsigned long)[[day getTheSixThatHaveUserEntriesSorted] count]];
+	cell.detailTextLabel.text	= [NSString stringWithFormat:@"%lu Entries", (unsigned long)[[day getAdviceLogEntriesWithUserInputSorted] count]];
 
 	return cell;
 }
@@ -152,16 +149,13 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 	[TestFlight passCheckpoint:@"GO TO PREVIOUS DAY"];
-	NSIndexPath *indexPath				= [self.tableView indexPathForSelectedRow];
+	NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		
-	STPreviousDayTVC *previousDay		= segue.destinationViewController;
-	NSLog(@"Previous Day object created");
-	previousDay.managedObjectContext	= self.managedObjectContext;
-	NSLog(@"The managed object has been set");
-	previousDay.thisDay					= (indexPath.section == 0) ? [self.days objectAtIndex:indexPath.row +1] : [self.fetchedResultsController objectAtIndexPath:indexPath];
-	NSLog(@"This day has been set");
-
+	STPreviousDayTVC *previousDay = segue.destinationViewController;
+	previousDay.managedObjectContext = self.managedObjectContext;
+	previousDay.thisDay = (indexPath.section == 0) ? [self.days objectAtIndex:indexPath.row +1] : [self.fetchedResultsController objectAtIndexPath:indexPath];
 }
+
 - (IBAction)greatHighwayExplorerFeedback:(id)sender {
 	//	[TestFlight openFeedbackView];
 }

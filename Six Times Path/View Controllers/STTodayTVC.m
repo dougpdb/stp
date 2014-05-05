@@ -140,14 +140,14 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 		[self resetCountOfTheSixWithoutUserEntries];
 
-		if (self.databaseWasJustCreatedForFirstTime && !self.setsOfGuidelinesHaveBeenSelected) {
+		if (self.databaseWasJustCreatedForFirstTime && !self.setsOfAdviceHaveBeenSelected) {
 			
 			[tmpSectionArray removeObjectIdenticalTo:kNextEntry];
 			[tmpSectionArray removeObjectIdenticalTo:kNoSetsOfGuidelinesSelected];
 			[tmpSectionArray removeObjectIdenticalTo:kAllOtherEntries];
 			[tmpSectionArray removeObjectIdenticalTo:kPreviousDays];
 			
-		} else if (!self.setsOfGuidelinesHaveBeenSelected) {
+		} else if (!self.setsOfAdviceHaveBeenSelected) {
 			
 			[tmpSectionArray removeObjectIdenticalTo:kNextEntry];
 			[tmpSectionArray removeObjectIdenticalTo:kWelcomeIntroduction];
@@ -227,22 +227,22 @@ static NSString *kAboutAndSettings = @"About and Settings";
 {
     [super viewDidLoad];
 	
-	self.debug					= YES;
+	self.debug = YES;
 	
 	self.isMemberOfSTTodayTVC = [self isMemberOfClass:[STTodayTVC class]];
 	
 	self.sixTimesUserDefaults = [NSUserDefaults standardUserDefaults];
 	
-	self.notificationController	= [[STNotificationController alloc] init];
+	self.notificationController = [[STNotificationController alloc] init];
 	
-	self.dateFormatter			= [[NSDateFormatter alloc] init];
+	self.dateFormatter = [[NSDateFormatter alloc] init];
 	[self.dateFormatter setDateFormat:@"h:mm a"];
 	// obtain the picker view cell's height, works because the cell was pre-defined in our storyboard
     UITableViewCell *pickerViewCellToCheck = [self.tableView dequeueReusableCellWithIdentifier:kDatePickerID];
     self.pickerCellRowHeight = pickerViewCellToCheck.frame.size.height;
 
 	if (self.databaseWasJustCreatedForFirstTime) {
-		self.setsOfGuidelinesHaveBeenSelected = NO;
+		self.setsOfAdviceHaveBeenSelected = NO;
 		self.shouldShowWelcomeMessage = YES;
 		NSLog(@"first day of use.");
 	}
@@ -254,10 +254,11 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 }
 
-- (void)preferredContentSizeChanged:(NSNotification *)aNotification {
+- (void)preferredContentSizeChanged:(NSNotification *)aNotification
+{
     [self.tableView reloadData];
-	
 }
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -283,7 +284,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 }
 
 -(void)viewWillAppear:(BOOL)animated
-{	
+{
 	[self.sixTimesUserDefaults showLogOfAllSettings];
 	[self setupDayAndAdviceData];
 	
@@ -316,23 +317,18 @@ static NSString *kAboutAndSettings = @"About and Settings";
 //
 //-(void)setupSecond
 
--(BOOL)isAllAdviceForDayUpdated
-{
-	return ([[self.thisDay getTheSixThatHaveUserEntriesSorted] count] == 6);
-}
 
 -(void)setupDayAndAdviceData
 {
 	if (self.databaseWasJustCreatedForFirstTime) {
 		
-		self.setsOfGuidelinesHaveBeenSelected	= NO;
+		self.setsOfAdviceHaveBeenSelected	= NO;
 		
 	} else {
 		
 		[self setupAdviceFetchedResultsController];
 		self.allAdviceFollowedByUser = [NSMutableArray arrayWithArray:self.fetchedResultsController.fetchedObjects];
-		self.setsOfGuidelinesHaveBeenSelected = ([self.allAdviceFollowedByUser count] > 0) ? YES : NO;
-		self.dayHasGuidelines = ([[self.thisDay getTheSixSorted] count] > 0) ? YES : NO;
+		self.setsOfAdviceHaveBeenSelected = ([self.allAdviceFollowedByUser count] > 0) ? YES : NO;
 		
 	}
 	
@@ -347,36 +343,36 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		LESixOfDay *lastTheSixOfMostRecentDay;
 		if ([self.sixTimesUserDefaults isStaggerDailyGuidelinesOn]) {
 		
-			lastTheSixOfMostRecentDay = [[mostRecentDay getTheSixSorted] firstObject];
+			lastTheSixOfMostRecentDay = [[mostRecentDay getAdviceLogEntriesSorted] firstObject];
 		
 		} else {
 		
-			lastTheSixOfMostRecentDay = [[mostRecentDay getTheSixSorted] lastObject];
+			lastTheSixOfMostRecentDay = [[mostRecentDay getAdviceLogEntriesSorted] lastObject];
 		
 		}
 
-		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
+		self.indexOfFirstFollowedAdviceToBeLoggedForTheDay = [self.allAdviceFollowedByUser indexOfObject:lastTheSixOfMostRecentDay.advice] + 1;
 				
-		if (self.setsOfGuidelinesHaveBeenSelected && !self.dayHasGuidelines) {
+		if (self.setsOfAdviceHaveBeenSelected && ![self.thisDay hasAdviceLogEntries]) {
 			// This should be the typical use case -- where the user had already selected a set of guidelines
 			// and has also set up at least one day of entries in Six Times
 			
-			[self addGuidelinesToThisDay];
+			[self addAdviceLogEntriesToThisDay];
 			
 		}
 		
 		[self setUpdatedAndRemainingScheduledEntries];
 				
-	} else if (self.setsOfGuidelinesHaveBeenSelected) {
+	} else if (self.setsOfAdviceHaveBeenSelected) {
 		
 		// The rare edge case for when the user is has started to used the app after installing it, but it will happen at least once -- the user has
 		// selected a set of guidelines but a day of entries has not yet been set up. This will occur after going through the following use case.
-		self.mostRecentlyAddedDate					= [NSDate dateYesterday];
-		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = 0;
-		self.thisDay								= nil;
+		self.mostRecentlyAddedDate = [NSDate dateYesterday];
+		self.indexOfFirstFollowedAdviceToBeLoggedForTheDay = 0;
+		self.thisDay = nil;
 		
 		[self addDay];
-		[self addGuidelinesToThisDay];
+		[self addAdviceLogEntriesToThisDay];
 		[self setUpdatedAndRemainingScheduledEntries];
 
 	} else {
@@ -391,11 +387,11 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 -(void)setUpdatedAndRemainingScheduledEntries
 {
-	NSArray *allRemainingEntries = [self.thisDay getTheSixWithoutUserEntriesSorted];
+	NSArray *allRemainingEntries = [self.thisDay getAdviceLogEntriesWithoutUserInputSorted];
 	
 	NSRange rangeRemainingScheduledEntries;
 	rangeRemainingScheduledEntries.location = 1;
-	rangeRemainingScheduledEntries.length = ([self isAllAdviceForDayUpdated]) ? 0 : [allRemainingEntries count] - 1;
+	rangeRemainingScheduledEntries.length = ([self.thisDay isAllAdviceLogEntriesWithUserInput]) ? 0 : [allRemainingEntries count] - 1;
 	
 	if ([allRemainingEntries count] > 0) {
 	
@@ -403,9 +399,9 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	
 	}
 	
-	self.remainingScheduledEntries = (![self isMemberOfSTTodayTVC] || [self isAllAdviceForDayUpdated]) ? allRemainingEntries : [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
+	self.remainingScheduledEntries = (![self isMemberOfSTTodayTVC] || [self.thisDay isAllAdviceLogEntriesWithUserInput]) ? allRemainingEntries : [allRemainingEntries subarrayWithRange:rangeRemainingScheduledEntries];
 	
-	self.updatedEntries = [self.thisDay getTheSixThatHaveUserEntriesSorted];
+	self.updatedEntries = [self.thisDay getAdviceLogEntriesWithUserInputSorted];
 	
 	self.showAllEntries = (![self isMemberOfSTTodayTVC]);
 	[self resetCountOfTheSixWithoutUserEntries];
@@ -445,13 +441,12 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 #pragma mark Add Records
 
--(BOOL)isTimeToAddDay
+-(BOOL)isTimeToAddNewDay
 {
-		NSDate *now						= [NSDate date];
-		NSDate *mostRecentDate			= [self.mostRecentlyAddedDate setHour:[self.thisDay.startHour intValue]
-															 andMinute:[self.thisDay.startMinute intValue]];
-		
-		NSTimeInterval eighteenHours	= 18*60*60;
+		NSDate *now = [NSDate date];
+		NSDate *mostRecentDate = [self.mostRecentlyAddedDate setHour:[self.thisDay.startHour intValue]
+														   andMinute:[self.thisDay.startMinute intValue]];
+		NSTimeInterval eighteenHours = 18*60*60;
 		
 	if (self.mostRecentlyAddedDate) {
 		
@@ -466,18 +461,17 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 -(void)addDay
 {
-	if ([self isTimeToAddDay]) {
+	if ([self isTimeToAddNewDay]) {
 		
 		[self.notificationController cancelAllNotifications];
 		
 		Day *newDay = [NSEntityDescription insertNewObjectForEntityForName:@"Day"
 													inManagedObjectContext:self.managedObjectContext];
 
-		NSDate *now						= [NSDate date];
-		
-		NSDate *mostRecentDate			= [self.mostRecentlyAddedDate setHour:[self.thisDay.startHour intValue]
-															 andMinute:[self.thisDay.startMinute intValue]];
-		NSTimeInterval twentyFourHours	= 24*60*60;
+		NSDate *now = [NSDate date];
+		NSDate *mostRecentDate = [self.mostRecentlyAddedDate setHour:[self.thisDay.startHour intValue]
+														   andMinute:[self.thisDay.startMinute intValue]];
+		NSTimeInterval twentyFourHours = 24*60*60;
 		
 		BOOL nowIsOnSameDateAsMostRecentDateButAfterEntryLogging = ([now compare:[mostRecentDate dateByAddingTimeInterval:twentyFourHours]] == NSOrderedAscending);
 		
@@ -497,7 +491,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		self.title = self.mostRecentlyAddedDate.weekdayMonthAndDay;
 		self.highlightStartOfDayLabelWithColor	= YES;
 
-		[TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %lu", (unsigned long)[self.fetchedResultsController.fetchedObjects count]]];
+		// [TestFlight passCheckpoint:[NSString stringWithFormat:@"ADD DAY %lu", (unsigned long)[self.fetchedResultsController.fetchedObjects count]]];
 		
 	} else {
 		
@@ -506,10 +500,10 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	}
 }
 
--(void)addGuidelinesToThisDay
+-(void)addAdviceLogEntriesToThisDay
 {
-	NSInteger indexOfFirstFollowedAdvice = self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
-	[self setTheSixForDay:self.thisDay withIndexOfFirstFollowedAdvice:indexOfFirstFollowedAdvice inManagedObjectContext:self.managedObjectContext];
+	NSInteger indexOfFirstFollowedAdvice = self.indexOfFirstFollowedAdviceToBeLoggedForTheDay;
+	[self setTheSixAdviceLogEntriesForDay:self.thisDay withIndexOfFirstFollowedAdvice:indexOfFirstFollowedAdvice inManagedObjectContext:self.managedObjectContext];
 	
 	[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:YES];
 	[self saveContext];
@@ -521,7 +515,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	
 }
 
--(void)setTheSixForDay:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+-(void)setTheSixAdviceLogEntriesForDay:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
 	NSInteger indexOfFollowedAdviceForTheDay = 0;
 	NSInteger indexIntervalOfAdvice = 0;
@@ -537,7 +531,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 		NSUInteger maximumOrdinalNumberOfFirstIndex = 0;
 		NSUInteger maximumIndexOfFirstIndex = 0;
-		NSUInteger countOfAdviceEntriesAlreadyAdded = [[self.thisDay getTheSixSorted] count];
+		NSUInteger countOfAdviceEntriesAlreadyAdded = [[self.thisDay getAdviceLogEntriesSorted] count];
 		NSString *debugText;
 
 		indexIntervalOfAdvice = [self.allAdviceFollowedByUser count] / 6;
@@ -576,7 +570,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
     // Starting with the first advice to be followed for the day, cycle through the advice that has been
 	// selected to be followed and add up to 6 advices to LogEntries that will be added to a day.
 	// Almost always,
-    for (NSUInteger allAdviceFollowedByUserIncrement=[[self.thisDay getTheSixSorted] count]; allAdviceFollowedByUserIncrement<6; allAdviceFollowedByUserIncrement++) {
+    for (NSUInteger allAdviceFollowedByUserIncrement=[[self.thisDay getAdviceLogEntriesSorted] count]; allAdviceFollowedByUserIncrement<6; allAdviceFollowedByUserIncrement++) {
 
 		Advice *advice = [self.allAdviceFollowedByUser objectAtIndex:indexOfFollowedAdviceForTheDay];
 		
@@ -590,7 +584,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 		[day addTheSixObject:logEntry];
 		
-		self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay = indexOfFollowedAdviceForTheDay;
+		self.indexOfFirstFollowedAdviceToBeLoggedForTheDay = indexOfFollowedAdviceForTheDay;
 
 		if (self.debug) {
 			NSLog(@"indexOfFollowedAdviceForTheDay: %lu", (unsigned long)indexOfFollowedAdviceForTheDay);
@@ -599,20 +593,16 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 		indexOfFollowedAdviceForTheDay += indexIntervalOfAdvice;
         
-		if (indexOfFollowedAdviceForTheDay==[self.allAdviceFollowedByUser count] - 1)
-        {
+		if (indexOfFollowedAdviceForTheDay==[self.allAdviceFollowedByUser count]) {
             // reset to the beginning
-            indexOfFollowedAdviceForTheDay = -1;
-			
-			if (self.debug)
-				NSLog(@"indexOfFollowedAdviceForTheDay has been reset. Value is now: %li", (long)indexOfFirstFollowedAdvice);
-        }
+            indexOfFollowedAdviceForTheDay = 0;
         
+		}
 	}
 	
-	self.orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay++;
+	self.indexOfFirstFollowedAdviceToBeLoggedForTheDay++;
 	
-	[self.notificationController addNotifications:[day getTheSixSorted]];
+	[self.notificationController addNotifications:[day getAdviceLogEntriesSorted]];
 }
 
 #pragma mark Remove Records
@@ -637,7 +627,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 		[self.notificationController cancelAllNotifications];
 		
-		[self removeEntries:[self.thisDay getTheSixWithoutUserEntriesSorted]
+		[self removeEntries:[self.thisDay getAdviceLogEntriesWithoutUserInputSorted]
 					fromDay:self.thisDay];
  		
 		[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
@@ -647,14 +637,14 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 		
 		// Set the order numbers of the advice
-		for (LESixOfDay *entryStillBeingFollowed in [self.thisDay getTheSixThatHaveUserEntriesSorted]) {
+		for (LESixOfDay *entryStillBeingFollowed in [self.thisDay getAdviceLogEntriesWithUserInputSorted]) {
 			
 			entryStillBeingFollowed.orderNumberForType = [NSNumber numberWithInteger:++orderNumber];
 			[newFollowedAdvice addObject:entryStillBeingFollowed.advice];
 			
 		}
 		
-		[self setTheSixForDay:self.thisDay withIndexOfFirstFollowedAdvice:indexOfFirstNewlyFollowedAdviceForTheDay inManagedObjectContext:self.managedObjectContext];
+		[self setTheSixAdviceLogEntriesForDay:self.thisDay withIndexOfFirstFollowedAdvice:indexOfFirstNewlyFollowedAdviceForTheDay inManagedObjectContext:self.managedObjectContext];
 		
 		[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:YES];
 		
@@ -736,13 +726,13 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	
 	} else if (section == [self.tableViewSections indexOfObject:kAllOtherEntries]) {
 		
-		if ([self isAllAdviceForDayUpdated]) {
+		if ([self.thisDay isAllAdviceLogEntriesWithUserInput]) {
 			
 			return [self.updatedEntries count];
 			
 		} else if (self.showAllEntries) {
 			
-			return [[self.thisDay getTheSixSorted] count];
+			return [[self.thisDay getAdviceLogEntriesSorted] count];
 			
 		} else {
 			
@@ -752,7 +742,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 	} else if (section == [self.tableViewSections indexOfObject:kSetupForDay]) {
 		
-		if (self.setsOfGuidelinesHaveBeenSelected) {
+		if (self.setsOfAdviceHaveBeenSelected) {
 			
 			return ([self hasInlineDatePicker]) ? 3 : 2;
 		
@@ -792,7 +782,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 
 	if (indexPath.section == [self.tableViewSections indexOfObject:kNextEntry]) {
 
-		if ([self isAllAdviceForDayUpdated]) {
+		if ([self.thisDay isAllAdviceLogEntriesWithUserInput]) {
 		
 			static NSString *congratulationsCellIdentifier = @"SixTimesCompletedCell";
 			UITableViewCell *congratulationsCell = [tableView dequeueReusableCellWithIdentifier:congratulationsCellIdentifier];
@@ -834,7 +824,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 
 		if (
-			((self.isMemberOfSTTodayTVC) && (([self isAllAdviceForDayUpdated]) || (indexPath.row > 0 && indexPath.row < [self.updatedEntries count] + 1))) ||
+			((self.isMemberOfSTTodayTVC) && (([self.thisDay isAllAdviceLogEntriesWithUserInput]) || (indexPath.row > 0 && indexPath.row < [self.updatedEntries count] + 1))) ||
 			((!(self.isMemberOfSTTodayTVC) && (indexPath.row < [self.updatedEntries count])))
 		   ){
 		
@@ -988,7 +978,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 	}
 
-	BOOL showHeaderRowForOtherEntriesSection = (self.isMemberOfSTTodayTVC && ![self isAllAdviceForDayUpdated]);
+	BOOL showHeaderRowForOtherEntriesSection = (self.isMemberOfSTTodayTVC && ![self.thisDay isAllAdviceLogEntriesWithUserInput]);
 	
 	if (showHeaderRowForOtherEntriesSection) {
 		
@@ -1047,7 +1037,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
     if (indexPath.section == [self.tableViewSections indexOfObject:kNextEntry]) {
 		
-		if ([self isAllAdviceForDayUpdated]) {
+		if ([self.thisDay isAllAdviceLogEntriesWithUserInput]) {
 			
 			UITableViewCell *congratulationsCell = [tableView dequeueReusableCellWithIdentifier:congratulationsCellIdentifier];
 			
@@ -1091,7 +1081,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kAllOtherEntries]) {
 	
 		if (
-			((self.isMemberOfSTTodayTVC) && (([self isAllAdviceForDayUpdated]) || (indexPath.row > 0 && indexPath.row < [self.updatedEntries count] + 1))) ||
+			((self.isMemberOfSTTodayTVC) && (([self.thisDay isAllAdviceLogEntriesWithUserInput]) || (indexPath.row > 0 && indexPath.row < [self.updatedEntries count] + 1))) ||
 			((!(self.isMemberOfSTTodayTVC) && (indexPath.row < [self.updatedEntries count])))
 			){
 			
@@ -1197,11 +1187,11 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 		UITableViewCell *daySetupCell;
 		
-		if (self.setsOfGuidelinesHaveBeenSelected && [self indexPathHasPicker:indexPath]){
+		if (self.setsOfAdviceHaveBeenSelected && [self indexPathHasPicker:indexPath]){
 			
 			daySetupCell = [tableView dequeueReusableCellWithIdentifier:datePickerCellIdentifier];
 			
-		} else if (self.setsOfGuidelinesHaveBeenSelected && [self indexPathHasDate:indexPath]) {
+		} else if (self.setsOfAdviceHaveBeenSelected && [self indexPathHasDate:indexPath]) {
 			
 			daySetupCell = [tableView dequeueReusableCellWithIdentifier:dateCellIdentifier];
 			daySetupCell.textLabel.font = [UIFont preferredFontForUILabel];
@@ -1219,11 +1209,11 @@ static NSString *kAboutAndSettings = @"About and Settings";
 			
 			daySetupCell = [tableView dequeueReusableCellWithIdentifier:summaryOrSetupCellIdentifier];
 			daySetupCell.textLabel.font = [UIFont preferredFontForUILabel];
-			daySetupCell.textLabel.text = (self.setsOfGuidelinesHaveBeenSelected) ? @"Guidelines Being Followed" : @"Select Guidelines to Follow";
-			if (self.setsOfGuidelinesHaveBeenSelected)
+			daySetupCell.textLabel.text = (self.setsOfAdviceHaveBeenSelected) ? @"Guidelines Being Followed" : @"Select Guidelines to Follow";
+			if (self.setsOfAdviceHaveBeenSelected)
 				daySetupCell.textLabel.textColor = [UIColor darkGrayColor];
 			daySetupCell.detailTextLabel.font = [UIFont preferredFontForUILabel];
-			daySetupCell.detailTextLabel.text = (self.setsOfGuidelinesHaveBeenSelected) ? [NSString stringWithFormat:@"%lu", (unsigned long)[self.allAdviceFollowedByUser count]] : @"";
+			daySetupCell.detailTextLabel.text = (self.setsOfAdviceHaveBeenSelected) ? [NSString stringWithFormat:@"%lu", (unsigned long)[self.allAdviceFollowedByUser count]] : @"";
 			
 		}
 		
@@ -1420,7 +1410,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 			
 			[self performSegueWithIdentifier:@"Guidelines Followed" sender:self];
 			
-		} else if ([[self.thisDay getTheSixWithoutUserEntriesSorted] count] > 0) {
+		} else if ([[self.thisDay getAdviceLogEntriesWithoutUserInputSorted] count] > 0) {
 		
 			[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
 		
@@ -1428,7 +1418,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 			
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kAllOtherEntries]) {
 		
-		if (indexPath.row > 0 || [self isAllAdviceForDayUpdated] || !self.isMemberOfSTTodayTVC) {
+		if (indexPath.row > 0 || [self.thisDay isAllAdviceLogEntriesWithUserInput] || !self.isMemberOfSTTodayTVC) {
 			
 			[self performSegueWithIdentifier:@"Guideline Entry" sender:self];
 		
@@ -1442,7 +1432,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 	} else if (indexPath.section == [self.tableViewSections indexOfObject:kSetupForDay]) {
 		
-		if (indexPath.row == 0 && self.setsOfGuidelinesHaveBeenSelected) {
+		if (indexPath.row == 0 && self.setsOfAdviceHaveBeenSelected) {
 			
 			[self displayInlineDatePickerForRowAtIndexPath:indexPath];
 			
@@ -1595,7 +1585,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
 	[self.notificationController cancelAllNotifications];
 	
 	// Reset scheduled times for log entries
-	NSArray *allRemainingEntries = [self.thisDay getTheSixWithoutUserEntriesSorted];
+	NSArray *allRemainingEntries = [self.thisDay getAdviceLogEntriesWithoutUserInputSorted];
 	NSInteger countOfCompletedEntries = [self.updatedEntries count];
 	NSInteger badgeNumber = 0;
 	

@@ -222,7 +222,7 @@
 -(void)resetFollowedEntries
 {
 
-	NSArray *currentlyRemainingScheduledEntries = [self.currentDay getTheSixWithoutUserEntriesSorted];
+	NSArray *currentlyRemainingScheduledEntries = [self.currentDay getAdviceLogEntriesWithoutUserInputSorted];
 	
 	if ([currentlyRemainingScheduledEntries count] > 0) {
 		
@@ -231,7 +231,7 @@
 		NSMutableArray *newFollowedEntries		= [[NSMutableArray alloc] init];
 		
 		// First add all entries into which the user has already entered information for the day
-		[newFollowedEntries addObjectsFromArray:[self.currentDay getTheSixThatHaveUserEntriesSorted]];
+		[newFollowedEntries addObjectsFromArray:[self.currentDay getAdviceLogEntriesWithUserInputSorted]];
 		
 		// Next, add the remaining entries which don't have information entered AND are still being followed
 		// (after the Sets of Advice have been changed)
@@ -261,7 +261,7 @@
 			NSInteger indexOfFirstNewlyFollowedAdviceForTheDay;
 			
 			
-			if ([newFollowedEntries count] > [[self.currentDay getTheSixThatHaveUserEntriesSorted] count]) {
+			if ([newFollowedEntries count] > [[self.currentDay getAdviceLogEntriesWithUserInputSorted] count]) {
 				// When the some of the remaining entries for which the user had not yet entered information
 				// are still being followed after the Sets of Data have been changed, then determine the index
 				// of the index of the first newly followed advice to be added to the day.
@@ -319,7 +319,7 @@
 					}
 				}
 			}
-			[self.notificationController addNotifications:[self.currentDay getTheSixSorted]];
+			[self.notificationController addNotifications:[self.currentDay getAdviceLogEntriesSorted]];
 			
 		}
 		

@@ -193,7 +193,7 @@ static NSString *kLogEntryOrderNumberInSetOfEntries	= @"logEntryOrderNumberInSet
 
 -(void)setApplicationIconBadgeNumberForPastDueEntries:(Day *)day
 {
-	NSArray *scheduledEntries = [day getTheSixWithoutUserEntriesSorted];
+	NSArray *scheduledEntries = [day getAdviceLogEntriesWithoutUserInputSorted];
 	NSUInteger newApplicationBadgeNumber = 0;
 	NSDate *now = [NSDate date];
 

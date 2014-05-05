@@ -72,8 +72,8 @@ static NSString *kAllOtherEntries		= @"All Other Entries";
 	// Do any additional setup after loading the view.
 	self.countOfTheSixWithoutUserEntries	= OUT_OF_RANGE;
 	
-	self.remainingScheduledEntries			= [self.thisDay getTheSixWithoutUserEntriesSorted];
-	self.updatedEntries						= [self.thisDay getTheSixThatHaveUserEntriesSorted];
+	self.remainingScheduledEntries			= [self.thisDay getAdviceLogEntriesWithoutUserInputSorted];
+	self.updatedEntries						= [self.thisDay getAdviceLogEntriesWithUserInputSorted];
 
 	
 //	self.navigationItem.rightBarButtonItem	= self.feedbackButton;

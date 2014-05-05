@@ -126,7 +126,7 @@ static NSString *kCrashlyticsAPIKey = @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 		
 		STTodayTVC *todayTVC = (STTodayTVC *)navigationController.visibleViewController;
 		
-		if ([todayTVC isTimeToAddDay]) {
+		if ([todayTVC isTimeToAddNewDay]) {
 			
 			[todayTVC setupDayAndAdviceData];
 			[todayTVC.tableView reloadData];
@@ -167,7 +167,7 @@ static NSString *kCrashlyticsAPIKey = @"404953fc9bd6c37e14f978a53ec8dabf001f82bf
 		
 		STTodayTVC *todayTVC = (STTodayTVC *)navigationController.topViewController;
 		
-		if (![todayTVC isTimeToAddDay]) {
+		if (![todayTVC isTimeToAddNewDay]) {
 			
 			[self navigateToLogEntryFromNotification:notification forToday:todayTVC];
 			

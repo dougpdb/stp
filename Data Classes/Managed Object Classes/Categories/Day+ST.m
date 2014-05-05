@@ -67,20 +67,20 @@
 
 #pragma mark - Sorting
 
--(NSArray *)getTheSixSorted
+-(NSArray *)getAdviceLogEntriesSorted
 {
     NSArray *unsortedArray	= [self.theSix allObjects];
 	return [self sortByOrderNumberForType:unsortedArray];
 }
 
--(NSArray *)getTheSixThatHaveUserEntriesSorted
+-(NSArray *)getAdviceLogEntriesWithUserInputSorted
 {
 	NSArray *unsortedArray	= [self.theSix allObjects];
 	NSPredicate *predicate	= [NSPredicate predicateWithFormat:@"SELF.timeFirstUpdated != nil"];	// the item has been updated at least once, thus it has a user entry
 	return [self sortByOrderNumberForType:[unsortedArray filteredArrayUsingPredicate:predicate]];
 }
 
--(NSArray *)getTheSixWithoutUserEntriesSorted
+-(NSArray *)getAdviceLogEntriesWithoutUserInputSorted
 {
 	NSArray *unsortedArray	= [self.theSix allObjects];
 	NSPredicate *predicate	= [NSPredicate predicateWithFormat:@"SELF.timeFirstUpdated = nil"];		// the item has not been updated
@@ -99,10 +99,19 @@
 	return [self sortByOrderNumberForType:unsortedArray];
 }
 
-//-(NSString *)dateMonthAndYear
-//{
-//	return self.date.monthAndYear;
-//}
+
+-(BOOL)hasAdviceLogEntries
+{
+	return ([[self.theSix allObjects] count] > 0);
+}
+
+-(BOOL)isAllAdviceLogEntriesWithUserInput
+{
+	NSUInteger countOfAdviceLogEntries = [[self.theSix allObjects] count];
+	NSUInteger countOfAdviceLogEntriesWithUserInputSorted = [[self getAdviceLogEntriesWithUserInputSorted] count];
+	return (countOfAdviceLogEntries == countOfAdviceLogEntriesWithUserInputSorted);
+}
+
 
 -(LESixOfDay *)entrySixOfDay:(NSNumber *)orderNumberInSetOfEntries
 {

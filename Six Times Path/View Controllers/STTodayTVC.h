@@ -17,8 +17,7 @@
 
 @property BOOL thereAreCoreDataRecordsForDay;
 @property BOOL databaseWasJustCreatedForFirstTime;
-@property BOOL setsOfGuidelinesHaveBeenSelected;
-@property BOOL dayHasGuidelines;
+@property BOOL setsOfAdviceHaveBeenSelected;
 
 @property (strong, nonatomic) Day *thisDay;
 @property (strong, nonatomic) LESixOfDay *nextEntry;
@@ -26,7 +25,7 @@
 @property (strong, nonatomic) NSArray *remainingScheduledEntries;
 @property (strong, nonatomic) NSArray *updatedEntries;
 @property (strong, nonatomic) NSDate *mostRecentlyAddedDate;
-@property NSInteger orderNumberOfFirstFollowedAdviceToBeLoggedForTheDay;
+@property NSInteger indexOfFirstFollowedAdviceToBeLoggedForTheDay;
 @property (strong, nonatomic) NSMutableArray *allAdviceFollowedByUser;
 @property (nonatomic) NSInteger countOfTheSixWithoutUserEntries;
 
@@ -39,9 +38,9 @@
 #pragma mark - Setup and Manage Data
 -(void)setupDayAndAdviceData;
 -(void)setupDaysFetchedResultsController;
--(BOOL)isTimeToAddDay;
+-(BOOL)isTimeToAddNewDay;
 -(void)addDay;
--(void)setTheSixForDay:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+-(void)setTheSixAdviceLogEntriesForDay:(Day *)day withIndexOfFirstFollowedAdvice:(NSInteger)indexOfFirstFollowedAdvice inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 //-(void)resetTheSixToBeShown;
 -(void)resetFollowedEntries;
 -(void)setUpdatedAndRemainingScheduledEntries;
