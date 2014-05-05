@@ -24,17 +24,6 @@ static NSString *dayRecordsAreInCoreData = @"dayRecordsAreInCoreData";
 @implementation NSUserDefaults (ST)
 
 
-#pragma mark - Six Times User Defaults
-
-//-(NSUserDefaults *)userDefaults
-//{
-//	if (_userDefaults == nil) {
-//		_userDefaults = [NSUserDefaults standardUserDefaults];
-//	}
-//	
-//	return _userDefaults;
-//}
-
 #pragma mark - Default Setting Values Handling
 
 -(BOOL)noSettingValuesHaveBeenSet
@@ -72,44 +61,32 @@ static NSString *dayRecordsAreInCoreData = @"dayRecordsAreInCoreData";
 
 -(void)turnOnAppBadge
 {
-	NSLog(@"in turnOnAppBadge.");
 	[self setBool:YES forKey:kAppBadgeSetting];
-	[self isAppBadgeOnLog];
 }
 
 -(void)turnOffAppBadge
 {
-	NSLog(@"in turnOffAppBadge.");
 	[self setBool:NO forKey:kAppBadgeSetting];
-	[self isAppBadgeOnLog];
 }
 
 -(void)turnOnNotifications
 {
-	NSLog(@"in turnOnNotifications.");
 	[self setBool:YES forKey:kNotificationSetting];
-	[self isNotificationsOnLog];
 }
 
 -(void)turnOffNotifications
 {
-	NSLog(@"in turnOffNotifications.");
 	[self setBool:NO forKey:kNotificationSetting];
-	[self isNotificationsOnLog];
 }
 
 -(void)turnOnStaggerDailyGuidelines
 {
-	NSLog(@"in turnOnStaggerDailyGuidelines.");
 	[self setBool:YES forKey:kStaggerDailyGuidelineSetting];
-	[self isStagggerDailyGuidelinesOnLog];
 }
 
 -(void)turnOffStaggerDailyGuidelines
 {
-	NSLog(@"in turnOffStaggerDailyGuidelines.");
 	[self setBool:NO forKey:kStaggerDailyGuidelineSetting];
-	[self isStagggerDailyGuidelinesOnLog];
 }
 
 

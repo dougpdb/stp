@@ -74,19 +74,13 @@ static NSString *kAllOtherEntries		= @"All Other Entries";
 	
 	self.remainingScheduledEntries			= [self.thisDay getAdviceLogEntriesWithoutUserInputSorted];
 	self.updatedEntries						= [self.thisDay getAdviceLogEntriesWithUserInputSorted];
-
-	
-//	self.navigationItem.rightBarButtonItem	= self.feedbackButton;
-
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-
 	self.title		= self.thisDay.date.shortWeekdayAndDate;
 	[self setUpdatedAndRemainingScheduledEntries];
 	[self.tableView reloadData];
-
 }
 
 -(void)viewWillDisappear:(BOOL)animated

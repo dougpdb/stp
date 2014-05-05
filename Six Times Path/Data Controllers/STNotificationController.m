@@ -110,9 +110,7 @@ static NSString *kLogEntryOrderNumberInSetOfEntries	= @"logEntryOrderNumberInSet
 	
 	NSLog(@"A notification should be cancelled with adviceText \"%@\" and fireDate %@.", [self adviceTextForNotification:notification], notification.fireDate.timeAndDate);
 	[STApplication cancelLocalNotification:notification];
-	
-	//	NSLog(@"The notification should be cancelled. There are now %i scheduled local notifications.", [STApplication.scheduledLocalNotifications count]);
-	
+		
 	[self setApplicationIconBadgeNumbersForAllNotifications];
 }
 
@@ -258,8 +256,5 @@ static NSString *kLogEntryOrderNumberInSetOfEntries	= @"logEntryOrderNumberInSet
 	return [notification.userInfo valueForKey:kLogEntryOrderNumberInSetOfEntries];
 }
 
-//-(void)goToScreenForSixOfDayLogEntryFromNotification:(UILocalNotification *)notification
-//{
-//	
-//}
+
 @end

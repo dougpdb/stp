@@ -15,8 +15,7 @@
 
 +(id)logEntryWithAdvice:(Advice *)advice withOrderNumber:(NSInteger)orderNumberForType onDay:(Day *)day inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
-// DEPRECATED
-+(id)logEntryWithAdvice:(Advice *)advice withOrderNumber:(NSInteger)orderNumberForType onDay:(Day *)day withWakingHour:(NSInteger)wakingHour andWakingMinute:(NSInteger)wakingMinute inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+
 
 -(NSSet *)getPositiveActionsTaken;
 -(NSSet *)getNegativeActionsTaken;

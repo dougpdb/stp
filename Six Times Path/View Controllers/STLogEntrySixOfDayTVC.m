@@ -332,17 +332,11 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 		{
 			case TAG_PREFIX_UITEXTVIEW + BEST_SECTION_NUMBER:
 
-//				if (labs([textView.text length] - [self.updatedPositiveActionTakenDescription length]) > 20) {
-//					textView.scrollEnabled = NO;
-//				}
 				self.updatedPositiveActionTakenDescription = textView.text;
 				break;
 
 			case TAG_PREFIX_UITEXTVIEW + WORST_SECTION_NUMBER:
 
-//				if (labs([textView.text length] - [self.updatedNegativeActionTakenDescription length]) > 20) {
-//					textView.scrollEnabled = NO;
-//				}
 				self.updatedNegativeActionTakenDescription = textView.text;
 				break;
 			
@@ -359,11 +353,6 @@ static NSString *kTrailingGhostTextToPreventDelayedTextViewResizing	= @"a few";
 		[self.tableView beginUpdates];
 		[self.tableView endUpdates];
 		
-//		if (!textView.scrollEnabled) {
-//			
-//			textView.scrollEnabled = YES;
-//			
-//		}
 	}
 }
 

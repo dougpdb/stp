@@ -380,15 +380,15 @@
 
 -(void)addFollowingSetOfAdviceTVC:(STAddFollowingSetOfAdviceTVC *)addFollowingSetOfAdviceTVC didAddSetOfAdvice:(SetOfAdvice *)setOfAdvice
 {
-	NSInteger lastOrderNumberInFollowedSets		= [[(SetOfAdvice *)[self.followingSetsOfAdvice lastObject] orderNumberInFollowedSets] intValue];
+	NSInteger lastOrderNumberInFollowedSets = [[(SetOfAdvice *)[self.followingSetsOfAdvice lastObject] orderNumberInFollowedSets] intValue];
 	if (setOfAdvice) {
-		setOfAdvice.orderNumberInFollowedSets	= [NSNumber numberWithInt:lastOrderNumberInFollowedSets + 1];
+		setOfAdvice.orderNumberInFollowedSets = [NSNumber numberWithInteger:lastOrderNumberInFollowedSets + 1];
 	}
 	[self.managedObjectContext save:nil];
 	[self refreshFollowingSetsOfAdvice];
 		
-	NSIndexPath *indexPath						= [NSIndexPath indexPathForRow:[self.followingSetsOfAdvice count]-1 inSection:0];
-    UITableViewRowAnimation animationStyle		= UITableViewRowAnimationFade;
+	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.followingSetsOfAdvice count]-1 inSection:0];
+    UITableViewRowAnimation animationStyle = UITableViewRowAnimationFade;
 	[self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:animationStyle];
 }
 
@@ -397,23 +397,23 @@
 
 -(void)removeFollowingSetsOfAdviceAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSMutableArray *tempFollowingSetsOfAdviceArray	= [NSMutableArray arrayWithArray:self.followingSetsOfAdvice];
+	NSMutableArray *tempFollowingSetsOfAdviceArray = [NSMutableArray arrayWithArray:self.followingSetsOfAdvice];
 	
-	SetOfAdvice *setOfAdviceToRemove				= [self.followingSetsOfAdvice objectAtIndex:[indexPath indexAtPosition:1]]; // works
-	setOfAdviceToRemove.orderNumberInFollowedSets	= 0;
+	SetOfAdvice *setOfAdviceToRemove = [self.followingSetsOfAdvice objectAtIndex:[indexPath indexAtPosition:1]]; // works
+	setOfAdviceToRemove.orderNumberInFollowedSets = 0;
 	
 	[tempFollowingSetsOfAdviceArray removeObjectIdenticalTo:setOfAdviceToRemove];
 	
 	for (SetOfAdvice *setOfAdvice in tempFollowingSetsOfAdviceArray) {
 		
-		setOfAdvice.orderNumberInFollowedSets		= [NSNumber numberWithInt:[tempFollowingSetsOfAdviceArray indexOfObject:setOfAdvice] + 1];
+		setOfAdvice.orderNumberInFollowedSets = [NSNumber numberWithInteger:[tempFollowingSetsOfAdviceArray indexOfObject:setOfAdvice] + 1];
 		
 	}
 	
 	[self.managedObjectContext save:nil];
 	[self refreshFollowingSetsOfAdvice];
 	
-	UITableViewRowAnimation animationStyle			= UITableViewRowAnimationFade;
+	UITableViewRowAnimation animationStyle = UITableViewRowAnimationFade;
 	[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:animationStyle];
 }
 
@@ -435,16 +435,17 @@
 
 -(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
-	NSMutableArray *tempFollowingSetsOfAdviceArray	= [NSMutableArray arrayWithArray:self.followingSetsOfAdvice];
+	NSMutableArray *tempFollowingSetsOfAdviceArray = [NSMutableArray arrayWithArray:self.followingSetsOfAdvice];
 	
-	SetOfAdvice *setOfAdviceToMove					= [tempFollowingSetsOfAdviceArray objectAtIndex:sourceIndexPath.row];
+	SetOfAdvice *setOfAdviceToMove = [tempFollowingSetsOfAdviceArray objectAtIndex:sourceIndexPath.row];
+	
 	[tempFollowingSetsOfAdviceArray removeObjectAtIndex:sourceIndexPath.row];
 	[tempFollowingSetsOfAdviceArray insertObject:setOfAdviceToMove atIndex:destinationIndexPath.row];
 	
 	[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
 	for (SetOfAdvice *setOfAdvice in tempFollowingSetsOfAdviceArray) {
 		
-		setOfAdvice.orderNumberInFollowedSets		= [NSNumber numberWithInt:[tempFollowingSetsOfAdviceArray indexOfObject:setOfAdvice] + 1];
+		setOfAdvice.orderNumberInFollowedSets = [NSNumber numberWithInteger:[tempFollowingSetsOfAdviceArray indexOfObject:setOfAdvice] + 1];
 		
 	}
 	[self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:YES];
@@ -533,7 +534,6 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	NSLog(@"-prepareForSegue:sender triggered.");
 	if ([segue.identifier isEqualToString:@"addFollowingSetsOfGuidelines"]) {
 		
 		STAddFollowingSetOfAdviceTVC *addFollowingSetOfAdviceTVC = [[segue.destinationViewController viewControllers] objectAtIndex:0];

@@ -584,8 +584,6 @@ static NSString *kAboutAndSettings = @"About and Settings";
 		
 		[day addTheSixObject:logEntry];
 		
-		self.indexOfFirstFollowedAdviceToBeLoggedForTheDay = indexOfFollowedAdviceForTheDay;
-
 		if (self.debug) {
 			NSLog(@"indexOfFollowedAdviceForTheDay: %lu", (unsigned long)indexOfFollowedAdviceForTheDay);
 			[logEntry logValuesOfLogEntry];
@@ -599,9 +597,7 @@ static NSString *kAboutAndSettings = @"About and Settings";
         
 		}
 	}
-	
-	self.indexOfFirstFollowedAdviceToBeLoggedForTheDay++;
-	
+		
 	[self.notificationController addNotifications:[day getAdviceLogEntriesSorted]];
 }
 

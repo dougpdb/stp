@@ -50,8 +50,6 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-	NSLog(@"View is appearing.");
-	NSLog(@"Number of Sets Of Advice not being followed: %i", [self.notFollowingSetsOfAdvice count]);
 }
 
 - (void)didReceiveMemoryWarning
@@ -113,7 +111,7 @@
 												context:nil];
 	CGSize size		= rect.size;
 	CGFloat height	= ceilf(size.height);
-	//	CGFloat width  = ceilf(size.width);
+
 	return height;
 }
 
